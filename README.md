@@ -1,2 +1,2 @@
-# deno-application
+# Dono-Application
 UW Project 3
