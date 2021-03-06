@@ -6,7 +6,7 @@ const routes = app => {
   // API Routes
   app.use("/api", apiRoutes);
 
-  app.use(function (req, res) {
+  app.use((req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 };
