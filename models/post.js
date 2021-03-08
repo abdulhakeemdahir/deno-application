@@ -14,6 +14,13 @@ const postSchema = new Schema({
     required: [true, "Post cannot be blank"]
   },
   date: { type: Date, default: Date.now },
+  cause: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Causes",
+      required: [false]
+    }
+  ],
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
