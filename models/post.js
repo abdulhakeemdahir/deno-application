@@ -29,11 +29,17 @@ const postSchema = new Schema({
 });
 
 postSchema.methods.handleLike = async function(userId) {
-  let i = this.likes.findIndex(like => like.toString() === userId.toString());
+  // Assign "this" to the const "post for better definition of what is happening."
+  const post = this;
 
-  if (i === -1) {
-    this.likes.push(userId);
-  }
+  //   Our index "i" is going to see if there the user's ID matches one that is already liked.
+  const i = post.likes.findIndex(like => like.toString() === userId.toString());
+
+  // If i returns -1 then we are going to push the user's ID into the Posts likes. Otherwise it is going to splice i from its array index removing the user from the likes array.
+  i === -1 ? post.likes.push(userId) : post.likes.splice(i, 1);
+
+  await post.save();
+  return post;
 };
 
 const Post = mongoose.model("Post", postSchema);
