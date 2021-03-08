@@ -14,6 +14,10 @@ const causeSchema = new Schema({
     required: [true, "Post cannot be blank"]
   },
   date: { type: Date, default: Date.now },
+  category: {
+      type: String,
+      required: [true, "Causes must have a category."]
+  }
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
