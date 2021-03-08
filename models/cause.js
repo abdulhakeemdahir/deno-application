@@ -15,9 +15,9 @@ const causeSchema = new Schema({
   },
   date: { type: Date, default: Date.now },
   category: {
-      type: String,
-      required: [true, "Causes must have a category."]
-  }
+    type: String,
+    required: [true, "Causes must have a category."]
+  },
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
