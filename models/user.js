@@ -20,6 +20,11 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
+  orgName: {
+    type: String,
+    required: false,
+    trim: true
+  },
   password: {
     type: String,
     required: true
@@ -36,6 +41,14 @@ const userSchema = new Schema({
       }
     }
   ],
+  role: {
+    type: String,
+    enum: ["Organization", "Donor"],
+    required: [true, "Must choose a role."]
+  },
+  verified: {
+    type: Boolean
+  },
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -52,6 +65,12 @@ const userSchema = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Posts"
+    }
+  ],
+  causes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Causes"
     }
   ],
   profileImg: {
@@ -97,3 +116,7 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     cb(null, isMatch);
   });
 };
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
