@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-const SALT_WORK_FACTOR = 10;
+const { createPassword, comparePassword } = require("../config/bcrypt.js");
 const option = { discriminatorKey: "org" };
 
 const userSchema = new Schema({
@@ -99,34 +97,20 @@ userSchema.pre(save, function(next) {
   if (!user.isModified("password")) {
     return next();
   }
-
-  // generate a salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-    if (err) {
-      return next(err);
-    }
-
-    // hash the password using our new salt
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) {
-        return next(err);
-      }
-
-      // override the cleartext password with the hashed one
-      user.password = hash;
-      next();
-    });
-  });
+  //generate password
+  user.password = createPassword(user.password);
+  next();
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+  try {
+    const isMatch = comparePassword(candidatePassword, this.password);
+    cb(null, isMatch);
+  } catch (err) {
     if (err) {
       return cb(err);
     }
-
-    cb(null, isMatch);
-  });
+  }
 };
 
 module.exports = { User, Organization };
