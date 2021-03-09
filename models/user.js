@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
 const SALT_WORK_FACTOR = 10;
+const option = { discriminatorKey: "org" };
 
 const userSchema = new Schema({
   firstName: {
@@ -18,11 +19,6 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
-    trim: true
-  },
-  orgName: {
-    type: String,
-    required: false,
     trim: true
   },
   password: {
@@ -43,7 +39,7 @@ const userSchema = new Schema({
   ],
   role: {
     type: String,
-    enum: ["Organization", "Donor"],
+    enum: ["Organization", "Personal"],
     required: [true, "Must choose a role."]
   },
   verified: {
@@ -67,12 +63,6 @@ const userSchema = new Schema({
       ref: "Posts"
     }
   ],
-  causes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Causes"
-    }
-  ],
   profileImg: {
     type: String
   },
@@ -80,6 +70,27 @@ const userSchema = new Schema({
     type: String
   }
 });
+
+const organizationSchema = new Schema({
+  causes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Causes"
+    }
+  ],
+  orgName: {
+    type: String,
+    required: false,
+    trim: true
+  }
+});
+
+const User = mongoose.model("User", userSchema);
+const Organization = User.discriminator(
+  "Organization",
+  organizationSchema,
+  option
+);
 
 userSchema.pre(save, function(next) {
   const user = this;
@@ -117,6 +128,4 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = { User, Organization };
