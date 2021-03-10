@@ -5,6 +5,7 @@ import {
 	Avatar,
 	TextField,
 	Button,
+	ButtonGroup,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -20,6 +21,12 @@ const useStyles = makeStyles({
 	centerPosition: {
 		padding: "20px",
 		textAlign: "center",
+	},
+	centerContainer: {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
 	},
 	bgstyle: {
 		color: "#3f4d67",
@@ -45,7 +52,7 @@ export default function Main() {
 			direction='row'
 			justify='center'
 			alignItems='center'
-			className={`${classes.paper}`}
+			className={`${classes.centerContainer}`}
 		>
 			<Grid item sm={6} xs={12}>
 				<Grid item align='center'>
@@ -59,16 +66,30 @@ export default function Main() {
 						Please Log In, otherwise, please sign up! Otherwise you can go and
 						explore.
 					</Typography>
+					<ButtonGroup className={classes.mgstyle}>
+						<Button variant='outlined' color='primary'>
+							Sign Up
+						</Button>
+						<Button variant='outlined' color='secondary'>
+							Explore
+						</Button>
+					</ButtonGroup>
 				</Grid>
 			</Grid>
 			<Grid item sm={6} xs={12} className={classes.centerPosition}>
-				<Grid container direction='row' justify='center' alignItems='center'>
-					<Grid align='center'>
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
 						<Avatar className={classes.styleMain}>
 							<LockOutlinedIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign In
+							Log In
 						</Typography>
 					</Grid>
 					<form autoComplete='off'>
@@ -88,7 +109,7 @@ export default function Main() {
 							className={classes.mgstyle}
 						/>
 						<Button size='large' className={classes.styleMain} fullWidth>
-							Sign In
+							Log In
 						</Button>
 					</form>
 				</Grid>
