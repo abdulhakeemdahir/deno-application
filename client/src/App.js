@@ -1,6 +1,7 @@
 import Main from "./components/main/index";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import Gradient from "./components/gradient/Gradient";
+import Gradient from "./components/backgroundGradient/Gradient";
+import Footer from "./components/footer";
 
 const theme = createMuiTheme({
 	palette: {
@@ -16,6 +17,7 @@ function App() {
 		<MuiThemeProvider theme={theme}>
 			<div className='App'>
 				<Main />
+				<Footer />
 				<Gradient />
 			</div>
 		</MuiThemeProvider>

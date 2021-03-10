@@ -1,7 +1,6 @@
 import {
 	Typography,
 	Grid,
-	Paper,
 	Avatar,
 	TextField,
 	Button,
@@ -9,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Logo from "../../images/logo@2x.png";
 
 const useStyles = makeStyles({
 	paper: {
@@ -60,7 +60,16 @@ export default function Main() {
 		>
 			<Grid item sm={6} xs={12}>
 				<Grid item align='center'>
-					<Typography variant='h3' color='primary'>
+					<img
+						src={Logo}
+						alt='logo'
+						style={{ height: "50px", width: "auto" }}
+					/>
+					<Typography
+						variant='h3'
+						color='primary'
+						style={{ fontWeight: "100" }}
+					>
 						Welcome to Dono
 					</Typography>
 					<Typography variant='h6' className={classes.bgstyle}>
