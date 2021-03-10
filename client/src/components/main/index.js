@@ -38,6 +38,7 @@ const useStyles = makeStyles({
 	styleMain: {
 		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
 		color: "#ffffff",
+		padding: "15px",
 	},
 	styleSecondary: {
 		background: "linear-gradient(-135deg,#899fd4,#a389d4)",
@@ -53,6 +54,9 @@ export default function Main() {
 			justify='center'
 			alignItems='center'
 			className={`${classes.centerContainer}`}
+			xs={12}
+			sm={8}
+			xl={6}
 		>
 			<Grid item sm={6} xs={12}>
 				<Grid item align='center'>

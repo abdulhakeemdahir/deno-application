@@ -5,12 +5,12 @@ const useStyles = makeStyles({
 	gradientStyle: {
 		// backgroundColor: "rgb(0, 212, 255)",
 		background:
-			"linear-gradient(180deg, rgba(0,212,255,0) 10%, rgba(29,233,182,0.8566887535816619) 51%, rgba(29,196,233,1) 78%);",
+			"linear-gradient(180deg, rgba(0,212,255,0) 10%, rgba(29,233,182,0.7566887535816619) 51%, rgba(29,196,233,.9) 78%);",
 		bottom: "0px",
 		position: "absolute",
 		height: "45vh",
 		width: "100%",
-		zIndex: "-1",
+		zIndex: "-100",
 	},
 });
 export default function Gradient() {

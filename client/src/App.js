@@ -1,6 +1,6 @@
 import Main from "./components/main/index";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import Gradient from "./components/Gradient";
+import Gradient from "./components/gradient/Gradient";
 
 const theme = createMuiTheme({
 	palette: {
