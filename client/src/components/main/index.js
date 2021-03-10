@@ -16,12 +16,13 @@ const useStyles = makeStyles({
 		borderRadius: "10px",
 		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
 		padding: "20px",
-		height: "30vh",
-		width: "280px",
+	},
+	centerPosition: {
+		padding: "20px",
 		textAlign: "center",
 	},
 	bgstyle: {
-		backgroundColor: "#e9e9e9",
+		color: "#3f4d67",
 	},
 	mgstyle: {
 		marginTop: "5px",
@@ -39,37 +40,59 @@ const useStyles = makeStyles({
 export default function Main() {
 	const classes = useStyles();
 	return (
-		<Grid container direction='row' justify='center' alignItems='center'>
-			<Paper className={classes.paper}>
-				<Grid align='center'>
-					<Avatar className={classes.styleMain}>
-						<LockOutlinedIcon />
-					</Avatar>
-					<Typography variation='h6' color='default'>
-						Sign In
+		<Grid
+			container
+			direction='row'
+			justify='center'
+			alignItems='center'
+			className={`${classes.paper}`}
+		>
+			<Grid item sm={6} xs={12}>
+				<Grid item align='center'>
+					<Typography variant='h3' color='primary'>
+						Welcome to Dono
+					</Typography>
+					<Typography variant='h6' className={classes.bgstyle}>
+						Where Giving is a Social Experience
+					</Typography>
+					<Typography variant='body2' color='default'>
+						Please Log In, otherwise, please sign up! Otherwise you can go and
+						explore.
 					</Typography>
 				</Grid>
-				<form autoComplete='off'>
-					<TextField
-						variant='outlined'
-						label='Username'
-						placeholder='Enter Username'
-						fullWidth
-						className={classes.mgstyle}
-					/>
-					<TextField
-						variant='outlined'
-						label='Password'
-						placeholder='Enter Password'
-						type='password'
-						fullWidth
-						className={classes.mgstyle}
-					/>
-					<Button size='large' className={classes.styleMain} fullWidth>
-						Sign In
-					</Button>
-				</form>
-			</Paper>
+			</Grid>
+			<Grid item sm={6} xs={12} className={classes.centerPosition}>
+				<Grid container direction='row' justify='center' alignItems='center'>
+					<Grid align='center'>
+						<Avatar className={classes.styleMain}>
+							<LockOutlinedIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign In
+						</Typography>
+					</Grid>
+					<form autoComplete='off'>
+						<TextField
+							variant='outlined'
+							label='Username'
+							placeholder='Enter Username'
+							fullWidth
+							className={classes.mgstyle}
+						/>
+						<TextField
+							variant='outlined'
+							label='Password'
+							placeholder='Enter Password'
+							type='password'
+							fullWidth
+							className={classes.mgstyle}
+						/>
+						<Button size='large' className={classes.styleMain} fullWidth>
+							Sign In
+						</Button>
+					</form>
+				</Grid>
+			</Grid>
 		</Grid>
 	);
 }
