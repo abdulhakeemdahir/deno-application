@@ -1,3 +1,16 @@
 body {
 	background: #f4f7fa;
 }
+
+#footerGradient {
+	background: rgb(0, 212, 255);
+	background: linear-gradient(
+		180deg,
+		rgba(0, 212, 255, 0) 0%,
+		rgba(29, 233, 182, 0.8566887535816619) 49%,
+		rgba(29, 196, 233, 1) 100%
+	);
+	bottom: 0px;
+	position: absolute;
+	z-index: 0;
+}
