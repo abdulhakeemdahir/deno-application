@@ -10,6 +10,7 @@ const useStyles = makeStyles({
 		width: "100%",
 		zIndex: "1",
 		color: "#ffffff",
+		padding: "10px",
 	},
 });
 export default function Footer() {
