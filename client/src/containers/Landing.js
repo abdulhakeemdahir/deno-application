@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Logo from "../../images/logo@2x.png";
+import Logo from "../images/logo@2x.png";
 
 const useStyles = makeStyles({
 	paper: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 		color: "#ffffff",
 	},
 });
-export default function Main() {
+export default function Landing() {
 	const classes = useStyles();
 	return (
 		<Grid
