@@ -27,11 +27,11 @@ const userSchema = new Schema({
     {
       access: {
         type: String,
-        required: true
+        required: false
       },
       token: {
         type: String,
-        required: true
+        required: false
       }
     }
   ],

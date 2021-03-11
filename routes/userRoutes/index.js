@@ -30,4 +30,34 @@ router.post("/api/login", async (req, res) => {
   return createToken;
 });
 
+router.post("/api/signup", async ({ body }, res) => {
+  const {
+    firstName,
+    lastname,
+    username,
+    password,
+    tokens,
+    role,
+    orgName,
+    email
+  } = body;
+  try {
+    const createUser = await User.create(body);
+    res.json(createUser);
+  } catch (err) {
+    res.json(err);
+  }
+
+  console.log(
+    email,
+    firstName,
+    lastname,
+    username,
+    password,
+    tokens,
+    role,
+    orgName
+  );
+});
+
 module.exports = router;
