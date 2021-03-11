@@ -56,6 +56,7 @@ router.post("/api/signup", async ({ body }, res) => {
     password,
     tokens,
     role,
+    orgName,
     orgName
   );
 });
