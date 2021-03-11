@@ -90,7 +90,7 @@ const Organization = User.discriminator(
   option
 );
 
-userSchema.pre(save, function(next) {
+userSchema.pre("save", function(next) {
   const user = this;
 
   // only hash the password if it has been modified (or is new)
@@ -102,15 +102,9 @@ userSchema.pre(save, function(next) {
   next();
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  try {
-    const isMatch = comparePassword(candidatePassword, this.password);
-    cb(null, isMatch);
-  } catch (err) {
-    if (err) {
-      return cb(err);
-    }
-  }
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return comparePassword(candidatePassword, this.password);
 };
 
-module.exports = { User, Organization };
+module.exports = User;
+module.exports = Organization;

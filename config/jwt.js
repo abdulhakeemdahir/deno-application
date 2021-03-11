@@ -25,19 +25,18 @@ class JWT {
   }
 
   //issue a token for each user by sending in _id then return bearer token and expire time
-  issueToken(user) {
-    const _id = user._id;
-
+  issueToken({ _id, username }) {
     const expiresIn = this.expires;
 
     const payload = {
-      sub: _id,
-      iat: Date.now()
+      _id: _id,
+      username: username
     };
 
     const signedToken = this.sign(payload);
 
     return {
+      success: true,
       token: "Bearer " + signedToken,
       expires: expiresIn
     };
