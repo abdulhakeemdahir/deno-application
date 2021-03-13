@@ -5,27 +5,12 @@ import {
 	Divider,
 	CardContent,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import "./style.css";
 
-const useStyles = makeStyles({
-	textStyle: {
-		textDecoration: "none",
-	},
-	margin: {
-		marginTop: "15px",
-		marginBottom: "15px",
-	},
-	media: {
-		height: 0,
-		paddingTop: "56.25%", // 16:9
-		borderRadius: "10px",
-	},
-});
 export default function News(props) {
-	const classes = useStyles();
 	console.log(props.image);
 	return (
-		<Grid item>
+		<Grid item className='card'>
 			<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 				{props.title}
 			</Typography>
@@ -35,7 +20,7 @@ export default function News(props) {
 			<Divider />
 			<Grid container direction='row'>
 				<Grid item xs={4}>
-					<CardMedia className={classes.media} image={props.image} />
+					<CardMedia className={"media"} image={props.image} />
 				</Grid>
 				<Grid item xs={8}>
 					<CardContent>

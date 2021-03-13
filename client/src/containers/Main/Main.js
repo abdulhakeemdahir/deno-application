@@ -4,8 +4,9 @@ import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import Nav from "../../components/navigation/Nav";
 import Trending from "../../components/Trending";
-import News from "../../components/News";
+import News from "../../components/news/News";
 import defaultPic from "../../images/dp.png";
+import Gradient from "../../components/Gradient";
 
 const useStyles = makeStyles(theme => ({
 	item1: {
@@ -113,6 +114,7 @@ export default function Main() {
 						</Paper>
 					</Grid>
 				</Grid>
+				<Gradient />
 			</div>
 		</CssBaseline>
 	);

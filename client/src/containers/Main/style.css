@@ -1,24 +1,12 @@
 .container {
-	background: linear-gradient(
-		90deg,
-		rgba(255, 255, 255, 0) 0%,
-		rgba(255, 255, 255, 1) 0%
-	);
-	/* border-radius: 10px; */
-	/* box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%); */
 	padding: 20px;
-	display: flex;
-	flex-direction: row;
 }
 
-[theme.breakpoints.down("sm")]: {
-	.box :nth-child(1) {
-		order: 2;
-	}
-	.box :nth-child(2) {
-		order: 3;
-	}
-	.box :nth-child(3) {
-		order: 1;
-	}
+.MuiGrid-item {
+	margin-top: 15px !important;
+}
+
+.gradient-footer {
+	position: absolute;
+	bottom: 0px;
 }
