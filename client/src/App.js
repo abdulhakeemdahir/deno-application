@@ -1,8 +1,7 @@
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Landing from "./containers/Landing";
-import Gradient from "./components/backgroundGradient/Gradient";
-import Footer from "./components/footer";
-import Main from "./containers/Main";
+import Main from "./containers/Main/Main";
 
 const theme = createMuiTheme({
 	palette: {
@@ -18,14 +17,16 @@ const theme = createMuiTheme({
 });
 function App() {
 	return (
-		<MuiThemeProvider theme={theme}>
-			<div className='App'>
-				{/* <Landing /> */}
-				<Main />
-				<Footer />
-				<Gradient />
-			</div>
-		</MuiThemeProvider>
+		<Router>
+			<MuiThemeProvider theme={theme}>
+				<div className='App'>
+					<Switch>
+						<Route path='/main' exact component={Main} />
+						<Route path='/' exact component={Landing} />
+					</Switch>
+				</div>
+			</MuiThemeProvider>
+		</Router>
 	);
 }
 

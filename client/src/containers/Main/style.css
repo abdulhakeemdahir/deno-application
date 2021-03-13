@@ -1,0 +1,12 @@
+.container {
+	padding: 20px;
+}
+
+.MuiGrid-item {
+	margin-top: 15px !important;
+}
+
+.gradient-footer {
+	position: absolute;
+	bottom: 0px;
+}

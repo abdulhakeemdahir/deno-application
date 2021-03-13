@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { createPassword, comparePassword } = require("../config/bcrypt.js");
+
+const bcrypt = require("bcryptjs");
+
 const option = { discriminatorKey: "org" };
 
 const userSchema = new Schema({
@@ -32,18 +34,10 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  tokens: [
-    {
-      access: {
-        type: String,
-        required: false
-      },
-      token: {
-        type: String,
-        required: false
-      }
-    }
-  ],
+  uuid: {
+    type: String,
+    required: true
+  },
   role: {
     type: String,
     enum: ["Organization", "Personal"],
@@ -99,21 +93,4 @@ const Organization = User.discriminator(
   option
 );
 
-userSchema.pre("validate", function(next) {
-  const user = this;
-
-  // only hash the password if it has been modified (or is new)
-  if (!user.isModified("password")) {
-    return next();
-  }
-  //generate password
-  user.password = createPassword(user.password);
-  next();
-});
-
-userSchema.methods.comparePassword = function(candidatePassword) {
-  return comparePassword(candidatePassword, this.password);
-};
-
-module.exports = User;
-module.exports = Organization;
+module.exports = { User, Organization };

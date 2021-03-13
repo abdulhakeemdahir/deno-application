@@ -5,7 +5,7 @@ import { Typography, Grid } from "@material-ui/core";
 const useStyles = makeStyles({
 	footerStyle: {
 		bottom: "20px",
-		position: "absolute",
+		position: "fixed",
 		// height: "45vh",
 		width: "100%",
 		zIndex: "1",
