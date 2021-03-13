@@ -1,4 +1,4 @@
-import { Typography, Paper, Card, TextField, Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -15,7 +15,7 @@ export default function Trending(props) {
 	return (
 		<div className='Trending'>
 			<a href={props.link} className={classes.textStyle}>
-				<Typography variant='body1'># {props.name}</Typography>
+				<Typography variant='body1'># {props.hashTag}</Typography>
 			</a>
 		</div>
 	);

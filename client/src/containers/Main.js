@@ -3,6 +3,8 @@ import { Container, Typography, Grid, Paper, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Nav from "../components/navigation/Nav";
 import Trending from "../components/Trending";
+import News from "../components/News";
+import defaultPic from "../images/dp.png";
 
 const useStyles = makeStyles({
 	paper: {
@@ -33,6 +35,35 @@ export default function Main() {
 			url: "#",
 		},
 	]);
+	const [newsState] = useState([
+		{
+			title: "Dolphins Preservation",
+			author: "Abdul",
+			url: "#",
+			thumbnail: defaultPic,
+			post:
+				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
+			hashTag: "Save the Dolphins",
+		},
+		{
+			title: "Elephant Preservation",
+			author: "Abdul",
+			url: "#",
+			thumbnail: defaultPic,
+			post:
+				"We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
+			hashTag: "Save the Elephant",
+		},
+		{
+			title: "Whale Preservation",
+			author: "Abdul",
+			url: "#",
+			thumbnail: defaultPic,
+			post:
+				"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+			hashTag: "Save the Whale",
+		},
+	]);
 	return (
 		<div className='Main'>
 			<Container>
@@ -42,25 +73,35 @@ export default function Main() {
 					direction='row'
 					justify='center'
 					alignItems='center'
-					// className={`${classes.centerContainer}`}
+					className={`${classes.paper}`}
 					spacing={2}
 				>
 					<Grid item xs={12} sm={3} className={classes.margin}>
-						<Paper>
-							<Card>
-								<Typography>Trending</Typography>
-								{trendingState.map(card => (
-									<Trending name={card.hashTag} link={card.url} />
-								))}
-							</Card>
-						</Paper>
+						{/* <Paper> */}
+						{/* <Card> */}
+						<Typography>Trending</Typography>
+						{trendingState.map(card => (
+							<Trending hashTag={card.hashTag} link={card.url} />
+						))}
+						{/* </Card> */}
+						{/* </Paper> */}
 					</Grid>
 					<Grid item xs={12} sm={6} className={classes.margin}>
-						<Paper>
-							<Card>
-								<Typography>News Feed</Typography>
-							</Card>
-						</Paper>
+						{/* <Paper> */}
+						{/* <Card> */}
+						<Typography>News Feed</Typography>
+						{newsState.map(card => (
+							<News
+								title={card.title}
+								author={card.author}
+								link={card.url}
+								image={card.thumbnail}
+								post={card.post}
+								hashTag={card.hashTag}
+							/>
+						))}
+						{/* </Card> */}
+						{/* </Paper> */}
 					</Grid>
 					<Grid item xs={12} sm={3} className={classes.margin}>
 						<Paper>
