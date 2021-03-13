@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(passport.initialize());
 app.use(compression());
 
-require("./routes/index")(app);
+app.use(require("./routes"));
 
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono");

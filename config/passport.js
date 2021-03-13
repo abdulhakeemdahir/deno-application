@@ -2,7 +2,7 @@ const { User } = require("../models");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
-const access = require("./options")("secret");
+const access = require("./options")("access");
 
 //options for jwt authentication method
 const options = {
@@ -13,7 +13,7 @@ const options = {
 
 const strategy = new JwtStrategy(options, async (payload, done) => {
   try {
-    const user = await User.findOne({ _id: payload.sub });
+    const user = await User.findOne({ username: payload.username });
     //check if found user
     if (user) {
       return done(null, user);
@@ -21,7 +21,7 @@ const strategy = new JwtStrategy(options, async (payload, done) => {
     //no user then return false
     return done(null, false);
   } catch (error) {
-    //if error return error and empty user
+    //if error return error and false user
     return done(error, false);
   }
 });
