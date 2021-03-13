@@ -1,11 +1,4 @@
-import {
-	Typography,
-	Grid,
-	Avatar,
-	TextField,
-	Button,
-	ButtonGroup,
-} from "@material-ui/core";
+import { Typography, Grid, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../images/logo@2x.png";
 
@@ -61,9 +54,9 @@ export default function Welcome() {
 				explore.
 			</Typography>
 			<ButtonGroup className={classes.mgstyle}>
-				<Button variant='outlined' color='primary'>
+				{/* <Button variant='outlined' color='primary' href='/signup'>
 					Sign Up
-				</Button>
+				</Button> */}
 				<Button variant='outlined' color='secondary' href='/main'>
 					Explore
 				</Button>

@@ -1,25 +1,55 @@
-import {
-	Typography,
-	Grid,
-	Avatar,
-	TextField,
-	Button,
-	ButtonGroup,
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Gradient from "../components/Gradient";
 import Footer from "../components/Footer";
-import Logo from "../images/logo@2x.png";
 import Welcome from "../components/Welcome";
+import Signup from "../components/forms/Signup";
+import Signin from "../components/forms/Signin";
+import React from "react";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role='tabpanel'
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+}
+
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+	return {
+		id: `simple-tab-${index}`,
+		"aria-controls": `simple-tabpanel-${index}`,
+	};
+}
 
 const useStyles = makeStyles({
-	paper: {
-		background:
-			"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		borderRadius: "10px",
-		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
-		padding: "20px",
+	root: {
+		flexGrow: 1,
+		// backgroundColor: theme.palette.background.paper,
 	},
 	centerPosition: {
 		padding: "20px",
@@ -31,25 +61,14 @@ const useStyles = makeStyles({
 		left: "50%",
 		transform: "translate(-50%, -50%)",
 	},
-	bgstyle: {
-		color: "#3f4d67",
-	},
-	mgstyle: {
-		marginTop: "5px",
-		marginBottom: "5px",
-	},
-	styleMain: {
-		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-		color: "#ffffff",
-		padding: "15px",
-	},
-	styleSecondary: {
-		background: "linear-gradient(-135deg,#899fd4,#a389d4)",
-		color: "#ffffff",
-	},
 });
 export default function Landing() {
 	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 	return (
 		<div>
 			<Grid
@@ -66,42 +85,22 @@ export default function Landing() {
 					<Welcome />
 				</Grid>
 				<Grid item sm={6} xs={12} className={classes.centerPosition}>
-					<Grid
-						container
-						direction='column'
-						justify='center'
-						alignItems='center'
-						className={classes.paper}
-					>
-						<Grid item align='center'>
-							<Avatar className={classes.styleMain}>
-								<LockOutlinedIcon />
-							</Avatar>
-							<Typography variation='h6' color='default'>
-								Log In
-							</Typography>
-						</Grid>
-						<form autoComplete='off'>
-							<TextField
-								variant='outlined'
-								label='Username'
-								placeholder='Enter Username'
-								fullWidth
-								className={classes.mgstyle}
-							/>
-							<TextField
-								variant='outlined'
-								label='Password'
-								placeholder='Enter Password'
-								type='password'
-								fullWidth
-								className={classes.mgstyle}
-							/>
-							<Button size='large' className={classes.styleMain} fullWidth>
-								Log In
-							</Button>
-						</form>
-					</Grid>
+					<div className={classes.root}>
+						<Tabs
+							value={value}
+							onChange={handleChange}
+							aria-label='simple tabs example'
+						>
+							<Tab label='Log In' {...a11yProps(0)} />
+							<Tab label='Sign Up' {...a11yProps(1)} />
+						</Tabs>
+						<TabPanel value={value} index={0}>
+							<Signin />
+						</TabPanel>
+						<TabPanel value={value} index={1}>
+							<Signup />
+						</TabPanel>
+					</div>
 				</Grid>
 			</Grid>
 			<Footer />

@@ -4,6 +4,7 @@ import Landing from "./containers/Landing";
 import Gradient from "./components/Gradient";
 import Footer from "./components/Footer";
 import Main from "./containers/Main";
+import Signup from "./components/forms/Signup";
 
 const theme = createMuiTheme({
 	palette: {
