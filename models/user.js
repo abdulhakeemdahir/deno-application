@@ -91,13 +91,4 @@ const Organization = User.discriminator(
   option
 );
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, isMatch);
-  });
-};
-
 module.exports = { User, Organization };
