@@ -36,7 +36,7 @@ const userSchema = new Schema({
   },
   uuid: {
     type: String,
-    required: true
+    required: false
   },
   role: {
     type: String,

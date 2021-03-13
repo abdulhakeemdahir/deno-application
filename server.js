@@ -22,7 +22,11 @@ app.use(compression());
 app.use(require("./routes"));
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 // Start the API server
 app.listen(PORT, () => {

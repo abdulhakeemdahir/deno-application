@@ -1,36 +1,32 @@
 const { User } = require("../models");
-const bcrypt = require("../config/bcrypt.js");
+const { createPassword, comparePassword } = require("../config/bcrypt.js");
 const JWT = require("../config/jwt");
 const jwt = new JWT();
 
 // Defining methods for the bookController
 module.exports = {
-  signUp: async (req, res) => {
+  signUp: async ({ body }, res) => {
+    const { firstName, lastname, username, password, role, email } = body;
+
     try {
-      const { firstName, lastname, username, password, role, email } = body;
-
-      try {
-        const createUser = await User.create({
-          firstName: firstName,
-          lastname: lastname,
-          username: username,
-          password: await bcrypt.createPassword(password),
-          role: role,
-          email: email
-        });
-        res
-          .status(200)
-          .json(
-            "We created your account kindly activate your account " +
-              createUser.firstName
-          );
-      } catch (err) {
-        res.json(err);
-      }
-
-      res.status(200).json(create);
-    } catch (error) {
-      res.status(422).json(error);
+      const createUser = await User.create({
+        firstName: firstName,
+        lastname: lastname,
+        username: username,
+        password: await createPassword(password),
+        role: role,
+        email: email
+      });
+      console.log(createUser);
+      res
+        .status(200)
+        .json(
+          "We created your account kindly activate your account " +
+            createUser.firstName
+        );
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
     }
   },
 
@@ -46,7 +42,7 @@ module.exports = {
     }
 
     //check password
-    const isMatch = await bcrypt.comparePassword(password, user.password);
+    const isMatch = await comparePassword(password, user.password);
     // If password doesn't match then error message
 
     if (!isMatch) {
