@@ -8,9 +8,10 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Gradient from "../components/backgroundGradient/Gradient";
-import Footer from "../components/footer";
+import Gradient from "../components/Gradient";
+import Footer from "../components/Footer";
 import Logo from "../images/logo@2x.png";
+import Welcome from "../components/Welcome";
 
 const useStyles = makeStyles({
 	paper: {
@@ -62,35 +63,7 @@ export default function Landing() {
 				xl={6}
 			>
 				<Grid item sm={6} xs={12}>
-					<Grid item align='center'>
-						<img
-							src={Logo}
-							alt='logo'
-							style={{ height: "50px", width: "auto" }}
-						/>
-						<Typography
-							variant='h3'
-							color='primary'
-							style={{ fontWeight: "100" }}
-						>
-							Welcome to Dono
-						</Typography>
-						<Typography variant='h6' className={classes.bgstyle}>
-							Where Giving is a Social Experience
-						</Typography>
-						<Typography variant='body2' color='default'>
-							Please Log In, otherwise, please sign up! Otherwise you can go and
-							explore.
-						</Typography>
-						<ButtonGroup className={classes.mgstyle}>
-							<Button variant='outlined' color='primary'>
-								Sign Up
-							</Button>
-							<Button variant='outlined' color='secondary' href='/main'>
-								Explore
-							</Button>
-						</ButtonGroup>
-					</Grid>
+					<Welcome />
 				</Grid>
 				<Grid item sm={6} xs={12} className={classes.centerPosition}>
 					<Grid
