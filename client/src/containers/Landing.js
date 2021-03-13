@@ -51,8 +51,12 @@ const useStyles = makeStyles({
 		flexGrow: 1,
 		// backgroundColor: theme.palette.background.paper,
 	},
+	tabpanel: {
+		marginLeft: "auto",
+		marginRight: "auto",
+	},
 	centerPosition: {
-		padding: "20px",
+		// padding: "20px",
 		textAlign: "center",
 	},
 	centerContainer: {
@@ -85,25 +89,30 @@ export default function Landing() {
 					<Welcome />
 				</Grid>
 				<Grid item sm={6} xs={12} className={classes.centerPosition}>
-					<div className={classes.root}>
-						<Tabs
-							value={value}
-							onChange={handleChange}
-							aria-label='simple tabs example'
-						>
-							<Tab label='Log In' {...a11yProps(0)} />
-							<Tab label='Sign Up' {...a11yProps(1)} />
-						</Tabs>
-						<TabPanel value={value} index={0}>
-							<Signin />
-						</TabPanel>
-						<TabPanel value={value} index={1}>
-							<Signup />
-						</TabPanel>
-					</div>
+					<Tabs
+						value={value}
+						onChange={handleChange}
+						aria-label='simple tabs example'
+					>
+						<Tab
+							label='Log In'
+							{...a11yProps(0)}
+							className={classes.tabpanel}
+						/>
+						<Tab
+							label='Sign Up'
+							{...a11yProps(1)}
+							className={classes.tabpanel}
+						/>
+					</Tabs>
+					<TabPanel value={value} index={0}>
+						<Signin />
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<Signup />
+					</TabPanel>
 				</Grid>
 			</Grid>
-			<Footer />
 			<Gradient />
 		</div>
 	);
