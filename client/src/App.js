@@ -1,3 +1,4 @@
+import { Route, BrowserRouter as Router } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Landing from "./containers/Landing";
 import Gradient from "./components/backgroundGradient/Gradient";
@@ -18,14 +19,14 @@ const theme = createMuiTheme({
 });
 function App() {
 	return (
-		<MuiThemeProvider theme={theme}>
-			<div className='App'>
-				{/* <Landing /> */}
-				<Main />
-				<Footer />
-				<Gradient />
-			</div>
-		</MuiThemeProvider>
+		<Router>
+			<MuiThemeProvider theme={theme}>
+				<div className='App'>
+					<Route path='/' exact component={Landing} />
+					<Route path='/main' component={Main} />
+				</div>
+			</MuiThemeProvider>
+		</Router>
 	);
 }
 
