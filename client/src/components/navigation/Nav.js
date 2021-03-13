@@ -46,7 +46,12 @@ export default function Nav() {
 		<AppBar position='static' className={classes.appBar}>
 			<Toolbar>
 				<Container maxWidth='lg' className={classes.navbarDisplayFlex}>
-					<IconButton edge='start' color='inherit' aria-label='AccountCircle'>
+					<IconButton
+						edge='start'
+						color='inherit'
+						aria-label='AccountCircle'
+						href='/'
+					>
 						<AccountCircle fontSize='large' />
 						<Typography variant='h6'>Dono Logo</Typography>
 					</IconButton>
