@@ -30,35 +30,24 @@ router.post("/api/login", async (req, res) => {
   return createToken;
 });
 
-router.post("/api/signup", async ({ body }, res) => {
-  const {
-    firstName,
-    lastname,
-    username,
-    password,
-    tokens,
-    role,
-    orgName,
-    email
-  } = body;
+router.post("/api/signup/personal", async ({ body }, res) => {
+  const { firstName, lastname, username, password, role, email } = body;
+  console.log("\x1b[31m", body);
   try {
-    const createUser = await User.create(body);
+    const createUser = await User.create({
+      firstName: firstName,
+      lastname: lastname,
+      username: username,
+      password: await bcrypt.createPassword(password),
+      role: role,
+      email: email
+    });
     res.json(createUser);
   } catch (err) {
     res.json(err);
   }
 
-  console.log(
-    email,
-    firstName,
-    lastname,
-    username,
-    password,
-    tokens,
-    role,
-    orgName,
-    orgName
-  );
+  ///console.log(email, firstName, lastname, username, password, tokens, role);
 });
 
 module.exports = router;
