@@ -1,33 +1,34 @@
 import React, { useState } from "react";
-import {
-	Container,
-	Typography,
-	Grid,
-	Paper,
-	Card,
-	CssBaseline,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Nav from "../components/navigation/Nav";
-import Trending from "../components/Trending";
-import News from "../components/News";
-import defaultPic from "../images/dp.png";
+import { Typography, Grid, Paper, Card, CssBaseline } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import "./style.css";
+import Nav from "../../components/navigation/Nav";
+import Trending from "../../components/Trending";
+import News from "../../components/News";
+import defaultPic from "../../images/dp.png";
 
-const useStyles = makeStyles({
-	paper: {
-		// background:
-		// 	"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		// borderRadius: "10px",
-		// boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
-		padding: "20px",
+const useStyles = makeStyles(theme => ({
+	item1: {
+		order: 2,
+		[theme.breakpoints.up("sm")]: {
+			order: 1,
+		},
 	},
-	margin: {
-		marginTop: "15px",
-		marginBottom: "15px",
+	item2: {
+		order: 1,
+		[theme.breakpoints.up("sm")]: {
+			order: 2,
+		},
 	},
-});
+	item3: {
+		order: 3,
+		[theme.breakpoints.up("sm")]: {
+			order: 3,
+		},
+	},
+}));
+
 export default function Main() {
-	const classes = useStyles();
 	const [trendingState] = useState([
 		{
 			hashTag: "Save the Dolphins",
@@ -71,6 +72,9 @@ export default function Main() {
 			hashTag: "Save the Whale",
 		},
 	]);
+
+	const classes = useStyles();
+
 	return (
 		<CssBaseline>
 			<div className='Main'>
@@ -79,18 +83,16 @@ export default function Main() {
 					container
 					direction='row'
 					justify='center'
-					alignItems='center'
-					className={`${classes.paper}`}
+					className={"container"}
 					xs={12}
-					spacing={2}
 				>
-					<Grid item xs={12} sm={3} className={classes.margin}>
+					<Grid item xs={12} sm={3} className={classes.item1}>
 						<Typography>Trending</Typography>
 						{trendingState.map(card => (
 							<Trending hashTag={card.hashTag} link={card.url} />
 						))}
 					</Grid>
-					<Grid item xs={12} sm={6} className={classes.margin}>
+					<Grid item xs={12} sm={6} className={classes.item2}>
 						<Typography>News Feed</Typography>
 						{newsState.map(card => (
 							<News
@@ -103,7 +105,7 @@ export default function Main() {
 							/>
 						))}
 					</Grid>
-					<Grid item xs={12} sm={3} className={classes.margin}>
+					<Grid item xs={12} sm={3} className={classes.item3}>
 						<Paper>
 							<Card>
 								<Typography>Causes</Typography>
