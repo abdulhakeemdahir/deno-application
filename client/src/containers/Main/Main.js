@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Grid, Paper, Card, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -45,6 +45,30 @@ function a11yProps(index) {
 		id: `simple-tab-${index}`,
 		"aria-controls": `simple-tabpanel-${index}`,
 	};
+}
+
+function getWindowDimensions() {
+	const { innerWidth: width } = window;
+	return {
+		width,
+	};
+}
+
+function useWindowDimensions() {
+	const [windowDimensions, setWindowDimensions] = useState(
+		getWindowDimensions()
+	);
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimensions(getWindowDimensions());
+		}
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	return windowDimensions;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -119,7 +143,8 @@ export default function Main() {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-	console.log(window.innerWidth);
+
+	const { width } = useWindowDimensions();
 	return (
 		<CssBaseline>
 			<div className='Main'>
@@ -131,7 +156,7 @@ export default function Main() {
 					className={"container"}
 					xs={12}
 				>
-					{window.innerWidth > 600 ? (
+					{width > 600 ? (
 						<>
 							<Grid item xs={12} sm={3} className={classes.item1}>
 								<Typography>Trending</Typography>
