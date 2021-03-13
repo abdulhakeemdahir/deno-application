@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Container, Typography, Grid, Paper, Card } from "@material-ui/core";
+import {
+	Container,
+	Typography,
+	Grid,
+	Paper,
+	Card,
+	CssBaseline,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Nav from "../components/navigation/Nav";
 import Trending from "../components/Trending";
@@ -8,10 +15,10 @@ import defaultPic from "../images/dp.png";
 
 const useStyles = makeStyles({
 	paper: {
-		background:
-			"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		borderRadius: "10px",
-		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
+		// background:
+		// 	"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
+		// borderRadius: "10px",
+		// boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
 		padding: "20px",
 	},
 	margin: {
@@ -65,8 +72,8 @@ export default function Main() {
 		},
 	]);
 	return (
-		<div className='Main'>
-			<Container>
+		<CssBaseline>
+			<div className='Main'>
 				<Nav />
 				<Grid
 					container
@@ -74,21 +81,16 @@ export default function Main() {
 					justify='center'
 					alignItems='center'
 					className={`${classes.paper}`}
+					xs={12}
 					spacing={2}
 				>
 					<Grid item xs={12} sm={3} className={classes.margin}>
-						{/* <Paper> */}
-						{/* <Card> */}
 						<Typography>Trending</Typography>
 						{trendingState.map(card => (
 							<Trending hashTag={card.hashTag} link={card.url} />
 						))}
-						{/* </Card> */}
-						{/* </Paper> */}
 					</Grid>
 					<Grid item xs={12} sm={6} className={classes.margin}>
-						{/* <Paper> */}
-						{/* <Card> */}
 						<Typography>News Feed</Typography>
 						{newsState.map(card => (
 							<News
@@ -100,8 +102,6 @@ export default function Main() {
 								hashTag={card.hashTag}
 							/>
 						))}
-						{/* </Card> */}
-						{/* </Paper> */}
 					</Grid>
 					<Grid item xs={12} sm={3} className={classes.margin}>
 						<Paper>
@@ -111,7 +111,7 @@ export default function Main() {
 						</Paper>
 					</Grid>
 				</Grid>
-			</Container>
-		</div>
+			</div>
+		</CssBaseline>
 	);
 }
