@@ -17,14 +17,6 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  findTrendingCauses: async (req, res) => {
-    try {
-      const postModel = await Post.find(req.query).sort({ date: -1 });
-      res.json(postModel);
-    } catch (err) {
-      res.status(422).json(err);
-    }
-  },
   findUserPosts: async (req, res) => {
     try {
       const postModel = await Post.find(req.query).sort({ date: -1 });
