@@ -86,7 +86,7 @@ export default function Landing() {
 							<Button variant='outlined' color='primary'>
 								Sign Up
 							</Button>
-							<Button variant='outlined' color='secondary'>
+							<Button variant='outlined' color='secondary' href='/main'>
 								Explore
 							</Button>
 						</ButtonGroup>
