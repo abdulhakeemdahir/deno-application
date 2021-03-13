@@ -7,7 +7,6 @@ import Signup from "../components/forms/Signup";
 import Signin from "../components/forms/Signin";
 import React from "react";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
@@ -114,6 +113,7 @@ export default function Landing() {
 				</Grid>
 			</Grid>
 			<Gradient />
+			{/* <Footer /> */}
 		</div>
 	);
 }

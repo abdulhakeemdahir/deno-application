@@ -2,11 +2,50 @@ import React, { useState } from "react";
 import { Typography, Grid, Paper, Card, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
+
+import PropTypes from "prop-types";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
+
 import Nav from "../../components/navigation/Nav";
 import Trending from "../../components/Trending";
 import News from "../../components/news/News";
 import defaultPic from "../../images/dp.png";
 import Gradient from "../../components/Gradient";
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role='tabpanel'
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+}
+
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+	return {
+		id: `simple-tab-${index}`,
+		"aria-controls": `simple-tabpanel-${index}`,
+	};
+}
 
 const useStyles = makeStyles(theme => ({
 	item1: {
@@ -75,7 +114,12 @@ export default function Main() {
 	]);
 
 	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
 
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+	console.log(window.innerWidth);
 	return (
 		<CssBaseline>
 			<div className='Main'>
@@ -87,32 +131,76 @@ export default function Main() {
 					className={"container"}
 					xs={12}
 				>
-					<Grid item xs={12} sm={3} className={classes.item1}>
-						<Typography>Trending</Typography>
-						{trendingState.map(card => (
-							<Trending hashTag={card.hashTag} link={card.url} />
-						))}
-					</Grid>
-					<Grid item xs={12} sm={6} className={classes.item2}>
-						<Typography>News Feed</Typography>
-						{newsState.map(card => (
-							<News
-								title={card.title}
-								author={card.author}
-								link={card.url}
-								image={card.thumbnail}
-								post={card.post}
-								hashTag={card.hashTag}
-							/>
-						))}
-					</Grid>
-					<Grid item xs={12} sm={3} className={classes.item3}>
-						<Paper>
-							<Card>
-								<Typography>Causes</Typography>
-							</Card>
-						</Paper>
-					</Grid>
+					{window.innerWidth > 600 ? (
+						<>
+							<Grid item xs={12} sm={3} className={classes.item1}>
+								<Typography>Trending</Typography>
+								{trendingState.map(card => (
+									<Trending hashTag={card.hashTag} link={card.url} />
+								))}
+							</Grid>
+							<Grid item xs={12} sm={6} className={classes.item2}>
+								<Typography>News Feed</Typography>
+								{newsState.map(card => (
+									<News
+										title={card.title}
+										author={card.author}
+										link={card.url}
+										image={card.thumbnail}
+										post={card.post}
+										hashTag={card.hashTag}
+									/>
+								))}
+							</Grid>
+							<Grid item xs={12} sm={3} className={classes.item3}>
+								<Paper>
+									<Card>
+										<Typography>Causes</Typography>
+									</Card>
+								</Paper>
+							</Grid>
+						</>
+					) : (
+						<>
+							<Tabs
+								value={value}
+								onChange={handleChange}
+								aria-label='simple tabs example'
+							>
+								<Tab
+									label='News'
+									{...a11yProps(0)}
+									className={classes.tabpanel}
+								/>
+								<Tab
+									label='Trending'
+									{...a11yProps(1)}
+									className={classes.tabpanel}
+								/>
+							</Tabs>
+							<TabPanel value={value} index={0}>
+								<Grid item xs={12} sm={6} className={classes.item2}>
+									{newsState.map(card => (
+										<News
+											title={card.title}
+											author={card.author}
+											link={card.url}
+											image={card.thumbnail}
+											post={card.post}
+											hashTag={card.hashTag}
+										/>
+									))}
+								</Grid>
+							</TabPanel>
+							<TabPanel value={value} index={1}>
+								<Grid item xs={12} sm={3} className={classes.item1}>
+									{trendingState.map(card => (
+										<Trending hashTag={card.hashTag} link={card.url} />
+									))}
+								</Grid>
+							</TabPanel>
+						</>
+					)}
 				</Grid>
 				<Gradient />
 			</div>
