@@ -34,9 +34,9 @@ const useStyles = makeStyles({
 });
 
 const navLinks = [
-	{ title: `about me`, path: `#about-me` },
-	{ title: `projects`, path: `#projects` },
-	{ title: `skills`, path: `#skills` },
+	{ title: `news feed`, path: `#news` },
+	{ title: `dashboard`, path: `#dashboard` },
+	{ title: `sign in`, path: `#sign-in` },
 ];
 
 export default function Nav() {
@@ -48,7 +48,7 @@ export default function Nav() {
 				<Container maxWidth='lg' className={classes.navbarDisplayFlex}>
 					<IconButton edge='start' color='inherit' aria-label='AccountCircle'>
 						<AccountCircle fontSize='large' />
-						<Typography variant='h6'>My Portfolio</Typography>
+						<Typography variant='h6'>Dono Logo</Typography>
 					</IconButton>
 					<Hidden smDown>
 						<List
