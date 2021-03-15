@@ -1,6 +1,6 @@
 import { Typography, Grid, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Logo from "../images/logo@2x.png";
+// import Logo from "../images/logo@2x.png";
 
 const useStyles = makeStyles({
 	paper: {

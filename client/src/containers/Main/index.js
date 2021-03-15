@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Grid, Paper, Card, CssBaseline } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { Typography, Grid, CssBaseline } from "@material-ui/core";
+// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
 import PropTypes from "prop-types";
@@ -10,14 +10,13 @@ import Box from "@material-ui/core/Box";
 
 import Nav from "../../components/Navigation/Nav";
 import News from "../../components/News";
-import defaultPic from "../../images/dp.png";
+// import defaultPic from "../../images/dp.png";
 import Elephant from "../../images/elephant.jpeg";
 import Dolphin from "../../images/dolphin.jpeg";
 import Whale from "../../images/whale.jpeg";
 
 import Gradient from "../../components/Gradient";
 import Trending from "../../components/Trending";
-import Post from "../../components/Post";
 import Causes from "../../components/Causes";
 import Footer from "../../components/Footer";
 

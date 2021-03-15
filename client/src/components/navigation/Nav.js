@@ -10,11 +10,9 @@ import {
 	Hidden,
 	Typography,
 	InputBase,
-	Grid,
 	CssBaseline,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import NavDrawer from "./NavDrawer";
 import Logo from "../../images/logo@2x.png";
