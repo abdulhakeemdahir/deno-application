@@ -9,13 +9,16 @@ import {
 	ListItemText,
 	Hidden,
 	Typography,
+	InputBase,
+	Grid,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
+import SearchIcon from "@material-ui/icons/Search";
 import NavDrawer from "./NavDrawer";
 import Logo from "../../images/logo@2x.png";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	appBar: {
 		// boxShadow: "0 3.42857px 23px rgba(0, 0, 0, 0.1)",
 		boxShadow: "0 8px 32px 0 rgb(31 38 135 / 7%)",
@@ -39,7 +42,53 @@ const useStyles = makeStyles({
 		textTransform: `uppercase`,
 		color: `white`,
 	},
-});
+	search: {
+		position: "relative",
+		// borderRadius: theme.shape.borderRadius,
+		backgroundColor: fade(theme.palette.common.white, 0.15),
+		"&:hover": {
+			backgroundColor: fade(theme.palette.common.white, 0.25),
+		},
+		// marginRight: theme.spacing(0),
+		marginLeft: 0,
+		height: "30px",
+		top: "15px",
+		width: "100%",
+		[theme.breakpoints.up("sm")]: {
+			// marginLeft: theme.spacing(3),
+			width: "50%",
+		},
+	},
+	searchIcon: {
+		padding: theme.spacing(0, 2),
+		height: "100%",
+		position: "absolute",
+		pointerEvents: "none",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		color: `white`,
+	},
+	inputRoot: {
+		color: "inherit",
+	},
+	inputInput: {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+		transition: theme.transitions.create("width"),
+		width: "100%",
+		[theme.breakpoints.up("md")]: {
+			width: "20ch",
+		},
+	},
+	sectionDesktop: {
+		display: "none",
+		[theme.breakpoints.up("sm")]: {
+			display: "flex",
+		},
+	},
+}));
 
 const navLinks = [
 	{ title: `news feed`, path: `/main` },
@@ -70,6 +119,20 @@ export default function Nav() {
 							Dono
 						</Typography>
 					</IconButton>
+					<div className={classes.search}>
+						<div className={classes.searchIcon}>
+							<SearchIcon />
+						</div>
+						<InputBase
+							placeholder='Search…'
+							classes={{
+								root: classes.inputRoot,
+								input: classes.inputInput,
+							}}
+							inputProps={{ "aria-label": "search" }}
+						/>
+					</div>
+					<div className={classes.grow} />
 					<Hidden smDown>
 						<List
 							component='nav'
