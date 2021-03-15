@@ -16,6 +16,7 @@ import Trending from "../../components/Trending";
 import Post from "../../components/Post";
 import Causes from "../../components/Causes";
 import About from "../../components/About";
+import Footer from "../../components/Footer";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -254,6 +255,7 @@ export default function Main() {
 					)}
 				</Grid>
 				<Gradient />
+				<Footer />
 			</CssBaseline>
 		</div>
 	);

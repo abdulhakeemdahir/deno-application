@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Gradient from "../../components/Gradient";
-// import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 import Welcome from "../../components/Welcome";
 import Signup from "../../components/Forms/Signup";
 import Signin from "../../components/Forms/Signin";
@@ -125,9 +125,9 @@ export default function Landing() {
 						</TabPanel>
 					</div>
 				</Grid>
+				<Footer />
 			</Grid>
 			<Gradient />
-			{/* <Footer /> */}
 		</div>
 	);
 }
