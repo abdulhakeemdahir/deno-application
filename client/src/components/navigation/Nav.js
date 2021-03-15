@@ -42,9 +42,9 @@ const useStyles = makeStyles({
 });
 
 const navLinks = [
-	{ title: `news feed`, path: `#news` },
-	{ title: `dashboard`, path: `#dashboard` },
-	{ title: `sign in`, path: `#sign-in` },
+	{ title: `news feed`, path: `/main` },
+	{ title: `dashboard`, path: `/dashboard` },
+	{ title: `sign in`, path: `/` },
 ];
 
 export default function Nav() {

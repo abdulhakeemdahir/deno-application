@@ -15,6 +15,7 @@ import Gradient from "../../components/Gradient";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post";
 import Causes from "../../components/Causes";
+import About from "../../components/About";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -90,7 +91,21 @@ export default function Main() {
 			url: "#",
 		},
 	]);
-
+	const [aboutState] = useState([
+		{
+			title: "Elephant Helpers",
+			name: "Abdul",
+			url: "#",
+			thumbnail: defaultPic,
+			bio:
+				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
+			followers: "5000",
+			website: "google.com",
+			address: "123 45th St, Seattle, WA 98188",
+			phone: "206--677-9090",
+			email: "elephant@gmail.com",
+		},
+	]);
 	const [newsState] = useState([
 		{
 			title: "Dolphins Preservation",
@@ -147,12 +162,24 @@ export default function Main() {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>TRENDING</Typography>
-									{trendingState.map(card => (
-										<Trending hashTag={card.hashTag} link={card.url} />
+									{aboutState.map(card => (
+										<About
+											title={card.title}
+											name={card.name}
+											link={card.url}
+											image={card.thumbnail}
+											post={card.post}
+											followers={card.followers}
+											website={card.website}
+											address={card.address}
+											phone={card.phone}
+											email={card.email}
+										/>
 									))}
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
+									<Post />
 									{newsState.map(card => (
 										<News
 											title={card.title}
