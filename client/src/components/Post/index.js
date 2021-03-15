@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, Paper, Button, TextField } from "@material-ui/core";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
@@ -9,6 +13,13 @@ const useStyles = makeStyles(theme => ({
 			marginBottom: theme.spacing(1),
 			width: "100%",
 		},
+	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
 	},
 	styleMain: {
 		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
@@ -58,6 +69,13 @@ export default function Post() {
 					multiline
 					rowsMax={4}
 				/>
+				<FormControl variant='outlined'>
+					<InputLabel id='post'>Post Type</InputLabel>
+					<Select labelId='post' id='post' label='post type '>
+						<MenuItem value={"comment"}>Comment</MenuItem>
+						<MenuItem value={"cause"}>Cause</MenuItem>
+					</Select>
+				</FormControl>
 				<Button size='large' className={classes.styleMain}>
 					Post
 				</Button>
