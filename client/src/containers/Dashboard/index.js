@@ -147,7 +147,6 @@ export default function Main() {
 					justify='center'
 					className={"container"}
 					xs={12}
-					lg={8}
 				>
 					{width > 600 ? (
 						<>

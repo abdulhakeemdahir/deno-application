@@ -9,8 +9,11 @@ const useStyles = makeStyles({
 		// height: "45vh",
 		width: "100%",
 		zIndex: "1",
-		color: "#ffffff",
+		color: "#008394",
 		padding: "10px",
+	},
+	heart: {
+		color: "#ed4b82",
 	},
 });
 export default function Footer() {
@@ -19,8 +22,8 @@ export default function Footer() {
 		<CssBaseline>
 			<Grid align='center'>
 				<Typography variant='body1' className={classes.footerStyle}>
-					Built with ♥︎ by: Abdulhakeem Dahir, Taani Maama, Daniel Soledad,
-					Keenan Reed
+					Built with <span className={classes.heart}>♥︎</span> by: Abdulhakeem
+					Dahir, Taani Maama, Daniel Soledad, Keenan Reed
 				</Typography>
 			</Grid>
 		</CssBaseline>
