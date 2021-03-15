@@ -14,3 +14,9 @@ div[class^="MuiBox-root"] {
 .margin-links {
 	margin: 20px 0px;
 }
+
+.MuiTypography-subtitle2 {
+	font-weight: 900 !important;
+	color: #899fd4 !important;
+	border-bottom: 2px solid #d500f9 !important;
+}

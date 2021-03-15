@@ -144,23 +144,13 @@ export default function Main() {
 						<>
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography
-										variant='subtitle1'
-										style={{ fontWeight: "bold", color: "#899fd4" }}
-									>
-										Trending
-									</Typography>
+									<Typography variant='subtitle2'>TRENDING</Typography>
 									{trendingState.map(card => (
 										<Trending hashTag={card.hashTag} link={card.url} />
 									))}
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
-									<Typography
-										variant='subtitle1'
-										style={{ fontWeight: "bold", color: "#899fd4" }}
-									>
-										News Feed
-									</Typography>
+									<Typography variant='subtitle2'>NEWS FEED</Typography>
 									<Post />
 									{newsState.map(card => (
 										<News
@@ -174,9 +164,7 @@ export default function Main() {
 									))}
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography style={{ fontWeight: "bold", color: "#899fd4" }}>
-										Causes
-									</Typography>
+									<Typography variant='subtitle2'>CAUSES</Typography>
 									{newsState.map(card => (
 										<News
 											title={card.title}
