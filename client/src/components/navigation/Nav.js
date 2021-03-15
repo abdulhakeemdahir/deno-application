@@ -11,6 +11,7 @@ import {
 	Typography,
 	InputBase,
 	Grid,
+	CssBaseline,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
@@ -79,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 		transition: theme.transitions.create("width"),
 		width: "100%",
 		[theme.breakpoints.up("md")]: {
-			width: "20ch",
+			width: "100%",
 		},
 	},
 	sectionDesktop: {
@@ -104,66 +105,69 @@ export default function Nav() {
 	const classes = useStyles();
 
 	return (
-		<AppBar position='static' className={classes.appBar}>
-			<Toolbar>
-				<Container maxWidth='lg' className={classes.navbarDisplayFlex}>
-					<IconButton
-						edge='start'
-						color='inherit'
-						aria-label='AccountCircle'
-						href='/'
-					>
-						<img
-							src={Logo}
-							alt='logo'
-							style={{ height: "30px", width: "auto" }}
-						/>{" "}
-						{/* <AccountCircle fontSize='large' /> */}
-						<Typography variant='h6' className={classes.logoText}>
-							Dono
-						</Typography>
-					</IconButton>
-					<div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
-						</div>
-						<InputBase
-							placeholder='Search…'
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput,
-							}}
-							inputProps={{ "aria-label": "search" }}
-						/>
-					</div>
-					<div className={classes.grow} />
-					<Hidden smDown>
-						<List
-							component='nav'
-							aria-labelledby='main navigation'
-							className={classes.navDisplayFlex}
+		<CssBaseline>
+			<AppBar position='static' className={classes.appBar}>
+				<Toolbar>
+					<Container maxWidth='lg' className={classes.navbarDisplayFlex}>
+						<IconButton
+							edge='start'
+							color='inherit'
+							aria-label='AccountCircle'
+							href='/'
 						>
-							{navLinks.map(({ title, path }) => (
-								<a href={path} key={title} className={classes.linkText}>
+							<img
+								src={Logo}
+								alt='logo'
+								style={{ height: "30px", width: "auto" }}
+							/>{" "}
+							{/* <AccountCircle fontSize='large' /> */}
+							<Typography variant='h6' className={classes.logoText}>
+								Dono
+							</Typography>
+						</IconButton>
+						<div className={classes.search}>
+							<div className={classes.searchIcon}>
+								<SearchIcon />
+							</div>
+							<InputBase
+								placeholder='Search…'
+								classes={{
+									root: classes.inputRoot,
+									input: classes.inputInput,
+								}}
+								inputProps={{ "aria-label": "search" }}
+								fullWidth
+							/>
+						</div>
+						<div className={classes.grow} />
+						<Hidden smDown>
+							<List
+								component='nav'
+								aria-labelledby='main navigation'
+								className={classes.navDisplayFlex}
+							>
+								{navLinks.map(({ title, path }) => (
+									<a href={path} key={title} className={classes.linkText}>
+										<ListItem button>
+											<ListItemText primary={title} />
+										</ListItem>
+									</a>
+								))}
+								<a href='/' className={classes.logoutStyle}>
 									<ListItem button>
-										<ListItemText primary={title} />
+										<ListItemText className={classes.linkText}>
+											Log Out
+										</ListItemText>
 									</ListItem>
 								</a>
-							))}
-							<a href='/' className={classes.logoutStyle}>
-								<ListItem button>
-									<ListItemText className={classes.linkText}>
-										Log Out
-									</ListItemText>
-								</ListItem>
-							</a>
-						</List>
-					</Hidden>
-					<Hidden mdUp>
-						<NavDrawer navLinks={navLinks} />
-					</Hidden>
-				</Container>
-			</Toolbar>
-		</AppBar>
+							</List>
+						</Hidden>
+						<Hidden mdUp>
+							<NavDrawer navLinks={navLinks} />
+						</Hidden>
+					</Container>
+				</Toolbar>
+			</AppBar>
+		</CssBaseline>
 	);
 }

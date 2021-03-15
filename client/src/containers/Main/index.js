@@ -11,6 +11,10 @@ import Box from "@material-ui/core/Box";
 import Nav from "../../components/Navigation/Nav";
 import News from "../../components/News";
 import defaultPic from "../../images/dp.png";
+import Elephant from "../../images/elephant.jpeg";
+import Dolphin from "../../images/dolphin.jpeg";
+import Whale from "../../images/whale.jpeg";
+
 import Gradient from "../../components/Gradient";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post";
@@ -97,7 +101,7 @@ export default function Main() {
 			title: "Dolphins Preservation",
 			author: "Abdul",
 			url: "#",
-			thumbnail: defaultPic,
+			thumbnail: Dolphin,
 			post:
 				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
 			hashTag: "Save the Dolphins",
@@ -106,7 +110,7 @@ export default function Main() {
 			title: "Elephant Preservation",
 			author: "Abdul",
 			url: "#",
-			thumbnail: defaultPic,
+			thumbnail: Elephant,
 			post:
 				"We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
 			hashTag: "Save the Elephant",
@@ -115,7 +119,7 @@ export default function Main() {
 			title: "Whale Preservation",
 			author: "Abdul",
 			url: "#",
-			thumbnail: defaultPic,
+			thumbnail: Whale,
 			post:
 				"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
 			hashTag: "Save the Whale",

@@ -17,7 +17,7 @@ export default function About(props) {
 			<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 				{props.title}
 			</Typography>
-			<Divider />
+			{/* <Divider /> */}
 			<CardMedia className='media' image={props.image} />
 			<Grid container direction='row' spacing={1}>
 				<Grid item xs={12} sm={12}>

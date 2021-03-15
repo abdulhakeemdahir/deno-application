@@ -19,12 +19,16 @@ const useStyles = makeStyles({
 		textDecoration: `none`,
 		textTransform: `uppercase`,
 		color: `white`,
+		padding: "10px",
 	},
 	logoutStyle: {
 		background: "linear-gradient(-135deg, #e57373, #f06292)",
 		color: "white",
 		textDecoration: "none",
-		padding: "10px",
+		padding: "10px 0px",
+	},
+	spanStyle: {
+		margin: "10px",
 	},
 });
 
@@ -60,7 +64,9 @@ const SideDrawer = ({ navLinks }) => {
 				))}
 				<a href='/' className={classes.logoutStyle}>
 					<ListItem button>
-						<ListItemText className={classes.logoutStyle}>Log Out</ListItemText>
+						<ListItemText className={classes.logoutStyle}>
+							<span className={classes.spanStyle}>LOG OUT</span>
+						</ListItemText>
 					</ListItem>
 				</a>
 			</List>
