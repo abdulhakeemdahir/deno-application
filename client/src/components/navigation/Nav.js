@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 	appBar: {
 		// boxShadow: "0 3.42857px 23px rgba(0, 0, 0, 0.1)",
 		boxShadow: "0 8px 32px 0 rgb(31 38 135 / 7%)",
-		background: "white",
+		background: "#3f4d67",
 	},
 	navbarDisplayFlex: {
 		display: `flex`,
@@ -32,7 +32,12 @@ const useStyles = makeStyles({
 	linkText: {
 		textDecoration: `none`,
 		textTransform: `uppercase`,
-		color: `grey`,
+		color: `white`,
+	},
+	logoText: {
+		fontWeight: `900`,
+		textTransform: `uppercase`,
+		color: `white`,
 	},
 });
 
@@ -59,9 +64,11 @@ export default function Nav() {
 							src={Logo}
 							alt='logo'
 							style={{ height: "30px", width: "auto" }}
-						/>
+						/>{" "}
 						{/* <AccountCircle fontSize='large' /> */}
-						{/* <Typography variant='h6'>Dono Logo</Typography> */}
+						<Typography variant='h6' className={classes.logoText}>
+							Dono
+						</Typography>
 					</IconButton>
 					<Hidden smDown>
 						<List

@@ -68,6 +68,10 @@ const useStyles = makeStyles({
 	landing: {
 		padding: "10px",
 	},
+	tabStyle: {
+		color: `3f4d67`,
+		margin: "10px",
+	},
 	marginStyle: {
 		margin: "10px",
 	},
@@ -99,6 +103,7 @@ export default function Landing() {
 						value={value}
 						onChange={handleChange}
 						aria-label='simple tabs example'
+						className={classes.tabStyle}
 					>
 						<Tab
 							label='Log In'

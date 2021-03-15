@@ -19,6 +19,7 @@
 	text-transform: lowercase;
 	border-radius: 0px;
 	padding: 2px;
+	margin-left: 15px !important;
 }
 
 .authorStyle {

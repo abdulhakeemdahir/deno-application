@@ -27,10 +27,11 @@ export default function News(props) {
 						<Typography variant='body' color='textSecondary' component='p'>
 							{props.post}
 						</Typography>
-						<a href={props.link} className='hashTagStyle'>
-							#{props.hashTag}
-						</a>
+						<Divider />
 					</CardContent>
+					<a href={props.link} className='hashTagStyle'>
+						#{props.hashTag}
+					</a>
 				</Grid>
 			</Grid>
 		</Grid>

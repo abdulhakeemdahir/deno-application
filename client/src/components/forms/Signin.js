@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 		color: "#ffffff",
 	},
 	styleIcon: {
-		background: "#e7e7e7",
+		background: "#3f4d67",
 	},
 });
 export default function Signin() {
