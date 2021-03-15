@@ -39,7 +39,7 @@ export default function Post() {
 	const classes = useStyles();
 
 	return (
-		<Grid>
+		<Grid className='cardPost'>
 			<form className={classes.root} noValidate autoComplete='off'>
 				<FormControl variant='outlined'>
 					<InputLabel id='post'>Post Type</InputLabel>
