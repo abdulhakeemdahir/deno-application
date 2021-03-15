@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
@@ -5,8 +6,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
-const handleChange = function() {};
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -32,8 +31,25 @@ const useStyles = makeStyles(theme => ({
 	selectEmpty: {
 		marginTop: theme.spacing(2),
 	},
+
+	styleIcon: {
+		background: "#e7e7e7",
+	},
 }));
 export default function Signin() {
+	const [state, setState] = React.useState({
+		age: "",
+		name: "hai",
+	});
+
+	const handleChange = function(event) {
+		const name = event.target.name;
+		setState({
+			...state,
+			[name]: event.target.value,
+		});
+	};
+
 	const classes = useStyles();
 
 	return (
@@ -45,7 +61,7 @@ export default function Signin() {
 			className={classes.paper}
 		>
 			<Grid item align='center'>
-				<Avatar className={classes.styleMain}>
+				<Avatar className={classes.styleIcon}>
 					<CreateIcon />
 				</Avatar>
 				<Typography variation='h6' color='default'>
@@ -95,15 +111,9 @@ export default function Signin() {
 					className={(classes.formControl, classes.mgstyle)}
 					fullWidth
 				>
-					<InputLabel id='role'>Select a Role</InputLabel>
-					<Select labelId='role' id='role' onChange={handleChange}>
-						<MenuItem
-							value={
-								"const [state, dispatch] = useReducer(reducer, initialState, init)"
-							}
-						>
-							User
-						</MenuItem>
+					<InputLabel id='Role'>Role</InputLabel>
+					<Select labelId='role' id='role' onChange={handleChange} label='Role'>
+						<MenuItem value={"user"}>User</MenuItem>
 						<MenuItem value={"organization"}>Organization</MenuItem>
 					</Select>
 				</FormControl>

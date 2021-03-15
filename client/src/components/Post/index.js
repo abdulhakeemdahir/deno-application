@@ -43,6 +43,13 @@ export default function Post() {
 						rowsMax={4}
 						className={classes.inputMargin}
 					/>
+					<TextField
+						id='imageUrl'
+						label='Image Url'
+						multiline
+						rowsMax={4}
+						className={classes.inputMargin}
+					/>
 				</Grid>
 				<TextField
 					id='post'
