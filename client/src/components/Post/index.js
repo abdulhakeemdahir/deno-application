@@ -6,7 +6,7 @@ import "./style.css";
 const useStyles = makeStyles(theme => ({
 	root: {
 		"& > *": {
-			margin: theme.spacing(0),
+			marginBottom: theme.spacing(1),
 			width: "100%",
 		},
 	},
@@ -17,6 +17,9 @@ const useStyles = makeStyles(theme => ({
 		marginTop: "10px",
 		borderRadius: "0px",
 	},
+	inputMargin: {
+		margin: "5px",
+	},
 }));
 
 export default function Post() {
@@ -25,13 +28,28 @@ export default function Post() {
 	return (
 		<Grid>
 			<form className={classes.root} noValidate autoComplete='off'>
+				<Grid container>
+					<TextField
+						id='title'
+						label='Title'
+						multiline
+						rowsMax={4}
+						className={classes.inputMargin}
+					/>
+					<TextField
+						id='hashTag'
+						label='Hash Tag'
+						multiline
+						rowsMax={4}
+						className={classes.inputMargin}
+					/>
+				</Grid>
 				<TextField
 					id='post'
 					label='Post a Comment'
 					variant='outlined'
 					multiline
 					rowsMax={4}
-					borderRadius='50px'
 				/>
 				<Button size='large' className={classes.styleMain}>
 					Post
