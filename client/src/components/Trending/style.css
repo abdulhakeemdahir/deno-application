@@ -1,0 +1,22 @@
+.cardTrending {
+	background: #ffffff;
+	border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+	padding: 10px;
+	margin: 15px 0px;
+	align-items: center;
+	/* text-decoration: none; */
+}
+
+.textStyle {
+	text-decoration: none;
+}
+
+.iconStyle {
+	background: linear-gradient(
+		180deg,
+		rgba(29, 233, 182, 0.6566887535816619) 51%,
+		rgba(29, 196, 233, 0.8) 120%
+	);
+	color: #ffffff;
+}

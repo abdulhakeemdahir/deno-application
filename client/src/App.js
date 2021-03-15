@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Landing from "./containers/Landing";
-import Main from "./containers/Main/Main";
+import Main from "./containers/Main";
 
 const theme = createMuiTheme({
 	palette: {

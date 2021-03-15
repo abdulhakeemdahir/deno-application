@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Gradient from "../components/Gradient";
 // import Footer from "../components/Footer";
 import Welcome from "../components/Welcome";
-import Signup from "../components/forms/Signup";
-import Signin from "../components/forms/Signin";
+import Signup from "../components/Forms/Signup";
+import Signin from "../components/Forms/Signin";
 import React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
@@ -64,6 +64,10 @@ const useStyles = makeStyles({
 		left: "50%",
 		transform: "translate(-50%, -50%)",
 	},
+
+	landing: {
+		padding: "10px",
+	},
 });
 export default function Landing() {
 	const classes = useStyles();
@@ -73,7 +77,7 @@ export default function Landing() {
 		setValue(newValue);
 	};
 	return (
-		<div>
+		<div className='landing'>
 			<Grid
 				container
 				direction='row'

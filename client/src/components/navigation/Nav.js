@@ -13,10 +13,13 @@ import {
 import { makeStyles } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 import NavDrawer from "./NavDrawer";
+import Logo from "../../images/logo@2x.png";
 
 const useStyles = makeStyles({
 	appBar: {
-		boxShadow: "0 3.42857px 23px rgba(0, 0, 0, 0.1)",
+		// boxShadow: "0 3.42857px 23px rgba(0, 0, 0, 0.1)",
+		boxShadow: "0 8px 32px 0 rgb(31 38 135 / 7%)",
+		background: "white",
 	},
 	navbarDisplayFlex: {
 		display: `flex`,
@@ -29,7 +32,7 @@ const useStyles = makeStyles({
 	linkText: {
 		textDecoration: `none`,
 		textTransform: `uppercase`,
-		color: `white`,
+		color: `grey`,
 	},
 });
 
@@ -52,8 +55,13 @@ export default function Nav() {
 						aria-label='AccountCircle'
 						href='/'
 					>
-						<AccountCircle fontSize='large' />
-						<Typography variant='h6'>Dono Logo</Typography>
+						<img
+							src={Logo}
+							alt='logo'
+							style={{ height: "30px", width: "auto" }}
+						/>
+						{/* <AccountCircle fontSize='large' /> */}
+						{/* <Typography variant='h6'>Dono Logo</Typography> */}
 					</IconButton>
 					<Hidden smDown>
 						<List

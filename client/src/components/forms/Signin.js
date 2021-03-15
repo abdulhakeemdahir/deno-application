@@ -6,7 +6,7 @@ const useStyles = makeStyles({
 	paper: {
 		background:
 			"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		borderRadius: "10px",
+		borderRadius: "0px",
 		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
 		padding: "20px",
 	},

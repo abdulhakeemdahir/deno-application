@@ -18,11 +18,11 @@ export default function News(props) {
 				{props.author}
 			</Typography>
 			<Divider />
-			<Grid container direction='row'>
-				<Grid item xs={4}>
+			<Grid container direction='row' spacing={1}>
+				<Grid item xs={12} sm={4}>
 					<CardMedia className={"media"} image={props.image} />
 				</Grid>
-				<Grid item xs={8}>
+				<Grid item xs={12} sm={8}>
 					<CardContent>
 						<Typography variant='body2' color='textSecondary' component='p'>
 							{props.post}

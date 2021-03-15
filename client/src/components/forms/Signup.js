@@ -1,12 +1,18 @@
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
-const useStyles = makeStyles({
+const handleChange = function() {};
+
+const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
 			"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		borderRadius: "10px",
+		borderRadius: "0px",
 		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
 		padding: "20px",
 	},
@@ -19,7 +25,14 @@ const useStyles = makeStyles({
 		color: "#ffffff",
 		padding: "15px",
 	},
-});
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+	},
+}));
 export default function Signin() {
 	const classes = useStyles();
 
@@ -77,15 +90,17 @@ export default function Signin() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<TextField
-					// name='role'
-					// value=''
+				<FormControl
 					variant='outlined'
-					label='Role'
-					placeholder='Enter Role'
+					className={(classes.formControl, classes.mgstyle)}
 					fullWidth
-					className={classes.mgstyle}
-				/>
+				>
+					<InputLabel id='role'>Select a Role</InputLabel>
+					<Select labelId='role' id='role' onChange={handleChange}>
+						<MenuItem>User</MenuItem>
+						<MenuItem>Organization</MenuItem>
+					</Select>
+				</FormControl>
 				<Button size='large' className={classes.styleMain} fullWidth>
 					Sign Up
 				</Button>
