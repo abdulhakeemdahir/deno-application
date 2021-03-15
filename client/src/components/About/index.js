@@ -16,20 +16,31 @@ export default function About(props) {
 				{props.title}
 			</Typography>
 			<Divider />
+			<CardMedia className='media' image={props.image} />
 			<Grid container direction='row' spacing={1}>
-				{/* <Grid item xs={12} sm={4}>
-					<CardMedia className={"media"} image={props.image} />
-				</Grid> */}
 				<Grid item xs={12} sm={12}>
+					<Button size='large' className='aboutButton' fullWidth>
+						Support Us
+					</Button>
 					<CardContent>
 						<Typography variant='body2' color='textSecondary'>
-							{props.post}
+							{props.bio}
 						</Typography>
 					</CardContent>
+					<Divider />
+					<Typography variant='body2' color='textSecondary'>
+						Website: {props.website}
+					</Typography>
+					<Typography variant='body2' color='textSecondary'>
+						Address: {props.address}
+					</Typography>
+					<Typography variant='body2' color='textSecondary'>
+						Phone: {props.phone}
+					</Typography>
+					<Typography variant='body2' color='textSecondary'>
+						E-mail: {props.email}
+					</Typography>
 				</Grid>
-				<Button size='large' className='styleButton' fullWidth>
-					Support Cause
-				</Button>
 			</Grid>
 		</Grid>
 	);

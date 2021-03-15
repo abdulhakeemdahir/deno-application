@@ -168,7 +168,7 @@ export default function Main() {
 											name={card.name}
 											link={card.url}
 											image={card.thumbnail}
-											post={card.post}
+											bio={card.bio}
 											followers={card.followers}
 											website={card.website}
 											address={card.address}
