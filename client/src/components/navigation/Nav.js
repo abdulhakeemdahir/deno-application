@@ -51,8 +51,8 @@ const useStyles = makeStyles(theme => ({
 		},
 		// marginRight: theme.spacing(0),
 		marginLeft: 0,
-		height: "30px",
-		top: "15px",
+		height: "50px",
+		top: "7px",
 		width: "100%",
 		[theme.breakpoints.up("sm")]: {
 			// marginLeft: theme.spacing(3),
@@ -70,10 +70,10 @@ const useStyles = makeStyles(theme => ({
 		color: `white`,
 	},
 	inputRoot: {
-		color: "inherit",
+		color: "#ffffff",
 	},
 	inputInput: {
-		padding: theme.spacing(1, 1, 1, 0),
+		padding: theme.spacing(2, 1, 1, 0),
 		// vertical padding + font size from searchIcon
 		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
 		transition: theme.transitions.create("width"),
