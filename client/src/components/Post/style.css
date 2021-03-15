@@ -2,3 +2,8 @@
 .MuiButtonBase-root {
 	border-radius: 0 !important;
 }
+
+.postStyle {
+	background: #fff !important;
+	margin: 5px;
+}

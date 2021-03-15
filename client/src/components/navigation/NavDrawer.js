@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/icons";
 import * as React from "react";
 import { useState } from "react";
+import "./style.css";
 
 const useStyles = makeStyles({
 	list: {
@@ -17,7 +18,13 @@ const useStyles = makeStyles({
 	linkText: {
 		textDecoration: `none`,
 		textTransform: `uppercase`,
-		color: `black`,
+		color: `white`,
+	},
+	logoutStyle: {
+		background: "linear-gradient(-135deg, #e57373, #f06292)",
+		color: "white",
+		textDecoration: "none",
+		padding: "10px",
 	},
 });
 
@@ -51,6 +58,11 @@ const SideDrawer = ({ navLinks }) => {
 						</ListItem>
 					</a>
 				))}
+				<a href='/' className={classes.logoutStyle}>
+					<ListItem button>
+						<ListItemText className={classes.logoutStyle}>Log Out</ListItemText>
+					</ListItem>
+				</a>
 			</List>
 		</div>
 	);

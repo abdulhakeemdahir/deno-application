@@ -19,7 +19,7 @@ export default function Footer() {
 		<CssBaseline>
 			<Grid align='center'>
 				<Typography variant='body1' className={classes.footerStyle}>
-					Built with ♥︎ by: Abdulhakeem Dahir, Taani Maam, Daniel Soledad,
+					Built with ♥︎ by: Abdulhakeem Dahir, Taani Maama, Daniel Soledad,
 					Keenan Reed
 				</Typography>
 			</Grid>

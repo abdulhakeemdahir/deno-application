@@ -88,12 +88,16 @@ const useStyles = makeStyles(theme => ({
 			display: "flex",
 		},
 	},
+	logoutStyle: {
+		background: "linear-gradient(-135deg, #e57373, #f06292)",
+		color: "white",
+		textDecoration: "none",
+	},
 }));
 
 const navLinks = [
 	{ title: `news feed`, path: `/main` },
 	{ title: `dashboard`, path: `/dashboard` },
-	{ title: `sign in`, path: `/` },
 ];
 
 export default function Nav() {
@@ -146,6 +150,13 @@ export default function Nav() {
 									</ListItem>
 								</a>
 							))}
+							<a href='/' className={classes.logoutStyle}>
+								<ListItem button>
+									<ListItemText className={classes.linkText}>
+										Log Out
+									</ListItemText>
+								</ListItem>
+							</a>
 						</List>
 					</Hidden>
 					<Hidden mdUp>
