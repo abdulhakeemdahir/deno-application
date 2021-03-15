@@ -31,10 +31,14 @@ const useStyles = makeStyles({
 		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
 		color: "#ffffff",
 		padding: "15px",
+		borderRadius: "0px",
 	},
 	styleSecondary: {
 		background: "linear-gradient(-135deg,#899fd4,#a389d4)",
 		color: "#ffffff",
+	},
+	styleIcon: {
+		background: "#e7e7e7",
 	},
 });
 export default function Signin() {
@@ -49,7 +53,7 @@ export default function Signin() {
 			className={classes.paper}
 		>
 			<Grid item align='center'>
-				<Avatar className={classes.styleMain}>
+				<Avatar className={classes.styleIcon}>
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography variation='h6' color='default'>

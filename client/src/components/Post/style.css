@@ -1,0 +1,4 @@
+.MuiInputBase-root,
+.MuiButtonBase-root {
+	border-radius: 0 !important;
+}

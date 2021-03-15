@@ -13,6 +13,7 @@ import News from "../../components/News";
 import defaultPic from "../../images/dp.png";
 import Gradient from "../../components/Gradient";
 import Trending from "../../components/Trending";
+import Post from "../../components/Post";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -160,6 +161,7 @@ export default function Main() {
 									>
 										News Feed
 									</Typography>
+									<Post />
 									{newsState.map(card => (
 										<News
 											title={card.title}
@@ -201,6 +203,7 @@ export default function Main() {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
+									<Post />
 									{newsState.map(card => (
 										<News
 											title={card.title}
