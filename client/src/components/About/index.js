@@ -6,6 +6,8 @@ import {
 	CardContent,
 	Button,
 } from "@material-ui/core";
+import EqualizerIcon from "@material-ui/icons/Equalizer";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import "./style.css";
 
 export default function About(props) {
@@ -20,7 +22,7 @@ export default function About(props) {
 			<Grid container direction='row' spacing={1}>
 				<Grid item xs={12} sm={12}>
 					<Button size='large' className='aboutButton' fullWidth>
-						Support Us
+						<ThumbUpAltIcon /> Support Us
 					</Button>
 					<CardContent>
 						<Typography variant='body2' color='textSecondary'>
@@ -28,18 +30,39 @@ export default function About(props) {
 						</Typography>
 					</CardContent>
 					<Divider />
-					<Typography variant='body2' color='textSecondary'>
-						Website: {props.website}
-					</Typography>
-					<Typography variant='body2' color='textSecondary'>
-						Address: {props.address}
-					</Typography>
-					<Typography variant='body2' color='textSecondary'>
-						Phone: {props.phone}
-					</Typography>
-					<Typography variant='body2' color='textSecondary'>
-						E-mail: {props.email}
-					</Typography>
+					<CardContent>
+						<Typography
+							className='borderStyle'
+							variant='body2'
+							color='textSecondary'
+						>
+							<span className='authorStyle'> Website:</span> {props.website}
+						</Typography>
+						<Typography
+							className='borderStyle'
+							variant='body2'
+							color='textSecondary'
+						>
+							<span className='authorStyle'> Address:</span> {props.address}
+						</Typography>
+						<Typography
+							className='borderStyle'
+							variant='body2'
+							color='textSecondary'
+						>
+							<span className='authorStyle'> Phone:</span> {props.phone}
+						</Typography>
+						<Typography
+							className='borderStyle'
+							variant='body2'
+							color='textSecondary'
+						>
+							<span className='authorStyle'> E-mail:</span> {props.email}
+						</Typography>
+					</CardContent>
+					<Button size='large' className='analyticsButton' fullWidth>
+						<EqualizerIcon /> Analytics
+					</Button>
 				</Grid>
 			</Grid>
 		</Grid>

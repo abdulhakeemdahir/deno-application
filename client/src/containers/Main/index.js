@@ -192,7 +192,6 @@ export default function Main() {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
-									<Post />
 									{newsState.map(card => (
 										<News
 											title={card.title}

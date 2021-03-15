@@ -77,20 +77,6 @@ function useWindowDimensions() {
 // const useStyles = makeStyles(theme => ({}));
 
 export default function Main() {
-	const [trendingState] = useState([
-		{
-			hashTag: "Save the Dolphins",
-			url: "#",
-		},
-		{
-			hashTag: "Save the Elephants",
-			url: "#",
-		},
-		{
-			hashTag: "Save the Whales",
-			url: "#",
-		},
-	]);
 	const [aboutState] = useState([
 		{
 			title: "Elephant Helpers",
@@ -161,7 +147,7 @@ export default function Main() {
 						<>
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>TRENDING</Typography>
+									<Typography variant='subtitle2'>ABOUT</Typography>
 									{aboutState.map(card => (
 										<About
 											title={card.title}
@@ -214,7 +200,7 @@ export default function Main() {
 								aria-label='simple tabs example'
 							>
 								<Tab label='News' {...a11yProps(0)} />
-								<Tab label='Trending' {...a11yProps(1)} />
+								<Tab label='About' {...a11yProps(1)} />
 								<Tab label='Causes' {...a11yProps(2)} />
 							</Tabs>
 							<TabPanel value={value} index={0}>
@@ -234,8 +220,19 @@ export default function Main() {
 							</TabPanel>
 							<TabPanel value={value} index={1}>
 								<Grid item xs={12}>
-									{trendingState.map(card => (
-										<Trending hashTag={card.hashTag} link={card.url} />
+									{aboutState.map(card => (
+										<About
+											title={card.title}
+											name={card.name}
+											link={card.url}
+											image={card.thumbnail}
+											bio={card.bio}
+											followers={card.followers}
+											website={card.website}
+											address={card.address}
+											phone={card.phone}
+											email={card.email}
+										/>
 									))}
 								</Grid>
 							</TabPanel>

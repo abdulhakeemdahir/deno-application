@@ -6,6 +6,7 @@ import {
 	CardContent,
 	Button,
 } from "@material-ui/core";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
 
 export default function Causes(props) {
@@ -28,7 +29,7 @@ export default function Causes(props) {
 					</CardContent>
 				</Grid>
 				<Button size='large' className='styleButton' fullWidth>
-					Support Cause
+					<CreditCardIcon /> Support Cause
 				</Button>
 			</Grid>
 		</Grid>
