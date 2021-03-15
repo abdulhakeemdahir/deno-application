@@ -215,7 +215,7 @@ export default function Main() {
 							<TabPanel value={value} index={2}>
 								<Grid item xs={12}>
 									{newsState.map(card => (
-										<Causes
+										<News
 											title={card.title}
 											author={card.author}
 											link={card.url}

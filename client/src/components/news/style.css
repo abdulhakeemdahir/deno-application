@@ -11,3 +11,16 @@
 	padding-top: 56.25%;
 	border-radius: 0px;
 }
+
+.hashTagStyle {
+	background: #ffecb3;
+	color: #b29537;
+	text-decoration: none;
+	text-transform: lowercase;
+	border-radius: 0px;
+	padding: 2px;
+}
+
+.authorStyle {
+	font-weight: 900;
+}

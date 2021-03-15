@@ -10,12 +10,12 @@ import "./style.css";
 export default function News(props) {
 	console.log(props.image);
 	return (
-		<Grid item className='card'>
+		<Grid item className='card' xs={12}>
 			<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 				{props.title}
 			</Typography>
 			<Typography variant='body2' color='textSecondary' component='p'>
-				{props.author}
+				<span className='authorStyle'> Author:</span> {props.author}
 			</Typography>
 			<Divider />
 			<Grid container direction='row' spacing={1}>
@@ -24,11 +24,13 @@ export default function News(props) {
 				</Grid>
 				<Grid item xs={12} sm={8}>
 					<CardContent>
-						<Typography variant='body2' color='textSecondary' component='p'>
+						<Typography variant='body' color='textSecondary' component='p'>
 							{props.post}
 						</Typography>
+						<a href={props.link} className='hashTagStyle'>
+							#{props.hashTag}
+						</a>
 					</CardContent>
-					<a href={props.link}>#{props.hashTag}</a>
 				</Grid>
 			</Grid>
 		</Grid>

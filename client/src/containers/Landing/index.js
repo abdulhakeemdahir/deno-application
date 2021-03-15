@@ -1,10 +1,10 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Gradient from "../components/Gradient";
+import Gradient from "../../components/Gradient";
 // import Footer from "../components/Footer";
-import Welcome from "../components/Welcome";
-import Signup from "../components/Forms/Signup";
-import Signin from "../components/Forms/Signin";
+import Welcome from "../../components/Welcome";
+import Signup from "../../components/Forms/Signup";
+import Signin from "../../components/Forms/Signin";
 import React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
@@ -68,6 +68,9 @@ const useStyles = makeStyles({
 	landing: {
 		padding: "10px",
 	},
+	marginStyle: {
+		margin: "10px",
+	},
 });
 export default function Landing() {
 	const classes = useStyles();
@@ -108,12 +111,14 @@ export default function Landing() {
 							className={classes.tabpanel}
 						/>
 					</Tabs>
-					<TabPanel value={value} index={0}>
-						<Signin />
-					</TabPanel>
-					<TabPanel value={value} index={1}>
-						<Signup />
-					</TabPanel>
+					<div className={classes.marginStyle}>
+						<TabPanel value={value} index={0}>
+							<Signin />
+						</TabPanel>
+						<TabPanel value={value} index={1}>
+							<Signup />
+						</TabPanel>
+					</div>
 				</Grid>
 			</Grid>
 			<Gradient />
