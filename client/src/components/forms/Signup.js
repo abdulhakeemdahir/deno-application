@@ -97,8 +97,14 @@ export default function Signin() {
 				>
 					<InputLabel id='role'>Select a Role</InputLabel>
 					<Select labelId='role' id='role' onChange={handleChange}>
-						<MenuItem>User</MenuItem>
-						<MenuItem>Organization</MenuItem>
+						<MenuItem
+							value={
+								"const [state, dispatch] = useReducer(reducer, initialState, init)"
+							}
+						>
+							User
+						</MenuItem>
+						<MenuItem value={"organization"}>Organization</MenuItem>
 					</Select>
 				</FormControl>
 				<Button size='large' className={classes.styleMain} fullWidth>
