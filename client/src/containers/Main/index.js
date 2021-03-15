@@ -14,6 +14,7 @@ import defaultPic from "../../images/dp.png";
 import Gradient from "../../components/Gradient";
 import Trending from "../../components/Trending";
 import Post from "../../components/Post";
+import Causes from "../../components/Causes";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -166,7 +167,7 @@ export default function Main() {
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
 									{newsState.map(card => (
-										<News
+										<Causes
 											title={card.title}
 											author={card.author}
 											link={card.url}
@@ -214,7 +215,7 @@ export default function Main() {
 							<TabPanel value={value} index={2}>
 								<Grid item xs={12}>
 									{newsState.map(card => (
-										<News
+										<Causes
 											title={card.title}
 											author={card.author}
 											link={card.url}

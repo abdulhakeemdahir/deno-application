@@ -4,6 +4,7 @@ import {
 	CardMedia,
 	Divider,
 	CardContent,
+	Button,
 } from "@material-ui/core";
 import "./style.css";
 
@@ -14,22 +15,21 @@ export default function Causes(props) {
 			<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 				{props.title}
 			</Typography>
-			<Typography variant='body2' color='textSecondary' component='p'>
-				{props.author}
-			</Typography>
 			<Divider />
 			<Grid container direction='row' spacing={1}>
-				<Grid item xs={12} sm={4}>
+				{/* <Grid item xs={12} sm={4}>
 					<CardMedia className={"media"} image={props.image} />
-				</Grid>
-				<Grid item xs={12} sm={8}>
+				</Grid> */}
+				<Grid item xs={12} sm={12}>
 					<CardContent>
-						<Typography variant='body2' color='textSecondary' component='p'>
+						<Typography variant='body2' color='textSecondary'>
 							{props.post}
 						</Typography>
 					</CardContent>
-					<a href={props.link}>#{props.hashTag}</a>
 				</Grid>
+				<Button size='large' className='styleButton' fullWidth>
+					Support Cause
+				</Button>
 			</Grid>
 		</Grid>
 	);
