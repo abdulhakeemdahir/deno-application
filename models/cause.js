@@ -18,23 +18,11 @@ const causeSchema = new Schema({
     type: String,
     required: [true, "Causes must have a category."]
   },
-  posts: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Posts",
-      required: [false]
-    }
-  ],
   likes: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Users"
-    }
-  ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Comments"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: [false]
     }
   ],
   hashtags: [

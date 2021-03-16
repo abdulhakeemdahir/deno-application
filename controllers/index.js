@@ -4,5 +4,6 @@ module.exports = {
   causesController: require("./causesController"),
   commentsController: require("./commentsController"),
   messengerController: require("./messengerController"),
-  hashtagsController: require("./hashtagsController")
+  hashtagsController: require("./hashtagsController"),
+  authorizeControllers: require("./authorizeControllers.js")
 };

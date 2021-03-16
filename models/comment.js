@@ -7,6 +7,11 @@ const commentSchema = new Schema({
     require: true,
     ref: "Users"
   },
+  post: {
+    type: Schema.Types.ObjectId,
+    require: true,
+    ref: "Post"
+  },
   date: {
     type: Date,
     default: Date.now
@@ -16,18 +21,11 @@ const commentSchema = new Schema({
     required: [true, "Comment can't be blank."],
     trim: true
   },
-  post: {
-    type: Schema.Types.ObjectId,
-    ref: "Posts"
-  },
-  cause: {
-    type: Schema.Types.ObjectId,
-    ref: "Causes"
-  },
-  hashtags: [
+  likes: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Hashtags"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: [false]
     }
   ]
 });

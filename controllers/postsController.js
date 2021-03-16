@@ -11,7 +11,7 @@ module.exports = {
   },
   findTrending: async (req, res) => {
     try {
-      const postModel = await Post.find(req.query).sort({ date: -1 });
+      const postModel = await Post.findById(req.query).sort({ date: -1 });
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -19,7 +19,7 @@ module.exports = {
   },
   findUserPosts: async (req, res) => {
     try {
-      const postModel = await Post.find(req.query).sort({ date: -1 });
+      const postModel = await Post.findById(req.query).sort({ date: -1 });
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -35,7 +35,7 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const postModel = await Post.findOneAndUpdate(
+      const postModel = await Post.findByIdAndUpdate(
         { _id: req.params.id },
         req.body
       );
@@ -46,7 +46,7 @@ module.exports = {
   },
   remove: async (req, res) => {
     try {
-      const postModel = await Post.findById({ _id: req.params.id });
+      const postModel = await Post.findOneAndDelete({ _id: req.params.id });
       const deleteModel = await postModel.remove();
       res.status(200).json(deleteModel);
     } catch (err) {
