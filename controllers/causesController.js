@@ -35,7 +35,7 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const causeModel = await Cause.findOneAndUpdate(
+      const causeModel = await Cause.findByIdAndUpdate(
         { _id: req.params.id },
         req.body
       );

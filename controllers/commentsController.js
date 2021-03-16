@@ -3,7 +3,7 @@ const { Comment } = require("../models/");
 module.exports = {
   getComments: async (req, res) => {
     try {
-      const getAllComment = await Comment.find({}).populate({
+      const getAllComment = await Comment.find().populate({
         path: "user",
         path: "likes",
         populate: {
