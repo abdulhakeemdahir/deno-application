@@ -22,7 +22,7 @@ const conversationSchema = new Schema(
 const messagesSchema = new Schema(
   {
     sender: {
-      type: Scheme.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User"
     },
     message: {
