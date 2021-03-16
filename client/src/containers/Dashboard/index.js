@@ -21,6 +21,7 @@ import Post from "../../components/Post";
 import Causes from "../../components/Causes";
 import About from "../../components/About";
 import Footer from "../../components/Footer";
+// import Splash from "../../components/Splash";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -260,6 +261,7 @@ export default function Main() {
 					)}
 				</Grid>
 				<Gradient />
+				{/* <Splash /> */}
 				<Footer />
 			</CssBaseline>
 		</div>
