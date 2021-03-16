@@ -25,17 +25,6 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  updateConversation: async (req, res) => {
-    try {
-      const convoModel = await Conversation.findOneAndUpdate(
-        { _id: req.params.id },
-        req.body
-      );
-      res.status(200).json(convoModel);
-    } catch (err) {
-      res.status(422).json(err);
-    }
-  },
   createMessage: async (req, res) => {
     try {
       const messageModel = await Message.create(req.body);
