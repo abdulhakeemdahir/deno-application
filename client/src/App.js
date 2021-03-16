@@ -1,7 +1,8 @@
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Landing from "./containers/Landing";
-import Main from "./containers/Main/Main";
+import Main from "./containers/Main";
+import Dashboard from "./containers/Dashboard";
 
 const theme = createMuiTheme({
 	palette: {
@@ -22,6 +23,7 @@ function App() {
 				<div className='App'>
 					<Switch>
 						<Route path='/main' exact component={Main} />
+						<Route path='/dashboard' exact component={Dashboard} />
 						<Route path='/' exact component={Landing} />
 					</Switch>
 				</div>
