@@ -6,10 +6,8 @@ router
   .get(messengerController.getConversation)
   .get(messengerController.getMessages)
   .post(messengerController.createConversation)
-  .update(messengerController.createMessage);
+  .put(messengerController.createMessage);
 
-router
-  .route("messenger/:messageId/:id")
-  .update(messengerController.updateMessage);
+router.route("messenger/:messageId/:id").put(messengerController.updateMessage);
 
 module.exports = router;

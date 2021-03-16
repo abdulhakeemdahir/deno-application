@@ -16,19 +16,17 @@ router.route("/comments").post(hashtagsController.create);
 
 router
   .route("/posts/:id")
-  .update(hashtagsController.update)
-  .remove(hashtagsController.remove);
+  .put(hashtagsController.update)
+  .delete(hashtagsController.remove);
 
 router
   .route("/causes/:id")
-  .update(hashtagsController.update)
-  .remove(hashtagsController.remove);
+  .put(hashtagsController.update)
+  .delete(hashtagsController.remove);
 
 router
   .route("/comments/:id")
-  .update(hashtagsController.update)
-  .remove(hashtagsController.remove);
-
-router.route("/user/:id").get(hashtagsController.findUserPosts);
+  .put(hashtagsController.update)
+  .delete(hashtagsController.remove);
 
 module.exports = router;
