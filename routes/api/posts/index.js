@@ -6,8 +6,8 @@ router
   .get(postController.findFollowing)
   .get(postController.findTrending)
   .post(postController.create)
-  .update(postController.update)
-  .remove(postController.remove);
+  .put(postController.update)
+  .delete(postController.remove);
 
 router.route("/user/:id").get(postController.findUserPosts);
 

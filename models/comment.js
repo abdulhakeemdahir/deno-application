@@ -15,14 +15,6 @@ const commentSchema = new Schema({
     type: String,
     required: [true, "Comment can't be blank."],
     trim: true
-  },
-  post: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Posts"
-  },
-  cause: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Causes"
   }
 });
 
