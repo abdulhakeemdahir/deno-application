@@ -4,6 +4,5 @@ module.exports = {
   Cause: require("./cause.js"),
   Post: require("./post.js"),
   Comment: require("./comment.js"),
-  Conversation: require("./conversation.js")
+  Messenger: require("./messenger.js")
 };
-
