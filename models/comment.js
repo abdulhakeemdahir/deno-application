@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     require: true,
     ref: "Users"
   },
@@ -17,13 +17,19 @@ const commentSchema = new Schema({
     trim: true
   },
   post: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Posts"
   },
   cause: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Causes"
-  }
+  },
+  hashtags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Hashtags"
+    }
+  ]
 });
 
 const Comment = mongoose.model("Comment", commentSchema);
