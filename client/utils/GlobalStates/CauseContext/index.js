@@ -1,10 +1,19 @@
-import axios from "axios";
-import {createContext} from "react"
+import React, { createContext, useReducer, useContext } from "react";
+import reducer from "./causeReducer";
 
-export const CauseContext = createContext(null);
+const CauseContext = createContext();
+const { Provider } = CauseContext;
 
-export default {
-  getCausePost: async (causeData) => {
-    return axios.get();
-  }
-}
+const CauseProvider = ({ value = [], ...props }) => {
+  const [causeState, causeDispatch] = useReducer(reducer, {
+    _id: 0,
+  });
+
+  return <Provider value={[causeState, causeDispatch]} {...props} />;
+};
+
+const useCauseContext = () => {
+  return useContext(CauseContext);
+};
+
+export { CauseProvider, useCauseContext };
