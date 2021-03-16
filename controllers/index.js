@@ -1,7 +1,9 @@
 module.exports = {
-  authorizeControllers: require("./authorizeControllers.js"),
-  postController: require("./postsController.js"),
-  causeController: require("./causesController.js"),
-  commentsController: require("./commentsController.js"),
-  userControllers: require("./userControllers.js")
+  userController: require("./userControllers"),
+  postController: require("./postsController"),
+  causesController: require("./causesController"),
+  commentsController: require("./commentsController"),
+  messengerController: require("./messengerController"),
+  hashtagsController: require("./hashtagsController"),
+  authorizeControllers: require("./authorizeControllers.js")
 };
