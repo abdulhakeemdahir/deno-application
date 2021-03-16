@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
   title: { type: String, required: true },
   author: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: "Users"
   },
@@ -16,16 +16,20 @@ const postSchema = new Schema({
   date: { type: Date, default: Date.now },
   likes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Users"
     }
   ],
   comments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Comments"
     }
-  ]
+  ],
+  hashtags: {
+    type: Schema.Types.ObjectId,
+    ref: "Hashtag"
+  }
 });
 
 postSchema.methods.handleLike = async function(userId) {

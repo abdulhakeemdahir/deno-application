@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     require: true,
     ref: "Users"
   },
@@ -15,7 +15,14 @@ const commentSchema = new Schema({
     type: String,
     required: [true, "Comment can't be blank."],
     trim: true
-  }
+  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: [false]
+    }
+  ]
 });
 
 const Comment = mongoose.model("Comment", commentSchema);

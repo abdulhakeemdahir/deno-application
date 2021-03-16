@@ -6,7 +6,7 @@ const useStyles = makeStyles({
 	paper: {
 		background:
 			"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		borderRadius: "10px",
+		borderRadius: "0px",
 		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
 		padding: "20px",
 	},
@@ -31,10 +31,14 @@ const useStyles = makeStyles({
 		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
 		color: "#ffffff",
 		padding: "15px",
+		borderRadius: "0px",
 	},
 	styleSecondary: {
 		background: "linear-gradient(-135deg,#899fd4,#a389d4)",
 		color: "#ffffff",
+	},
+	styleIcon: {
+		background: "#3f4d67",
 	},
 });
 export default function Signin() {
@@ -49,7 +53,7 @@ export default function Signin() {
 			className={classes.paper}
 		>
 			<Grid item align='center'>
-				<Avatar className={classes.styleMain}>
+				<Avatar className={classes.styleIcon}>
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography variation='h6' color='default'>

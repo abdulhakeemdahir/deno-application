@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const causeSchema = new Schema({
   title: { type: String, required: true },
   author: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: "Users"
   },
@@ -23,6 +23,12 @@ const causeSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
       required: [false]
+    }
+  ],
+  hashtags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Hashtags"
     }
   ]
 });
