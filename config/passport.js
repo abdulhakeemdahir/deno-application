@@ -7,8 +7,7 @@ const access = require("./options")("access");
 //options for jwt authentication method
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: access,
-  algorithms: ["RS256"]
+  secretOrKey: access
 };
 
 const strategy = new JwtStrategy(options, async (payload, done) => {

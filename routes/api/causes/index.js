@@ -13,7 +13,7 @@ router.route("/create/cause").post(causeController.create);
 // The route for updating or deleting a cause.
 router
   .route("/update/cause/:id")
-  .update(causeController.update)
-  .remove(causeController.remove);
+  .put(causeController.update)
+  .delete(causeController.remove);
 
 module.exports = router;

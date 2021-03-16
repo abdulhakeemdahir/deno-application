@@ -6,7 +6,7 @@ class Mail {
     this.siteUrl = require("./options.js")("siteUrl");
   }
   html(key, action) {
-    return `<h2>Welcome to Working Out Buddies</h2>
+    return `<h2>Dono</h2>
     <br>
           <h3>${action} Code:   ${key}</h3><br>
           <a href="${this.siteUrl}${action}">Press link to ${action}</a>

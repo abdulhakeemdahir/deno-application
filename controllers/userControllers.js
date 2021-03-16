@@ -1,57 +1,56 @@
 const { User } = require("../models");
-const { createPassword, comparePassword } = require("../config/bcrypt.js");
-const JWT = require("../config/jwt");
-const jwt = new JWT();
+const { createPassword } = require("../config/bcrypt.js");
 
-// Defining methods for the bookController
 module.exports = {
-  signUp: async ({ body }, res) => {
-    const { firstName, lastname, username, password, role, email } = body;
-
+  getUser: async () => {
     try {
-      const createUser = await User.create({
-        firstName: firstName,
-        lastname: lastname,
-        username: username,
-        password: await createPassword(password),
-        role: role,
-        email: email
-      });
-      console.log(createUser);
-      res
-        .status(200)
-        .json(
-          "We created your account kindly activate your account " +
-            createUser.firstName
-        );
+      const user = await User.findById({ _id: req.params.id })
+        .select("firstName lastname username email role profileImg bannerImg")
+        .populate({
+          path: "following",
+          populate: {
+            path: "user",
+            model: "User"
+          },
+          path: "followers",
+          populate: {
+            path: "user",
+            model: "User"
+          },
+          path: "posts",
+          populate: {
+            path: "user",
+            model: "User"
+          }
+        });
+      res.status(200).json(user);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },
-
-  login: async (req, res) => {
-    const { username, password } = req.body;
-
-    // Find user by username
-    const user = await User.findOne({ username: username });
-    // If user is not found then send back error message
-
-    if (!user) {
-      return res.json("Email or password is invalid.");
+  updateUser: async () => {
+    try {
+      await User.findOneAndUpdate({ _id: req.params.id }, req.body);
+      res.status(200).json(causeModel);
+    } catch (err) {
+      res.status(422).json(err);
     }
-
-    //check password
-    const isMatch = await comparePassword(password, user.password);
-    // If password doesn't match then error message
-
-    if (!isMatch) {
-      return res.json("Email or password is invalid.");
+  },
+  deleteUser: async () => {
+    try {
+      const deletedUser = await User.findByIdAndRemove({ _id: req.params.id });
+      res.status(200).json(deletedUser);
+    } catch (err) {
+      res.status(422).json(err);
     }
-    //if all password matches then issue a token for the user
-    const createToken = jwt.issueToken(user._id, user.username);
-
-    //return sign token
-    return createToken;
+  },
+  updatePassword: async () => {
+    const hash = await createPassword(req.body.password);
+    try {
+      await User.findOneAndUpdate({ _id: req.params.id }, { password: hash });
+      res.status(200).json(causeModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
   }
 };
