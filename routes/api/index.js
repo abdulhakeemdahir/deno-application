@@ -6,7 +6,6 @@ const comments = require("./comments");
 const users = require("./users");
 const hashtags = require("./hashtags");
 
-
 //user  routes
 router.use("/authorize", authorize);
 router.use("/users", users);
