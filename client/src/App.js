@@ -19,10 +19,10 @@ function App() {
 	return (
 		<Router>
 			<MuiThemeProvider theme={theme}>
-				<div className='App'>
+				<div className="App">
 					<Switch>
-						<Route path='/main' exact component={Main} />
-						<Route path='/' exact component={Landing} />
+						<Route path="/main" exact component={Main} />
+						<Route path="/" exact component={Landing} />
 					</Switch>
 				</div>
 			</MuiThemeProvider>
