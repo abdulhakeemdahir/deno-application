@@ -1,0 +1,19 @@
+.MuiInputBase-root,
+.MuiButtonBase-root {
+	border-radius: 0 !important;
+}
+
+.cardPost {
+	background: rgba(255, 255, 255, 0.6);
+	border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+	padding: 10px;
+	margin: 15px 0px;
+	align-items: center;
+	text-decoration: none;
+}
+
+.postStyle {
+	background: #fff !important;
+	margin: 5px;
+}

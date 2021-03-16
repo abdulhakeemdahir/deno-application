@@ -36,7 +36,7 @@ const userSchema = new Schema({
   },
   uuid: {
     type: String,
-    required: true
+    required: false
   },
   role: {
     type: String,
@@ -48,19 +48,19 @@ const userSchema = new Schema({
   },
   following: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Users"
     }
   ],
   followers: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Users"
     }
   ],
   posts: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Posts"
     }
   ],
@@ -75,7 +75,7 @@ const userSchema = new Schema({
 const organizationSchema = new Schema({
   causes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Causes"
     }
   ],
