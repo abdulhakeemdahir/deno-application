@@ -38,8 +38,12 @@ function App() {
                   <PostProvider>
                     <TrendProvider>
                       <Switch>
-                        <Route path='/main' exact component={Main} />
-                        <Route path='/' exact component={Landing} />
+                        <Route path='/main'>
+                          <Main id={id} />
+                        </Route>
+                        <Route path='/'>
+                          <Landing onLoginSetId={setId} />
+                        </Route>
                       </Switch>
                     </TrendProvider>
                   </PostProvider>
