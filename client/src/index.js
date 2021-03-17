@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import {StoreProvider} from "./utils/GlobalStates/store"
+import {StoreProvider} from "./utils/GlobalStates/AuthStore"
 
 ReactDOM.render(
 	<React.StrictMode>

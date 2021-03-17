@@ -7,7 +7,7 @@ import { CauseProvider } from "./utils/GlobalStates/CauseContext";
 import { NewsProvider } from "./utils/GlobalStates/NewsContext";
 import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { TrendProvider } from "./utils/GlobalStates/TrendContext";
-import { useAuthTokenStore } from ".utils/auth.js";
+import { useAuthTokenStore } from "./utils/auth.js";
 // import Main from "./containers/Main";
 import Dashboard from "./containers/Dashboard";
 
