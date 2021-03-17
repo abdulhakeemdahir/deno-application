@@ -6,6 +6,12 @@
 	margin: 10px;
 }
 
+.cardComment {
+	background: #ffffff;
+	border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+}
+
 .media {
 	height: 0;
 	padding-top: 56.25%;
@@ -19,7 +25,7 @@
 	text-transform: lowercase;
 	border-radius: 0px;
 	padding: 2px;
-	margin-left: 15px !important;
+	/* margin-top: 5px !important; */
 }
 
 .authorStyle {
