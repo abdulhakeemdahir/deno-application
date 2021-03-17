@@ -81,163 +81,216 @@ function useWindowDimensions() {
 // const useStyles = makeStyles(theme => ({}));
 
 export default function Main() {
-  const [trendingState] = useState([
-    {
-      hashTag: "Save the Dolphins",
-      url: "#"
-    },
-    {
-      hashTag: "Save the Elephants",
-      url: "#"
-    },
-    {
-      hashTag: "Save the Whales",
-      url: "#"
-    }
-  ]);
 
-  const [newsState] = useState([
-    {
-      title: "Dolphins Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Dolphin,
-      post:
-        "We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
-      hashTag: "Save the Dolphins"
-    },
-    {
-      title: "Elephant Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Elephant,
-      post:
-        "We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
-      hashTag: "Save the Elephant"
-    },
-    {
-      title: "Whale Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Whale,
-      post:
-        "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-      hashTag: "Save the Whale"
-    }
-  ]);
+	const [trendingState] = useState([
+		{
+			hashTag: "Save the Dolphins",
+			url: "#",
+		},
+		{
+			hashTag: "Save the Elephants",
+			url: "#",
+		},
+		{
+			hashTag: "Save the Whales",
+			url: "#",
+		},
+	]);
 
-  // const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+	const [newsState] = useState([
+		{
+			title: "Dolphins Preservation",
+			author: "Abdul",
+			url: "#",
+			thumbnail: Dolphin,
+			post:
+				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
+			hashTag: "Save the Dolphins",
+			comments: [
+				{
+					author: "Jake",
+					post: "This is a test comment",
+				},
+				{
+					author: "Bobby",
+					post: "This is a test comment",
+				},
+				{
+					author: "Drake",
+					post: "This is a test comment",
+				},
+			],
+		},
+		{
+			title: "Elephant Preservation",
+			author: "Abdul",
+			url: "#",
+			thumbnail: Elephant,
+			post:
+				"We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
+			hashTag: "Save the Elephant",
+			comments: [
+				{
+					author: "Chris",
+					post: "This is a test comment",
+				},
+				{
+					author: "Sherman",
+					post: "This is a test comment",
+				},
+				{
+					author: "Drake",
+					post: "This is a test comment",
+				},
+			],
+		},
+		{
+			title: "Whale Preservation",
+			author: "Abdul",
+			url: "#",
+			thumbnail: Whale,
+			post:
+				"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+			hashTag: "Save the Whale",
+			comments: [
+				{
+					author: "Ani",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+				{
+					author: "Stewart",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+				{
+					author: "Cassandra",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+				{
+					author: "Cassandra",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+			],
+		},
+	]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+	// const classes = useStyles();
+	const [value, setValue] = React.useState(0);
 
-  const { width } = useWindowDimensions();
-  return (
-    <div className='Main'>
-      <CssBaseline>
-        <Nav />
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 
-        <Grid
-          container
-          direction='row'
-          justify='center'
-          className={"container"}
-          xs={12}
-          lg={10}
-          xl={8}
-        >
-          {width > 600 ? (
-            <>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>TRENDING</Typography>
-                  {trendingState.map(card => (
-                    <Trending hashTag={card.hashTag} link={card.url} />
-                  ))}
-                </Grid>
-                <Grid item xs={12} sm={6} className='card-container'>
-                  <Typography variant='subtitle2'>NEWS FEED</Typography>
-                  {newsState.map(card => (
-                    <News
-                      title={card.title}
-                      author={card.author}
-                      link={card.url}
-                      image={card.thumbnail}
-                      post={card.post}
-                      hashTag={card.hashTag}
-                    />
-                  ))}
-                </Grid>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>CAUSES</Typography>
-                  {newsState.map(card => (
-                    <Causes
-                      title={card.title}
-                      author={card.author}
-                      link={card.url}
-                      image={card.thumbnail}
-                      post={card.post}
-                      hashTag={card.hashTag}
-                    />
-                  ))}
-                </Grid>
-              </Grid>
-            </>
-          ) : (
-            <>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label='simple tabs example'
-              >
-                <Tab label='News' {...a11yProps(0)} />
-                <Tab label='Trending' {...a11yProps(1)} />
-                <Tab label='Causes' {...a11yProps(2)} />
-              </Tabs>
-              <TabPanel value={value} index={0}>
-                <Grid item xs={12}>
-                  {newsState.map(card => (
-                    <News
-                      title={card.title}
-                      author={card.author}
-                      link={card.url}
-                      image={card.thumbnail}
-                      post={card.post}
-                      hashTag={card.hashTag}
-                    />
-                  ))}
-                </Grid>
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <Grid item xs={12}>
-                  {trendingState.map(card => (
-                    <Trending hashTag={card.hashTag} link={card.url} />
-                  ))}
-                </Grid>
-              </TabPanel>
-              <TabPanel value={value} index={2}>
-                <Grid item xs={12}>
-                  {newsState.map(card => (
-                    <Causes
-                      title={card.title}
-                      author={card.author}
-                      link={card.url}
-                      image={card.thumbnail}
-                      post={card.post}
-                      hashTag={card.hashTag}
-                    />
-                  ))}
-                </Grid>
-              </TabPanel>
-            </>
-          )}
-        </Grid>
-        <Gradient />
-        {/* <Splash /> */}
-        <Footer />
-      </CssBaseline>
-    </div>
-  );
+	const { width } = useWindowDimensions();
+	return (
+		<div className='Main'>
+			<CssBaseline>
+				<Nav />
+
+				<Grid
+					container
+					direction='row'
+					justify='center'
+					className={"container"}
+					xs={12}
+					lg={10}
+					xl={8}
+				>
+					{width > 600 ? (
+						<>
+							<Grid container spacing={2}>
+								<Grid item xs={12} sm={3} className='card-container'>
+									<Typography variant='subtitle2'>TRENDING</Typography>
+									{trendingState.map(card => (
+										<Trending hashTag={card.hashTag} link={card.url} />
+									))}
+								</Grid>
+								<Grid item xs={12} sm={6} className='card-container'>
+									<Typography variant='subtitle2'>NEWS FEED</Typography>
+									{newsState.map(card => (
+										<News
+											title={card.title}
+											author={card.author}
+											link={card.url}
+											image={card.thumbnail}
+											post={card.post}
+											hashTag={card.hashTag}
+											comments={card.comments}
+										/>
+									))}
+								</Grid>
+								<Grid item xs={12} sm={3} className='card-container'>
+									<Typography variant='subtitle2'>CAUSES</Typography>
+									{newsState.map(card => (
+										<Causes
+											title={card.title}
+											author={card.author}
+											link={card.url}
+											image={card.thumbnail}
+											post={card.post}
+											hashTag={card.hashTag}
+										/>
+									))}
+								</Grid>
+							</Grid>
+						</>
+					) : (
+						<>
+							<Tabs
+								value={value}
+								onChange={handleChange}
+								aria-label='simple tabs example'
+							>
+								<Tab label='News' {...a11yProps(0)} />
+								<Tab label='Trending' {...a11yProps(1)} />
+								<Tab label='Causes' {...a11yProps(2)} />
+							</Tabs>
+							<TabPanel value={value} index={0}>
+								<Grid item xs={12}>
+									{newsState.map(card => (
+										<News
+											title={card.title}
+											author={card.author}
+											link={card.url}
+											image={card.thumbnail}
+											post={card.post}
+											hashTag={card.hashTag}
+											comments={card.comments}
+										/>
+									))}
+								</Grid>
+							</TabPanel>
+							<TabPanel value={value} index={1}>
+								<Grid item xs={12}>
+									{trendingState.map(card => (
+										<Trending hashTag={card.hashTag} link={card.url} />
+									))}
+								</Grid>
+							</TabPanel>
+							<TabPanel value={value} index={2}>
+								<Grid item xs={12}>
+									{newsState.map(card => (
+										<Causes
+											title={card.title}
+											author={card.author}
+											link={card.url}
+											image={card.thumbnail}
+											post={card.post}
+											hashTag={card.hashTag}
+										/>
+									))}
+								</Grid>
+							</TabPanel>
+						</>
+					)}
+				</Grid>
+				<Gradient />
+				{/* <Splash /> */}
+				<Footer />
+			</CssBaseline>
+		</div>
+	);
 }
