@@ -57,14 +57,13 @@ export default function Post() {
 							rowsMax={4}
 							className={classes.inputMargin}
 						/>
-						{/* <TextField
+						<TextField
 							id='hashTag'
 							label='Hash Tag'
 							multiline
 							rowsMax={4}
 							className={classes.inputMargin}
-							variant='filled'
-						/> */}
+						/>
 						<TextField
 							id='imageUrl'
 							label='Image Url'
