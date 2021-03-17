@@ -7,6 +7,10 @@ const passport = require("./config/passport");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Define socket.io server
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -29,6 +33,24 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
 });
 
 // Start the API server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
+
+io.on("connection", socket => {
+  console.log("User Connected: ", socket.id);
+  const id = socket.handshake.query.id;
+  socket.join(id);
+
+  socket.on("send-message", ({ recipients, text }) => {
+    recipients.forEach(recipient => {
+      const newRecipients = recipients.filter(newR => newR !== recipient);
+      newRecipients.push(id);
+      socket.broadcast.to(recipient).emit("receive-message", {
+        recipients: newRecipients,
+        sender: id,
+        text
+      });
+    });
+  });
 });
