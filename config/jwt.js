@@ -11,11 +11,14 @@ class JWT {
 
   async sign(payload) {
     //creates a token by sending user id and date creted as payload, access key, and time created
-    const token = await this.jwtSign(payload, this.access, {
-      expiresIn: this.expires,
-      algorithm: "RS256"
-    });
-    return token;
+    try {
+      const token = await this.jwtSign(payload, this.access, {
+        expiresIn: this.expires
+      });
+      return token;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   //this verifies if token is still valid
@@ -25,19 +28,18 @@ class JWT {
   }
 
   //issue a token for each user by sending in _id then return bearer token and expire time
-  issueToken(user) {
-    const _id = user._id;
-
+  async issueToken({ email, username }) {
     const expiresIn = this.expires;
 
     const payload = {
-      sub: _id,
-      iat: Date.now()
+      email: email,
+      username: username
     };
 
-    const signedToken = this.sign(payload);
+    const signedToken = await this.sign(payload);
 
     return {
+      success: true,
       token: "Bearer " + signedToken,
       expires: expiresIn
     };
