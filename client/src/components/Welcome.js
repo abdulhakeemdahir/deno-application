@@ -1,6 +1,6 @@
 import { Typography, Grid, Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import Logo from "../images/logo@2x.png";
+import Logo from "../images/logo@2x.png";
 
 const useStyles = makeStyles({
 	paper: {
@@ -42,7 +42,7 @@ export default function Welcome() {
 
 	return (
 		<Grid item align='center'>
-			{/* <img src={Logo} alt='logo' style={{ height: "50px", width: "auto" }} /> */}
+			<img src={Logo} alt='logo' style={{ height: "50px", width: "auto" }} />
 			<Typography variant='h3' color='primary' style={{ fontWeight: "100" }}>
 				Welcome to Dono
 			</Typography>

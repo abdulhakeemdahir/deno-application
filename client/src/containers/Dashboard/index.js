@@ -21,7 +21,7 @@ import Post from "../../components/Post";
 import Causes from "../../components/Causes";
 import About from "../../components/About";
 import Footer from "../../components/Footer";
-// import Splash from "../../components/Splash";
+// import Splash from "../../components/Splash2";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -90,7 +90,7 @@ export default function Main() {
 			url: "#",
 			thumbnail: NGO,
 			bio:
-				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
+				"We need to save the Elephant! They are the humans of the Savanah! Plus, they were in the Lion King!",
 			followers: "5000",
 			website: "google.com",
 			address: "123 45th St, Seattle, WA 98188",
@@ -107,6 +107,20 @@ export default function Main() {
 			post:
 				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
 			hashTag: "Save the Dolphins",
+			comments: [
+				{
+					author: "Jake",
+					post: "This is a test comment",
+				},
+				{
+					author: "Bobby",
+					post: "This is a test comment",
+				},
+				{
+					author: "Drake",
+					post: "This is a test comment",
+				},
+			],
 		},
 		{
 			title: "Elephant Preservation",
@@ -116,6 +130,20 @@ export default function Main() {
 			post:
 				"We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
 			hashTag: "Save the Elephant",
+			comments: [
+				{
+					author: "Chris",
+					post: "This is a test comment",
+				},
+				{
+					author: "Sherman",
+					post: "This is a test comment",
+				},
+				{
+					author: "Drake",
+					post: "This is a test comment",
+				},
+			],
 		},
 		{
 			title: "Whale Preservation",
@@ -125,6 +153,28 @@ export default function Main() {
 			post:
 				"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
 			hashTag: "Save the Whale",
+			comments: [
+				{
+					author: "Ani",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+				{
+					author: "Stewart",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+				{
+					author: "Cassandra",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+				{
+					author: "Cassandra",
+					post:
+						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+				},
+			],
 		},
 	]);
 
@@ -181,6 +231,7 @@ export default function Main() {
 											image={card.thumbnail}
 											post={card.post}
 											hashTag={card.hashTag}
+											comments={card.comments}
 										/>
 									))}
 								</Grid>
@@ -221,6 +272,7 @@ export default function Main() {
 											image={card.thumbnail}
 											post={card.post}
 											hashTag={card.hashTag}
+											comments={card.comments}
 										/>
 									))}
 								</Grid>

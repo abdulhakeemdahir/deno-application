@@ -5,7 +5,7 @@ export default function Trending(props) {
 	return (
 		<div className='cardTrending'>
 			<a href={props.link} className='textStyle'>
-				<Typography variant='subtitle3' style={{ fontWeight: "bold" }}>
+				<Typography variant='body3'>
 					<TrendingUpIcon className='iconStyle' /> {props.hashTag}{" "}
 				</Typography>
 			</a>
