@@ -8,7 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
-import Nav from "../../components/navigation/Nav";
+import Nav from "../../components/Navigation/Nav";
 import News from "../../components/News";
 // import defaultPic from "../../images/dp.png";
 import Elephant from "../../images/elephant.jpeg";

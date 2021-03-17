@@ -4,6 +4,7 @@ class Mail {
     this.nodemailer = require("nodemailer");
     this.mailPass = require("./options.js")("mailPass");
     this.siteUrl = require("./options.js")("siteUrl");
+    this.user = require("./options.js")("user");
   }
   html(key, action) {
     return `<h2>Dono</h2>
@@ -23,11 +24,11 @@ class Mail {
   }
   createTransporter() {
     return this.nodemailer.createTransport({
-      host: "smtp.mailgun.org",
+      host: "smtp.gmail.com",
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: "postmaster@workout-buddies.site", // generated ethereal user
+        user: this.user, // generated ethereal user
         pass: this.mailPass // generated ethereal password
       },
       tls: {
