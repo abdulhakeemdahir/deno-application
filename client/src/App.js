@@ -9,6 +9,8 @@ import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { TrendProvider } from "./utils/GlobalStates/TrendContext";
 // import Main from "./containers/Main";
 import Dashboard from "./containers/Dashboard";
+import { SocketProvider } from "./utils/GlobalStates/SocketProvider";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const theme = createMuiTheme({
   palette: {
@@ -23,24 +25,28 @@ const theme = createMuiTheme({
   }
 });
 function App() {
+  const [id, setId] = useLocalStorage();
+
   return (
     <Router>
       <MuiThemeProvider theme={theme}>
         <div className='App'>
-          <UserProvider>
-            <CauseProvider>
-              <NewsProvider>
-                <PostProvider>
-                  <TrendProvider>
-                    <Switch>
-                      <Route path='/main' exact component={Main} />
-                      <Route path='/' exact component={Landing} />
-                    </Switch>
-                  </TrendProvider>
-                </PostProvider>
-              </NewsProvider>
-            </CauseProvider>
-          </UserProvider>
+          <SocketProvider id={id}>
+            <UserProvider>
+              <CauseProvider>
+                <NewsProvider>
+                  <PostProvider>
+                    <TrendProvider>
+                      <Switch>
+                        <Route path='/main' exact component={Main} />
+                        <Route path='/' exact component={Landing} />
+                      </Switch>
+                    </TrendProvider>
+                  </PostProvider>
+                </NewsProvider>
+              </CauseProvider>
+            </UserProvider>
+          </SocketProvider>
         </div>
       </MuiThemeProvider>
     </Router>
