@@ -138,10 +138,11 @@ export const useLogin = () => {
     
         const { data: { token: tokenString, user } } = await api.login( credentials );
 
+
         const token = setAuthToken( tokenString );
 
         dispatch({ type: LOGIN_USER, payload: { token, user } });
-
+        
         return token;
         
     }

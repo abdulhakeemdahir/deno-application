@@ -51,7 +51,8 @@ class API {
      */
     login( userData ) {
 
-        return this.axios.post("/api/authenticate/authenticated", userData);
+
+        return this.axios.post("/api/authenticate/login", userData);
 
     }
 
