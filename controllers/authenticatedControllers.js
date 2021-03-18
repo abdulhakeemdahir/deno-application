@@ -72,7 +72,7 @@ module.exports = {
       console.log(err);
     }
   },
-  protected: async (req, res) => {
-    res.json("Son you are working");
+  authenticated: async (req, res) => {
+    res.json(req.user);
   }
 };

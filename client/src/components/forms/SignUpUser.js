@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import api from "../../utils/api.js";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -37,17 +34,44 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpUser() {
-	const [state, setState] = React.useState({
-		age: "",
-		name: "hai",
-	});
+	// const [state, setState] = useState({
+	// 	age: "",
+	// 	name: "hai",
+	// });
 
-	const handleChange = function(event) {
-		const name = event.target.name;
-		setState({
-			...state,
-			[name]: event.target.value,
-		});
+	const emailRef = useRef();
+	const userNameRef = useRef();
+	const passwordRef = useRef();
+	const firstNameRef = useRef();
+	const lastNameRef = useRef();
+	// const roleNameRef = useRef();
+
+	const handleSubmit = async e => {
+		e.preventDefault();
+
+		const email = emailRef.current.value;
+		const password = passwordRef.current.value;
+		const username = emailRef.current.value;
+		const firstName = passwordRef.current.value;
+		const lastName = emailRef.current.value;
+		const roleNameRef = passwordRef.current.value;
+
+		try {
+			// Register the user.
+			await api.register({
+				email,
+				password,
+				username,
+				firstName,
+				lastName,
+				roleNameRef,
+			});
+
+			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+		} catch (err) {
+			// Handle error responses from the API. This will include
+			if (err.response && err.response.data) console.log(err.response.data);
+		}
 	};
 
 	const classes = useStyles();
@@ -68,10 +92,11 @@ export default function SignUpUser() {
 					Sign Up
 				</Typography>
 			</Grid>
-			<form autoComplete='off'>
+			<form autoComplete='off' onSubmit={handleSubmit}>
 				<TextField
 					// name='firstName'
 					// value=''
+					ref={firstNameRef}
 					variant='outlined'
 					label='Firstname'
 					placeholder='Enter First Name'
@@ -81,6 +106,7 @@ export default function SignUpUser() {
 				<TextField
 					// name='lastName'
 					// value=''
+					ref={lastNameRef}
 					variant='outlined'
 					label='Lastname'
 					placeholder='Enter Last Name'
@@ -99,6 +125,7 @@ export default function SignUpUser() {
 				<TextField
 					// name='userName'
 					// value=''
+					ref={userNameRef}
 					variant='outlined'
 					label='Username'
 					placeholder='Enter Username'
@@ -108,6 +135,7 @@ export default function SignUpUser() {
 				<TextField
 					// name='password'
 					// value=''
+					ref={passwordRef}
 					variant='outlined'
 					label='Password'
 					placeholder='Enter Password'
@@ -115,7 +143,6 @@ export default function SignUpUser() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-
 				<Button size='large' className={classes.styleMain} fullWidth>
 					Sign Up
 				</Button>
