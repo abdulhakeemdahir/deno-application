@@ -7,9 +7,10 @@ import { CauseProvider } from "./utils/GlobalStates/CauseContext";
 import { NewsProvider } from "./utils/GlobalStates/NewsContext";
 import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { TrendProvider } from "./utils/GlobalStates/TrendContext";
-import { useAuthTokenStore } from "./utils/auth.js";
+import { useAuthTokenStore, useIsAuthenticated } from "./utils/auth.js";
 // import Main from "./containers/Main";
 import Dashboard from "./containers/Dashboard";
+
 
 const theme = createMuiTheme({
   palette: {
@@ -26,6 +27,8 @@ const theme = createMuiTheme({
 function App() {
 
   useAuthTokenStore();
+
+  const isAuthenticated = useIsAuthenticated()
 
   return (
     <Router>
