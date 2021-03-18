@@ -28,15 +28,15 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  updateUser: async () => {
+  updateUser: async (req, res) => {
     try {
-      await User.findOneAndUpdate({ _id: req.params.id }, req.body);
+      await User.findByIdAndUpdate({ _id: req.params.id }, req.body);
       res.status(200).json(causeModel);
     } catch (err) {
       res.status(422).json(err);
     }
   },
-  deleteUser: async () => {
+  deleteUser: async (req, res) => {
     try {
       const deletedUser = await User.findByIdAndRemove({ _id: req.params.id });
       res.status(200).json(deletedUser);

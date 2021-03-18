@@ -8,9 +8,28 @@ const jwt = new JWT();
 // Defining methods for the authorizeControllers
 module.exports = {
   signUp: async ({ body }, res) => {
-    console.log(body);
+    const {
+      firstName,
+      lastname,
+      username,
+      password,
+      role,
+      email,
+      orgName
+    } = body;
 
-    const { firstName, lastname, username, password, role, email } = body;
+    const userObject = {
+      firstName: firstName,
+      lastname: lastname,
+      username: username,
+      password: await createPassword(password),
+      role: role,
+      email: email
+    };
+
+    if (orgName) {
+      userObject.orgName = orgName;
+    }
 
     try {
       const isUser = await User.findOne({ username: username });
@@ -19,14 +38,8 @@ module.exports = {
         return res.status(402).json("This username has been used");
       }
 
-      const createUser = await User.create({
-        firstName: firstName,
-        lastname: lastname,
-        username: username,
-        password: await createPassword(password),
-        role: role,
-        email: email
-      });
+      const createUser = await User.create(userObject);
+
       const key = crypto();
 
       const mail = new Mail();

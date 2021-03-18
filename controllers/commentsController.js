@@ -26,7 +26,7 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      await Comment.findByIdAndUpdate(req.params.id);
+      await Comment.findByIdAndUpdate({ _id: req.params.id }, req.body);
       res.status(201).json("Updated Comment");
     } catch (err) {
       res.status(422).json(err);
