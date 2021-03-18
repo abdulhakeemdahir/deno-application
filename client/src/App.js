@@ -33,16 +33,12 @@ function App() {
         <div className='App'>
           <UserProvider>
             <CauseProvider>
-              <NewsProvider>
                 <PostProvider>
-                  <TrendProvider>
                     <Switch>
                       <Route path='/main' exact component={Main} />
                       <Route path='/' exact component={Landing} />
                     </Switch>
-                  </TrendProvider>
                 </PostProvider>
-              </NewsProvider>
             </CauseProvider>
           </UserProvider>
         </div>
