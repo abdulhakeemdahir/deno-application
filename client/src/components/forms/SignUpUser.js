@@ -3,6 +3,7 @@ import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../utils/api.js";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -40,7 +41,7 @@ export default function SignUpUser() {
 		username: "",
 		firstName: "",
 		lastname: "",
-		role: "",
+		role: "Personal",
 	});
 
 	const handleChange = function(event) {
@@ -51,13 +52,17 @@ export default function SignUpUser() {
 		});
 	};
 
+	const history = useHistory()
+
 	const handleSubmit = async event => {
 		event.preventDefault();
 
 		try {
 			// Register the user.
-			await api.register(setStateSignUp);
-
+			await api.register(stateSignUp);
+			
+			history.go(0);
+			
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
 			// Handle error responses from the API. This will include
@@ -68,78 +73,83 @@ export default function SignUpUser() {
 	const classes = useStyles();
 
 	return (
-		<Grid
-			container
-			direction='column'
-			justify='center'
-			alignItems='center'
-			className={classes.paper}
-		>
-			<Grid item align='center'>
-				<Avatar className={classes.styleIcon}>
-					<CreateIcon />
-				</Avatar>
-				<Typography variation='h6' color='default'>
-					Sign Up
-				</Typography>
-			</Grid>
-			<form autoComplete='off' onSubmit={handleSubmit}>
-				<TextField
-					name='firstName'
-					value={stateSignUp.firstName}
-					onChange={handleChange}
-					variant='outlined'
-					label='Firstname'
-					placeholder='Enter First Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='lastname'
-					value={stateSignUp.lastname}
-					onChange={handleChange}
-					variant='outlined'
-					label='Lastname'
-					placeholder='Enter Last Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='email'
-					value={stateSignUp.email}
-					onChange={handleChange}
-					variant='outlined'
-					label='email'
-					placeholder='Enter Email'
-					fullWidth
-					type='email'
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='username'
-					value={stateSignUp.username}
-					onChange={handleChange}
-					variant='outlined'
-					label='Username'
-					placeholder='Enter Username'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='password'
-					value={stateSignUp.password}
-					onChange={handleChange}
-					variant='outlined'
-					label='Password'
-					placeholder='Enter Password'
-					type='password'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<Button size='large' className={classes.styleMain} fullWidth>
-					Sign Up
-				</Button>
-			</form>
-		</Grid>
-	);
+    <Grid
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      className={classes.paper}
+    >
+      <Grid item align="center">
+        <Avatar className={classes.styleIcon}>
+          <CreateIcon />
+        </Avatar>
+        <Typography variation="h6" color="default">
+          Sign Up
+        </Typography>
+      </Grid>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          name="firstName"
+          value={stateSignUp.firstName}
+          onChange={handleChange}
+          variant="outlined"
+          label="Firstname"
+          placeholder="Enter First Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="lastname"
+          value={stateSignUp.lastname}
+          onChange={handleChange}
+          variant="outlined"
+          label="Lastname"
+          placeholder="Enter Last Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="email"
+          value={stateSignUp.email}
+          onChange={handleChange}
+          variant="outlined"
+          label="email"
+          placeholder="Enter Email"
+          fullWidth
+          type="email"
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="username"
+          value={stateSignUp.username}
+          onChange={handleChange}
+          variant="outlined"
+          label="Username"
+          placeholder="Enter Username"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="password"
+          value={stateSignUp.password}
+          onChange={handleChange}
+          variant="outlined"
+          label="Password"
+          placeholder="Enter Password"
+          type="password"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <Button
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Sign Up
+        </Button>
+      </form>
+    </Grid>
+  );
 }

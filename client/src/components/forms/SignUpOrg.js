@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
+import api from "../../utils/api";
+import { useHistory } from "react-router";
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,66 +36,95 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpOrg() {
-	const [state, setState] = useState({
-		age: "",
-		name: "hai",
-	});
+	const [stateOrg, setStateOrg] = useState({
+    email: "",
+    password: "",
+    username: "",
+    firstName: "",
+    lastname: "",
+    role: "Organization",
+    orgName: "",
+  });
+
+  const history = useHistory();
 
 	const handleChange = function(event) {
-		const name = event.target.name;
-		setState({
-			...state,
-			[name]: event.target.value,
-		});
+		const { name, value } = event.target;
+    setStateOrg({
+      ...stateOrg,
+      [name]: value,
+    });
 	};
+
+	history.go(0);
+
+	const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Register the user.
+
+      await api.register(stateOrg);
+
+	  history.push("/");
+
+      // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+    } catch (err) {
+      // Handle error responses from the API. This will include
+      if (err.response && err.response.data) console.log(err.response.data);
+    }
+  };
 
 	const classes = useStyles();
 
 	return (
-		<Grid
-			container
-			direction='column'
-			justify='center'
-			alignItems='center'
-			className={classes.paper}
-		>
-			<Grid item align='center'>
-				<Avatar className={classes.styleIcon}>
-					<CreateIcon />
-				</Avatar>
-				<Typography variation='h6' color='default'>
-					Sign Up
-				</Typography>
-			</Grid>
-			<form autoComplete='off'>
-				<TextField
-					// name='firstName'
-					// value=''
-					variant='outlined'
-					label='Firstname'
-					placeholder='Enter First Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='lastName'
-					// value=''
-					variant='outlined'
-					label='Lastname'
-					placeholder='Enter Last Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Organization name'
-					placeholder='Enter Organization Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				{/* <TextField
+    <Grid
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      className={classes.paper}
+    >
+      <Grid item align="center">
+        <Avatar className={classes.styleIcon}>
+          <CreateIcon />
+        </Avatar>
+        <Typography variation="h6" color="default">
+          Sign Up
+        </Typography>
+      </Grid>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          name="firstName"
+          value={setStateOrg.firstName}
+          onChange={handleChange}
+          variant="outlined"
+          label="Firstname"
+          placeholder="Enter First Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="lastname"
+          value={setStateOrg.lastname}
+          onChange={handleChange}
+          variant="outlined"
+          label="Lastname"
+          placeholder="Enter Last Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="orgName"
+          value={setStateOrg.orgName}
+          onChange={handleChange}
+          variant="outlined"
+          label="Organization name"
+          placeholder="Enter Organization Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        {/* <TextField
 					// name='userName'
 					// value=''
 					variant='outlined'
@@ -120,38 +151,46 @@ export default function SignUpOrg() {
 					fullWidth
 					className={classes.mgstyle}
 				/> */}
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='E-mail'
-					placeholder='Enter E-mail'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Username'
-					placeholder='Enter Username'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='password'
-					// value=''
-					variant='outlined'
-					label='Password'
-					placeholder='Enter Password'
-					type='password'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<Button size='large' className={classes.styleMain} fullWidth>
-					Sign Up
-				</Button>
-			</form>
-		</Grid>
-	);
+        <TextField
+          name="email"
+          value={setStateOrg.email}
+          onChange={handleChange}
+          variant="outlined"
+          label="E-mail"
+          placeholder="Enter E-mail"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="username"
+          value={setStateOrg.username}
+          onChange={handleChange}
+          variant="outlined"
+          label="Username"
+          placeholder="Enter Username"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="password"
+          value={setStateOrg.password}
+          onChange={handleChange}
+          variant="outlined"
+          label="Password"
+          placeholder="Enter Password"
+          type="password"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <Button
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Sign Up
+        </Button>
+      </form>
+    </Grid>
+  );
 }
