@@ -8,7 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
-import Nav from "../../components/navigation/Nav";
+import Nav from "../../components/Navigation/Nav";
 import News from "../../components/News";
 // import defaultPic from "../../images/dp.png";
 import Elephant from "../../images/elephant.jpeg";
@@ -80,7 +80,7 @@ function useWindowDimensions() {
 
 // const useStyles = makeStyles(theme => ({}));
 
-export default function Main({ id }) {
+export default function Main() {
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
@@ -104,7 +104,21 @@ export default function Main({ id }) {
       thumbnail: Dolphin,
       post:
         "We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
-      hashTag: "Save the Dolphins"
+      hashTag: "Save the Dolphins",
+      comments: [
+        {
+          author: "Jake",
+          post: "This is a test comment"
+        },
+        {
+          author: "Bobby",
+          post: "This is a test comment"
+        },
+        {
+          author: "Drake",
+          post: "This is a test comment"
+        }
+      ]
     },
     {
       title: "Elephant Preservation",
@@ -113,7 +127,21 @@ export default function Main({ id }) {
       thumbnail: Elephant,
       post:
         "We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
-      hashTag: "Save the Elephant"
+      hashTag: "Save the Elephant",
+      comments: [
+        {
+          author: "Chris",
+          post: "This is a test comment"
+        },
+        {
+          author: "Sherman",
+          post: "This is a test comment"
+        },
+        {
+          author: "Drake",
+          post: "This is a test comment"
+        }
+      ]
     },
     {
       title: "Whale Preservation",
@@ -122,7 +150,29 @@ export default function Main({ id }) {
       thumbnail: Whale,
       post:
         "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-      hashTag: "Save the Whale"
+      hashTag: "Save the Whale",
+      comments: [
+        {
+          author: "Ani",
+          post:
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+        },
+        {
+          author: "Stewart",
+          post:
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+        },
+        {
+          author: "Cassandra",
+          post:
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+        },
+        {
+          author: "Cassandra",
+          post:
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+        }
+      ]
     }
   ]);
 
@@ -167,6 +217,7 @@ export default function Main({ id }) {
                       image={card.thumbnail}
                       post={card.post}
                       hashTag={card.hashTag}
+                      comments={card.comments}
                     />
                   ))}
                 </Grid>
@@ -206,6 +257,7 @@ export default function Main({ id }) {
                       image={card.thumbnail}
                       post={card.post}
                       hashTag={card.hashTag}
+                      comments={card.comments}
                     />
                   ))}
                 </Grid>

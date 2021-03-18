@@ -73,8 +73,8 @@ export default function Post() {
 						/>
 						<TextField
 							id='post'
-							label='Post a Comment'
-							variant='outlined'
+							label='Post a Message'
+							variant='filled'
 							multiline
 							rows={4}
 							fullWidth

@@ -8,7 +8,6 @@ import {
 	ListItem,
 	ListItemText,
 	Hidden,
-	Typography,
 	InputBase,
 	CssBaseline,
 } from "@material-ui/core";
@@ -116,12 +115,12 @@ export default function Nav() {
 							<img
 								src={Logo}
 								alt='logo'
-								style={{ height: "30px", width: "auto" }}
+								style={{ height: "40px", width: "auto" }}
 							/>{" "}
 							{/* <AccountCircle fontSize='large' /> */}
-							<Typography variant='h6' className={classes.logoText}>
+							{/* <Typography variant='h6' className={classes.logoText}>
 								Dono
-							</Typography>
+							</Typography> */}
 						</IconButton>
 						<div className={classes.search}>
 							<div className={classes.searchIcon}>
