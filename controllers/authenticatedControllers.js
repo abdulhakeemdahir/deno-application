@@ -8,6 +8,8 @@ const jwt = new JWT();
 // Defining methods for the authorizeControllers
 module.exports = {
   signUp: async ({ body }, res) => {
+    console.log(body);
+
     const { firstName, lastname, username, password, role, email } = body;
 
     try {
@@ -48,7 +50,7 @@ module.exports = {
 
       // Find user by username
       const user = await User.findOne({ username: username }).select(
-        "username email password"
+        "username email firstName lastname password"
       );
 
       // If user is not found then send back error message
@@ -59,7 +61,6 @@ module.exports = {
       //check password
       const isMatch = await comparePassword(password, user.password);
       // If password doesn't match then error message
-
       if (!isMatch) {
         return res.json("Email or password is invalid.");
       }

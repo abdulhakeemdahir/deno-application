@@ -1,6 +1,8 @@
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useState } from "react";
+import { useLogin } from "../../utils/auth";
 
 const useStyles = makeStyles({
 	paper: {
@@ -44,6 +46,39 @@ const useStyles = makeStyles({
 export default function Signin() {
 	const classes = useStyles();
 
+	const [stateSignIn, setStateSignIn] = useState({
+		email: "",
+		username: "" 
+	});
+
+	// Get the helper login function from the `useLogin` hook.
+    const login = useLogin();
+
+	const handleChange = function(event) {
+		const {name, value} = event.target;
+		setStateSignIn({
+			...stateSignIn,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = async (event) => {
+        event.preventDefault();
+		
+		try {
+
+        	await login(stateSignIn);
+
+            // User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+
+        } catch(err) {
+
+             // Handle error responses from the API
+             if( err.response && err.response.data ) console.log(err.response.data);
+
+        }
+    }
+
 	return (
 		<Grid
 			container
@@ -60,10 +95,11 @@ export default function Signin() {
 					Log In
 				</Typography>
 			</Grid>
-			<form autoComplete='off'>
+			<form autoComplete='off' onSubmit={handleSubmit}>
 				<TextField
-					// name='username'
-					// value=''
+					name='username'
+					value={stateSignIn.username}
+					onChange={handleChange}
 					variant='outlined'
 					label='Username'
 					placeholder='Enter Username'
@@ -71,8 +107,9 @@ export default function Signin() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='password'
-					// value=''
+					name='password'
+					value={stateSignIn.password}
+					onChange={handleChange}
 					variant='outlined'
 					label='Password'
 					placeholder='Enter Password'
@@ -80,7 +117,7 @@ export default function Signin() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<Button size='large' className={classes.styleMain} fullWidth>
+				<Button size='large' className={classes.styleMain} fullWidth onClick={handleSubmit}>
 					Log In
 				</Button>
 			</form>

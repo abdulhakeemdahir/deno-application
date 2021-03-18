@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
@@ -34,38 +34,29 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpUser() {
-	// const [state, setState] = useState({
-	// 	age: "",
-	// 	name: "hai",
-	// });
+	const [stateSignUp, setStateSignUp] = useState({
+		email: "",
+		password: "",
+		username: "",
+		firstName: "",
+		lastname: "",
+		role: "",
+	});
 
-	const emailRef = useRef();
-	const userNameRef = useRef();
-	const passwordRef = useRef();
-	const firstNameRef = useRef();
-	const lastNameRef = useRef();
-	// const roleNameRef = useRef();
+	const handleChange = function(event) {
+		const { name, value } = event.target;
+		setStateSignUp({
+			...stateSignUp,
+			[name]: value,
+		});
+	};
 
-	const handleSubmit = async e => {
-		e.preventDefault();
-
-		const email = emailRef.current.value;
-		const password = passwordRef.current.value;
-		const username = emailRef.current.value;
-		const firstName = passwordRef.current.value;
-		const lastName = emailRef.current.value;
-		const roleNameRef = passwordRef.current.value;
+	const handleSubmit = async event => {
+		event.preventDefault();
 
 		try {
 			// Register the user.
-			await api.register({
-				email,
-				password,
-				username,
-				firstName,
-				lastName,
-				roleNameRef,
-			});
+			await api.register(setStateSignUp);
 
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
@@ -94,9 +85,9 @@ export default function SignUpUser() {
 			</Grid>
 			<form autoComplete='off' onSubmit={handleSubmit}>
 				<TextField
-					// name='firstName'
-					// value=''
-					ref={firstNameRef}
+					name='firstName'
+					value={stateSignUp.firstName}
+					onChange={handleChange}
 					variant='outlined'
 					label='Firstname'
 					placeholder='Enter First Name'
@@ -104,9 +95,9 @@ export default function SignUpUser() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='lastName'
-					// value=''
-					ref={lastNameRef}
+					name='lastname'
+					value={stateSignUp.lastname}
+					onChange={handleChange}
 					variant='outlined'
 					label='Lastname'
 					placeholder='Enter Last Name'
@@ -114,18 +105,20 @@ export default function SignUpUser() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='lastName'
-					// value=''
+					name='email'
+					value={stateSignUp.email}
+					onChange={handleChange}
 					variant='outlined'
-					label='E-mail'
-					placeholder='Enter E-mail'
+					label='email'
+					placeholder='Enter Email'
 					fullWidth
+					type='email'
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='userName'
-					// value=''
-					ref={userNameRef}
+					name='username'
+					value={stateSignUp.username}
+					onChange={handleChange}
 					variant='outlined'
 					label='Username'
 					placeholder='Enter Username'
@@ -133,9 +126,9 @@ export default function SignUpUser() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='password'
-					// value=''
-					ref={passwordRef}
+					name='password'
+					value={stateSignUp.password}
+					onChange={handleChange}
 					variant='outlined'
 					label='Password'
 					placeholder='Enter Password'
