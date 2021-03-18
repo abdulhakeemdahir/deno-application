@@ -58,7 +58,19 @@ class API {
     return this.axios.put(`/api/${messageId}/${id}`);
   }
 
-  //----------------conversation api-----------------------//
+  //-----------------------user api-------------------------//
+  updateUser(id) {
+    return this.axios.put(`/api/user/${id}`);
+  }
+  deleteUser(id) {
+    return this.axios.get(`/api/user/${id}`);
+  }
+  getUser(id) {
+    return this.axios.post(`/api/user/${id}`);
+  }
+  updatePassword(id){
+      return this.axios.post(`/api/user/password/${id}`);
+  }
 }
 
 export default new API();
