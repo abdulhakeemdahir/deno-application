@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const { createPassword, comparePassword } = require("../config/bcrypt.js");
-const crypto = require("../config/crypto.js");
-const Mail = require("../config/mail.js");
+// const crypto = require("../config/crypto.js");
+// const Mail = require("../config/mail.js");
 const JWT = require("../config/jwt");
 const jwt = new JWT();
 
@@ -37,23 +37,23 @@ module.exports = {
       });
 
       if (isUser) {
-        return res.status(402).json("This username or email has been used");
+        return res.status(422).json("This username or email has been used");
       }
 
       const createUser = await User.create(userObject);
 
-      const key = crypto();
+      // const key = crypto();
 
-      const mail = new Mail();
+      // const mail = new Mail();
 
-      if (await mail.sendMail(email, key, "activate")) {
-        return res
-          .status(200)
-          .json(
-            createUser.firName +
-              " We created your account an Email has been send, kindly activate your account"
-          );
-      }
+      // if (await mail.sendMail(email, key, "activate")) {
+      return res
+        .status(200)
+        .json(
+          createUser.firName +
+            " We created your account an Email has been send, kindly activate your account"
+        );
+      // }
     } catch (err) {
       res.status(422).json(err);
     }
@@ -64,13 +64,13 @@ module.exports = {
       const { username, password } = req.body;
 
       // Find user by username
-      const user = await User.findOne({ username: username }).select(
-        "username email firstName lastname password"
-      );
+      const user = await User.findOne({
+        $or: [{ username: username }, { email: username }]
+      }).select("username email firstName lastname password");
 
       // If user is not found then send back error message
       if (!user) {
-        return res.json("Email or password is invalid.");
+        return res.json("Username, Email or password is invalid.");
       }
 
       //check password

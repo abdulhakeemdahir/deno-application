@@ -46,6 +46,8 @@ export default function SignUpOrg() {
     orgName: "",
   });
 
+  const history = useHistory();
+
 	const handleChange = function(event) {
 		const { name, value } = event.target;
     setStateOrg({
@@ -54,13 +56,14 @@ export default function SignUpOrg() {
     });
 	};
 
-	const history = useHistory();
+	history.go(0);
 
 	const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       // Register the user.
+
       await api.register(stateOrg);
 
 	  history.push("/");
@@ -179,7 +182,12 @@ export default function SignUpOrg() {
           fullWidth
           className={classes.mgstyle}
         />
-        <Button size="large" className={classes.styleMain} fullWidth>
+        <Button
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+          onClick={handleSubmit}
+        >
           Sign Up
         </Button>
       </form>
