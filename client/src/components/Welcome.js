@@ -57,7 +57,7 @@ export default function Welcome() {
 				{/* <Button variant='outlined' color='primary' href='/signup'>
 					Sign Up
 				</Button> */}
-				<Button variant='outlined' color='secondary' href='/main'>
+				<Button variant='outlined' color='secondary' href='/newsfeed'>
 					Explore
 				</Button>
 			</ButtonGroup>
