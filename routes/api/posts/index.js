@@ -5,7 +5,10 @@ router
   .route("/dashboard")
   .get(postController.findFollowing)
   .get(postController.findTrending)
-  .post(postController.create)
+  .post(postController.create);
+
+router
+  .route("/dashboard/:_id")
   .put(postController.update)
   .delete(postController.remove);
 
