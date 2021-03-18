@@ -32,11 +32,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
   useNewUrlParser: true
 });
 
-// Start the API server
-server.listen(PORT, () => {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
-});
-
+// Connect the client to the socket.
 io.on("connection", socket => {
   console.log("User Connected: ", socket.id);
   const id = socket.handshake.query.id;
@@ -53,4 +49,9 @@ io.on("connection", socket => {
       });
     });
   });
+});
+
+// Start the API server
+server.listen(PORT, () => {
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });

@@ -5,7 +5,12 @@ const { Provider } = ConvoContext;
 
 const ConvoProvider = ({ children }) => {
   const [convos, setConvos] = useState({
-    converstaions: [{ messages: [] }]
+    converstaions: [
+      {
+        users: [],
+        messages: []
+      }
+    ]
   });
 
   const newConvo = (id, username) => {
