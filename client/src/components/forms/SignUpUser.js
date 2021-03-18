@@ -3,6 +3,7 @@ import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../utils/api.js";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -40,7 +41,7 @@ export default function SignUpUser() {
 		username: "",
 		firstName: "",
 		lastname: "",
-		role: "",
+		role: "Personal",
 	});
 
 	const handleChange = function(event) {
@@ -51,12 +52,16 @@ export default function SignUpUser() {
 		});
 	};
 
+	const history = useHistory()
+
 	const handleSubmit = async event => {
 		event.preventDefault();
 
 		try {
 			// Register the user.
-			await api.register(setStateSignUp);
+			await api.register(stateSignUp);
+
+			history.push("/");
 
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {

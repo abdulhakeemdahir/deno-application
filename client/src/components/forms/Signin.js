@@ -75,7 +75,6 @@ export default function Signin() {
 			
 			history.push("/newsfeed")
 
-
         } catch(err) {
 
              // Handle error responses from the API

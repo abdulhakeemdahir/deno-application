@@ -32,10 +32,12 @@ module.exports = {
     }
 
     try {
-      const isUser = await User.findOne({ username: username });
+      const isUser = await User.findOne({
+        $or: [{ username: username }, { email: email }]
+      });
 
       if (isUser) {
-        return res.status(402).json("This username has been used");
+        return res.status(402).json("This username or email has been used");
       }
 
       const createUser = await User.create(userObject);
