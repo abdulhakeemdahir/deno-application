@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import api from "../../utils/api.js"
+import api from "../../utils/api.js";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -37,42 +33,37 @@ const useStyles = makeStyles(theme => ({
 		background: "#3f4d67",
 	},
 }));
-export default function Signin() {
-
+export default function SignUpUser() {
 	const [stateSignUp, setStateSignUp] = useState({
 		email: "",
-        password: "", 
-		username: "", 
-        firstName: "", 
-		lastname: "", 
-        role: "" 
+		password: "",
+		username: "",
+		firstName: "",
+		lastname: "",
+		role: "",
 	});
 
 	const handleChange = function(event) {
-		const {name, value} = event.target;
+		const { name, value } = event.target;
 		setStateSignUp({
 			...stateSignUp,
 			[name]: value,
 		});
 	};
 
-	const handleSubmit = async (event) => {
-        event.preventDefault();
-       try {
-	
-            // Register the user.
-            await api.register(stateSignUp);
+	const handleSubmit = async event => {
+		event.preventDefault();
 
-            // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+		try {
+			// Register the user.
+			await api.register(setStateSignUp);
 
-        } catch(err) {
-
-             // Handle error responses from the API. This will include
-             if( err.response && err.response.data ) console.log(err.response.data);
-             
-        }
-    }
-
+			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+		} catch (err) {
+			// Handle error responses from the API. This will include
+			if (err.response && err.response.data) console.log(err.response.data);
+		}
+	};
 
 	const classes = useStyles();
 
@@ -145,18 +136,7 @@ export default function Signin() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<FormControl
-					variant='outlined'
-					className={(classes.formControl, classes.mgstyle)}
-					fullWidth
-				>
-					<InputLabel id='Role'>Role</InputLabel>
-					<Select labelId='role' id='role' label='role'  role='password'  name='role' value={stateSignUp.role} onChange={handleChange}>
-						<MenuItem value={"Personal"}>User</MenuItem>
-						<MenuItem value={"Organization"}>Organization</MenuItem>
-					</Select>
-				</FormControl>
-				<Button size='large' className={classes.styleMain} fullWidth onClick={handleSubmit}>
+				<Button size='large' className={classes.styleMain} fullWidth>
 					Sign Up
 				</Button>
 			</form>
