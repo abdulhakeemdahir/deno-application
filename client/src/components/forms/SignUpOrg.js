@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -37,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpOrg() {
-	const [state, setState] = React.useState({
+	const [state, setState] = useState({
 		age: "",
 		name: "hai",
 	});

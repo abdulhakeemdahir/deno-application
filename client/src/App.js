@@ -10,6 +10,12 @@ import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { TrendProvider } from "./utils/GlobalStates/TrendContext";
 import { useAuthTokenStore } from "./utils/auth.js";
 
+import PrivateRoute from "./components/PrivateRoute.js"
+import GuestRoute from "./components/GuestRoute.js"
+
+
+
+
 const theme = createMuiTheme({
 	palette: {
 		primary: {
@@ -35,9 +41,16 @@ function App() {
 								<PostProvider>
 									<TrendProvider>
 										<Switch>
-											<Route path='/newsfeed' exact component={Main} />
-											<Route path='/dashboard' exact component={Dashboard} />
-											<Route path='/' exact component={Landing} />
+                      
+                    
+                      <PrivateRoute exact path="/newsfeed" redirectTo="/" component={Main} />
+
+                      <PrivateRoute exact path="/dashboard" redirectTo="/" component={Dashboard} />
+
+                      <Route path='/explore' exact component={Main} />
+
+                      <Route path='/' exact component={Landing} />
+
 										</Switch>
 									</TrendProvider>
 								</PostProvider>
