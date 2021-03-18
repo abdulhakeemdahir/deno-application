@@ -37,9 +37,7 @@ function App() {
 				<div className='App'>
 					<UserProvider>
 						<CauseProvider>
-							<NewsProvider>
 								<PostProvider>
-									<TrendProvider>
 										<Switch>
                       
                     
@@ -49,41 +47,16 @@ function App() {
 
                       <Route path='/explore' exact component={Main} />
 
-<<<<<<< HEAD
-  useAuthTokenStore();
-
-  return (
-    <Router>
-      <MuiThemeProvider theme={theme}>
-        <div className='App'>
-          <UserProvider>
-            <CauseProvider>
-                <PostProvider>
-                    <Switch>
-                      <Route path='/main' exact component={Main} />
-                      <Route path='/' exact component={Landing} />
-                    </Switch>
-                </PostProvider>
-            </CauseProvider>
-          </UserProvider>
-        </div>
-      </MuiThemeProvider>
-    </Router>
-  );
-=======
                       <Route path='/' exact component={Landing} />
 
 										</Switch>
-									</TrendProvider>
 								</PostProvider>
-							</NewsProvider>
 						</CauseProvider>
 					</UserProvider>
 				</div>
 			</MuiThemeProvider>
 		</Router>
 	);
->>>>>>> c9d2279bfb5831bbb176f2fe2ba36137e44a2822
 }
 
 export default App;

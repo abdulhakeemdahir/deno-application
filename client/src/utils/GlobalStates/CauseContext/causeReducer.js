@@ -7,7 +7,7 @@ import {
   CAUSE_LOADED
 } from "../../actions/actions";
 
-export const reducer = (state, { type, payload }) => {
+const reducer = (state, { type, payload }) => {
   switch (type) {
 
     case GET_CAUSE_INFO:
@@ -44,3 +44,4 @@ export const reducer = (state, { type, payload }) => {
     return state
   }
 }
+export default reducer;
