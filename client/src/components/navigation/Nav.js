@@ -94,7 +94,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const navLinks = [
-	{ title: `news feed`, path: `/main` },
+	{ title: `news feed`, path: `/newsfeed` },
 	{ title: `dashboard`, path: `/dashboard` },
 ];
 
