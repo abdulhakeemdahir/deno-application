@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 		background: "#3f4d67",
 	},
 }));
-export default function Signin() {
+export default function SignUpOrg() {
 	const [state, setState] = React.useState({
 		age: "",
 		name: "hai",
@@ -91,6 +91,51 @@ export default function Signin() {
 					// name='userName'
 					// value=''
 					variant='outlined'
+					label='Organization name'
+					placeholder='Enter Organization Name'
+					fullWidth
+					className={classes.mgstyle}
+				/>
+				{/* <TextField
+					// name='userName'
+					// value=''
+					variant='outlined'
+					label='Bio'
+					placeholder='Enter Organization Bio'
+					fullWidth
+					className={classes.mgstyle}
+				/>
+				<TextField
+					// name='userName'
+					// value=''
+					variant='outlined'
+					label='Website'
+					placeholder='Enter Website'
+					fullWidth
+					className={classes.mgstyle}
+				/>
+				<TextField
+					// name='userName'
+					// value=''
+					variant='outlined'
+					label='Address'
+					placeholder='Enter Address'
+					fullWidth
+					className={classes.mgstyle}
+				/> */}
+				<TextField
+					// name='userName'
+					// value=''
+					variant='outlined'
+					label='E-mail'
+					placeholder='Enter E-mail'
+					fullWidth
+					className={classes.mgstyle}
+				/>
+				<TextField
+					// name='userName'
+					// value=''
+					variant='outlined'
 					label='Username'
 					placeholder='Enter Username'
 					fullWidth
@@ -106,17 +151,6 @@ export default function Signin() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<FormControl
-					variant='outlined'
-					className={(classes.formControl, classes.mgstyle)}
-					fullWidth
-				>
-					<InputLabel id='Role'>Role</InputLabel>
-					<Select labelId='role' id='role' onChange={handleChange} label='Role'>
-						<MenuItem value={"user"}>User</MenuItem>
-						<MenuItem value={"organization"}>Organization</MenuItem>
-					</Select>
-				</FormControl>
 				<Button size='large' className={classes.styleMain} fullWidth>
 					Sign Up
 				</Button>

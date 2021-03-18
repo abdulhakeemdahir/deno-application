@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Gradient from "../../components/Gradient";
 import Footer from "../../components/Footer";
 import Welcome from "../../components/Welcome";
-import Signup from "../../components/Forms/Signup";
+import SignUpUser from "../../components/Forms/SignUpUser";
+import SignUpOrg from "../../components/Forms/SignUpOrg";
 import Signin from "../../components/Forms/Signin";
 import React from "react";
 import PropTypes from "prop-types";
@@ -112,8 +113,13 @@ export default function Landing() {
 							className={classes.tabpanel}
 						/>
 						<Tab
-							label='Sign Up'
+							label='Sign Up User'
 							{...a11yProps(1)}
+							className={classes.tabpanel}
+						/>
+						<Tab
+							label='Sign Up Org'
+							{...a11yProps(2)}
 							className={classes.tabpanel}
 						/>
 					</Tabs>
@@ -122,7 +128,10 @@ export default function Landing() {
 							<Signin />
 						</TabPanel>
 						<TabPanel value={value} index={1}>
-							<Signup />
+							<SignUpUser />
+						</TabPanel>
+						<TabPanel value={value} index={2}>
+							<SignUpOrg />
 						</TabPanel>
 					</div>
 				</Grid>
