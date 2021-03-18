@@ -12,8 +12,10 @@ router.route("/create/cause").post(causesController.create);
 
 // The route for updating or deleting a cause.
 router
-  .route("/update/cause/:id")
+  .route("/:id")
   .put(causesController.update)
   .delete(causesController.remove);
+
+router.route("/like/:id").put(causesController.addLike);
 
 module.exports = router;

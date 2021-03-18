@@ -3,7 +3,7 @@ const { Post } = require("../models");
 module.exports = {
   findFollowing: async (req, res) => {
     try {
-      const postModel = await Post.find(req.query).sort({ date: -1 });
+      const postModel = await Post.find({}).sort({ date: -1 });
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -11,7 +11,8 @@ module.exports = {
   },
   findTrending: async (req, res) => {
     try {
-      const postModel = await Post.findById(req.query).sort({ date: -1 });
+      const postModel = await Post.find({}).sort({ date: -1 });
+
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -46,7 +47,7 @@ module.exports = {
   },
   remove: async (req, res) => {
     try {
-      const postModel = await Post.findOneAndDelete({ _id: req.params.id });
+      const postModel = await Post.findByIdAndDelete({ _id: req.params.id });
       const deleteModel = await postModel.remove();
       res.status(200).json(deleteModel);
     } catch (err) {

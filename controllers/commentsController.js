@@ -18,7 +18,17 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      await Comment.create(req.body);
+      const createComment = await Comment.create(req.body);
+
+      await Post.findByIdAndUpdate(
+        { _id: req.body._id },
+        {
+          $push: { comments: createComment._id }
+        },
+
+        { new: true, runValidators: true }
+      );
+
       res.status(201).json("Added Comment");
     } catch (err) {
       res.status(422).json(err);
