@@ -12,6 +12,7 @@ import { useAuthTokenStore } from "./utils/auth.js";
 // import Dashboard from "./containers/Dashboard";
 import { SocketProvider } from "./utils/GlobalStates/SocketProvider";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 
 const theme = createMuiTheme({
   palette: {
@@ -35,24 +36,26 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <div className='App'>
           <SocketProvider id={id}>
-            <UserProvider>
-              <CauseProvider>
-                <NewsProvider>
-                  <PostProvider>
-                    <TrendProvider>
-                      <Switch>
-                        <Route path='/main'>
-                          <Main id={id} />
-                        </Route>
-                        <Route path='/'>
-                          <Landing onLoginSetId={setId} />
-                        </Route>
-                      </Switch>
-                    </TrendProvider>
-                  </PostProvider>
-                </NewsProvider>
-              </CauseProvider>
-            </UserProvider>
+            <ConvoProvider>
+              <UserProvider>
+                <CauseProvider>
+                  <NewsProvider>
+                    <PostProvider>
+                      <TrendProvider>
+                        <Switch>
+                          <Route path='/main'>
+                            <Main id={id} />
+                          </Route>
+                          <Route path='/'>
+                            <Landing onLoginSetId={setId} />
+                          </Route>
+                        </Switch>
+                      </TrendProvider>
+                    </PostProvider>
+                  </NewsProvider>
+                </CauseProvider>
+              </UserProvider>
+            </ConvoProvider>
           </SocketProvider>
         </div>
       </MuiThemeProvider>
