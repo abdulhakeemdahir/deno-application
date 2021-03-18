@@ -11,7 +11,7 @@ import { TrendProvider } from "./utils/GlobalStates/TrendContext";
 import { useAuthTokenStore } from "./utils/auth.js";
 
 import PrivateRoute from "./components/PrivateRoute.js"
-import GuestRoute from "./components/GuestRoute.js"
+//import GuestRoute from "./components/GuestRoute.js"
 
 
 
