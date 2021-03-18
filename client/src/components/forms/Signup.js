@@ -39,27 +39,29 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function Signin() {
 
-	const emailRef = useRef()
-	const userNameRef = useRef()
-	const passwordRef  = useRef()
-	const firstNameRef = useRef()
-	const lastNameRef = useRef()
-	const roleNameRef = useRef()
-	
-	const handleSubmit = async e => {
-        e.preventDefault();
+	const [stateSignUp, setStateSignUp] = useState({
+		email: "",
+        password: "", 
+		username: "", 
+        firstName: "", 
+		lastname: "", 
+        role: "" 
+	});
 
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-		const username = emailRef.current.value;
-        const firstName = passwordRef.current.value;
-		const lastName = emailRef.current.value;
-        const roleNameRef = passwordRef.current.value;
+	const handleChange = function(event) {
+		const {name, value} = event.target;
+		setStateSignUp({
+			...stateSignUp,
+			[name]: value,
+		});
+	};
 
+	const handleSubmit = async (event) => {
+        event.preventDefault();
        try {
-
+	
             // Register the user.
-            await api.register({ email, password, username,firstName,lastName,roleNameRef });
+            await api.register(stateSignUp);
 
             // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 
@@ -92,9 +94,9 @@ export default function Signin() {
 			</Grid>
 			<form autoComplete='off' onSubmit={handleSubmit}>
 				<TextField
-					// name='firstName'
-					// value=''
-					ref={firstNameRef}
+					name='firstName'
+					value={stateSignUp.firstName}
+					onChange={handleChange}
 					variant='outlined'
 					label='Firstname'
 					placeholder='Enter First Name'
@@ -102,9 +104,9 @@ export default function Signin() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='lastName'
-					// value=''
-					ref={lastNameRef}
+					name='lastname'
+					value={stateSignUp.lastname}
+					onChange={handleChange}
 					variant='outlined'
 					label='Lastname'
 					placeholder='Enter Last Name'
@@ -112,9 +114,20 @@ export default function Signin() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='userName'
-					// value=''
-					ref={userNameRef}
+					name='email'
+					value={stateSignUp.email}
+					onChange={handleChange}
+					variant='outlined'
+					label='email'
+					placeholder='Enter Email'
+					fullWidth
+					type='email'
+					className={classes.mgstyle}
+				/>
+				<TextField
+					name='username'
+					value={stateSignUp.username}
+					onChange={handleChange}
 					variant='outlined'
 					label='Username'
 					placeholder='Enter Username'
@@ -122,9 +135,9 @@ export default function Signin() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					// name='password'
-					// value=''
-					ref={passwordRef}
+					name='password'
+					value={stateSignUp.password}
+					onChange={handleChange}
 					variant='outlined'
 					label='Password'
 					placeholder='Enter Password'
@@ -138,12 +151,12 @@ export default function Signin() {
 					fullWidth
 				>
 					<InputLabel id='Role'>Role</InputLabel>
-					<Select labelId='role' id='role' ref={roleNameRef} label='Role'>
-						<MenuItem value={"user"}>User</MenuItem>
-						<MenuItem value={"organization"}>Organization</MenuItem>
+					<Select labelId='role' id='role' label='role'  role='password'  name='role' value={stateSignUp.role} onChange={handleChange}>
+						<MenuItem value={"Personal"}>User</MenuItem>
+						<MenuItem value={"Organization"}>Organization</MenuItem>
 					</Select>
 				</FormControl>
-				<Button size='large' className={classes.styleMain} fullWidth>
+				<Button size='large' className={classes.styleMain} fullWidth onClick={handleSubmit}>
 					Sign Up
 				</Button>
 			</form>

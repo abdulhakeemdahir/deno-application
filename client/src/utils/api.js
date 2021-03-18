@@ -34,10 +34,11 @@ class API {
      * @returns {Promise}
      */
     register( userData ) {
-        if(userData.role === "personal"){
+        console.log(userData)
+        //if(userData.role === "personal"){
             return this.axios.post("/api/authenticate/register/personal", userData);
-        }
-        return this.axios.post("/api/authenticate/register/organization", userData);
+//}
+        //return this.axios.post("/api/authenticate/register/organization", userData);
     }
 
 

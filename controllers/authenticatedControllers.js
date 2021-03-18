@@ -8,6 +8,8 @@ const jwt = new JWT();
 // Defining methods for the authorizeControllers
 module.exports = {
   signUp: async ({ body }, res) => {
+    console.log(body);
+
     const { firstName, lastname, username, password, role, email } = body;
 
     try {
