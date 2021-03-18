@@ -1,65 +1,76 @@
 import axios from "axios";
 
 class API {
+  axios;
 
-    axios;
+  constructor() {
+    this.axios = axios.create();
+  }
 
-    constructor() {
+  /**
+   * @param {String} name
+   * @param {String} value
+   */
+  setHeader(name, value) {
+    if (value) this.axios.defaults.headers.common[name] = value;
+    else delete this.axios.defaults.headers.common[name];
+  }
 
-        this.axios = axios.create();
+  /**
+   * @param {object} userData
+   * @param {String} userData.email
+   * @param {String} userData.password
+   *
+   * @returns {Promise}
+   */
+  register(userData) {
+    return this.axios.post("/api/authenticate/register/personal", userData);
+  }
 
-    }
+  /**
+   * @param {object} userData
+   * @param {String} userData.email
+   * @param {String} userData.password
+   *
+   * @returns {Promise}
+   */
+  login(userData) {
+    return this.axios.post("/api/authenticate/login", userData);
+  }
 
-    /**
-     * @param {String} name 
-     * @param {String} value 
-     */
-    setHeader( name, value ) {
+  authenticated() {
+    return this.axios.post("/api/authenticated");
+  }
+  //----------------conversation api-----------------------//
+  getConvoUserId(id) {
+    return this.axios.get(`/api/messenger/${id}`);
+  }
+  getMessagesId(id) {
+    return this.axios.get(`/api/messenger/${id}`);
+  }
+  createConvo(id) {
+    return this.axios.post(`/api/messenger/${id}`);
+  }
+  updateConvo(id) {
+    return this.axios.put(`/api/messenger/${id}`);
+  }
+  updateMessage(messageId, id) {
+    return this.axios.put(`/api/${messageId}/${id}`);
+  }
 
-        if( value )
-
-            this.axios.defaults.headers.common[name] = value;
-
-        else
-
-            delete this.axios.defaults.headers.common[name];
-
-    }
-
-    /**
-     * @param {object} userData 
-     * @param {String} userData.email
-     * @param {String} userData.password
-     * 
-     * @returns {Promise}
-     */
-    register( userData ) {
-        if(userData.role === "personal"){
-            return this.axios.post("/api/authenticate/register/personal", userData);
-        }
-        return this.axios.post("/api/authenticate/register/organization", userData);
-    }
-
-
-    /**
-     * @param {object} userData 
-     * @param {String} userData.email
-     * @param {String} userData.password
-     * 
-     * @returns {Promise}
-     */
-    login( userData ) {
-
-        return this.axios.post("/api/authenticate/authenticated", userData);
-
-    }
-
-    authenticated() {
-
-        return this.axios.post("/api/authenticated");
-
-    }
-
+  //-----------------------user api-------------------------//
+  updateUser(id) {
+    return this.axios.put(`/api/user/${id}`);
+  }
+  deleteUser(id) {
+    return this.axios.get(`/api/user/${id}`);
+  }
+  getUser(id) {
+    return this.axios.post(`/api/user/${id}`);
+  }
+  updatePassword(id){
+      return this.axios.post(`/api/user/password/${id}`);
+  }
 }
 
 export default new API();
