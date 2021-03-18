@@ -87,6 +87,8 @@ export default function News(props) {
 						id='post'
 						label='Post a Comment'
 						variant='filled'
+						multiline
+						rowsMax={4}
 						fullWidth
 					/>
 				</Grid>
