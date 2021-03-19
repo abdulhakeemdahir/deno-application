@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function FormUserDetails1(props) {
+export default function FormOrgDetails1(props) {
 	const continueOne = e => {
 		e.preventDefault();
 		props.nextStep();
@@ -65,6 +65,16 @@ export default function FormUserDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				name='orgname'
+				value={values.orgname}
+				onChange={handleChange}
+				variant='outlined'
+				label='Organization Name'
+				placeholder='Enter Organization Name'
+				fullWidth
+				className={classes.mgstyle}
+			/>
+			<TextField
 				name='email'
 				value={values.email}
 				onChange={handleChange}
@@ -73,16 +83,6 @@ export default function FormUserDetails1(props) {
 				placeholder='Enter Email'
 				fullWidth
 				type='email'
-				className={classes.mgstyle}
-			/>
-			<TextField
-				name='bio'
-				value={values.bio}
-				onChange={handleChange}
-				variant='outlined'
-				label='Bio'
-				placeholder='Enter Bio'
-				fullWidth
 				className={classes.mgstyle}
 			/>
 			<Button

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Button, ButtonGroup, List, ListItem } from "@material-ui/core";
+import { TextField, Button, ButtonGroup } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function FormUserConfirm(props) {
+export default function FormOrgDetails2(props) {
 	const continueOne = e => {
 		e.preventDefault();
 		props.nextStep();
@@ -48,30 +48,52 @@ export default function FormUserConfirm(props) {
 		props.previousStep();
 	};
 
-	const {
-		values: {
-			firstName,
-			lastname,
-			role,
-			email,
-			username,
-			password,
-			bio,
-			thumbnail,
-		},
-	} = props;
+	const { values, handleChange } = props;
 	const classes = useStyles();
 
 	return (
 		<>
-			<List>
-				<ListItem primaryText='First Name' secondaryText={firstName} />
-				<ListItem primaryText='Last Name' secondaryText={lastname} />
-				<ListItem primaryText='E-mail' secondaryText={email} />
-				<ListItem primaryText='Bio' secondaryText={bio} />
-				<ListItem primaryText='Thumbnail Picture' secondaryText={thumbnail} />
-				<ListItem primaryText='Role' secondaryText={role} />
-			</List>
+			<TextField
+				name='thumbnail'
+				value={values.thumbnail}
+				onChange={handleChange}
+				variant='outlined'
+				label='Thumbnail Picture'
+				placeholder='Enter Thumbnail Url'
+				fullWidth
+				className={classes.mgstyle}
+			/>
+			<TextField
+				name='role'
+				value={values.role}
+				onChange={handleChange}
+				variant='outlined'
+				label='Role'
+				placeholder='Enter Role'
+				fullWidth
+				className={classes.mgstyle}
+			/>
+			<TextField
+				name='username'
+				value={values.username}
+				onChange={handleChange}
+				variant='outlined'
+				label='Username'
+				placeholder='Enter Username'
+				fullWidth
+				className={classes.mgstyle}
+			/>
+			<TextField
+				name='password'
+				value={values.password}
+				onChange={handleChange}
+				variant='outlined'
+				label='Password'
+				placeholder='Enter Password'
+				type='password'
+				fullWidth
+				className={classes.mgstyle}
+			/>
 			<ButtonGroup fullWidth>
 				<Button
 					size='large'
@@ -85,7 +107,7 @@ export default function FormUserConfirm(props) {
 					className={classes.styleMain}
 					onClick={continueOne}
 				>
-					Submit
+					Continue
 				</Button>
 			</ButtonGroup>
 		</>

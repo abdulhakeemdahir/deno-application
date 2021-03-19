@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
+import { Typography, Grid, Avatar, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import api from "../../utils/api.js";
+import FormOrgDetails1 from "./OrgInfo/FormOrgDetails1.js";
+import FormOrgDetails2 from "./OrgInfo/FormOrgDetails2.js";
+import FormOrgConfirm from "./OrgInfo/FormOrgConfirm.js";
+import { ThumbUp } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -37,124 +38,182 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpOrg() {
-	const [state, setState] = React.useState({
-		age: "",
-		name: "hai",
+	const [stateForm, setStateForm] = useState({
+		step: 1,
 	});
 
-	const handleChange = function(event) {
-		const name = event.target.name;
-		setState({
-			...state,
-			[name]: event.target.value,
+	const nextStep = () => {
+		const { step } = stateForm;
+		setStateForm({
+			step: step + 1,
+		});
+	};
+	const previousStep = () => {
+		const { step } = stateForm;
+		setStateForm({
+			step: step - 1,
 		});
 	};
 
-	const classes = useStyles();
+	// const handleFieldsChange = input => e => {
+	// 	setStateForm({ [input]: e.target.value });
+	// };
 
-	return (
-		<Grid
-			container
-			direction='column'
-			justify='center'
-			alignItems='center'
-			className={classes.paper}
-		>
-			<Grid item align='center'>
-				<Avatar className={classes.styleIcon}>
-					<CreateIcon />
-				</Avatar>
-				<Typography variation='h6' color='default'>
-					Sign Up
-				</Typography>
-			</Grid>
-			<form autoComplete='off'>
-				<TextField
-					// name='firstName'
-					// value=''
-					variant='outlined'
-					label='Firstname'
-					placeholder='Enter First Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='lastName'
-					// value=''
-					variant='outlined'
-					label='Lastname'
-					placeholder='Enter Last Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Organization name'
-					placeholder='Enter Organization Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				{/* <TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Bio'
-					placeholder='Enter Organization Bio'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Website'
-					placeholder='Enter Website'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Address'
-					placeholder='Enter Address'
-					fullWidth
-					className={classes.mgstyle}
-				/> */}
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='E-mail'
-					placeholder='Enter E-mail'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='userName'
-					// value=''
-					variant='outlined'
-					label='Username'
-					placeholder='Enter Username'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					// name='password'
-					// value=''
-					variant='outlined'
-					label='Password'
-					placeholder='Enter Password'
-					type='password'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<Button size='large' className={classes.styleMain} fullWidth>
-					Sign Up
-				</Button>
-			</form>
-		</Grid>
-	);
+	const [stateSignUp, setStateSignUp] = useState({
+		email: "",
+		password: "",
+		username: "",
+		firstName: "",
+		lastname: "",
+		role: "",
+		bio: "",
+		thumbnail: "",
+	});
+
+	const handleChange = function(event) {
+		const { name, value } = event.target;
+		setStateSignUp({
+			...stateSignUp,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = async event => {
+		event.preventDefault();
+
+		try {
+			// Register the user.
+			await api.register(setStateSignUp);
+
+			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+		} catch (err) {
+			// Handle error responses from the API. This will include
+			if (err.response && err.response.data) console.log(err.response.data);
+		}
+	};
+
+	const classes = useStyles();
+	const { step } = stateForm;
+	const {
+		firstName,
+		lastname,
+		role,
+		email,
+		username,
+		password,
+		bio,
+		thumbnail,
+	} = stateSignUp;
+	const values = {
+		firstName,
+		lastname,
+		role,
+		email,
+		username,
+		password,
+		bio,
+		thumbnail,
+	};
+
+	switch (step) {
+		case 1:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<FormOrgDetails1
+						nextStep={nextStep}
+						handleChange={handleChange}
+						values={values}
+					/>
+				</Grid>
+			);
+		case 2:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<FormOrgDetails2
+						nextStep={nextStep}
+						previousStep={previousStep}
+						handleChange={handleChange}
+						values={values}
+					/>
+				</Grid>
+			);
+		case 3:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<FormOrgConfirm
+						nextStep={nextStep}
+						previousStep={previousStep}
+						values={values}
+					/>
+				</Grid>
+			);
+		case 4:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Container>
+						<Grid item align='center'>
+							<Avatar className={classes.styleIcon}>
+								<ThumbUp />
+							</Avatar>
+							<Typography variation='h6' color='default'>
+								Congratulations
+							</Typography>
+						</Grid>
+						<Typography variation='h6' color='default'>
+							Thank you for Signing Up!
+						</Typography>
+					</Container>
+				</Grid>
+			);
+		default:
+			return;
+	}
 }

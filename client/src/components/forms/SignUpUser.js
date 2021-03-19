@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
+import {
+	Typography,
+	Grid,
+	Avatar,
+	TextField,
+	Button,
+	Container,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../utils/api.js";
 import FormUserDetails1 from "./UserInfo/FormUserDetails1.js";
 import FormUserDetails2 from "./UserInfo/FormUserDetails2.js";
 import FormUserConfirm from "./UserInfo/FormUserConfirm.js";
+import { ThumbUp } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -197,17 +205,19 @@ export default function SignUpUser() {
 					alignItems='center'
 					className={classes.paper}
 				>
-					<Grid item align='center'>
-						<Avatar className={classes.styleIcon}>
-							<CreateIcon />
-						</Avatar>
+					<Container>
+						<Grid item align='center'>
+							<Avatar className={classes.styleIcon}>
+								<ThumbUp />
+							</Avatar>
+							<Typography variation='h6' color='default'>
+								Congratulations
+							</Typography>
+						</Grid>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Thank you for Signing Up!
 						</Typography>
-					</Grid>
-					<Typography variation='h6' color='default'>
-						Thank you for Signing Up!
-					</Typography>
+					</Container>
 				</Grid>
 			);
 		default:

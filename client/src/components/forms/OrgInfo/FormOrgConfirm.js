@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function FormUserConfirm(props) {
+export default function FormOrgConfirm(props) {
 	const continueOne = e => {
 		e.preventDefault();
 		props.nextStep();

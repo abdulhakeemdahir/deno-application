@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import {
-	Typography,
-	Grid,
-	Avatar,
-	TextField,
-	Button,
-	ButtonGroup,
-} from "@material-ui/core";
+import { TextField, Button, ButtonGroup } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
