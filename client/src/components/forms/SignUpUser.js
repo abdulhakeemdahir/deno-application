@@ -3,6 +3,9 @@ import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../utils/api.js";
+import FormUserDetails1 from "./UserInfo/FormUserDetails1.js";
+import FormUserDetails2 from "./UserInfo/FormUserDetails2.js";
+import FormUserConfirm from "./UserInfo/FormUserConfirm.js";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -34,6 +37,27 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpUser() {
+	const [stateForm, setStateForm] = useState({
+		step: 1,
+	});
+
+	const nextStep = () => {
+		const { step } = stateForm;
+		setStateForm({
+			step: step + 1,
+		});
+	};
+	const previousStep = () => {
+		const { step } = stateForm;
+		setStateForm({
+			step: step - 1,
+		});
+	};
+
+	// const handleFieldsChange = input => e => {
+	// 	setStateForm({ [input]: e.target.value });
+	// };
+
 	const [stateSignUp, setStateSignUp] = useState({
 		email: "",
 		password: "",
@@ -41,6 +65,8 @@ export default function SignUpUser() {
 		firstName: "",
 		lastname: "",
 		role: "",
+		bio: "",
+		thumbnail: "",
 	});
 
 	const handleChange = function(event) {
@@ -66,80 +92,125 @@ export default function SignUpUser() {
 	};
 
 	const classes = useStyles();
+	const { step } = stateForm;
+	const {
+		firstName,
+		lastname,
+		role,
+		email,
+		username,
+		password,
+		bio,
+		thumbnail,
+	} = stateSignUp;
+	const values = {
+		firstName,
+		lastname,
+		role,
+		email,
+		username,
+		password,
+		bio,
+		thumbnail,
+	};
 
-	return (
-		<Grid
-			container
-			direction='column'
-			justify='center'
-			alignItems='center'
-			className={classes.paper}
-		>
-			<Grid item align='center'>
-				<Avatar className={classes.styleIcon}>
-					<CreateIcon />
-				</Avatar>
-				<Typography variation='h6' color='default'>
-					Sign Up
-				</Typography>
-			</Grid>
-			<form autoComplete='off' onSubmit={handleSubmit}>
-				<TextField
-					name='firstName'
-					value={stateSignUp.firstName}
-					onChange={handleChange}
-					variant='outlined'
-					label='Firstname'
-					placeholder='Enter First Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='lastname'
-					value={stateSignUp.lastname}
-					onChange={handleChange}
-					variant='outlined'
-					label='Lastname'
-					placeholder='Enter Last Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='email'
-					value={stateSignUp.email}
-					onChange={handleChange}
-					variant='outlined'
-					label='email'
-					placeholder='Enter Email'
-					fullWidth
-					type='email'
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='username'
-					value={stateSignUp.username}
-					onChange={handleChange}
-					variant='outlined'
-					label='Username'
-					placeholder='Enter Username'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='password'
-					value={stateSignUp.password}
-					onChange={handleChange}
-					variant='outlined'
-					label='Password'
-					placeholder='Enter Password'
-					type='password'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<Button size='large' className={classes.styleMain} fullWidth>
-					Sign Up
-				</Button>
-			</form>
-		</Grid>
-	);
+	switch (step) {
+		case 1:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<FormUserDetails1
+						nextStep={nextStep}
+						handleChange={handleChange}
+						values={values}
+					/>
+				</Grid>
+			);
+		case 2:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<FormUserDetails2
+						nextStep={nextStep}
+						previousStep={previousStep}
+						handleChange={handleChange}
+						values={values}
+					/>
+				</Grid>
+			);
+		case 3:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<FormUserConfirm
+						nextStep={nextStep}
+						previousStep={previousStep}
+						values={values}
+					/>
+				</Grid>
+			);
+		case 4:
+			return (
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Grid item align='center'>
+						<Avatar className={classes.styleIcon}>
+							<CreateIcon />
+						</Avatar>
+						<Typography variation='h6' color='default'>
+							Sign Up
+						</Typography>
+					</Grid>
+					<Typography variation='h6' color='default'>
+						Thank you for Signing Up!
+					</Typography>
+				</Grid>
+			);
+		default:
+			return;
+	}
 }

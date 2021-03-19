@@ -87,13 +87,14 @@ export default function News(props) {
 						id='post'
 						label='Post a Comment'
 						variant='filled'
+						size='small'
 						multiline
 						rowsMax={4}
 						fullWidth
 					/>
 				</Grid>
 				<Grid item xs={12} sm={4}>
-					<Button size='large' className={classes.styleMain} fullWidth>
+					<Button size='small' className={classes.styleMain} fullWidth>
 						<ChatBubbleOutlineIcon /> Comment
 					</Button>
 				</Grid>

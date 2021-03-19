@@ -56,13 +56,7 @@ export default function Post() {
 							multiline
 							rowsMax={4}
 							className={classes.inputMargin}
-						/>
-						<TextField
-							id='hashTag'
-							label='Hash Tag'
-							multiline
-							rowsMax={4}
-							className={classes.inputMargin}
+							size='small'
 						/>
 						<TextField
 							id='imageUrl'
@@ -70,6 +64,7 @@ export default function Post() {
 							multiline
 							rowsMax={4}
 							className={classes.inputMargin}
+							size='small'
 						/>
 						<TextField
 							id='post'
@@ -78,11 +73,11 @@ export default function Post() {
 							multiline
 							rows={4}
 							fullWidth
+							size='small'
 						/>
 					</Grid>
 				</div>
-
-				<Button size='large' className={classes.styleMain}>
+				<Button size='small' className={classes.styleMain}>
 					<ChatBubbleOutlineIcon /> Post
 				</Button>
 			</form>

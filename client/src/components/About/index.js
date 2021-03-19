@@ -6,9 +6,9 @@ import {
 	Divider,
 	CardContent,
 	Button,
+	Dialog,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Edit } from "@material-ui/icons";
@@ -22,12 +22,7 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-	},
-	paper: {
-		backgroundColor: theme.palette.background.paper,
-		border: "2px solid #000",
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
+		borderRadius: "0px !important",
 	},
 }));
 
@@ -54,7 +49,7 @@ export default function About(props) {
 					<Button className='editButton' onClick={handleOpen}>
 						<Edit /> Edit
 					</Button>
-					<Modal
+					<Dialog
 						aria-labelledby='transition-modal-title'
 						aria-describedby='transition-modal-description'
 						className={classes.modal}
@@ -67,11 +62,9 @@ export default function About(props) {
 						}}
 					>
 						<Fade in={open}>
-							<Grid container xs={10} sm={3}>
-								<UpdateUser />
-							</Grid>
+							<UpdateUser />
 						</Fade>
-					</Modal>
+					</Dialog>
 				</Grid>
 			</Grid>
 			{/* <Divider /> */}
