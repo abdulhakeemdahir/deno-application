@@ -1,9 +1,5 @@
 // import React, { useState, useEffect } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -71,7 +67,7 @@ export default function UpdatePost() {
 					</Grid>
 				</div>
 				<Button size='small' className={classes.styleMain}>
-					<ChatBubbleOutlineIcon /> Post
+					<ChatBubbleOutlineIcon /> Update
 				</Button>
 			</form>
 		</Grid>
