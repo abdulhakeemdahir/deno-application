@@ -15,7 +15,7 @@ import { Edit } from "@material-ui/icons";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import "./style.css";
-import UpdateUser from "../Forms/UpdateUser";
+import UpdateUser from "../Forms/UpdateUser/UpdateUser";
 
 const useStyles = makeStyles(theme => ({
 	modal: {

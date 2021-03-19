@@ -3,9 +3,8 @@ import {
 	Typography,
 	Grid,
 	Avatar,
-	TextField,
-	Button,
 	Container,
+	Divider,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
@@ -137,7 +136,7 @@ export default function SignUpUser() {
 							<CreateIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Signup User
 						</Typography>
 					</Grid>
 					<FormUserDetails1
@@ -161,7 +160,7 @@ export default function SignUpUser() {
 							<CreateIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Signup User
 						</Typography>
 					</Grid>
 					<FormUserDetails2
@@ -186,7 +185,7 @@ export default function SignUpUser() {
 							<CreateIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Signup User
 						</Typography>
 					</Grid>
 					<FormUserConfirm
@@ -216,6 +215,12 @@ export default function SignUpUser() {
 						</Grid>
 						<Typography variation='h6' color='default'>
 							Thank you for Signing Up!
+						</Typography>
+						<br />
+						<Divider />
+						<br />
+						<Typography variation='h6' color='default'>
+							Please Login.
 						</Typography>
 					</Container>
 				</Grid>

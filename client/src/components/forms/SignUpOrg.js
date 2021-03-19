@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Typography, Grid, Avatar, Container } from "@material-ui/core";
+import {
+	Typography,
+	Grid,
+	Avatar,
+	Container,
+	Divider,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../utils/api.js";
@@ -130,7 +136,7 @@ export default function SignUpOrg() {
 							<CreateIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Signup Organization
 						</Typography>
 					</Grid>
 					<FormOrgDetails1
@@ -154,7 +160,7 @@ export default function SignUpOrg() {
 							<CreateIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Signup Organization
 						</Typography>
 					</Grid>
 					<FormOrgDetails2
@@ -179,7 +185,7 @@ export default function SignUpOrg() {
 							<CreateIcon />
 						</Avatar>
 						<Typography variation='h6' color='default'>
-							Sign Up
+							Signup Organization
 						</Typography>
 					</Grid>
 					<FormOrgConfirm
@@ -209,6 +215,12 @@ export default function SignUpOrg() {
 						</Grid>
 						<Typography variation='h6' color='default'>
 							Thank you for Signing Up!
+						</Typography>
+						<br />
+						<Divider />
+						<br />
+						<Typography variation='h6' color='default'>
+							Please Login.
 						</Typography>
 					</Container>
 				</Grid>
