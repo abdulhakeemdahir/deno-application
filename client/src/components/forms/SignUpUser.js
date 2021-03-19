@@ -76,7 +76,7 @@ export default function SignUpUser() {
 		firstName: "",
 		lastname: "",
 
-		role: "",
+		role: "Personal",
 		bio: "",
 		thumbnail: "",
 	});
@@ -91,9 +91,9 @@ export default function SignUpUser() {
 
 	const history = useHistory()
 
-	const handleSubmit = async event => {
-		event.preventDefault();
-
+	const handleSubmit = async () => {
+		//event.preventDefault();
+		console.log(stateSignUp)
 		try {
 			// Register the user.
 			await api.register(stateSignUp);
@@ -129,7 +129,7 @@ export default function SignUpUser() {
 		bio,
 		thumbnail,
 	};
-
+console.log(values)
 
 	switch (step) {
 		case 1:
@@ -202,6 +202,7 @@ export default function SignUpUser() {
 						nextStep={nextStep}
 						previousStep={previousStep}
 						values={values}
+						handleSubmit={handleSubmit}
 					/>
 				</Grid>
 			);
