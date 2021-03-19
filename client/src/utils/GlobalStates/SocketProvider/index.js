@@ -1,20 +1,42 @@
 import React, { createContext, useEffect, useContext, useState } from "react";
 import io from "socket.io-client";
+import api from "../../api";
 
 const SocketContext = createContext();
 const { Provider } = SocketContext;
 
 const SocketProvider = ({ id, ...props }) => {
-  const [socket, setSocket] = useState();
+  const [socketState, setSocket] = useState();
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000", { query: { id } });
-    setSocket(newSocket);
+    const socket = io(`${window.location.origin}`, {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            Authorization: localStorage.getItem("jwtToken")
+          }
+        }
+      }
+    });
 
-    return () => newSocket.close();
-  }, [id]);
+    socket.on("connect", () => {
+      api.setHeader("User-Socket-Id", socket.id);
+      setSocket(socket);
+      console.log(socket);
+    });
 
-  return <Provider value={[socket, setSocket]} {...props} />;
+    socket.onAny((event, ...args) => {
+      console.log(event, args);
+    });
+
+    return () => {
+      socket.disconnect();
+      api.setHeader("User-Socket-Id", false);
+      setSocket(false);
+    };
+  }, [setSocket]);
+
+  return <Provider value={[socketState, setSocket]} {...props} />;
 };
 
 const useSocketContext = () => {

@@ -10,8 +10,7 @@ import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { TrendProvider } from "./utils/GlobalStates/TrendContext";
 import { useAuthTokenStore } from "./utils/auth.js";
 import { SocketProvider } from "./utils/GlobalStates/SocketProvider";
-// import useLocalStorage from "./hooks/useLocalStorage";
-import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
+// import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
 
 const theme = createMuiTheme({
@@ -34,7 +33,6 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <div className='App'>
           <SocketProvider>
-            {/* <ConvoProvider> */}
             <UserProvider>
               <CauseProvider>
                 <NewsProvider>
@@ -61,7 +59,6 @@ function App() {
                 </NewsProvider>
               </CauseProvider>
             </UserProvider>
-            {/* </ConvoProvider>*/}
           </SocketProvider>
         </div>
       </MuiThemeProvider>
