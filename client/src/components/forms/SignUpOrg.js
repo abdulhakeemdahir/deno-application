@@ -15,7 +15,7 @@ import FormOrgConfirm from "./OrgInfo/FormOrgConfirm.js";
 import { ThumbUp } from "@material-ui/icons";
 
 import api from "../../utils/api";
-import { useHistory } from "react-router";
+//import { useHistory } from "react-router";
 
 
 const useStyles = makeStyles(theme => ({
@@ -76,7 +76,7 @@ export default function SignUpOrg() {
 		username: "",
 		firstName: "",
 		lastname: "",
-		role: "",
+		role: "Organization",
 		bio: "",
 		thumbnail: "",
 	});
@@ -89,12 +89,15 @@ export default function SignUpOrg() {
 		});
 	};
 
-	const handleSubmit = async event => {
-		event.preventDefault();
+	//const history = useHistory()
+
+	const handleSubmit = async () => {
 
 		try {
 			// Register the user.
 			await api.register(setStateSignUp);
+
+			//history.go(0);
 
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
@@ -198,6 +201,7 @@ export default function SignUpOrg() {
 						nextStep={nextStep}
 						previousStep={previousStep}
 						values={values}
+						handleSubmit={handleSubmit}
 					/>
 				</Grid>
 			);
