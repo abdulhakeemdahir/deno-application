@@ -5,9 +5,7 @@ import Main from "./containers/Newsfeed";
 import Dashboard from "./containers/Dashboard";
 import { UserProvider } from "./utils/GlobalStates/UserContext";
 import { CauseProvider } from "./utils/GlobalStates/CauseContext";
-import { NewsProvider } from "./utils/GlobalStates/NewsContext";
 import { PostProvider } from "./utils/GlobalStates/PostContext";
-import { TrendProvider } from "./utils/GlobalStates/TrendContext";
 import { useAuthTokenStore } from "./utils/auth.js";
 
 import PrivateRoute from "./components/PrivateRoute.js";
@@ -35,9 +33,7 @@ function App() {
 				<div className='App'>
 					<UserProvider>
 						<CauseProvider>
-							<NewsProvider>
 								<PostProvider>
-									<TrendProvider>
 										<Switch>
 											<PrivateRoute
 												exact
@@ -59,9 +55,7 @@ function App() {
 
 											<Route path='/' exact component={Landing} />
 										</Switch>
-									</TrendProvider>
 								</PostProvider>
-							</NewsProvider>
 						</CauseProvider>
 					</UserProvider>
 				</div>

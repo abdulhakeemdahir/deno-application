@@ -8,8 +8,39 @@ import {
 } from "../../actions/actions";
 
 const reducer = (state, { type, payload }) => {
+
   switch (type) {
     case GET_POST_INFO:
+      return {
+        ...state,
+        ...payload
+      }
+
+    case ADD_POST:
+      return {
+        ...state,
+        ...payload
+      }
+      
+    case REMOVE_POST:
+      return {
+        ...state,
+        ...payload
+      }
+
+    case UPDATE_POST:
+      return {
+        ...state,
+        ...payload
+      }
+
+    case POST_LOADING:
+      return {
+        ...state,
+        ...payload
+      }
+
+    case POST_LOADED:
       return {
         ...state,
         ...payload
