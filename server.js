@@ -37,18 +37,8 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
 });
 
 io.use(async (socket, next) => {
-  const socketUser = await User.findOne({
-    sessionID
-  });
-
-  if (socketUser) {
-    socket.sessionID = socketUser.sessionID;
-    socket.userID = socketUser._id;
-    socket.username = socketUser.username;
-    return next();
-  }
-
-  return;
+  socket.room = socket.handshake.query.room;
+  return next();
 });
 
 // Connect the client to the socket.
@@ -57,10 +47,14 @@ io.on("connection", socket => {
   const id = socket.handshake.query.id;
   socket.join(id);
 
-  socket.emit("session", {
-    session: socket.sessionID,
-    userID: socket.userID
-  });
+  // socket.emit("session", {
+  //   session: socket.sessionID,
+  //   userID: socket.userID
+  // });
+
+  // socket.on("private", message => {
+  //   socket.broadcast.to(socket.room).emit("chat", message);
+  // });
 
   socket.on("send-message", ({ recipients, text }) => {
     recipients.forEach(recipient => {

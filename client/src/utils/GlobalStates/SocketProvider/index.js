@@ -6,37 +6,38 @@ const SocketContext = createContext();
 const { Provider } = SocketContext;
 
 const SocketProvider = ({ id, ...props }) => {
-  const [socketState, setSocket] = useState();
+  const [socket, setSocket] = useState();
 
   useEffect(() => {
-    const socket = io(`${window.location.origin}`, {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            Authorization: localStorage.getItem("jwtToken")
-          }
-        }
-      }
+    const newSocket = io(`${window.location.origin}`, {
+      query: { id }
+      // transportOptions: {
+      //   polling: {
+      //     extraHeaders: {
+      //       Authorization: localStorage.getItem("jwtToken")
+      //     }
+      //   }
+      // }
     });
 
-    socket.on("connect", () => {
-      api.setHeader("User-Socket-Id", socket.id);
-      setSocket(socket);
-      console.log(socket);
+    newSocket.on("connect", () => {
+      api.setHeader("User-Socket-Id", newSocket.id);
+      setSocket(newSocket);
+      console.log(newSocket);
     });
 
-    socket.onAny((event, ...args) => {
+    newSocket.onAny((event, ...args) => {
       console.log(event, args);
     });
 
     return () => {
-      socket.disconnect();
+      newSocket.close();
       api.setHeader("User-Socket-Id", false);
       setSocket(false);
     };
-  }, [setSocket]);
+  }, [id]);
 
-  return <Provider value={[socketState, setSocket]} {...props} />;
+  return <Provider value={[socket, setSocket]} {...props} />;
 };
 
 const useSocketContext = () => {
