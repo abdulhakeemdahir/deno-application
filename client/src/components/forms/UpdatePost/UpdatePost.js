@@ -1,9 +1,5 @@
 // import React, { useState, useEffect } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -35,24 +31,17 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function Post() {
+export default function UpdatePost() {
 	const classes = useStyles();
 
 	return (
 		<Grid className='cardPost'>
 			<form className={classes.root} noValidate autoComplete='off'>
-				<FormControl variant='outlined'>
-					<InputLabel id='post'>Post Type</InputLabel>
-					<Select labelId='post' id='post' label='post type '>
-						<MenuItem value={"comment"}>Comment</MenuItem>
-						<MenuItem value={"cause"}>Cause</MenuItem>
-					</Select>
-				</FormControl>
 				<div>
 					<Grid container>
 						<TextField
 							id='title'
-							label='Title'
+							label='Edit Title'
 							multiline
 							rowsMax={4}
 							className={classes.inputMargin}
@@ -60,7 +49,7 @@ export default function Post() {
 						/>
 						<TextField
 							id='imageUrl'
-							label='Image Url'
+							label='Edit Image Url'
 							multiline
 							rowsMax={4}
 							className={classes.inputMargin}
@@ -68,7 +57,7 @@ export default function Post() {
 						/>
 						<TextField
 							id='post'
-							label='Post a Message'
+							label='Edit Message'
 							variant='filled'
 							multiline
 							rows={4}
@@ -78,7 +67,7 @@ export default function Post() {
 					</Grid>
 				</div>
 				<Button size='small' className={classes.styleMain}>
-					<ChatBubbleOutlineIcon /> Post
+					<ChatBubbleOutlineIcon /> Update
 				</Button>
 			</form>
 		</Grid>
