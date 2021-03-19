@@ -9,10 +9,14 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../utils/api.js";
+
 import FormUserDetails1 from "./UserInfo/FormUserDetails1.js";
 import FormUserDetails2 from "./UserInfo/FormUserDetails2.js";
 import FormUserConfirm from "./UserInfo/FormUserConfirm.js";
 import { ThumbUp } from "@material-ui/icons";
+
+import { useHistory } from "react-router";
+
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -71,6 +75,7 @@ export default function SignUpUser() {
 		username: "",
 		firstName: "",
 		lastname: "",
+
 		role: "",
 		bio: "",
 		thumbnail: "",
@@ -84,13 +89,17 @@ export default function SignUpUser() {
 		});
 	};
 
+	const history = useHistory()
+
 	const handleSubmit = async event => {
 		event.preventDefault();
 
 		try {
 			// Register the user.
-			await api.register(setStateSignUp);
-
+			await api.register(stateSignUp);
+			
+			history.go(0);
+			
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
 			// Handle error responses from the API. This will include
@@ -120,6 +129,7 @@ export default function SignUpUser() {
 		bio,
 		thumbnail,
 	};
+
 
 	switch (step) {
 		case 1:

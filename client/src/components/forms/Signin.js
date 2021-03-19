@@ -2,6 +2,7 @@ import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import { useLogin } from "../../utils/auth";
 
 const useStyles = makeStyles({
@@ -51,6 +52,7 @@ export default function Signin() {
 		username: "" 
 	});
 
+	const history = useHistory();
 	// Get the helper login function from the `useLogin` hook.
     const login = useLogin();
 
@@ -70,6 +72,8 @@ export default function Signin() {
         	await login(stateSignIn);
 
             // User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+			
+			history.push("/newsfeed")
 
         } catch(err) {
 
