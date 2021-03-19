@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Typography, Grid, Avatar, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
-import api from "../../utils/api.js";
+
 import FormOrgDetails1 from "./OrgInfo/FormOrgDetails1.js";
 import FormOrgDetails2 from "./OrgInfo/FormOrgDetails2.js";
 import FormOrgConfirm from "./OrgInfo/FormOrgConfirm.js";
 import { ThumbUp } from "@material-ui/icons";
+
+import api from "../../utils/api";
+import { useHistory } from "react-router";
+
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -38,6 +42,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpOrg() {
+
 	const [stateForm, setStateForm] = useState({
 		step: 1,
 	});
@@ -114,6 +119,7 @@ export default function SignUpOrg() {
 		bio,
 		thumbnail,
 	};
+
 
 	switch (step) {
 		case 1:
