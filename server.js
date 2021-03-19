@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
+const { Messenger, User } = require("./models");
 const PORT = process.env.PORT || 3001;
 
 // Create server
@@ -35,11 +36,31 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
   useNewUrlParser: true
 });
 
+io.use(async (socket, next) => {
+  const socketUser = await User.findOne({
+    sessionID
+  });
+
+  if (socketUser) {
+    socket.sessionID = socketUser.sessionID;
+    socket.userID = socketUser._id;
+    socket.username = socketUser.username;
+    return next();
+  }
+
+  return;
+});
+
 // Connect the client to the socket.
 io.on("connection", socket => {
   console.log("User Connected: ", socket.id);
   const id = socket.handshake.query.id;
   socket.join(id);
+
+  socket.emit("session", {
+    session: socket.sessionID,
+    userID: socket.userID
+  });
 
   socket.on("send-message", ({ recipients, text }) => {
     recipients.forEach(recipient => {
