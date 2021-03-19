@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
 	Typography,
 	Grid,
@@ -9,11 +11,17 @@ import {
 	AccordionDetails,
 	TextField,
 	Button,
+	Dialog,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { Edit } from "@material-ui/icons";
+
 import "./style.css";
+import UpdatePost from "../Forms/UpdatePost/UpdatePost";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -56,83 +64,121 @@ const useStyles = makeStyles(theme => ({
 
 export default function News(props) {
 	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 	return (
-		<Grid item className='card' xs={12}>
-			<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
-				{props.title}
-			</Typography>
-			<Typography variant='body2' color='textSecondary' component='p'>
-				<span className='authorStyle'> Author:</span> {props.author}
-			</Typography>
-			<Divider />
-			<Grid container direction='row' spacing={1}>
-				<Grid item xs={12} sm={4}>
-					<CardMedia className={"media"} image={props.image} />
-				</Grid>
-				<Grid item xs={12} sm={8}>
-					<CardContent>
-						<Typography variant='body' color='textSecondary' component='p'>
-							{props.post}
+		<>
+			<Grid item className='card' xs={12}>
+				<Grid container className='headerContainer'>
+					<Grid item xs={9} sm={10}>
+						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+							{props.title}
 						</Typography>
-						<a href={props.link} className='hashTagStyle'>
-							#{props.hashTag}
-						</a>
-					</CardContent>
-					<Divider />
-				</Grid>
-			</Grid>
-			<Grid container xs={12} spacing={1}>
-				<Grid item xs={12} sm={8}>
-					<TextField
-						id='post'
-						label='Post a Comment'
-						variant='filled'
-						fullWidth
-					/>
-				</Grid>
-				<Grid item xs={12} sm={4}>
-					<Button size='large' className={classes.styleMain} fullWidth>
-						<ChatBubbleOutlineIcon /> Comment
-					</Button>
-				</Grid>
-				<Accordion className={classes.shadow}>
-					<AccordionSummary
-						expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-						aria-controls='panel1a-content'
-						id='panel1a-header'
-					>
-						<Typography className={classes.heading}>
-							Read {props.comments.length} Comments
-						</Typography>
-					</AccordionSummary>
-					<Grid className='cardComment'>
-						{props.comments.map(card => (
-							<AccordionDetails>
-								<Grid container xs={12} className={classes.gridStyle}>
-									<Grid item xs={4}>
-										<Typography
-											variant='body'
-											color='textSecondary'
-											component='p'
-										>
-											{card.author}
-										</Typography>
-									</Grid>
-									<Grid item xs={8}>
-										<Typography
-											variant='body'
-											color='textSecondary'
-											component='p'
-										>
-											{card.post}
-										</Typography>
-									</Grid>
-								</Grid>
-							</AccordionDetails>
-						))}
 					</Grid>
-				</Accordion>
+					<Grid item xs={3} sm={2}>
+						<Button className='editButton' onClick={handleOpen}>
+							<Edit /> Edit
+						</Button>
+						<Dialog
+							aria-labelledby='transition-modal-title'
+							aria-describedby='transition-modal-description'
+							open={open}
+							onClose={handleClose}
+							closeAfterTransition
+							BackdropComponent={Backdrop}
+							BackdropProps={{
+								timeout: 500,
+							}}
+						>
+							<Fade in={open}>
+								<UpdatePost className={"cardPost"} />
+							</Fade>
+						</Dialog>
+					</Grid>
+				</Grid>
+				<Typography variant='body2' color='textSecondary' component='p'>
+					<span className='authorStyle'> Author:</span> {props.author}
+				</Typography>
+				<Divider />
+				<Grid container direction='row' spacing={1}>
+					<Grid item xs={12} sm={4}>
+						<CardMedia className={"media"} image={props.image} />
+					</Grid>
+					<Grid item xs={12} sm={8}>
+						<CardContent>
+							<Typography variant='body' color='textSecondary' component='p'>
+								{props.post}
+							</Typography>
+							<a href={props.link} className='hashTagStyle'>
+								#{props.hashTag}
+							</a>
+						</CardContent>
+						<Divider />
+					</Grid>
+				</Grid>
+				<Grid container xs={12} spacing={1}>
+					<Grid item xs={12} sm={8}>
+						<TextField
+							id='post'
+							label='Post a Comment'
+							variant='filled'
+							size='small'
+							multiline
+							rowsMax={4}
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12} sm={4}>
+						<Button size='small' className={classes.styleMain} fullWidth>
+							<ChatBubbleOutlineIcon /> Comment
+						</Button>
+					</Grid>
+					<Accordion className={classes.shadow}>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
+							aria-controls='panel1a-content'
+							id='panel1a-header'
+						>
+							<Typography className={classes.heading}>
+								Read {props.comments.length} Comments
+							</Typography>
+						</AccordionSummary>
+						<Grid className='cardComment'>
+							{props.comments.map(card => (
+								<AccordionDetails>
+									<Grid container xs={12} className={classes.gridStyle}>
+										<Grid item xs={4}>
+											<Typography
+												variant='body'
+												color='textSecondary'
+												component='p'
+											>
+												{card.author}
+											</Typography>
+										</Grid>
+										<Grid item xs={8}>
+											<Typography
+												variant='body'
+												color='textSecondary'
+												component='p'
+											>
+												{card.post}
+											</Typography>
+										</Grid>
+									</Grid>
+								</AccordionDetails>
+							))}
+						</Grid>
+					</Accordion>
+				</Grid>
 			</Grid>
-		</Grid>
+		</>
 	);
 }

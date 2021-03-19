@@ -17,3 +17,7 @@
 	background: #fff !important;
 	margin: 5px;
 }
+
+.MuiFilledInput-root {
+	background-color: rgba(29, 196, 233, 0.1) !important;
+}
