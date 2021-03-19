@@ -69,6 +69,9 @@ const userSchema = new Schema({
   },
   bannerImg: {
     type: String
+  },
+  socketId: {
+    type: String
   }
 });
 

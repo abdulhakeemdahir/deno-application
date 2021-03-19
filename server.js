@@ -3,13 +3,16 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-
-const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Define socket.io server
+// Create server
+const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000"
+  }
+});
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -48,6 +51,10 @@ io.on("connection", socket => {
         text
       });
     });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user has left.");
   });
 });
 
