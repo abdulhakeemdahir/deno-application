@@ -113,12 +113,12 @@ export default function Landing() {
 							className={classes.tabpanel}
 						/>
 						<Tab
-							label='Sign Up User'
+							label='SignUp User'
 							{...a11yProps(1)}
 							className={classes.tabpanel}
 						/>
 						<Tab
-							label='Sign Up Org'
+							label='SignUp Org'
 							{...a11yProps(2)}
 							className={classes.tabpanel}
 						/>

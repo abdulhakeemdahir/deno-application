@@ -1,7 +1,7 @@
-.card {
-	background: #ffffff;
-	border-radius: 0px;
-	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+.cardPost {
+	background: transparent;
+	/* border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%); */
 	padding: 10px;
 	margin: 10px;
 }
@@ -44,11 +44,4 @@
 	padding: 0px !important;
 	margin-top: -20px;
 	overflow: hidden;
-}
-
-.cardPost {
-	background: transparent !important;
-	box-shadow: none !important;
-	padding: 10px;
-	margin: 10px;
 }

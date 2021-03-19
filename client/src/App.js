@@ -12,6 +12,8 @@ import { useAuthTokenStore } from "./utils/auth.js";
 import { SocketProvider } from "./utils/GlobalStates/SocketProvider";
 // import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
+import Chatroom from "./containers/Chatroom";
+//import GuestRoute from "./components/GuestRoute.js"
 
 const theme = createMuiTheme({
   palette: {
@@ -45,13 +47,18 @@ function App() {
                           redirectTo='/'
                           component={Main}
                         />
+
                         <PrivateRoute
                           exact
                           path='/dashboard'
                           redirectTo='/'
                           component={Dashboard}
                         />
+
                         <Route path='/explore' exact component={Main} />
+
+                        <Route path='/chatroom' exact component={Chatroom} />
+
                         <Route path='/' exact component={Landing} />
                       </Switch>
                     </TrendProvider>
