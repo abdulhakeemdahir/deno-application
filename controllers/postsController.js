@@ -48,8 +48,29 @@ module.exports = {
   remove: async (req, res) => {
     try {
       const postModel = await Post.findByIdAndDelete({ _id: req.params.id });
-      const deleteModel = await postModel.remove();
-      res.status(200).json(deleteModel);
+      //const deleteModel = await postModel.remove();
+      res.status(200).json(postModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
+  getAllPost: async (req, res) => {
+    try {
+      const Post = await Post.find({}).populate({
+        path: "author",
+        path: "likes",
+        path: "commnets",
+        populate: {
+          path: "user",
+          model: "User",
+          path: "likes",
+          populate: {
+            path: "user",
+            model: "User"
+          }
+        }
+      });
+      res.status(200).json(Post);
     } catch (err) {
       res.status(422).json(err);
     }
