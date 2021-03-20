@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { Messenger, User } = require("./models");
 const PORT = process.env.PORT || 3001;
 
 // Create server
@@ -65,6 +64,13 @@ io.on("connection", socket => {
         sender: id,
         text
       });
+    });
+  });
+
+  socket.on("comment", ({ post, text }) => {
+    socket.broadcast.to(post).emit("update-comment-board", {
+      post,
+      text
     });
   });
 
