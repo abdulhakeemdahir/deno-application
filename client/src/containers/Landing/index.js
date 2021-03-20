@@ -27,51 +27,6 @@ import {
 import API from "../../utils/api";
 
 
-
-export const User = () => {
-  //Is below necessary
-  const [state, dispatch] = useUserContext;
-
-  //Read
-  const getUserInfo = async (id) => {
-    dispatch({ type: USER_LOADING });
-    const userInfo = await API.getUser(id)
-    dispatch({
-      type: GET_USER_INFO,
-      payload: {
-        ...userInfo
-      }
-    })
-  };
-
-  //Update
-  const updateUser = async(id, data) => {
-    dispatch({ type: USER_LOADING });
-    await API.getUser(id, data)
-    dispatch({
-      type: UPDATE_USER,
-      payload: {
-        ...data
-      }
-    })
-  };
-
-  //Delete user
-  const removeUser = async (id) => {
-    dispatch({ type: USER_LOADING });
-    await API.deleteUser(id);
-    dispatch({
-      type: REMOVE_USER,
-      payload: {
-        users: state.users.filter((user) => {
-          return user._id !== id;
-        }),
-        loading: false,
-      },
-    });
-  };
-};
-export default User();
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -137,6 +92,48 @@ const useStyles = makeStyles({
   },
 });
 export default function Landing() {
+
+    const [userState, userDispatch] = useUserContext();
+
+    //Read
+    const getUserInfo = async (id) => {
+      userDispatch({ type: USER_LOADING });
+      const userInfo = await API.getUser(id)
+      userDispatch({
+        type: GET_USER_INFO,
+        payload: {
+          ...userInfo
+        }
+      })
+    };
+  
+    //Update
+    const updateUser = async(id, data) => {
+      userDispatch({ type: USER_LOADING });
+      await API.getUser(id, data)
+      userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...data
+        }
+      })
+    };
+  
+    //Delete user
+    const removeUser = async (id) => {
+      userDispatch({ type: USER_LOADING });
+      await API.deleteUser(id);
+      userDispatch({
+        type: REMOVE_USER,
+        payload: {
+          users: userState.users.filter((user) => {
+            return user._id !== id;
+          }),
+          loading: false,
+        },
+      });
+    };
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
