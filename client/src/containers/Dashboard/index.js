@@ -87,10 +87,10 @@ const Dashboard = () => {
     });
   };
 
-  useEffect( () => {
-    getUserInfo()
+  // useEffect( () => {
+  //   getUserInfo()
 
-  })
+  // })
 
   const [aboutState] = useState([
     {

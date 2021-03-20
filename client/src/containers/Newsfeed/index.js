@@ -22,6 +22,8 @@ import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import {
   GET_CAUSE_INFO,
   GET_POST_INFO,
+  GET_ALL_POST_INFO,
+  GET_TRENDING,
   UPDATE_CAUSE,
   UPDATE_POST,
   CAUSE_LOADING,
@@ -30,17 +32,17 @@ import {
   ADD_POST,
   POST_LOADING,
   REMOVE_POST,
+  GET_FOLLOWING,
 } from "../../utils/actions/actions";
 import API from "../../utils/api";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
-
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
 
@@ -54,7 +56,7 @@ const Newsfeed = () => {
       type: ADD_CAUSE,
       payload: {
         ...causeInfo,
-        loading: false
+        loading: false,
       },
     });
   };
@@ -66,8 +68,21 @@ const Newsfeed = () => {
     causeDispatch({
       type: GET_CAUSE_INFO,
       payload: {
-        ...causeInfo,
-        loading: false
+        currentCause: causeInfo,
+        loading: false,
+      },
+    });
+  };
+
+  //
+  const getAllCauseInfo = async (data) => {
+    causeDispatch({ type: CAUSE_LOADING });
+    const causeInfo = await API.getUsersCauses(data);
+    causeDispatch({
+      type: GET_CAUSE_INFO,
+      payload: {
+        causes: [...causeInfo],
+        loading: false,
       },
     });
   };
@@ -110,7 +125,7 @@ const Newsfeed = () => {
       type: ADD_POST,
       payload: {
         ...postInfo,
-        loading: false
+        loading: false,
       },
     });
   };
@@ -122,8 +137,43 @@ const Newsfeed = () => {
     postDispatch({
       type: GET_POST_INFO,
       payload: {
-        ...postInfo,
-        loading: false
+        currentPost: postInfo,
+        loading: false,
+      },
+    });
+  };
+  const getAllPostInfo = async () => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.geAllPost();
+    postDispatch({
+      type: GET_ALL_POST_INFO,
+      payload: {
+        posts: [...postInfo],
+        loading: false,
+      },
+    });
+  };
+
+  const getFollowing = async (data) => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.findFollowing(data);
+    postDispatch({
+      type: GET_FOLLOWING,
+      payload: {
+        following: [...postInfo],
+        loading: false,
+      },
+    });
+  };
+
+  const getTrending = async (data) => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.findTrending(data);
+    postDispatch({
+      type: GET_TRENDING,
+      payload: {
+        trending: [...postInfo],
+        loading: false,
       },
     });
   };
@@ -135,8 +185,8 @@ const Newsfeed = () => {
     postDispatch({
       type: UPDATE_POST,
       payload: {
-        ...data,
-        loading: false
+        post: [...data],
+        loading: false,
       },
     });
   };
@@ -159,16 +209,16 @@ const Newsfeed = () => {
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
-      url: "#"
+      url: "#",
     },
     {
       hashTag: "Save the Elephants",
-      url: "#"
+      url: "#",
     },
     {
       hashTag: "Save the Whales",
-      url: "#"
-    }
+      url: "#",
+    },
   ]);
   const [newsState] = useState([
     {
@@ -182,17 +232,17 @@ const Newsfeed = () => {
       comments: [
         {
           author: "Jake",
-          post: "This is a test comment"
+          post: "This is a test comment",
         },
         {
           author: "Bobby",
-          post: "This is a test comment"
+          post: "This is a test comment",
         },
         {
           author: "Drake",
-          post: "This is a test comment"
-        }
-      ]
+          post: "This is a test comment",
+        },
+      ],
     },
     {
       title: "Elephant Preservation",
@@ -205,17 +255,17 @@ const Newsfeed = () => {
       comments: [
         {
           author: "Chris",
-          post: "This is a test comment"
+          post: "This is a test comment",
         },
         {
           author: "Sherman",
-          post: "This is a test comment"
+          post: "This is a test comment",
         },
         {
           author: "Drake",
-          post: "This is a test comment"
-        }
-      ]
+          post: "This is a test comment",
+        },
+      ],
     },
     {
       title: "Whale Preservation",
@@ -229,25 +279,25 @@ const Newsfeed = () => {
         {
           author: "Ani",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
         },
         {
           author: "Stewart",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
         },
         {
           author: "Cassandra",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
         },
         {
           author: "Cassandra",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
-        }
-      ]
-    }
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+        },
+      ],
+    },
   ]);
   // const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -256,13 +306,13 @@ const Newsfeed = () => {
   };
   const { width } = useWindowDimensions();
   return (
-    <div className='Main'>
+    <div className="Main">
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction='row'
-          justify='center'
+          direction="row"
+          justify="center"
           className={"container"}
           xs={12}
           lg={10}
@@ -271,15 +321,15 @@ const Newsfeed = () => {
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>TRENDING</Typography>
-                  {trendingState.map(card => (
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">TRENDING</Typography>
+                  {trendingState.map((card) => (
                     <Trending hashTag={card.hashTag} link={card.url} />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={6} className='card-container'>
-                  <Typography variant='subtitle2'>NEWS FEED</Typography>
-                  {newsState.map(card => (
+                <Grid item xs={12} sm={6} className="card-container">
+                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                  {newsState.map((card) => (
                     <News
                       title={card.title}
                       author={card.author}
@@ -291,9 +341,9 @@ const Newsfeed = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>CAUSES</Typography>
-                  {newsState.map(card => (
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">CAUSES</Typography>
+                  {newsState.map((card) => (
                     <Causes
                       title={card.title}
                       author={card.author}
@@ -308,18 +358,14 @@ const Newsfeed = () => {
             </>
           ) : (
             <>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label='simple tabs example'
-              >
-                <Tab label='News' {...a11yProps(0)} />
-                <Tab label='Trending' {...a11yProps(1)} />
-                <Tab label='Causes' {...a11yProps(2)} />
+              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                <Tab label="News" {...a11yProps(0)} />
+                <Tab label="Trending" {...a11yProps(1)} />
+                <Tab label="Causes" {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  {newsState.map(card => (
+                  {newsState.map((card) => (
                     <News
                       title={card.title}
                       author={card.author}
@@ -334,14 +380,14 @@ const Newsfeed = () => {
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
-                  {trendingState.map(card => (
+                  {trendingState.map((card) => (
                     <Trending hashTag={card.hashTag} link={card.url} />
                   ))}
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {newsState.map(card => (
+                  {newsState.map((card) => (
                     <Causes
                       title={card.title}
                       author={card.author}
