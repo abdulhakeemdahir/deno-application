@@ -13,20 +13,6 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Splash from "../../components/Splash";
-import { useUserContext } from "../../utils/GlobalStates/UserContext";
-import {
-  ADD_USER,
-  GET_USER_INFO,
-  REMOVE_USER,
-  UPDATE_USER,
-  USER_LOADED,
-  USER_LOADING,
-  //What about USER_LOADED?
-} from "../../utils/actions/actions";
-
-import API from "../../utils/api";
-
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -93,47 +79,6 @@ const useStyles = makeStyles({
 });
 export default function Landing() {
 
-    const [userState, userDispatch] = useUserContext();
-
-    //Read
-    const getUserInfo = async (id) => {
-      userDispatch({ type: USER_LOADING });
-      const userInfo = await API.getUser(id)
-      userDispatch({
-        type: GET_USER_INFO,
-        payload: {
-          ...userInfo
-        }
-      })
-    };
-  
-    //Update
-    const updateUser = async(id, data) => {
-      userDispatch({ type: USER_LOADING });
-      await API.getUser(id, data)
-      userDispatch({
-        type: UPDATE_USER,
-        payload: {
-          ...data
-        }
-      })
-    };
-  
-    //Delete user
-    const removeUser = async (id) => {
-      userDispatch({ type: USER_LOADING });
-      await API.deleteUser(id);
-      userDispatch({
-        type: REMOVE_USER,
-        payload: {
-          users: userState.users.filter((user) => {
-            return user._id !== id;
-          }),
-          loading: false,
-        },
-      });
-    };
-
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -168,7 +113,7 @@ export default function Landing() {
           </Tabs>
           <div className={classes.marginStyle}>
             <TabPanel value={value} index={0}>
-              <Signin />
+              <Signin updateUser={updateUserInfo} />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <SignUpUser />
