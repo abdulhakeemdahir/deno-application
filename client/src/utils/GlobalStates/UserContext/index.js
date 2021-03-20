@@ -9,7 +9,28 @@ const { Provider } = UserContext;
 
 const UserProvider = ({ value = [], ...props }) => {
   const [userState, userDispatch] = useReducer(reducer, {
-    _id: 0,
+    users: [
+      {
+        __id: 0,
+
+        //from user.js in models
+        firstName: "",
+        lastname: "",
+        username: "",
+        email: "",
+        password: "",
+        uuid: "",
+        role: "",
+        verified: false,
+        following: [],
+        followers: [],
+        posts: [],
+        profileImg: "",
+        bannerImg: "",
+        causes: [],
+        orgName: "",
+      },
+    ],
   });
 
   return <Provider value={[userState, userDispatch]} {...props} />;
