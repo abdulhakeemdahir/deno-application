@@ -4,6 +4,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useLogin } from "../../utils/auth";
+import { useUserContext } from "../../utils/GlobalStates/UserContext"
+import { GET_USER_INFO, USER_LOADING } from "../../utils/actions/actions";
 
 const useStyles = makeStyles({
 	paper: {
@@ -63,16 +65,20 @@ export default function Signin() {
 			[name]: value,
 		});
 	};
-
+	const [userState, userDispatch] = useUserContext();
 	const handleSubmit = async (event) => {
         event.preventDefault();
 		
 		try {
 
-        	await login(stateSignIn);
-
+        	const {username} = await login(stateSignIn);
             // User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 			
+			await userDispatch({ type: USER_LOADING });
+			await userDispatch({ type: GET_USER_INFO, payload:{
+				username, loading: false
+			}});
+
 			history.push("/newsfeed")
 
         } catch(err) {

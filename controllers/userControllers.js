@@ -30,7 +30,26 @@ module.exports = {
   },
   updateUser: async (req, res) => {
     try {
-      await User.findByIdAndUpdate({ _id: req.params.id }, req.body);
+      const { firstName, email, password, username, lastname } = req.body;
+
+      const updateUser = {};
+
+      if (firstName) {
+        updateUser.firstName = firstName;
+      }
+      if (email) {
+        updateUser.email = email;
+      }
+      if (password) {
+        updateUser.password = await createPassword(password);
+      }
+      if (username) {
+        updateUser.username = username;
+      }
+      if (lastname) {
+        updateUser.lastname = lastname;
+      }
+      await User.findByIdAndUpdate({ _id: req.params.id }, updateUser);
       res.status(200).json(causeModel);
     } catch (err) {
       res.status(422).json(err);
