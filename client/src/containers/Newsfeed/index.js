@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
+import Post from "../../components/Post";
 
 import Nav from "../../components/Navigation/Nav";
 import News from "../../components/News";
@@ -209,6 +210,7 @@ export default function Newsfeed() {
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
+									<Post className='card' />
 									{newsState.map(card => (
 										<News
 											title={card.title}
@@ -249,6 +251,7 @@ export default function Newsfeed() {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
+									<Post className='card' />
 									{newsState.map(card => (
 										<News
 											title={card.title}
