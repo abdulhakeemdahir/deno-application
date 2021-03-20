@@ -127,7 +127,7 @@ export default function Signin() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<Button size='large' className={classes.styleMain} fullWidth onClick={handleSubmit}>
+				<Button size='large' className={classes.styleMain} fullWidth onSubmit={handleSubmit}>
 					Log In
 				</Button>
 			</form>
