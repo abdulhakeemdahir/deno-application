@@ -4,7 +4,7 @@ const { createPassword } = require("../config/bcrypt.js");
 module.exports = {
   getUser: async () => {
     try {
-      const user = await User.findById({ _id: req.params.id })
+      const user = await User.findById({ username: req.body.username })
         .select("firstName lastname username email role profileImg bannerImg")
         .populate({
           path: "following",
@@ -18,6 +18,11 @@ module.exports = {
             model: "User"
           },
           path: "posts",
+          populate: {
+            path: "user",
+            model: "User"
+          },
+          path: "cause",
           populate: {
             path: "user",
             model: "User"
