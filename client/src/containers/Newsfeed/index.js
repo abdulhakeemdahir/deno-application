@@ -118,7 +118,7 @@ const Newsfeed = () => {
   //Read post
   const getPostInfo = async (data) => {
     postDispatch({ type: POST_LOADING });
-    const postInfo = await API.getPost(id);
+    const postInfo = await API.getPost(data);
     postDispatch({
       type: GET_POST_INFO,
       payload: {
