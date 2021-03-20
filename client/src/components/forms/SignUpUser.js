@@ -75,8 +75,8 @@ export default function SignUpUser() {
 		username: "",
 		firstName: "",
 		lastname: "",
-
-		role: "",
+    response: "",
+		role: "Personal",
 		bio: "",
 		thumbnail: "",
 	});
@@ -91,13 +91,17 @@ export default function SignUpUser() {
 
 	const history = useHistory()
 
-	const handleSubmit = async event => {
-		event.preventDefault();
-
+	const handleSubmit = async () => {
+		//event.preventDefault();
+		console.log(stateSignUp)
 		try {
 			// Register the user.
-			await api.register(stateSignUp);
+			const {data} = await api.register(stateSignUp);
 			
+      setStateSignUp({
+        ...stateSignUp,
+        response: data,
+      });
 			history.go(0);
 			
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
@@ -129,7 +133,7 @@ export default function SignUpUser() {
 		bio,
 		thumbnail,
 	};
-
+console.log(values)
 
 	switch (step) {
 		case 1:
@@ -202,39 +206,40 @@ export default function SignUpUser() {
 						nextStep={nextStep}
 						previousStep={previousStep}
 						values={values}
+						handleSubmit={handleSubmit}
 					/>
 				</Grid>
 			);
 		case 4:
 			return (
-				<Grid
-					container
-					direction='column'
-					justify='center'
-					alignItems='center'
-					className={classes.paper}
-				>
-					<Container>
-						<Grid item align='center'>
-							<Avatar className={classes.styleIcon}>
-								<ThumbUp />
-							</Avatar>
-							<Typography variation='h6' color='default'>
-								Congratulations
-							</Typography>
-						</Grid>
-						<Typography variation='h6' color='default'>
-							Thank you for Signing Up!
-						</Typography>
-						<br />
-						<Divider />
-						<br />
-						<Typography variation='h6' color='default'>
-							Please Login.
-						</Typography>
-					</Container>
-				</Grid>
-			);
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          className={classes.paper}
+        >
+          <Container>
+            <Grid item align="center">
+              <Avatar className={classes.styleIcon}>
+                <ThumbUp />
+              </Avatar>
+              <Typography variation="h6" color="default">
+                {stateSignUp.response.headers}
+              </Typography>
+            </Grid>
+            <Typography variation="h6" color="default">
+              {stateSignUp.response.message}
+            </Typography>
+            <br />
+            <Divider />
+            <br />
+            <Typography variation="h6" color="default">
+              {stateSignUp.response.footer}
+            </Typography>
+          </Container>
+        </Grid>
+      );
 		default:
 			return;
 	}
