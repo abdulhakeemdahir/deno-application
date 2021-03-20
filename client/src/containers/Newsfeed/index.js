@@ -112,9 +112,9 @@ export default function Newsfeed() {
   };
 
   //Read cause
-  const getCauseInfo = async (id) => {
+  const getCauseInfo = async (data) => {
     causeDispatch({ type: CAUSE_LOADING });
-    const causeInfo = await API.getUsersCauses(id);
+    const causeInfo = await API.getUsersCauses(data);
     causeDispatch({
       type: GET_CAUSE_INFO,
       payload: {
@@ -168,7 +168,7 @@ export default function Newsfeed() {
   };
 
   //Read post
-  const getPostInfo = async (id) => {
+  const getPostInfo = async (data) => {
     postDispatch({ type: POST_LOADING });
     const postInfo = await API.getPost(id);
     postDispatch({
