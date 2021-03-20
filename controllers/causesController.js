@@ -1,9 +1,10 @@
 const { Cause } = require("../models");
+const { User } = require("../models");
 
 module.exports = {
   getUsersCauses: async (req, res) => {
     try {
-      const causeModel = await Cause.find(req.body._id).sort({ date: -1 });
+      const causeModel = await Cause.find(req.body.username).sort({ date: -1 });
       res.status(200).json(causeModel);
     } catch (err) {
       res.status(422).json(err);
@@ -27,7 +28,7 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      const causeModel = await Cause.create(req.body.data);
+      const causeModel = await Cause.create(req.body);
       res.status(201).json(causeModel);
     } catch (err) {
       res.status(422).json(err);
@@ -36,7 +37,7 @@ module.exports = {
   update: async (req, res) => {
     try {
       const causeModel = await Cause.findByIdAndUpdate(
-        { _id: req.params._id },
+        { username: req.params.username },
         req.body
       );
       res.status(200).json(causeModel);
@@ -55,10 +56,11 @@ module.exports = {
 
   addLike: async (req, res) => {
     try {
+      const user = await User.find(req.params.username);
       const causeModel = await Cause.findByIdAndUpdate(
         { _id: req.params.id },
         {
-          $push: { likes: req.body._id }
+          $push: { likes: user._id }
         },
 
         { new: true, runValidators: true }
