@@ -61,7 +61,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Landing() {
+const Landing = () => {
   const [userState, userDispatch] = useUserContext();
 
   //Read
@@ -165,4 +165,6 @@ export default function Landing() {
       <Gradient />
     </div>
   );
-}
+};
+
+export default Landing;

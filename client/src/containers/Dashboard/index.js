@@ -8,7 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
-import Nav from "../../components/Navigation/Nav";
+import Nav from "../../components/Navigation";
 import News from "../../components/News";
 // import defaultPic from "../../images/dp.png";
 import Elephant from "../../images/elephant.jpeg";
@@ -32,7 +32,7 @@ TabPanel.propTypes = {
 
 // const useStyles = makeStyles(theme => ({}));
 
-export default function Main() {
+const Dashboard = () => {
   const [aboutState] = useState([
     {
       title: "Elephant Helpers",
@@ -267,4 +267,6 @@ export default function Main() {
       </CssBaseline>
     </div>
   );
-}
+};
+
+export default Dashboard;

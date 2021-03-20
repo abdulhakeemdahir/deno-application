@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import Nav from "../../components/Navigation/Nav";
+import Nav from "../../components/Navigation";
 import Elephant from "../../images/elephant.jpeg";
 import Dolphin from "../../images/dolphin.jpeg";
 import Whale from "../../images/whale.jpeg";
@@ -27,7 +27,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-export default function Chatroom() {
+const Chatroom = () => {
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
@@ -192,4 +192,6 @@ export default function Chatroom() {
       </CssBaseline>
     </div>
   );
-}
+};
+
+export default Chatroom;
