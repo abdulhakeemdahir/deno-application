@@ -42,18 +42,9 @@ io.use(async (socket, next) => {
 
 // Connect the client to the socket.
 io.on("connection", socket => {
-  console.log("User Connected: ", socket.id);
+  console.log("User Logged In: ", socket.id);
   const id = socket.handshake.query.id;
   socket.join(id);
-
-  // socket.emit("session", {
-  //   session: socket.sessionID,
-  //   userID: socket.userID
-  // });
-
-  // socket.on("private", message => {
-  //   socket.broadcast.to(socket.room).emit("chat", message);
-  // });
 
   socket.on("send-message", ({ recipients, text }) => {
     recipients.forEach(recipient => {
@@ -77,6 +68,12 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     console.log("user has left.");
   });
+});
+
+const newsfeed = io.of("/newsfeed");
+
+newsfeed.on("connection", socket => {
+  console.log("welcome to the newsfeed.", socket.id);
 });
 
 // Start the API server

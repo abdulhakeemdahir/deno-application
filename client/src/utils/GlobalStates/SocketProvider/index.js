@@ -19,6 +19,11 @@ const SocketProvider = ({ id, ...props }) => {
       //   }
       // }
     });
+    const socket2 = io(`${window.location.origin}/newsfeed`, {
+      query: { id }
+    });
+
+    console.log(socket2);
 
     newSocket.on("connect", () => {
       api.setHeader("User-Socket-Id", newSocket.id);
