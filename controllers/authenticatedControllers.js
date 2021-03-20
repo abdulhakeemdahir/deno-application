@@ -37,22 +37,26 @@ module.exports = {
       });
 
       if (isUser) {
-        return res.status(422).json("This username or email has been used");
+        return res.status(422).json({
+          header: "Sorry",
+          message: "Username or email is unavalible",
+          footer: "PLease try again"
+        });
       }
 
-      const createUser = await User.create(userObject);
+      await User.create(userObject);
 
       // const key = crypto();
 
       // const mail = new Mail();
 
       // if (await mail.sendMail(email, key, "activate")) {
-      return res
-        .status(200)
-        .json(
-          createUser.firName +
-            " We created your account an Email has been send, kindly activate your account"
-        );
+      return res.status(200).json({
+        header: "Congratulations",
+        message:
+          "We created your account an Email has been send, kindly activate your account",
+        footer: "Please Verify Account"
+      });
       // }
     } catch (err) {
       res.status(422).json(err);

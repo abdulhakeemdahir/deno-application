@@ -64,6 +64,12 @@ const userSchema = new Schema({
       ref: "Posts"
     }
   ],
+  causes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Cause"
+    }
+  ],
   profileImg: {
     type: String
   },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -6,7 +6,6 @@ import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
 
 import Nav from "../../components/Navigation";
 import Elephant from "../../images/elephant.jpeg";
@@ -17,27 +16,10 @@ import Gradient from "../../components/Gradient";
 import Footer from "../../components/Footer";
 import Sidebar from "../../components/Messaging/Sidebar";
 import ChatContainer from "../../components/Messaging/ChatContainer";
+import { TabPanel, a11yProps, useWindowDimensions } from "../utils";
 // import Splash from "../../components/Splash";
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+// const useStyles = makeStyles(theme => ({}));
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -45,40 +27,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
-  };
-}
-
-function getWindowDimensions() {
-  const { innerWidth: width } = window;
-  return {
-    width
-  };
-}
-
-function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
-
-// const useStyles = makeStyles(theme => ({}));
-
-export default function Chatroom() {
+const Chatroom = () => {
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
@@ -243,4 +192,6 @@ export default function Chatroom() {
       </CssBaseline>
     </div>
   );
-}
+};
+
+export default Chatroom;

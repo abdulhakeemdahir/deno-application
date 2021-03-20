@@ -68,13 +68,13 @@ class API {
   getUser(id) {
     return this.axios.post(`/api/users/${id}`);
   }
-  updatePassword(id){
-      return this.axios.post(`/api/users/password/${id}`);
+  updatePassword(id) {
+    return this.axios.post(`/api/users/password/${id}`);
   }
 
   //-----------------------causes api-------------------------//
-  getUsersCauses(data) {
-    return this.axios.get(`/api/causes/dashboard`, data);
+  getUsersCauses(username) {
+    return this.axios.get(`/api/causes/dashboard`, username);
   }
   getTrending(data) {
     return this.axios.get(`/api/causes/dashboard`, data);
@@ -82,70 +82,72 @@ class API {
   createCause(data) {
     return this.axios.post(`/api/causes/create/cause`, data);
   }
-  updateCause(_id){
-      return this.axios.put(`/api/causes/${_id}`);
+  updateCause(username, data) {
+    return this.axios.put(`/api/causes/${username}`, data);
   }
-  addLike(_id){
-    return this.axios.put(`/api/causes/like/${_id}`);
+  addLike(_id, username) {
+    return this.axios.put(`/api/causes/like/${_id}/${username}`);
   }
-  removeCause(_id){
-    return this.axios.delete(`/api/causes/${_id}`);
+  removeCause(_id, username) {
+    return this.axios.delete(`/api/causes/${_id}/${username}`);
   }
 
   //-----------------------post api-------------------------//
+  getAllPost() {
+    return this.axios.get(`/api/posts/dashboard`);
+  }
   findFollowing(data) {
-    return this.axios.get(`/api/posts/dashboard`, data);
+    return this.axios.get(`/api/posts/following`, data);
   }
   findTrending(data) {
-    return this.axios.get(`/api/posts/dashboard`, data);
+    return this.axios.get(`/api/posts/trending`, data);
   }
   createPost(data) {
     return this.axios.post(`/api/posts/dashboard`, data);
   }
-  updatePost(_id){
-      return this.axios.put(`/api/posts/dashboard/${_id}`);
+  updatePost(_id) {
+    return this.axios.put(`/api/posts/dashboard/${_id}`);
   }
-  removePost(_id){
+  removePost(_id) {
     return this.axios.put(`/api/posts/dashboard/${_id}`);
   }
 
   //-----------------------comment api-------------------------//
-  getComments(data) {
-    return this.axios.get(`/api/comments/`, data);
+  getComments() {
+    return this.axios.get(`/api/comments/`);
   }
   createComments(data) {
     return this.axios.get(`/api/comments/`, data);
   }
-  updateComments(_id){
-      return this.axios.put(`/api/comments/${_id}`);
+  updateComments(_id) {
+    return this.axios.put(`/api/comments/${_id}`);
   }
-  removeComments(_id){
+  removeComments(_id) {
     return this.axios.put(`/api/comments/${_id}`);
   }
 
-    //-----------------------hashtags api-------------------------//
-    getHashtagAll(data) {
-      return this.axios.get(`/api/hashtags/`, data);
-    }
-    getHashtagPost(data) {
-      return this.axios.get(`/api/hashtags/post`, data);
-    }
-    getHashtagCause(data) {
-      return this.axios.get(`/api/hashtags/causes`, data);
-    }
-    getHashtagComment(data) {
-      return this.axios.get(`/api/hashtags/comments`, data);
-    }
-    createHashtag(data) {
-      return this.axios.post(`/api/hashtags/`, data);
-    }
-    updateHashtagComment(_id) {
-      return this.axios.get(`/api/hashtags/${_id}`);
-    }
-    removeHashtag(_id) {
-      return this.axios.post(`/api/hashtags/${_id}`);
-    }
-    
+  //-----------------------hashtags api-------------------------//
+  getHashtagAll(data) {
+    return this.axios.get(`/api/hashtags/`, data);
+  }
+  getHashtagPost(data) {
+    return this.axios.get(`/api/hashtags/post`, data);
+  }
+  getHashtagCause(data) {
+    return this.axios.get(`/api/hashtags/causes`, data);
+  }
+  getHashtagComment(data) {
+    return this.axios.get(`/api/hashtags/comments`, data);
+  }
+  createHashtag(data) {
+    return this.axios.post(`/api/hashtags/`, data);
+  }
+  updateHashtagComment(_id) {
+    return this.axios.get(`/api/hashtags/${_id}`);
+  }
+  removeHashtag(_id) {
+    return this.axios.post(`/api/hashtags/${_id}`);
+  }
 }
 
 export default new API();

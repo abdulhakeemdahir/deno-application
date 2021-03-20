@@ -39,9 +39,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FormUserConfirm(props) {
-	const continueOne = e => {
+	const continueOne = async (e) => {
+
 		e.preventDefault();
+
+		await props.handleSubmit();
+		
 		props.nextStep();
+		
 	};
 	const previousOne = e => {
 		e.preventDefault();
