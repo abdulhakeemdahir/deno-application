@@ -56,7 +56,7 @@ export const User = () => {
     })
   };
 
-  //Delete
+  //Delete user
   const removeUser = async (id) => {
     dispatch({ type: USER_LOADING });
     await API.deleteUser(id);
