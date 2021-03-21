@@ -12,6 +12,7 @@ import { useAuthTokenStore } from "./utils/auth.js";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Chatroom from "./containers/Private/Chatroom";
 import SinglePost from "./containers/SinglePost";
+import Analytics from "./containers/Private/Analytics";
 //import GuestRoute from "./components/GuestRoute.js"
 
 const theme = createMuiTheme({
@@ -59,6 +60,7 @@ function App() {
 
 									<Route path='/explore' exact component={Explore} />
 									<Route path='/post' exact component={SinglePost} />
+									<Route path='/analytics' exact component={Analytics} />
 
 									<Route path='/' exact component={Landing} />
 								</Switch>
