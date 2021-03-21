@@ -18,7 +18,7 @@ export default function Splash() {
 	return (
 		<CssBaseline>
 			<div className={classes.gradientStyle}>
-				<img src={Image} alt='forest' />
+				<img src={Image} alt='forest' className={classes.gradientStyle} />
 			</div>
 		</CssBaseline>
 	);
