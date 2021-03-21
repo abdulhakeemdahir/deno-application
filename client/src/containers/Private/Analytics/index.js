@@ -57,7 +57,7 @@ const Analytics = () => {
 					container
 					direction='row'
 					justify='center'
-					className={"container"}
+					className={"containerAnalytics"}
 					xs={12}
 					lg={10}
 					xl={8}
@@ -107,14 +107,14 @@ const Analytics = () => {
 								<Tab label='Causes' {...a11yProps(2)} />
 							</Tabs>
 							<TabPanel value={value} index={0}>
-								<Grid item xs={12}>
+								<Grid container xs={12}>
 									<ChartFollowers />
 									<ChartSupporters />
 									<ChartFollowAndSupport />
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={1}>
-								<Grid item xs={12}>
+								<Grid container xs={12}>
 									{aboutState.map(card => (
 										<About
 											title={card.title}
@@ -132,7 +132,7 @@ const Analytics = () => {
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={2}>
-								<Grid item xs={12}>
+								<Grid container xs={12}>
 									<ChartCausesCreated />
 									<ChartCausesSupported />
 								</Grid>

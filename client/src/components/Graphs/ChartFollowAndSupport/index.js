@@ -44,7 +44,7 @@ export default function ChartFollowAndSupport(props) {
 							height={400}
 							width={400}
 							options={{
-								maintainAspectRatio: false,
+								maintainAspectRatio: true,
 							}}
 						/>
 					</CardContent>

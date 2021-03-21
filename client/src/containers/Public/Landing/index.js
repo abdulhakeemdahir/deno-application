@@ -137,12 +137,12 @@ const Landing = () => {
 							className={classes.tabpanel}
 						/>
 						<Tab
-							label='Sign Up User'
+							label='Signup User'
 							{...a11yProps(1)}
 							className={classes.tabpanel}
 						/>
 						<Tab
-							label='Sign Up Org'
+							label='Signup Org'
 							{...a11yProps(2)}
 							className={classes.tabpanel}
 						/>
