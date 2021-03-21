@@ -97,6 +97,11 @@ const useStyles = makeStyles(theme => ({
 		color: "white",
 		textDecoration: "none",
 	},
+	loginStyle: {
+		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+		color: "white",
+		textDecoration: "none",
+	},
 }));
 
 const navLinks = [
@@ -209,7 +214,11 @@ export default function Nav() {
 												<ListItemText primary='explore' />
 											</ListItem>
 										</Link>
-										<ListItem onClick={login} button>
+										<ListItem
+											onClick={login}
+											button
+											className={classes.loginStyle}
+										>
 											<ListItemText className={classes.linkText}>
 												Log In
 											</ListItemText>
