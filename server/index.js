@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
+const mongodb = require("./config/options")("mongodb");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -22,7 +23,7 @@ app.use(compression());
 app.use(require("./routes"));
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
+mongoose.connect(mongodb, {
   useCreateIndex: true,
   useUnifiedTopology: true,
   useNewUrlParser: true
@@ -30,5 +31,9 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
 
 // Start the API server
 app.listen(PORT, () => {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+  console.log(
+    "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
+    PORT,
+    PORT
+  );
 });
