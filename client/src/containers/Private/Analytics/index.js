@@ -6,36 +6,19 @@ import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
 
 import Nav from "../../../components/Navigation";
-import News from "../../../components/Private/News";
-// import defaultPic from "../../images/dp.png";
-import Elephant from "../../../images/elephant.jpeg";
-import Dolphin from "../../../images/dolphin.jpeg";
-import Whale from "../../../images/whale.jpeg";
 import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Private/Causes";
-import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-// import Splash from "../../components/Splash2";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import {
-	GET_USER_INFO,
-	REMOVE_USER,
-	UPDATE_USER,
-	USER_LOADING,
-	//What about USER_LOADED?
-} from "../../../utils/actions/actions";
-import API from "../../../utils/api";
 import ChartFollowers from "../../../components/Graphs/ChartFollowers";
 import ChartSupporters from "../../../components/Graphs/ChartSupporters";
 import ChartFollowAndSupport from "../../../components/Graphs/ChartFollowAndSupport";
 import ChartCausesCreated from "../../../components/Graphs/ChartCausesCreated";
 import ChartCausesSupported from "../../../components/Graphs/ChartCausesSupported";
+import About from "../../../components/About";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -43,56 +26,7 @@ TabPanel.propTypes = {
 	value: PropTypes.any.isRequired,
 };
 
-// const useStyles = makeStyles(theme => ({}));
-
 const Analytics = () => {
-	const [userState, userDispatch] = useUserContext();
-
-	//Read
-	const getUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const userInfo = await API.getUser(id);
-		userDispatch({
-			type: GET_USER_INFO,
-			payload: {
-				...userInfo,
-				loading: false,
-			},
-		});
-	};
-
-	//Update
-	const updateUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const data = await API.updateUser(id);
-		userDispatch({
-			type: UPDATE_USER,
-			payload: {
-				...data,
-				loading: false,
-			},
-		});
-	};
-
-	//Delete user
-	const removeUser = async id => {
-		userDispatch({ type: USER_LOADING });
-		await API.deleteUser(id);
-		userDispatch({
-			type: REMOVE_USER,
-			payload: {
-				users: userState.users.filter(user => {
-					return user._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
-
-	useEffect(() => {
-		getUserInfo();
-	}, []);
-
 	const [aboutState] = useState([
 		{
 			title: "Elephant Helpers",
@@ -108,8 +42,6 @@ const Analytics = () => {
 			email: "elephant@gmail.com",
 		},
 	]);
-
-	// const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event, newValue) => {

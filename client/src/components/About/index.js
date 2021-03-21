@@ -110,7 +110,12 @@ export default function About(props) {
 							<span className='authorStyle'> E-mail:</span> {props.email}
 						</Typography>
 					</CardContent>
-					<Button size='large' className='analyticsButton' fullWidth>
+					<Button
+						size='large'
+						className='analyticsButton'
+						fullWidth
+						href='/analytics'
+					>
 						<EqualizerIcon /> Analytics
 					</Button>
 				</Grid>
