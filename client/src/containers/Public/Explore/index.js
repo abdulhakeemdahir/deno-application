@@ -5,20 +5,20 @@ import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Nav from "../../components/Navigation";
-import News from "../../components/News";
-import Post from "../../components/Post";
-import Elephant from "../../images/elephant.jpeg";
-import Dolphin from "../../images/dolphin.jpeg";
-import Whale from "../../images/whale.jpeg";
-import Gradient from "../../components/Gradient";
-import Trending from "../../components/Trending";
-import Causes from "../../components/Causes";
-import Footer from "../../components/Footer";
-import { TabPanel, a11yProps, useWindowDimensions } from "../utils";
-// import Splash from "../../components/Splash";
-import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
-import { usePostContext } from "../../utils/GlobalStates/PostContext";
+import Nav from "../../../components/Navigation";
+import News from "../../../components/News";
+import Post from "../../../components/Post";
+import Elephant from "../../../images/elephant.jpeg";
+import Dolphin from "../../../images/dolphin.jpeg";
+import Whale from "../../../images/whale.jpeg";
+import Gradient from "../../../components/Gradient";
+import Trending from "../../../components/Trending";
+import Causes from "../../../components/Causes";
+import Footer from "../../../components/Footer";
+import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
+// import Splash from "../../../components/Splash";
+import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
+import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import {
 	GET_CAUSE_INFO,
 	GET_POST_INFO,
@@ -30,8 +30,8 @@ import {
 	ADD_POST,
 	POST_LOADING,
 	REMOVE_POST,
-} from "../../utils/actions/actions";
-import API from "../../utils/api";
+} from "../../../utils/actions/actions";
+import API from "../../../utils/api";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
