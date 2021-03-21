@@ -1,52 +1,32 @@
-import React, { createContext, useEffect, useContext, useState } from "react";
+import { useEffect } from "react";
 import io from "socket.io-client";
 import api from "../../api";
+import { useStoreDispatch } from "../AuthStore";
+import { SET_SOCKET } from "../AuthStore/actions";
 
-const SocketContext = createContext();
-const { Provider } = SocketContext;
-
-const SocketProvider = ({ id, ...props }) => {
-  const [socket, setSocket] = useState();
+export const useSocketConnection = () => {
+  const dispatch = useStoreDispatch();
 
   useEffect(() => {
     const newSocket = io(`${window.location.origin}`, {
-      query: { id }
-      // transportOptions: {
-      //   polling: {
-      //     extraHeaders: {
-      //       Authorization: localStorage.getItem("jwtToken")
-      //     }
-      //   }
-      // }
+      transportOption: {
+        polling: {
+          extraHeaders: {
+            Authorization: localStorage.getItem("jwtToken")
+          }
+        }
+      }
     });
-    const socket2 = io(`${window.location.origin}/newsfeed`, {
-      query: { id }
-    });
-
-    console.log(socket2);
 
     newSocket.on("connect", () => {
       api.setHeader("User-Socket-Id", newSocket.id);
-      setSocket(newSocket);
-      console.log(newSocket);
-    });
-
-    newSocket.onAny((event, ...args) => {
-      console.log(event, args);
+      dispatch({ type: SET_SOCKET, payload: newSocket });
     });
 
     return () => {
-      newSocket.close();
+      newSocket.disconnect();
       api.setHeader("User-Socket-Id", false);
-      setSocket(false);
+      dispatch({ type: SET_SOCKET, payload: false });
     };
-  }, [id]);
-
-  return <Provider value={[socket, setSocket]} {...props} />;
+  }, [dispatch]);
 };
-
-const useSocketContext = () => {
-  return useContext(SocketContext);
-};
-
-export { SocketProvider, useSocketContext };

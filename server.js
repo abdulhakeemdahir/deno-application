@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
+const { Conversation } = require("./models");
 const PORT = process.env.PORT || 3001;
 
 // Create server
@@ -70,10 +71,16 @@ io.on("connection", socket => {
   });
 });
 
-const newsfeed = io.of("/newsfeed");
+const chatroom = io.of("/chatroom");
 
-newsfeed.on("connection", socket => {
-  console.log("welcome to the newsfeed.", socket.id);
+chatroom.on("connection", socket => {
+  socket.on("get-username", async username => {
+    const convos = await Conversation.find({ username });
+
+    socket.emit("set-convos", convos);
+  });
+
+  socket.on("join-room", (roomToJoin, numOfUsersCallback) => {});
 });
 
 // Start the API server

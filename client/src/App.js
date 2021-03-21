@@ -7,10 +7,11 @@ import { UserProvider } from "./utils/GlobalStates/UserContext";
 import { CauseProvider } from "./utils/GlobalStates/CauseContext";
 import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { useAuthTokenStore } from "./utils/auth.js";
-import { SocketProvider } from "./utils/GlobalStates/SocketProvider";
+import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
 // import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Chatroom from "./containers/Chatroom";
+import { useStoreContext } from "./utils/GlobalStates/AuthStore";
 //import GuestRoute from "./components/GuestRoute.js"
 
 const theme = createMuiTheme({
@@ -26,41 +27,44 @@ const theme = createMuiTheme({
   }
 });
 function App() {
+  const [state] = useStoreContext();
+  useSocketConnection();
+
+  console.log(state);
+
   useAuthTokenStore();
 
   return (
     <Router>
       <MuiThemeProvider theme={theme}>
         <div className='App'>
-          <SocketProvider>
-            <UserProvider>
-              <CauseProvider>
-                  <PostProvider>
-                      <Switch>
-                        <PrivateRoute
-                          exact
-                          path='/newsfeed'
-                          redirectTo='/'
-                          component={Newsfeed}
-                        />
+          <UserProvider>
+            <CauseProvider>
+              <PostProvider>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path='/newsfeed'
+                    redirectTo='/'
+                    component={Newsfeed}
+                  />
 
-                        <PrivateRoute
-                          exact
-                          path='/dashboard'
-                          redirectTo='/'
-                          component={Dashboard}
-                        />
+                  <PrivateRoute
+                    exact
+                    path='/dashboard'
+                    redirectTo='/'
+                    component={Dashboard}
+                  />
 
-                        <Route path='/explore' exact component={Newsfeed} />
+                  <Route path='/explore' exact component={Newsfeed} />
 
-                        <Route path='/chatroom' exact component={Chatroom} />
+                  <Route path='/chatroom' exact component={Chatroom} />
 
-                        <Route path='/' exact component={Landing} />
-                      </Switch>
-                  </PostProvider>
-              </CauseProvider>
-            </UserProvider>
-          </SocketProvider>
+                  <Route path='/' exact component={Landing} />
+                </Switch>
+              </PostProvider>
+            </CauseProvider>
+          </UserProvider>
         </div>
       </MuiThemeProvider>
     </Router>

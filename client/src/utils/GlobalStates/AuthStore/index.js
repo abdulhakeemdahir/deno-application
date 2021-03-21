@@ -1,45 +1,46 @@
-import React,{ createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 
-import {
-    LOGIN_USER,
-    LOGOUT_USER
-} from "./actions";
+import { LOGIN_USER, LOGOUT_USER, SET_SOCKET } from "./actions";
 
 const StoreContext = createContext({
-    userAuth: {},
+  socket: null,
+  userAuth: {}
 });
 
 const { Provider } = StoreContext;
 
-const reducer = ( state, { type, payload } ) => {
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case SET_SOCKET:
+      console.log(payload);
+      return { ...state, socket: payload };
 
-    switch( type ) {
-        case LOGIN_USER:
+    case LOGIN_USER:
+      return { ...state, userAuth: payload };
 
-            return { ...state, userAuth: payload };
+    case LOGOUT_USER:
+      return { ...state, userAuth: {} };
 
-        case LOGOUT_USER:
+    default:
+      return state;
+  }
+};
 
-            return { ...state, userAuth: {} };
+export const StoreProvider = ({ children }) => {
+  const [store, dispatch] = useReducer(reducer, {
+    socket: null,
+    userAuth: {}
+  });
 
-        default:
-            return state;
-    }
-
-}
-
-export const StoreProvider = ( { children } ) => {
-
-    const [ store, dispatch ] = useReducer( reducer, {
-        userAuth: {}
-    } );
-
-    return <Provider value={[store, dispatch]}>{ children }</Provider>
-
-}
+  return <Provider value={[store, dispatch]}>{children}</Provider>;
+};
 
 export const useStoreContext = () => {
+  return useContext(StoreContext);
+};
 
-    return useContext( StoreContext );
+export const useStoreDispatch = () => {
+  const [, dispatch] = useStoreContext();
 
-}
+  return dispatch;
+};
