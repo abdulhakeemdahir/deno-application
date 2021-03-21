@@ -71,18 +71,6 @@ io.on("connection", socket => {
   });
 });
 
-const chatroom = io.of("/chatroom");
-
-chatroom.on("connection", socket => {
-  socket.on("get-username", async username => {
-    const convos = await Conversation.find({ username });
-
-    socket.emit("set-convos", convos);
-  });
-
-  socket.on("join-room", (roomToJoin, numOfUsersCallback) => {});
-});
-
 // Start the API server
 server.listen(PORT, () => {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
