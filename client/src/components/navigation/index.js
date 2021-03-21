@@ -97,10 +97,17 @@ const useStyles = makeStyles(theme => ({
 		color: "white",
 		textDecoration: "none",
 	},
+	loginStyle: {
+		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+		color: "white",
+		textDecoration: "none",
+	},
 }));
 
 const navLinks = [
-	{ title: `news feed`, path: `/newsfeed` },
+	{ title: `landing`, path: `/` },
+	{ title: `explore`, path: `/explore` },
+	{ title: `newsfeed`, path: `/newsfeed` },
 	{ title: `dashboard`, path: `/dashboard` },
 ];
 
@@ -164,11 +171,11 @@ export default function Nav() {
 									<>
 										<Link
 											to='/newsfeed'
-											key='news feed'
+											key='newsfeed'
 											className={classes.linkText}
 										>
 											<ListItem button>
-												<ListItemText primary='news feed' />
+												<ListItemText primary='newsfeed' />
 											</ListItem>
 										</Link>
 										<Link
@@ -180,7 +187,21 @@ export default function Nav() {
 												<ListItemText primary='dashboard' />
 											</ListItem>
 										</Link>
-										<Link onClick={logout} className={classes.logoutStyle}>
+										<Link
+											to='/chatroom'
+											key='chatroom'
+											className={classes.linkText}
+										>
+											<ListItem button>
+												<ListItemText primary='chatroom' />
+											</ListItem>
+										</Link>
+										<Link
+											onClick={logout}
+											className={classes.logoutStyle}
+											to='/'
+											key='/'
+										>
 											<ListItem button>
 												<ListItemText className={classes.linkText}>
 													Log Out
@@ -191,24 +212,19 @@ export default function Nav() {
 								) : (
 									<>
 										<Link
-											key='news feed'
+											key='explore'
+											to='/explore'
 											className={classes.linkText}
-											onClick={login}
 										>
 											<ListItem button>
 												<ListItemText primary='explore' />
 											</ListItem>
 										</Link>
-										<Link
-											to='/chatroom'
-											key='chatroom'
-											className={classes.linkText}
+										<ListItem
+											onClick={login}
+											button
+											className={classes.loginStyle}
 										>
-											<ListItem button>
-												<ListItemText primary='chatroom' />
-											</ListItem>
-										</Link>
-										<ListItem onClick={login} button>
 											<ListItemText className={classes.linkText}>
 												Log In
 											</ListItemText>

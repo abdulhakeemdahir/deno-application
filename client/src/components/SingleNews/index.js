@@ -6,13 +6,8 @@ import {
 	CardMedia,
 	Divider,
 	CardContent,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import "./style.css";
 
@@ -55,11 +50,11 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function News(props) {
+export default function SingleNews(props) {
 	const classes = useStyles();
 
 	return (
-		<>
+		<Grid container>
 			<Grid item className='card' xs={12}>
 				<Grid container className='headerContainer'>
 					<Grid item xs={9} sm={10}>
@@ -89,45 +84,30 @@ export default function News(props) {
 					</Grid>
 				</Grid>
 				<Grid container xs={12} spacing={1}>
-					<Accordion className={classes.shadow}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-							aria-controls='panel1a-content'
-							id='panel1a-header'
-						>
-							<Typography className={classes.heading}>
-								Read {props.comments.length} Comments
-							</Typography>
-						</AccordionSummary>
-						<Grid className='cardComment'>
-							{props.comments.map(card => (
-								<AccordionDetails>
-									<Grid container xs={12} className={classes.gridStyle}>
-										<Grid item xs={4}>
-											<Typography
-												variant='body'
-												color='textSecondary'
-												component='p'
-											>
-												{card.author}
-											</Typography>
-										</Grid>
-										<Grid item xs={8}>
-											<Typography
-												variant='body'
-												color='textSecondary'
-												component='p'
-											>
-												{card.post}
-											</Typography>
-										</Grid>
-									</Grid>
-								</AccordionDetails>
-							))}
-						</Grid>
-					</Accordion>
+					<Typography className={classes.heading}>
+						<br />
+						There are {props.comments.length} Comments
+					</Typography>
 				</Grid>
 			</Grid>
-		</>
+			<Grid container className='cardPost'>
+				{props.comments.map(card => (
+					<>
+						<Grid container xs={12} className={classes.gridStyle}>
+							<Grid item xs={4}>
+								<Typography variant='body' color='textSecondary' component='p'>
+									{card.author}
+								</Typography>
+							</Grid>
+							<Grid item xs={8}>
+								<Typography variant='body' color='textSecondary' component='p'>
+									{card.post}
+								</Typography>
+							</Grid>
+						</Grid>
+					</>
+				))}
+			</Grid>
+		</Grid>
 	);
 }
