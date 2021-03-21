@@ -105,6 +105,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const navLinks = [
+	{ title: `landing`, path: `/` },
 	{ title: `explore`, path: `/explore` },
 	{ title: `newsfeed`, path: `/newsfeed` },
 	{ title: `dashboard`, path: `/dashboard` },
@@ -195,7 +196,12 @@ export default function Nav() {
 												<ListItemText primary='chatroom' />
 											</ListItem>
 										</Link>
-										<Link onClick={logout} className={classes.logoutStyle}>
+										<Link
+											onClick={logout}
+											className={classes.logoutStyle}
+											to='/'
+											key='/'
+										>
 											<ListItem button>
 												<ListItemText className={classes.linkText}>
 													Log Out

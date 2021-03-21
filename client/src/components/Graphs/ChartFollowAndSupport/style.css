@@ -48,12 +48,12 @@
 
 .chartContainer3 {
 	width: 100%;
-	height: 30vh;
+	height: 33vh;
 }
 
 @media only screen and (max-device-width: 600px) {
 	.chartContainer3 {
 		width: 100%;
-		height: 40vh;
+		height: 21vh;
 	}
 }
