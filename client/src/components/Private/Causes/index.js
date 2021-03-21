@@ -12,7 +12,7 @@ import Fade from "@material-ui/core/Fade";
 import { Edit } from "@material-ui/icons";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
-import UpdateCause from "../Forms/UpdateCause/UpdateCause";
+import UpdateCause from "../../Forms/UpdateCause/UpdateCause";
 
 export default function Causes(props) {
 	const [open, setOpen] = React.useState(false);

@@ -21,7 +21,7 @@ import Fade from "@material-ui/core/Fade";
 import { Edit } from "@material-ui/icons";
 
 import "./style.css";
-import UpdatePost from "../Forms/UpdatePost/UpdatePost";
+import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
 
 const useStyles = makeStyles(theme => ({
 	root: {

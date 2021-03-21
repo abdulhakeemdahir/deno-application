@@ -9,7 +9,7 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
 import Nav from "../../../components/Navigation";
-import News from "../../../components/News";
+import News from "../../../components/Private/News";
 // import defaultPic from "../../images/dp.png";
 import Elephant from "../../../images/elephant.jpeg";
 import Dolphin from "../../../images/dolphin.jpeg";
@@ -17,7 +17,7 @@ import Whale from "../../../images/whale.jpeg";
 import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Causes";
+import Causes from "../../../components/Private/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
