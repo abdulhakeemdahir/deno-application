@@ -100,7 +100,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const navLinks = [
-	{ title: `news feed`, path: `/newsfeed` },
+	{ title: `explore`, path: `/explore` },
+	{ title: `newsfeed`, path: `/newsfeed` },
 	{ title: `dashboard`, path: `/dashboard` },
 ];
 
@@ -164,11 +165,11 @@ export default function Nav() {
 									<>
 										<Link
 											to='/newsfeed'
-											key='news feed'
+											key='newsfeed'
 											className={classes.linkText}
 										>
 											<ListItem button>
-												<ListItemText primary='news feed' />
+												<ListItemText primary='newsfeed' />
 											</ListItem>
 										</Link>
 										<Link
@@ -191,7 +192,7 @@ export default function Nav() {
 								) : (
 									<>
 										<Link
-											key='news feed'
+											key='explore'
 											className={classes.linkText}
 											onClick={login}
 										>
