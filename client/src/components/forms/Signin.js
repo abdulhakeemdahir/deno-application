@@ -4,7 +4,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useLogin } from "../../utils/auth";
-import { useUserContext } from "../../utils/GlobalStates/UserContext"
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { GET_USER_INFO, USER_LOADING } from "../../utils/actions/actions";
 
 const useStyles = makeStyles({
@@ -51,43 +51,43 @@ export default function Signin() {
 
 	const [stateSignIn, setStateSignIn] = useState({
 		email: "",
-		username: "" 
+		username: "",
 	});
 
 	const history = useHistory();
 	// Get the helper login function from the `useLogin` hook.
-    const login = useLogin();
+	const login = useLogin();
 
 	const handleChange = function(event) {
-		const {name, value} = event.target;
+		const { name, value } = event.target;
 		setStateSignIn({
 			...stateSignIn,
 			[name]: value,
 		});
 	};
 	const [, userDispatch] = useUserContext();
-	const handleSubmit = async (event) => {
-        event.preventDefault();
-		
+	const handleSubmit = async event => {
+		event.preventDefault();
+
 		try {
+			const { username } = await login(stateSignIn);
+			// User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 
-        	const {username} = await login(stateSignIn);
-            // User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
-			
 			await userDispatch({ type: USER_LOADING });
-			await userDispatch({ type: GET_USER_INFO, payload:{
-				username, loading: false
-			}});
+			await userDispatch({
+				type: GET_USER_INFO,
+				payload: {
+					username,
+					loading: false,
+				},
+			});
 
-			history.push("/newsfeed")
-
-        } catch(err) {
-
-             // Handle error responses from the API
-             if( err.response && err.response.data ) console.log(err.response.data);
-
-        }
-    }
+			history.push("/newsfeed");
+		} catch (err) {
+			// Handle error responses from the API
+			if (err.response && err.response.data) console.log(err.response.data);
+		}
+	};
 
 	return (
 		<Grid
@@ -127,7 +127,12 @@ export default function Signin() {
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<Button size='large' className={classes.styleMain} fullWidth onClick={handleSubmit}>
+				<Button
+					size='large'
+					className={classes.styleMain}
+					fullWidth
+					onClick={handleSubmit}
+				>
 					Log In
 				</Button>
 			</form>

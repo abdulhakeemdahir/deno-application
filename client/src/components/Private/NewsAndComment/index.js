@@ -9,6 +9,9 @@ import {
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
+	TextField,
+	Button,
+	Dialog,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -55,9 +58,17 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function News(props) {
+export default function NewsAndComment(props) {
 	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
 
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 	return (
 		<>
 			<Grid item className='card' xs={12}>
@@ -89,6 +100,22 @@ export default function News(props) {
 					</Grid>
 				</Grid>
 				<Grid container xs={12} spacing={1}>
+					<Grid item xs={12} sm={8}>
+						<TextField
+							id='post'
+							label='Post a Comment'
+							variant='filled'
+							size='small'
+							multiline
+							rowsMax={4}
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12} sm={4}>
+						<Button size='small' className={classes.styleMain} fullWidth>
+							<ChatBubbleOutlineIcon /> Comment
+						</Button>
+					</Grid>
 					<Accordion className={classes.shadow}>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}

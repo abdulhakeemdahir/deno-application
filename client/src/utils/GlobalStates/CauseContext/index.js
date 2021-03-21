@@ -6,6 +6,9 @@ const { Provider } = CauseContext;
 
 const CauseProvider = ({ value = [], ...props }) => {
   const [causeState, causeDispatch] = useReducer(reducer, {
+    
+    causes: [
+      { 
     _id: 0,
 
     //from cause.js in models
@@ -17,7 +20,9 @@ const CauseProvider = ({ value = [], ...props }) => {
     likes: [],
 
     //from hashtag.js in models
-    hashtags: [],
+    hashtags: []
+  }
+]
     
   });
 
