@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
-import News from "../../../components/News";
+import News from "../../../components/Private/NewsAndComment";
 import Post from "../../../components/Post";
 import Elephant from "../../../images/elephant.jpeg";
 import Dolphin from "../../../images/dolphin.jpeg";

@@ -7,7 +7,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
 import News from "../../../components/News";
-import Post from "../../../components/Post";
 import Elephant from "../../../images/elephant.jpeg";
 import Dolphin from "../../../images/dolphin.jpeg";
 import Whale from "../../../images/whale.jpeg";
@@ -39,7 +38,7 @@ TabPanel.propTypes = {
 	value: PropTypes.any.isRequired,
 };
 // const useStyles = makeStyles(theme => ({}));
-const Newsfeed = () => {
+const Explore = () => {
 	const [causeState, causeDispatch] = useCauseContext();
 	const [postState, postDispatch] = usePostContext();
 
@@ -278,7 +277,6 @@ const Newsfeed = () => {
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									<Post className='card' />
 									{newsState.map(card => (
 										<News
 											title={card.title}
@@ -319,7 +317,6 @@ const Newsfeed = () => {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
-									<Post className='card' />
 									{newsState.map(card => (
 										<News
 											title={card.title}
@@ -364,4 +361,4 @@ const Newsfeed = () => {
 		</div>
 	);
 };
-export default Newsfeed;
+export default Explore;

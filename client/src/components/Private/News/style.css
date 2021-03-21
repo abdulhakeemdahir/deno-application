@@ -1,3 +1,11 @@
+.card {
+	background: #ffffff;
+	border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+	padding: 10px;
+	margin: 10px;
+}
+
 .cardComment {
 	background: #ffffff;
 	border-radius: 0px;
@@ -36,4 +44,14 @@
 	padding: 0px !important;
 	margin-top: -20px;
 	overflow: hidden;
+}
+
+.cardPost {
+	background: #fff !important;
+	border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+	padding: 10px;
+	margin: 15px 0px;
+	align-items: center;
+	text-decoration: none;
 }

@@ -8,29 +8,28 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
-import Nav from "../../../components/Navigation";
-import News from "../../../components/Private/News";
+import Nav from "../../components/Navigation";
 // import defaultPic from "../../images/dp.png";
-import Elephant from "../../../images/elephant.jpeg";
-import Dolphin from "../../../images/dolphin.jpeg";
-import Whale from "../../../images/whale.jpeg";
-import NGO from "../../../images/ngo.png";
+import Elephant from "../../images/elephant.jpeg";
+import Dolphin from "../../images/dolphin.jpeg";
+import Whale from "../../images/whale.jpeg";
+import NGO from "../../images/ngo.png";
 
-import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Private/Causes";
-import About from "../../../components/About";
-import Footer from "../../../components/Footer";
-import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
+import Gradient from "../../components/Gradient";
+import About from "../../components/About";
+import Footer from "../../components/Footer";
+import { TabPanel, a11yProps, useWindowDimensions } from "../utils";
 // import Splash from "../../components/Splash2";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import {
 	GET_USER_INFO,
 	REMOVE_USER,
 	UPDATE_USER,
 	USER_LOADING,
 	//What about USER_LOADED?
-} from "../../../utils/actions/actions";
-import API from "../../../utils/api";
+} from "../../utils/actions/actions";
+import API from "../../utils/api";
+import SingleNews from "../../components/SingleNews";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -40,7 +39,7 @@ TabPanel.propTypes = {
 
 // const useStyles = makeStyles(theme => ({}));
 
-const Dashboard = () => {
+const SinglePost = () => {
 	const [userState, userDispatch] = useUserContext();
 
 	//Read
@@ -127,60 +126,6 @@ const Dashboard = () => {
 				},
 			],
 		},
-		{
-			title: "Elephant Preservation",
-			author: "Abdul",
-			url: "#",
-			thumbnail: Elephant,
-			post:
-				"We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
-			hashTag: "Save the Elephant",
-			comments: [
-				{
-					author: "Chris",
-					post: "This is a test comment",
-				},
-				{
-					author: "Sherman",
-					post: "This is a test comment",
-				},
-				{
-					author: "Drake",
-					post: "This is a test comment",
-				},
-			],
-		},
-		{
-			title: "Whale Preservation",
-			author: "Abdul",
-			url: "#",
-			thumbnail: Whale,
-			post:
-				"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-			hashTag: "Save the Whale",
-			comments: [
-				{
-					author: "Ani",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-				{
-					author: "Stewart",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-				{
-					author: "Cassandra",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-				{
-					author: "Cassandra",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-			],
-		},
 	]);
 
 	// const classes = useStyles();
@@ -227,7 +172,7 @@ const Dashboard = () => {
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
 									{newsState.map(card => (
-										<News
+										<SingleNews
 											title={card.title}
 											author={card.author}
 											link={card.url}
@@ -235,19 +180,6 @@ const Dashboard = () => {
 											post={card.post}
 											hashTag={card.hashTag}
 											comments={card.comments}
-										/>
-									))}
-								</Grid>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>CAUSES</Typography>
-									{newsState.map(card => (
-										<Causes
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
 										/>
 									))}
 								</Grid>
@@ -262,12 +194,11 @@ const Dashboard = () => {
 							>
 								<Tab label='News' {...a11yProps(0)} />
 								<Tab label='About' {...a11yProps(1)} />
-								<Tab label='Causes' {...a11yProps(2)} />
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
 									{newsState.map(card => (
-										<News
+										<SingleNews
 											title={card.title}
 											author={card.author}
 											link={card.url}
@@ -297,20 +228,6 @@ const Dashboard = () => {
 									))}
 								</Grid>
 							</TabPanel>
-							<TabPanel value={value} index={2}>
-								<Grid item xs={12}>
-									{newsState.map(card => (
-										<Causes
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-										/>
-									))}
-								</Grid>
-							</TabPanel>
 						</>
 					)}
 				</Grid>
@@ -322,4 +239,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default SinglePost;
