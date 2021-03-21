@@ -84,14 +84,14 @@ const Analytics = () => {
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>ENGAGEMENT</Typography>
-									<ChartFollowers />
-									<ChartSupporters />
-									<ChartFollowAndSupport />
+									<ChartFollowers height={400} width={500} />
+									<ChartSupporters height={400} width={500} />
+									<ChartFollowAndSupport height={400} width={500} />
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
-									<ChartCausesCreated />
-									<ChartCausesSupported />
+									<ChartCausesCreated height={400} width={250} />
+									<ChartCausesSupported height={400} width={250} />
 								</Grid>
 							</Grid>
 						</>
@@ -108,9 +108,9 @@ const Analytics = () => {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid container xs={12}>
-									<ChartFollowers />
-									<ChartSupporters />
-									<ChartFollowAndSupport />
+									<ChartFollowers height={300} width={300} />
+									<ChartSupporters height={300} width={300} />
+									<ChartFollowAndSupport height={300} width={300} />
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={1}>

@@ -87,8 +87,8 @@ export default function ChartFollowers(props) {
 									},
 								],
 							}}
-							height={400}
-							width={400}
+							height={props.height}
+							width={props.width}
 							options={{
 								maintainAspectRatio: true,
 							}}
