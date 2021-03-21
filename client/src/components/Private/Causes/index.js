@@ -5,11 +5,25 @@ import {
 	Divider,
 	CardContent,
 	Button,
+	Dialog,
 } from "@material-ui/core";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { Edit } from "@material-ui/icons";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
+import UpdateCause from "../Forms/UpdateCause/UpdateCause";
 
 export default function Causes(props) {
+	const [open, setOpen] = React.useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 	return (
 		<Grid item className='card'>
 			<Grid container className='headerContainer'>
@@ -17,6 +31,26 @@ export default function Causes(props) {
 					<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 						{props.title}
 					</Typography>
+				</Grid>
+				<Grid item xs={3}>
+					<Button className='editButton' onClick={handleOpen}>
+						<Edit /> Edit
+					</Button>
+					<Dialog
+						aria-labelledby='transition-modal-title'
+						aria-describedby='transition-modal-description'
+						open={open}
+						onClose={handleClose}
+						closeAfterTransition
+						BackdropComponent={Backdrop}
+						BackdropProps={{
+							timeout: 500,
+						}}
+					>
+						<Fade in={open}>
+							<UpdateCause className={"cardPost"} />
+						</Fade>
+					</Dialog>
 				</Grid>
 			</Grid>
 			<Divider />

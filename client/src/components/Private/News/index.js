@@ -11,12 +11,17 @@ import {
 	AccordionDetails,
 	TextField,
 	Button,
+	Dialog,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import { Edit } from "@material-ui/icons";
 
 import "./style.css";
+import UpdatePost from "../Forms/UpdatePost/UpdatePost";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -59,7 +64,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function News(props) {
 	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
 
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
 	return (
 		<>
 			<Grid item className='card' xs={12}>
@@ -68,6 +81,26 @@ export default function News(props) {
 						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 							{props.title}
 						</Typography>
+					</Grid>
+					<Grid item xs={3} sm={2}>
+						<Button className='editButton' onClick={handleOpen}>
+							<Edit /> Edit
+						</Button>
+						<Dialog
+							aria-labelledby='transition-modal-title'
+							aria-describedby='transition-modal-description'
+							open={open}
+							onClose={handleClose}
+							closeAfterTransition
+							BackdropComponent={Backdrop}
+							BackdropProps={{
+								timeout: 500,
+							}}
+						>
+							<Fade in={open}>
+								<UpdatePost className={"cardPost"} />
+							</Fade>
+						</Dialog>
 					</Grid>
 				</Grid>
 				<Typography variant='body2' color='textSecondary' component='p'>
