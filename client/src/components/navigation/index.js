@@ -181,6 +181,15 @@ export default function Nav() {
 												<ListItemText primary='dashboard' />
 											</ListItem>
 										</Link>
+										<Link
+											to='/chatroom'
+											key='chatroom'
+											className={classes.linkText}
+										>
+											<ListItem button>
+												<ListItemText primary='chatroom' />
+											</ListItem>
+										</Link>
 										<Link onClick={logout} className={classes.logoutStyle}>
 											<ListItem button>
 												<ListItemText className={classes.linkText}>
@@ -193,20 +202,11 @@ export default function Nav() {
 									<>
 										<Link
 											key='explore'
+											to='/explore'
 											className={classes.linkText}
-											onClick={login}
 										>
 											<ListItem button>
 												<ListItemText primary='explore' />
-											</ListItem>
-										</Link>
-										<Link
-											to='/chatroom'
-											key='chatroom'
-											className={classes.linkText}
-										>
-											<ListItem button>
-												<ListItemText primary='chatroom' />
 											</ListItem>
 										</Link>
 										<ListItem onClick={login} button>

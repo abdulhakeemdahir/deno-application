@@ -90,7 +90,8 @@ export default function SingleNews(props) {
 				</Grid>
 				<Grid container xs={12} spacing={1}>
 					<Typography className={classes.heading}>
-						Read {props.comments.length} Comments
+						<br />
+						There are {props.comments.length} Comments
 					</Typography>
 				</Grid>
 			</Grid>
