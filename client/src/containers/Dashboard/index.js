@@ -86,7 +86,7 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		getUserInfo();
-	});
+	}, []);
 
 	const [aboutState] = useState([
 		{

@@ -75,16 +75,6 @@ export default function FormUserDetails1(props) {
 				type='email'
 				className={classes.mgstyle}
 			/>
-			<TextField
-				name='bio'
-				value={values.bio}
-				onChange={handleChange}
-				variant='outlined'
-				label='Bio'
-				placeholder='Enter Bio'
-				fullWidth
-				className={classes.mgstyle}
-			/>
 			<Button
 				size='large'
 				className={classes.styleMain}

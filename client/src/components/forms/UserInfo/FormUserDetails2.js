@@ -54,16 +54,6 @@ export default function FormUserDetails2(props) {
 	return (
 		<>
 			<TextField
-				name='thumbnail'
-				value={values.thumbnail}
-				onChange={handleChange}
-				variant='outlined'
-				label='Thumbnail Picture'
-				placeholder='Enter Thumbnail Url'
-				fullWidth
-				className={classes.mgstyle}
-			/>
-			<TextField
 				name='role'
 				value={values.role}
 				onChange={handleChange}
