@@ -41,7 +41,6 @@ export const POST_LOADED = "POST_LOADED";
 export const GET_FOLLOWING = "GET_FOLLOWING"
 export const GET_TRENDING = "GET_TRENDING"
 //TRENDS
-export const GET_TREND_INFO = "GET_TREND_INFO";
 export const ADD_TREND = "ADD_TREND";
 export const REMOVE_TREND = "REMOVE_TREND";
 export const UPDATE_TREND = "UPDATE_TREND";

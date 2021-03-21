@@ -6,6 +6,9 @@ const { Provider } = PostContext;
 
 const PostProvider = ({ value = [], ...props }) => {
   const [postState, postDispatch] = useReducer(reducer, {
+    trending: [],
+    following: [],
+    
     currentPost: {
       _id: 0,
 
@@ -19,8 +22,6 @@ const PostProvider = ({ value = [], ...props }) => {
       // comments: {}, redundant; also found in models
 
       //from hashtag.js in models
-      trending: [],
-      following: [],
       posts: {},
       causes: {},
       hashtag: "",
