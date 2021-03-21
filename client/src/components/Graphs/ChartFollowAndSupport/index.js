@@ -28,7 +28,7 @@ export default function ChartFollowAndSupport(props) {
 								datasets: [
 									{
 										label: "Supporters Over Time",
-										data: [35, 2000],
+										data: [350, 2000],
 										backgroundColor: [
 											"rgba(255, 99, 132, 0.2)",
 											"rgba(54, 162, 235, 0.2)",
@@ -41,10 +41,10 @@ export default function ChartFollowAndSupport(props) {
 									},
 								],
 							}}
-							height={400}
-							width={400}
+							height={props.height}
+							width={props.width}
 							options={{
-								maintainAspectRatio: false,
+								maintainAspectRatio: true,
 							}}
 						/>
 					</CardContent>

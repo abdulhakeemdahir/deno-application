@@ -57,7 +57,7 @@ const Analytics = () => {
 					container
 					direction='row'
 					justify='center'
-					className={"container"}
+					className={"containerAnalytics"}
 					xs={12}
 					lg={10}
 					xl={8}
@@ -84,14 +84,14 @@ const Analytics = () => {
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>ENGAGEMENT</Typography>
-									<ChartFollowers />
-									<ChartSupporters />
-									<ChartFollowAndSupport />
+									<ChartFollowers height={400} width={500} />
+									<ChartSupporters height={400} width={500} />
+									<ChartFollowAndSupport height={400} width={500} />
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
-									<ChartCausesCreated />
-									<ChartCausesSupported />
+									<ChartCausesCreated height={400} width={250} />
+									<ChartCausesSupported height={400} width={250} />
 								</Grid>
 							</Grid>
 						</>
@@ -107,14 +107,14 @@ const Analytics = () => {
 								<Tab label='Causes' {...a11yProps(2)} />
 							</Tabs>
 							<TabPanel value={value} index={0}>
-								<Grid item xs={12}>
-									<ChartFollowers />
-									<ChartSupporters />
-									<ChartFollowAndSupport />
+								<Grid container xs={12}>
+									<ChartFollowers height={300} width={300} />
+									<ChartSupporters height={300} width={300} />
+									<ChartFollowAndSupport height={300} width={300} />
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={1}>
-								<Grid item xs={12}>
+								<Grid container xs={12}>
 									{aboutState.map(card => (
 										<About
 											title={card.title}
@@ -132,7 +132,7 @@ const Analytics = () => {
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={2}>
-								<Grid item xs={12}>
+								<Grid container xs={12}>
 									<ChartCausesCreated />
 									<ChartCausesSupported />
 								</Grid>

@@ -74,10 +74,10 @@ export default function ChartSupporters(props) {
 									},
 								],
 							}}
-							height={400}
-							width={400}
+							height={props.height}
+							width={props.width}
 							options={{
-								maintainAspectRatio: false,
+								maintainAspectRatio: true,
 							}}
 						/>
 					</CardContent>

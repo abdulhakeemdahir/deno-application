@@ -1,6 +1,6 @@
-.container {
+.containerAnalytics {
 	padding: 20px;
-	margin: 0 auto;
+	margin: 0px auto !important;
 }
 
 .MuiGrid-item {

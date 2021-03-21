@@ -74,8 +74,8 @@ export default function ChartCausesSupported(props) {
 									},
 								],
 							}}
-							height={400}
-							width={200}
+							height={props.height}
+							width={props.width}
 							options={{
 								maintainAspectRatio: false,
 							}}
