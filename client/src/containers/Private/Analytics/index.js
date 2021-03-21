@@ -170,7 +170,7 @@ const Analytics = () => {
 								onChange={handleChange}
 								aria-label='simple tabs example'
 							>
-								<Tab label='News' {...a11yProps(0)} />
+								<Tab label='Engagement' {...a11yProps(0)} />
 								<Tab label='About' {...a11yProps(1)} />
 								<Tab label='Causes' {...a11yProps(2)} />
 							</Tabs>
@@ -201,7 +201,8 @@ const Analytics = () => {
 							</TabPanel>
 							<TabPanel value={value} index={2}>
 								<Grid item xs={12}>
-									<Causes />
+									<ChartCausesCreated />
+									<ChartCausesSupported />
 								</Grid>
 							</TabPanel>
 						</>
