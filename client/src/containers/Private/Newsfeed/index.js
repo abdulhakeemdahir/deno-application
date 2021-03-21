@@ -20,17 +20,21 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import {
-	GET_CAUSE_INFO,
-	GET_POST_INFO,
-	UPDATE_CAUSE,
-	UPDATE_POST,
-	CAUSE_LOADING,
-	REMOVE_CAUSE,
-	ADD_CAUSE,
-	ADD_POST,
-	POST_LOADING,
-	REMOVE_POST,
-} from "../../../utils/actions/actions";
+  GET_CAUSE_INFO,
+  GET_POST_INFO,
+  GET_ALL_POST_INFO,
+  GET_TRENDING,
+  UPDATE_CAUSE,
+  UPDATE_POST,
+  CAUSE_LOADING,
+  REMOVE_CAUSE,
+  ADD_CAUSE,
+  ADD_POST,
+  POST_LOADING,
+  REMOVE_POST,
+  GET_FOLLOWING,
+} from "../../utils/actions/actions";
+
 import API from "../../../utils/api";
 
 TabPanel.propTypes = {
@@ -40,120 +44,169 @@ TabPanel.propTypes = {
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
-	const [causeState, causeDispatch] = useCauseContext();
-	const [postState, postDispatch] = usePostContext();
+  const [causeState, causeDispatch] = useCauseContext();
+  const [postState, postDispatch] = usePostContext();
 
-	//*CAUSES*
+  //*CAUSES*
 
-	//Create cause
-	const addCause = async data => {
-		causeDispatch({ type: CAUSE_LOADING });
-		const causeInfo = await API.createCause(data);
-		causeDispatch({
-			type: ADD_CAUSE,
-			payload: {
-				...causeInfo,
-				loading: false,
-			},
-		});
-	};
+  //Create cause
+  const addCause = async (data) => {
+    causeDispatch({ type: CAUSE_LOADING });
+    const causeInfo = await API.createCause(data);
+    causeDispatch({
+      type: ADD_CAUSE,
+      payload: {
+        ...causeInfo,
+        loading: false,
+      },
+    });
+  };
 
-	//Read cause
-	const getCauseInfo = async data => {
-		causeDispatch({ type: CAUSE_LOADING });
-		const causeInfo = await API.getUsersCauses(data);
-		causeDispatch({
-			type: GET_CAUSE_INFO,
-			payload: {
-				...causeInfo,
-				loading: false,
-			},
-		});
-	};
+  //Read cause
+  const getCauseInfo = async (data) => {
+    causeDispatch({ type: CAUSE_LOADING });
+    const causeInfo = await API.getUsersCauses(data);
+    causeDispatch({
+      type: GET_CAUSE_INFO,
+      payload: {
+        currentCause: causeInfo,
+        loading: false,
+      },
+    });
+  };
 
-	//Update cause
-	const updateCauseInfo = async id => {
-		causeDispatch({ type: CAUSE_LOADING });
-		const data = await API.updateCause(id);
-		causeDispatch({
-			type: UPDATE_CAUSE,
-			payload: {
-				...data,
-				loading: false,
-			},
-		});
-	};
+  //
+  const getAllCauseInfo = async (data) => {
+    causeDispatch({ type: CAUSE_LOADING });
+    const causeInfo = await API.getUsersCauses(data);
+    causeDispatch({
+      type: GET_CAUSE_INFO,
+      payload: {
+        causes: [...causeInfo],
+        loading: false,
+      },
+    });
+  };
 
-	//Delete cause
-	const removeCause = async id => {
-		causeDispatch({ type: CAUSE_LOADING });
-		await API.deleteCause(id);
-		causeDispatch({
-			type: REMOVE_CAUSE,
-			payload: {
-				causes: causeState.causes.filter(cause => {
-					return cause._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
+  //Update cause
+  const updateCauseInfo = async (id) => {
+    causeDispatch({ type: CAUSE_LOADING });
+    const data = await API.updateCause(id);
+    causeDispatch({
+      type: UPDATE_CAUSE,
+      payload: {
+        ...data,
+        loading: false,
+      },
+    });
+  };
 
-	//*POSTS*
+  //Delete cause
+  const removeCause = async (id) => {
+    causeDispatch({ type: CAUSE_LOADING });
+    await API.deleteCause(id);
+    causeDispatch({
+      type: REMOVE_CAUSE,
+      payload: {
+        causes: causeState.causes.filter((cause) => {
+          return cause._id !== id;
+        }),
+        loading: false,
+      },
+    });
+  };
 
-	//Create post
-	const addPost = async data => {
-		postDispatch({ type: POST_LOADING });
-		const postInfo = await API.createPost(data);
-		postDispatch({
-			type: ADD_POST,
-			payload: {
-				...postInfo,
-				loading: false,
-			},
-		});
-	};
+  //*POSTS*
 
-	//Read post
-	const getPostInfo = async data => {
-		postDispatch({ type: POST_LOADING });
-		const postInfo = await API.getPost(data);
-		postDispatch({
-			type: GET_POST_INFO,
-			payload: {
-				...postInfo,
-				loading: false,
-			},
-		});
-	};
+  //Create post
+  const addPost = async (data) => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.createPost(data);
+    postDispatch({
+      type: ADD_POST,
+      payload: {
+        ...postInfo,
+        loading: false,
+      },
+    });
+  };
 
-	//Update post
-	const updatePostInfo = async id => {
-		postDispatch({ type: POST_LOADING });
-		const data = await API.updatePost(id);
-		postDispatch({
-			type: UPDATE_POST,
-			payload: {
-				...data,
-				loading: false,
-			},
-		});
-	};
+  //Read post
+  const getPostInfo = async (data) => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.getPost(data);
+    postDispatch({
+      type: GET_POST_INFO,
+      payload: {
+        currentPost: postInfo,
+        loading: false,
+      },
+    });
+  };
+  const getAllPostInfo = async () => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.geAllPost();
+    postDispatch({
+      type: GET_ALL_POST_INFO,
+      payload: {
+        posts: [...postInfo],
+        loading: false,
+      },
+    });
+  };
 
-	//Delete post
-	const deletePost = async id => {
-		postDispatch({ type: POST_LOADING });
-		await API.removePost(id);
-		postDispatch({
-			type: REMOVE_POST,
-			payload: {
-				posts: postState.posts.filter(post => {
-					return post._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
+  const getFollowing = async (data) => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.findFollowing(data);
+    postDispatch({
+      type: GET_FOLLOWING,
+      payload: {
+        following: [...postInfo],
+        loading: false,
+      },
+    });
+  };
+
+  const getTrending = async (data) => {
+    postDispatch({ type: POST_LOADING });
+    const postInfo = await API.findTrending(data);
+    postDispatch({
+      type: GET_TRENDING,
+      payload: {
+        trending: [...postInfo],
+        loading: false,
+      },
+    });
+  };
+
+  //Update post
+  const updatePostInfo = async (id) => {
+    postDispatch({ type: POST_LOADING });
+    const data = await API.updatePost(id);
+    postDispatch({
+      type: UPDATE_POST,
+      payload: {
+        post: [...data],
+        loading: false,
+      },
+    });
+  };
+
+  //Delete post
+  const deletePost = async (id) => {
+    postDispatch({ type: POST_LOADING });
+    await API.removePost(id);
+    postDispatch({
+      type: REMOVE_POST,
+      payload: {
+        posts: postState.posts.filter((post) => {
+          return post._id !== id;
+        }),
+        loading: false,
+      },
+    });
+  };
+
 
 	const [trendingState] = useState([
 		{
