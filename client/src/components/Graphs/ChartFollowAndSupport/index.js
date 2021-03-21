@@ -20,34 +20,30 @@ export default function ChartFollowAndSupport(props) {
 					<span className='authorStyle'> Supporters And Followers:</span>
 				</Typography>
 				<Divider />
-				<Grid container direction='row' spacing={1}>
-					<CardContent>
-						<Pie
-							data={{
-								labels: ["Supporters", "Followers"],
-								datasets: [
-									{
-										label: "Supporters Over Time",
-										data: [350, 2000],
-										backgroundColor: [
-											"rgba(255, 99, 132, 0.2)",
-											"rgba(54, 162, 235, 0.2)",
-										],
-										borderColor: [
-											"rgba(255, 99, 132, 1)",
-											"rgba(54, 162, 235, 1)",
-										],
-										borderWidth: 1,
-									},
-								],
-							}}
-							height={props.height}
-							width={props.width}
-							options={{
-								maintainAspectRatio: true,
-							}}
-						/>
-					</CardContent>
+				<Grid container direction='row' className='chartContainer3'>
+					<Pie
+						data={{
+							labels: ["Supporters", "Followers"],
+							datasets: [
+								{
+									label: "Supporters Over Time",
+									data: [350, 2000],
+									backgroundColor: [
+										"rgba(255, 99, 132, 0.2)",
+										"rgba(54, 162, 235, 0.2)",
+									],
+									borderColor: [
+										"rgba(255, 99, 132, 1)",
+										"rgba(54, 162, 235, 1)",
+									],
+									borderWidth: 1,
+								},
+							],
+						}}
+						options={{
+							maintainAspectRatio: true,
+						}}
+					/>
 				</Grid>
 			</Grid>
 		</>
