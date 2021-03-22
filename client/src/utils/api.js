@@ -76,6 +76,9 @@ class API {
   getUsersCauses(_id) {
     return this.axios.get(`/api/causes/${_id}`);
   }
+  getAllCauses() {
+    return this.axios.get(`/api/causes/`);
+  }
   getTrending(data) {
     return this.axios.get(`/api/causes/`, data);
   }
@@ -91,28 +94,25 @@ class API {
   removeCause(_id, data) {
     return this.axios.delete(`/api/causes/${_id}`, data);
   }
-  getAllCause() {
-    return this.axios.get(`/api/causes/`);
-  }
 
   //-----------------------post api-------------------------//
   getAllPost() {
-    return this.axios.get(`/api/posts/dashboard`);
+    return this.axios.get(`/api/posts/`);
   }
   findFollowing(data) {
-    return this.axios.get(`/api/posts/following`, data);
+    return this.axios.get(`/api/posts/following/`, data);
   }
   findTrending(data) {
-    return this.axios.get(`/api/posts/trending`, data);
+    return this.axios.get(`/api/posts/trending/`, data);
   }
   createPost(data) {
-    return this.axios.post(`/api/posts/dashboard`, data);
+    return this.axios.post(`/api/posts/`, data);
   }
   updatePost(_id, data) {
-    return this.axios.put(`/api/posts/dashboard/${_id}`, data);
+    return this.axios.put(`/api/posts/${_id}`, data);
   }
   removePost(_id) {
-    return this.axios.delete(`/api/posts/dashboard/${_id}`);
+    return this.axios.delete(`/api/posts/${_id}`);
   }
 
   //-----------------------comment api-------------------------//

@@ -4,20 +4,24 @@ const { User } = require("../models");
 module.exports = {
   getAllCause: async (req, res) => {
     try {
-      const Post = await Cause.find({}).populate({
-        path: "author",
-        path: "likes",
-        path: "commnets",
-        populate: {
-          path: "user",
-          model: "User",
-          path: "likes",
-          populate: {
-            path: "user",
+      const Post = await Cause.find({})
+        .find({})
+        .populate([
+          {
+            path: "author",
+            select: "firstName",
             model: "User"
+          },
+          {
+            path: "likes",
+            model: "User",
+            populate: {
+              path: "user",
+              model: "User"
+            }
           }
-        }
-      });
+        ])
+        .exec();
       res.status(200).json(Post);
     } catch (err) {
       res.status(422).json(err);

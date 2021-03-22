@@ -8,7 +8,7 @@ const PostProvider = ({ value = [], ...props }) => {
   const [postState, postDispatch] = useReducer(reducer, {
     trending: [],
     following: [],
-    
+
     currentPost: {
       _id: 0,
 
@@ -17,17 +17,12 @@ const PostProvider = ({ value = [], ...props }) => {
       author: {},
       content: "",
       date: "",
+      imageUrl: "",
       likes: [],
-      // hashtag: "", redundant; also found in models
-      // comments: {}, redundant; also found in models
-
-      //from hashtag.js in models
-      posts: {},
-      causes: {},
       hashtag: "",
-      comments: {},
+      comments: [],
     },
-    
+
     posts: [
       {
         _id: 0,
@@ -37,16 +32,10 @@ const PostProvider = ({ value = [], ...props }) => {
         author: {},
         content: "",
         date: "",
+        imageUrl: "",
         likes: [],
-        // hashtag: "", redundant; also found in models
-        // comments: {}, redundant; also found in models
-
-        //from hashtag.js in models
-        following: [],
-        posts: {},
-        causes: {},
         hashtag: "",
-        comments: {},
+        comments: [],
       },
     ],
   });

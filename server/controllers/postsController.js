@@ -62,23 +62,28 @@ module.exports = {
     }
   },
   getAllPost: async (req, res) => {
+    console.log("Hitting");
     try {
-      const Post = await Post.find({}).populate({
-        path: "author",
-        path: "likes",
-        path: "commnets",
-        populate: {
-          path: "user",
-          model: "User",
-          path: "likes",
-          populate: {
-            path: "user",
+      const allPost = await Post.find({})
+        .populate([
+          {
+            path: "author",
+            select: "firstName",
             model: "User"
+          },
+          {
+            path: "likes",
+            model: "User",
+            populate: {
+              path: "user",
+              model: "User"
+            }
           }
-        }
-      });
-      res.status(200).json(Post);
+        ])
+        .exec();
+      res.status(200).json(allPost);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   }

@@ -18,6 +18,7 @@ export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
 //CAUSE
 export const GET_CAUSE_INFO = "GET_CAUSE_INFO";
+export const GET_ALL_CAUSE_INFO = "GET_ALL_CAUSE_INFO";
 export const ADD_CAUSE = "ADD_CAUSE";
 export const REMOVE_CAUSE = "REMOVE_CAUSE";
 export const UPDATE_CAUSE = "UPDATE_CAUSE";
