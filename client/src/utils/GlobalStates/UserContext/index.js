@@ -11,7 +11,7 @@ const UserProvider = ({ value = [], ...props }) => {
   const [userState, userDispatch] = useReducer(reducer, {
     users: [
       {
-        __id: 0,
+        _id: 0,
 
         //from user.js in models
         firstName: "",

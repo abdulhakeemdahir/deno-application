@@ -33,7 +33,8 @@ class JWT {
 
     const payload = {
       email: email,
-      username: username
+      username: username,
+      _id: _id
     };
 
     const signedToken = await this.sign(payload);
