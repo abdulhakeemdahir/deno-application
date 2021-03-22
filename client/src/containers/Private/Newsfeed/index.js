@@ -31,7 +31,7 @@ import {
   REMOVE_CAUSE,
   POST_LOADING,
   REMOVE_POST,
-  GET_FOLLOWING,
+  GET_FOLLOWING
 } from "../../../utils/actions/actions.js";
 
 import API from "../../../utils/api";
@@ -39,16 +39,7 @@ import API from "../../../utils/api";
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-<<<<<<< HEAD
-<<<<<<< HEAD
   value: PropTypes.any.isRequired
-=======
-  value: PropTypes.any.isRequired,
->>>>>>> 5e32b461e366a9af8a1e76c2fdff69db45dea63e
-=======
-  value: PropTypes.any.isRequired,
-
->>>>>>> e47d2923563c2432a59d4d15dc39fc256357b5fc
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
@@ -56,49 +47,49 @@ const Newsfeed = () => {
   const [postState, postDispatch] = usePostContext();
 
   useEffect(() => {
-    console.log("HADSSLKJ")
+    console.log("HADSSLKJ");
     async function fetchAllPostsAndCauses() {
       causeDispatch({ type: CAUSE_LOADING });
       const causes = await API.getAllCauses();
-      console.log(causes.data)
+      console.log(causes.data);
       causeDispatch({
         type: GET_ALL_CAUSE_INFO,
         payload: {
           causes: [...causes.data],
-          loading: false,
-        },
+          loading: false
+        }
       });
 
       postDispatch({ type: POST_LOADING });
       const postInfo = await API.geAllPost();
-      console.log(postInfo.data)
+      console.log(postInfo.data);
       postDispatch({
         type: GET_ALL_POST_INFO,
         payload: {
           posts: [...postInfo.data],
-          loading: false,
-        },
+          loading: false
+        }
       });
-      console.log(postState)
+      console.log(postState);
       // console.log(causeState)
     }
-    
+
     fetchAllPostsAndCauses();
   }, []);
 
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
-      url: "#",
+      url: "#"
     },
     {
       hashTag: "Save the Elephants",
-      url: "#",
+      url: "#"
     },
     {
       hashTag: "Save the Whales",
-      url: "#",
-    },
+      url: "#"
+    }
   ]);
   const [newsState] = useState([
     {
@@ -112,17 +103,17 @@ const Newsfeed = () => {
       comments: [
         {
           author: "Jake",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Bobby",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Drake",
-          post: "This is a test comment",
-        },
-      ],
+          post: "This is a test comment"
+        }
+      ]
     },
     {
       title: "Elephant Preservation",
@@ -135,17 +126,17 @@ const Newsfeed = () => {
       comments: [
         {
           author: "Chris",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Sherman",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Drake",
-          post: "This is a test comment",
-        },
-      ],
+          post: "This is a test comment"
+        }
+      ]
     },
     {
       title: "Whale Preservation",
@@ -159,25 +150,25 @@ const Newsfeed = () => {
         {
           author: "Ani",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
         },
         {
           author: "Stewart",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
         },
         {
           author: "Cassandra",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
         },
         {
           author: "Cassandra",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-        },
-      ],
-    },
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+        }
+      ]
+    }
   ]);
   // const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -186,13 +177,13 @@ const Newsfeed = () => {
   };
   const { width } = useWindowDimensions();
   return (
-    <div className="Main">
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={"container"}
           xs={12}
           lg={10}
@@ -201,18 +192,18 @@ const Newsfeed = () => {
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">TRENDING</Typography>
-                  {trendingState.map((card) => (
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>TRENDING</Typography>
+                  {trendingState.map(card => (
                     <Trending hashTag={card.hashTag} link={card.url} />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  <Post className="card" />
-                  {postState.posts.map((card) => (
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  <Post className='card' />
+                  {postState.posts.map(card => (
                     <News
-                    key={card._id}
+                      key={card._id}
                       id={card._id}
                       title={card.title}
                       author={card.author}
@@ -224,11 +215,11 @@ const Newsfeed = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
-                  {causeState.causes.map((card) => (
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
+                  {causeState.causes.map(card => (
                     <Causes
-                    key={card._id}
+                      key={card._id}
                       id={card._id}
                       title={card.title}
                       author={card.author}
@@ -243,17 +234,21 @@ const Newsfeed = () => {
             </>
           ) : (
             <>
-              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="Trending" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label='simple tabs example'
+              >
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='Trending' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  <Post className="card" />
-                  {postState.posts.map((card) => (
+                  <Post className='card' />
+                  {postState.posts.map(card => (
                     <News
-                    key={card._id}
+                      key={card._id}
                       id={card._id}
                       title={card.title}
                       author={card.author}
@@ -268,14 +263,14 @@ const Newsfeed = () => {
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
-                  {trendingState.map((card) => (
+                  {trendingState.map(card => (
                     <Trending hashTag={card.hashTag} link={card.url} />
                   ))}
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {causeState.causes.map((card) => (
+                  {causeState.causes.map(card => (
                     <Causes
                       key={card._id}
                       id={card._id}
