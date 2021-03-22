@@ -21,6 +21,7 @@ import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import {
   GET_CAUSE_INFO,
+  GET_ALL_CAUSE_INFO,
   GET_POST_INFO,
   GET_ALL_POST_INFO,
   GET_TRENDING,
@@ -28,8 +29,6 @@ import {
   UPDATE_POST,
   CAUSE_LOADING,
   REMOVE_CAUSE,
-  ADD_CAUSE,
-  ADD_POST,
   POST_LOADING,
   REMOVE_POST,
   GET_FOLLOWING,
@@ -49,19 +48,6 @@ const Newsfeed = () => {
 
   //*CAUSES*
 
-  //Create cause
-  const addCause = async (data) => {
-    causeDispatch({ type: CAUSE_LOADING });
-    const causeInfo = await API.createCause(data);
-    causeDispatch({
-      type: ADD_CAUSE,
-      payload: {
-        ...causeInfo,
-        loading: false,
-      },
-    });
-  };
-
   //Read cause
   const getCauseInfo = async (data) => {
     causeDispatch({ type: CAUSE_LOADING });
@@ -76,13 +62,13 @@ const Newsfeed = () => {
   };
 
   //
-  const getAllCauseInfo = async (data) => {
+  const getAllCauseInfo = async () => {
     causeDispatch({ type: CAUSE_LOADING });
-    const causeInfo = await API.getUsersCauses(data);
+    const {data} = await API.getUsersCauses();
     causeDispatch({
-      type: GET_CAUSE_INFO,
+      type: GET_ALL_CAUSE_INFO,
       payload: {
-        causes: [...causeInfo],
+        causes: [...data],
         loading: false,
       },
     });
@@ -117,19 +103,6 @@ const Newsfeed = () => {
   };
 
   //*POSTS*
-
-  //Create post
-  const addPost = async (data) => {
-    postDispatch({ type: POST_LOADING });
-    const postInfo = await API.createPost(data);
-    postDispatch({
-      type: ADD_POST,
-      payload: {
-        ...postInfo,
-        loading: false,
-      },
-    });
-  };
 
   //Read post
   const getPostInfo = async (data) => {

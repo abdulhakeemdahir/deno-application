@@ -9,7 +9,10 @@ import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import { useState } from "react";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
-import api from "../../utils/api.js";
+import API from "../../utils/api.js";
+import { ADD_CAUSE, ADD_POST, CAUSE_LOADING, POST_LOADING } from "../../utils/actions/actions";
+import { usePostContext } from "../../utils/GlobalStates/PostContext";
+import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -39,7 +42,34 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Post() {
-	const classes = useStyles();
+  const [causeState, causeDispatch] = useCauseContext();
+  const [postState, postDispatch] = usePostContext();
+  const classes = useStyles();
+
+  //*Create Post
+  const addPost = async (postInfo) => {
+    postDispatch({ type: POST_LOADING });
+    postDispatch({
+      type: ADD_POST,
+      payload: {
+        ...postInfo,
+        loading: false,
+      },
+    });
+  };
+
+//Create cause
+const addCause = async (causeInfo) => {
+  causeDispatch({ type: CAUSE_LOADING});
+  causeDispatch({
+    type: ADD_CAUSE,
+    payload: {
+      ...causeInfo,
+      loading: false,
+    },
+  });
+};
+
 
 	const [createPost, setCreatePost] = useState({
 		type:"",
@@ -67,21 +97,20 @@ export default function Post() {
 		}
 
 		if(createPost.type === "Post"){
-			await api.createPost(post)
-			return 
+			
+      const {data} = await API.createPost(post);
+      addPost(data);
+      return;
     	}
-		
-		await api.createCause(post); 
+		const {data} = await API.createCause(post);
+    addCause(data);
+    return;
 
 }catch (err) {
       console.log(err)
     }
 }
 
-	
-	
-    
-  
 
 	return (
     <Grid className="cardPost">
