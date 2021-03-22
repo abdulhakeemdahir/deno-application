@@ -4,7 +4,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles({
 	gradientStyle: {
-		// backgroundColor: "rgb(0, 212, 255)",
 		bottom: "0px",
 		position: "fixed",
 		height: "100%",

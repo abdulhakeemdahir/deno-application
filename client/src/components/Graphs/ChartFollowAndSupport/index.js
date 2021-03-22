@@ -1,7 +1,7 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 
-import { Typography, Grid, Divider, CardContent } from "@material-ui/core";
+import { Typography, Grid, Divider } from "@material-ui/core";
 
 import "./style.css";
 
