@@ -42,54 +42,57 @@ class API {
     return this.axios.post("/api/authenticated");
   }
   //----------------conversation api-----------------------//
-  getConvoUserId(id) {
-    return this.axios.get(`/api/messenger/${id}`);
+  getConvoUser_id(_id) {
+    return this.axios.get(`/api/messenger/${_id}`);
   }
-  getMessagesId(id) {
-    return this.axios.get(`/api/messenger/${id}`);
+  getMessages_id(_id) {
+    return this.axios.get(`/api/messenger/${_id}`);
   }
-  createConvo(id) {
-    return this.axios.post(`/api/messenger/${id}`);
+  createConvo(_id) {
+    return this.axios.post(`/api/messenger/${_id}`);
   }
-  updateConvo(id) {
-    return this.axios.put(`/api/messenger/${id}`);
+  updateConvo(_id) {
+    return this.axios.put(`/api/messenger/${_id}`);
   }
-  updateMessage(messageId, id) {
-    return this.axios.put(`/api/messenger/${messageId}/${id}`);
+  updateMessage(message, _id) {
+    return this.axios.put(`/api/messenger/${message}/${_id}`);
   }
 
   //-----------------------user api-------------------------//
-  updateUser(id) {
-    return this.axios.put(`/api/users/${id}`);
+  updateUser(_id) {
+    return this.axios.put(`/api/users/${_id}`);
   }
-  deleteUser(id) {
-    return this.axios.get(`/api/users/${id}`);
+  deleteUser(_id) {
+    return this.axios.delete(`/api/users/${_id}`);
   }
-  getUser(id) {
-    return this.axios.post(`/api/users/${id}`);
+  getUser(_id) {
+    return this.axios.post(`/api/users/${_id}`);
   }
-  updatePassword(id) {
-    return this.axios.post(`/api/users/password/${id}`);
+  updatePassword(_id) {
+    return this.axios.put(`/api/users/password/${_id}`);
   }
 
   //-----------------------causes api-------------------------//
-  getUsersCauses(username) {
-    return this.axios.get(`/api/causes/dashboard`, username);
+  getUsersCauses(_id) {
+    return this.axios.get(`/api/causes/${_id}`);
+  }
+  getAllCauses() {
+    return this.axios.get(`/api/causes/`);
   }
   getTrending(data) {
-    return this.axios.get(`/api/causes/dashboard`, data);
+    return this.axios.get(`/api/causes/`, data);
   }
   createCause(data) {
-    return this.axios.post(`/api/causes/create/cause`, data);
+    return this.axios.post(`/api/causes/`, data);
   }
-  updateCause(username, data) {
-    return this.axios.put(`/api/causes/${username}`, data);
+  updateCause(_id, data) {
+    return this.axios.put(`/api/causes/${_id}`, data);
   }
-  addLike(_id, username) {
-    return this.axios.put(`/api/causes/like/${_id}/${username}`);
+  addLike(_id, like, data) {
+    return this.axios.put(`/api/causes/like/${like}/${_id}`, data);
   }
-  removeCause(_id, username) {
-    return this.axios.delete(`/api/causes/${_id}/${username}`);
+  removeCause(_id, data) {
+    return this.axios.delete(`/api/causes/${_id}`, data);
   }
 
   //-----------------------post api-------------------------//
@@ -105,11 +108,11 @@ class API {
   createPost(data) {
     return this.axios.post(`/api/posts/dashboard`, data);
   }
-  updatePost(_id) {
-    return this.axios.put(`/api/posts/dashboard/${_id}`);
+  updatePost(_id, data) {
+    return this.axios.put(`/api/posts/dashboard/${_id}`, data);
   }
   removePost(_id) {
-    return this.axios.put(`/api/posts/dashboard/${_id}`);
+    return this.axios.delete(`/api/posts/dashboard/${_id}`);
   }
 
   //-----------------------comment api-------------------------//
@@ -119,11 +122,11 @@ class API {
   createComments(data) {
     return this.axios.get(`/api/comments/`, data);
   }
-  updateComments(_id) {
-    return this.axios.put(`/api/comments/${_id}`);
+  updateComments(_id, data) {
+    return this.axios.put(`/api/comments/${_id}`, data);
   }
   removeComments(_id) {
-    return this.axios.put(`/api/comments/${_id}`);
+    return this.axios.delete(`/api/comments/${_id}`);
   }
 
   //-----------------------hashtags api-------------------------//
@@ -142,11 +145,11 @@ class API {
   createHashtag(data) {
     return this.axios.post(`/api/hashtags/`, data);
   }
-  updateHashtagComment(_id) {
-    return this.axios.get(`/api/hashtags/${_id}`);
+  updateHashtagComment(_id, data) {
+    return this.axios.put(`/api/hashtags/${_id}`, data);
   }
   removeHashtag(_id) {
-    return this.axios.post(`/api/hashtags/${_id}`);
+    return this.axios.delete(`/api/hashtags/${_id}`);
   }
 }
 

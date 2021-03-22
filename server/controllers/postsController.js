@@ -26,11 +26,18 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  create: async (req, res) => {
+  create: async ({ body }, res) => {
+    const { title, content, imageUrl, author } = body;
     try {
-      const postModel = await Post.create(req.body);
+      const postModel = await Post.create({
+        title,
+        content,
+        imageUrl,
+        author
+      });
       res.status(201).json(postModel);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   },
