@@ -308,113 +308,113 @@ const Newsfeed = () => {
 	};
 	const { width } = useWindowDimensions();
 	return (
-		<div className='Main'>
-			<CssBaseline>
-				<Nav />
-				<Grid
-					container
-					direction='row'
-					justify='center'
-					className={"container"}
-					xs={12}
-					lg={10}
-					xl={8}
-				>
-					{width > 600 ? (
-						<>
-							<Grid container spacing={2}>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>TRENDING</Typography>
-									{trendingState.map(card => (
-										<Trending hashTag={card.hashTag} link={card.url} />
-									))}
-								</Grid>
-								<Grid item xs={12} sm={6} className='card-container'>
-									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									<Post className='card' />
-									{newsState.map(card => (
-										<News
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-											comments={card.comments}
-										/>
-									))}
-								</Grid>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>CAUSES</Typography>
-									{newsState.map(card => (
-										<Causes
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-										/>
-									))}
-								</Grid>
-							</Grid>
-						</>
-					) : (
-						<>
-							<Tabs
-								value={value}
-								onChange={handleChange}
-								aria-label='simple tabs example'
-							>
-								<Tab label='News' {...a11yProps(0)} />
-								<Tab label='Trending' {...a11yProps(1)} />
-								<Tab label='Causes' {...a11yProps(2)} />
-							</Tabs>
-							<TabPanel value={value} index={0}>
-								<Grid item xs={12}>
-									<Post className='card' />
-									{newsState.map(card => (
-										<News
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-											comments={card.comments}
-										/>
-									))}
-								</Grid>
-							</TabPanel>
-							<TabPanel value={value} index={1}>
-								<Grid item xs={12}>
-									{trendingState.map(card => (
-										<Trending hashTag={card.hashTag} link={card.url} />
-									))}
-								</Grid>
-							</TabPanel>
-							<TabPanel value={value} index={2}>
-								<Grid item xs={12}>
-									{newsState.map(card => (
-										<Causes
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-										/>
-									))}
-								</Grid>
-							</TabPanel>
-						</>
-					)}
-				</Grid>
-				<Gradient />
-				{/* <Splash /> */}
-				<Footer />
-			</CssBaseline>
-		</div>
-	);
+    <div className="Main">
+      <CssBaseline>
+        <Nav />
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          className={"container"}
+          xs={12}
+          lg={10}
+          xl={8}
+        >
+          {width > 600 ? (
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">TRENDING</Typography>
+                  {trendingState.map((card) => (
+                    <Trending hashTag={card.hashTag} link={card.url} />
+                  ))}
+                </Grid>
+                <Grid item xs={12} sm={6} className="card-container">
+                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                  <Post className="card" />
+                  {newsState.map((card) => (
+                    <News
+                      title={card.title}
+                      author={card.author}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtags}
+                      comments={card.comments}
+                    />
+                  ))}
+                </Grid>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">CAUSES</Typography>
+                  {newsState.map((card) => (
+                    <Causes
+                      title={card.title}
+                      author={card.author}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtags}
+                    />
+                  ))}
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="simple tabs example"
+              >
+                <Tab label="News" {...a11yProps(0)} />
+                <Tab label="Trending" {...a11yProps(1)} />
+                <Tab label="Causes" {...a11yProps(2)} />
+              </Tabs>
+              <TabPanel value={value} index={0}>
+                <Grid item xs={12}>
+                  <Post className="card" />
+                  {newsState.map((card) => (
+                    <News
+                      title={card.title}
+                      author={card.author}
+                      link={card.url}
+                      image={card.thumbnail}
+                      post={card.post}
+                      hashTag={card.hashTag}
+                      comments={card.comments}
+                    />
+                  ))}
+                </Grid>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <Grid item xs={12}>
+                  {trendingState.map((card) => (
+                    <Trending hashTag={card.hashTag} link={card.url} />
+                  ))}
+                </Grid>
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <Grid item xs={12}>
+                  {newsState.map((card) => (
+                    <Causes
+                      title={card.title}
+                      author={card.author}
+                      link={card.url}
+                      image={card.thumbnail}
+                      post={card.post}
+                      hashTag={card.hashTag}
+                    />
+                  ))}
+                </Grid>
+              </TabPanel>
+            </>
+          )}
+        </Grid>
+        <Gradient />
+        {/* <Splash /> */}
+        <Footer />
+      </CssBaseline>
+    </div>
+  );
 };
 export default Newsfeed;
