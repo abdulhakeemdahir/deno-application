@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { Conversation } = require("./models");
+// const { Conversation } = require("./models");
 const PORT = process.env.PORT || 3001;
 
 // Create server
