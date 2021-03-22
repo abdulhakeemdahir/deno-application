@@ -76,6 +76,9 @@ class API {
   getUsersCauses(_id) {
     return this.axios.get(`/api/causes/${_id}`);
   }
+  getAllCauses() {
+    return this.axios.get(`/api/causes/`);
+  }
   getTrending(data) {
     return this.axios.get(`/api/causes/`, data);
   }
@@ -90,9 +93,6 @@ class API {
   }
   removeCause(_id, data) {
     return this.axios.delete(`/api/causes/${_id}`, data);
-  }
-  getAllCause() {
-    return this.axios.get(`/api/causes/`);
   }
 
   //-----------------------post api-------------------------//
