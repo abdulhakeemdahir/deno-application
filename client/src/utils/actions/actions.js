@@ -32,13 +32,15 @@ export const NEWS_LOADING = "NEWS_LOADING";
 export const NEWS_LOADED = "NEWS_LOADED";
 //POSTS
 export const GET_POST_INFO = "GET_POST_INFO";
+export const GET_ALL_POST_INFO = "GET_ALL_POST_INFO";
 export const ADD_POST = "ADD_POST";
 export const REMOVE_POST = "REMOVE_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const POST_LOADING = "POST_LOADING";
 export const POST_LOADED = "POST_LOADED";
+export const GET_FOLLOWING = "GET_FOLLOWING"
+export const GET_TRENDING = "GET_TRENDING"
 //TRENDS
-export const GET_TREND_INFO = "GET_TREND_INFO";
 export const ADD_TREND = "ADD_TREND";
 export const REMOVE_TREND = "REMOVE_TREND";
 export const UPDATE_TREND = "UPDATE_TREND";

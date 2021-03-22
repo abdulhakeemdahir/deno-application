@@ -43,50 +43,51 @@ TabPanel.propTypes = {
 const Dashboard = () => {
 	const [userState, userDispatch] = useUserContext();
 
-	//Read
-	const getUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const userInfo = await API.getUser(id);
-		userDispatch({
-			type: GET_USER_INFO,
-			payload: {
-				...userInfo,
-				loading: false,
-			},
-		});
-	};
+  //Read
+  const getUserInfo = async (id) => {
+    userDispatch({ type: USER_LOADING });
+    const userInfo = await API.getUser(id)
+    userDispatch({
+      type: GET_USER_INFO,
+      payload: {
+        ...userInfo,
+        loading: false
+        
+      }
+    })
+  };
 
-	//Update
-	const updateUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const data = await API.updateUser(id);
-		userDispatch({
-			type: UPDATE_USER,
-			payload: {
-				...data,
-				loading: false,
-			},
-		});
-	};
+  //Update
+  const updateUserInfo = async(id) => {
+    userDispatch({ type: USER_LOADING });
+    const data = await API.updateUser(id)
+    userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...data,
+        loading: false
+      }
+    })
+  };
 
-	//Delete user
-	const removeUser = async id => {
-		userDispatch({ type: USER_LOADING });
-		await API.deleteUser(id);
-		userDispatch({
-			type: REMOVE_USER,
-			payload: {
-				users: userState.users.filter(user => {
-					return user._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
+  //Delete user
+  const removeUser = async (id) => {
+    userDispatch({ type: USER_LOADING });
+    await API.deleteUser(id);
+    userDispatch({
+      type: REMOVE_USER,
+      payload: {
+        users: userState.users.filter((user) => {
+          return user._id !== id;
+        }),
+        loading: false,
+      },
+    });
+  };
 
-	useEffect(() => {
-		getUserInfo();
-	}, []);
+	// useEffect(() => {
+	// 	getUserInfo();
+	// }, []);
 
 	const [aboutState] = useState([
 		{
