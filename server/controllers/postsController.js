@@ -70,16 +70,17 @@ module.exports = {
           {
             path: "author",
             select: "firstName",
-            model: "User",
+            model: "User"
           },
           {
             path: "likes",
             model: "User",
             populate: {
               path: "user",
-              model: "User",
-            },
-          },
+              select: "firstName",
+              model: "User"
+            }
+          }
         ])
         .exec();
       res.status(200).json(allPost);
