@@ -64,7 +64,7 @@ export default function Post() {
 			const post = {
 				...createPost,
 				author: userState._id,
-			}
+		}
 
 		if(createPost.type === "Post"){
 			await api.createPost(post)
