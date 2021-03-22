@@ -65,20 +65,21 @@ module.exports = {
     console.log("Hitting");
     try {
       const allPost = await Post.find({})
+        .sort({ date: -1 })
         .populate([
           {
             path: "author",
             select: "firstName",
-            model: "User"
+            model: "User",
           },
           {
             path: "likes",
             model: "User",
             populate: {
               path: "user",
-              model: "User"
-            }
-          }
+              model: "User",
+            },
+          },
         ])
         .exec();
       res.status(200).json(allPost);
