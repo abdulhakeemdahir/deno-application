@@ -38,7 +38,7 @@ import API from "../../../utils/api";
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
@@ -46,7 +46,6 @@ const Newsfeed = () => {
   const [postState, postDispatch] = usePostContext();
 
   useEffect(() => {
-
     async function fetchAllPostsAndCauses() {
       await causeDispatch({ type: CAUSE_LOADING });
       const causes = await API.getAllCauses();
@@ -77,16 +76,16 @@ const Newsfeed = () => {
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
-      url: "#",
+      url: "#"
     },
     {
       hashTag: "Save the Elephants",
-      url: "#",
+      url: "#"
     },
     {
       hashTag: "Save the Whales",
-      url: "#",
-    },
+      url: "#"
+    }
   ]);
   // const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -95,13 +94,13 @@ const Newsfeed = () => {
   };
   const { width } = useWindowDimensions();
   return (
-    <div className="Main">
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={"container"}
           xs={12}
           lg={10}

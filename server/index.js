@@ -3,10 +3,18 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
+// const { Conversation } = require("./models");
+const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
+// Create server
 const app = express();
-const PORT = process.env.PORT || 3001;
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000"
+  }
+});
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -29,8 +37,53 @@ mongoose.connect(mongodb, {
   useNewUrlParser: true
 });
 
+// io.use(async (socket, next) => {
+//   socket.room = socket.handshake.query.room;
+//   return next();
+// });
+
+// Connect the client to the socket.
+io.on("connection", socket => {
+  socket.on("adduser", username => {
+    // we store the username in the socket session for this client
+    socket.username = username;
+  });
+
+  socket.on("switch-convo", newConvo => {
+    // leave the current room (stored in session)
+    socket.leave(socket.room);
+    // join new room, received as parameter.
+    socket.join(newConvo);
+    socket.emit("update-convo", "SERVER", "you have connected to" + newConvo);
+    socket.room = newConvo;
+  });
+
+  socket.on("send-message", ({ recipients, text }) => {
+    recipients.forEach(recipient => {
+      const newRecipients = recipients.filter(newR => newR !== recipient);
+      newRecipients.push(id);
+      socket.broadcast.to(recipient).emit("receive-message", {
+        recipients: newRecipients,
+        sender: id,
+        text
+      });
+    });
+  });
+
+  socket.on("comment", ({ post, text }) => {
+    socket.broadcast.to(post).emit("update-comment-board", {
+      post,
+      text
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user has left.");
+  });
+});
+
 // Start the API server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(
     "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
     PORT,
