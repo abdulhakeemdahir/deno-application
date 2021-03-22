@@ -73,23 +73,26 @@ class API {
   }
 
   //-----------------------causes api-------------------------//
-  getUsersCauses(__id) {
-    return this.axios.get(`/api/causes/dashboard`, __id);
+  getUsersCauses(_id) {
+    return this.axios.get(`/api/causes/${_id}`);
   }
   getTrending(data) {
-    return this.axios.get(`/api/causes/dashboard`, data);
+    return this.axios.get(`/api/causes/`, data);
   }
   createCause(data) {
-    return this.axios.post(`/api/causes/create/cause`, data);
+    return this.axios.post(`/api/causes/`, data);
   }
   updateCause(_id, data) {
     return this.axios.put(`/api/causes/${_id}`, data);
   }
   addLike(_id, like, data) {
-    return this.axios.put(`/api/causes/like/${_id}/${like}`, data);
+    return this.axios.put(`/api/causes/like/${like}/${_id}`, data);
   }
-  removeCause(_id, cause) {
-    return this.axios.delete(`/api/causes/${_id}/${cause}`);
+  removeCause(_id, data) {
+    return this.axios.delete(`/api/causes/${_id}`, data);
+  }
+  getAllCause() {
+    return this.axios.get(`/api/causes/`);
   }
 
   //-----------------------post api-------------------------//
