@@ -42,8 +42,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Post() {
-  const [causeState, causeDispatch] = useCauseContext();
-  const [postState, postDispatch] = usePostContext();
+  const [, causeDispatch] = useCauseContext();
+  const [, postDispatch] = usePostContext();
   const classes = useStyles();
 
   //*Create Post
