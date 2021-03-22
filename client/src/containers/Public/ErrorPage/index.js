@@ -35,8 +35,8 @@ const ErrorPage = () => {
 				xl={6}
 			>
 				<Grid justify='center' className={classes.centerPosition}>
-					<ErrorOutline />
-					<Typography>404 Error</Typography>
+					<ErrorOutline size='large' />
+					<Typography variant='h4'>404 Error</Typography>
 					<Typography>The Page you are looking for cannot be found</Typography>
 				</Grid>
 			</Grid>
