@@ -40,10 +40,15 @@ TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
 <<<<<<< HEAD
+<<<<<<< HEAD
   value: PropTypes.any.isRequired
 =======
   value: PropTypes.any.isRequired,
 >>>>>>> 5e32b461e366a9af8a1e76c2fdff69db45dea63e
+=======
+  value: PropTypes.any.isRequired,
+
+>>>>>>> e47d2923563c2432a59d4d15dc39fc256357b5fc
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
