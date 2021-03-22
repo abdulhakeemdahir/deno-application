@@ -41,45 +41,85 @@ mongoose.connect(mongodb, {
 //   socket.room = socket.handshake.query.room;
 //   return next();
 // });
-
+const users = [];
+const messages = {
+  general: [],
+  random: [],
+  jokes: [],
+  javascript: []
+};
 // Connect the client to the socket.
 io.on("connection", socket => {
-  socket.on("adduser", username => {
+  socket.on("join:server", username => {
     // we store the username in the socket session for this client
-    socket.username = username;
+    const user = {
+      username,
+      id: socket.id
+    };
+    users.push(user);
+    io.emit("new user", users);
   });
 
-  socket.on("switch-convo", newConvo => {
-    // leave the current room (stored in session)
-    socket.leave(socket.room);
-    // join new room, received as parameter.
-    socket.join(newConvo);
-    socket.emit("update-convo", "SERVER", "you have connected to" + newConvo);
-    socket.room = newConvo;
+  socket.on("join:room", (roomName, cb) => {
+    socket.join(roomName);
+    cb(messages[roomName]);
   });
 
-  socket.on("send-message", ({ recipients, text }) => {
-    recipients.forEach(recipient => {
-      const newRecipients = recipients.filter(newR => newR !== recipient);
-      newRecipients.push(id);
-      socket.broadcast.to(recipient).emit("receive-message", {
-        recipients: newRecipients,
-        sender: id,
-        text
+  socket.on("send-message", ({ content, to, sender, postId, isPost }) => {
+    if (isPost) {
+      const payload = {
+        content,
+        postId,
+        sender
+      };
+      socket.to(to).emit("new-message", payload);
+    } else {
+      const payload = {
+        content,
+        chatName: sender,
+        sender
+      };
+      socket.to(to).emit("new-message", payload);
+    }
+    if (messages[postId]) {
+      messages[postId].push({
+        sender,
+        content
       });
-    });
-  });
-
-  socket.on("comment", ({ post, text }) => {
-    socket.broadcast.to(post).emit("update-comment-board", {
-      post,
-      text
-    });
+    }
   });
 
   socket.on("disconnect", () => {
     console.log("user has left.");
   });
+
+  // socket.on("switch-convo", newConvo => {
+  //   // leave the current room (stored in session)
+  //   socket.leave(socket.room);
+  //   // join new room, received as parameter.
+  //   socket.join(newConvo);
+  //   socket.emit("update-convo", "SERVER", "you have connected to" + newConvo);
+  //   socket.room = newConvo;
+  // });
+
+  // socket.on("send-message", ({ recipients, text }) => {
+  //   recipients.forEach(recipient => {
+  //     const newRecipients = recipients.filter(newR => newR !== recipient);
+  //     newRecipients.push(id);
+  //     socket.broadcast.to(recipient).emit("receive-message", {
+  //       recipients: newRecipients,
+  //       sender: id,
+  //       text
+  //     });
+  //   });
+  // });
+
+  // socket.on("comment", ({ post, text }) => {
+  //   socket.broadcast.to(post).emit("update-comment-board", {
+  //     post,
+  //     text
+  //   });
+  // });
 });
 
 // Start the API server

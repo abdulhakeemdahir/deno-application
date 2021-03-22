@@ -1,29 +1,35 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useReducer, useContext } from "react";
+import reducer from "./reducer";
 
 const ConvoContext = createContext();
 const { Provider } = ConvoContext;
 
-const ConvoProvider = ({ children }) => {
-  const [convos, setConvos] = useState({
-    converstaions: [
-      {
-        users: [],
-        messages: []
-      }
-    ]
+const ConvoProvider = ({ value = [], ...props }) => {
+  const [convos, convoDispatch] = useReducer(reducer, {
+    username: "",
+    connected: false,
+    currentChat: {
+      isPost: false,
+      postId: "",
+      receiverId: ""
+    },
+    connectedRooms: [],
+    allUsers: [],
+    conversations: {},
+    message: ""
   });
 
-  const newConvo = (id, username) => {
-    setConvos(prevConvos => {
-      return [...prevConvos, { id, username }];
-    });
-  };
-
-  return <Provider value={[convos, newConvo]} />;
+  return <Provider value={[convos, convoDispatch]} {...props} />;
 };
 
 const useConvoContext = () => {
   return useContext(ConvoContext);
 };
 
-export { ConvoProvider, useConvoContext };
+const useConvoDispatch = () => {
+  const [, convoDispatch] = useConvoContext();
+
+  return convoDispatch;
+};
+
+export { ConvoProvider, useConvoContext, useConvoDispatch };

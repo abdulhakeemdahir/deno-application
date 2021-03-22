@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import api from "../../api";
 import { useStoreDispatch } from "../AuthStore";
 import { SET_SOCKET } from "../AuthStore/actions";
+import immer from "immer";
 
 export const useSocketConnection = () => {
   const dispatch = useStoreDispatch();
