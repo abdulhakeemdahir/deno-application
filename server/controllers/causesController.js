@@ -26,9 +26,16 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  create: async (req, res) => {
+  create: async ({ body }, res) => {
+    const { title, content, imageUrl, author } = body;
+
     try {
-      const causeModel = await Cause.create(req.body);
+      const causeModel = await Cause.create({
+        title,
+        content,
+        imageUrl,
+        author
+      });
       res.status(201).json(causeModel);
     } catch (err) {
       res.status(422).json(err);

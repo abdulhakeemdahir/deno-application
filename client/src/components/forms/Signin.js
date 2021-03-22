@@ -70,17 +70,18 @@ export default function Signin() {
 		event.preventDefault();
 
 		try {
-			const { username } = await login(stateSignIn);
+			const {_id} = await login(stateSignIn);
+
 			// User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 
 			await userDispatch({ type: USER_LOADING });
 			await userDispatch({
-				type: GET_USER_INFO,
-				payload: {
-					username,
-					loading: false,
-				},
-			});
+        type: GET_USER_INFO,
+        payload: {
+          _id,
+          loading: false,
+        },
+      });
 
 			history.push("/newsfeed");
 		} catch (err) {

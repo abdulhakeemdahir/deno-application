@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 const paypal = require("paypal-rest-sdk");
+const siteUrl = require("./options")("siteUrl");
 
 class PayPal {
   constructor() {
@@ -20,14 +21,14 @@ class PayPal {
       intent: "donation",
       payer: {
         // eslint-disable-next-line camelcase
-        payment_method: "paypal"
+        payment_method: "paypal",
       },
       // eslint-disable-next-line camelcase
       redirect_urls: {
         // eslint-disable-next-line camelcase
-        return_url: "http://localhost:3000/success",
+        return_url: `${siteUrl}success`,
         // eslint-disable-next-line camelcase
-        cancel_url: "http://localhost:3000/cancel"
+        cancel_url: `${siteUrl}cancel`,
       },
       transactions: [
         {
@@ -39,17 +40,17 @@ class PayPal {
                 sku: "001",
                 price: this.amount,
                 currency: "USD",
-                quantity: 1
-              }
-            ]
+                quantity: 1,
+              },
+            ],
           },
           amount: {
             currency: "USD",
-            total: this.amount
+            total: this.amount,
           },
-          description: "Donation to " + cause
-        }
-      ]
+          description: "Donation to " + cause,
+        },
+      ],
     };
     return JSON.stringify(create);
   }
