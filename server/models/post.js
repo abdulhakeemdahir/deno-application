@@ -13,6 +13,11 @@ const postSchema = new Schema({
     trim: true,
     required: [true, "Post cannot be blank"]
   },
+  imageUrl: {
+    type: String,
+    trim: true,
+    required: false
+  },
   date: { type: Date, default: Date.now },
   likes: [
     {

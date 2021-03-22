@@ -2,6 +2,27 @@ const { Cause } = require("../models");
 const { User } = require("../models");
 
 module.exports = {
+  getAllCause: async (req, res) => {
+    try {
+      const Post = await Cause.find({}).populate({
+        path: "author",
+        path: "likes",
+        path: "commnets",
+        populate: {
+          path: "user",
+          model: "User",
+          path: "likes",
+          populate: {
+            path: "user",
+            model: "User"
+          }
+        }
+      });
+      res.status(200).json(Post);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
   getUsersCauses: async (req, res) => {
     try {
       const causeModel = await Cause.find(req.body.username).sort({ date: -1 });
@@ -26,9 +47,16 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  create: async (req, res) => {
+  create: async ({ body }, res) => {
+    const { title, content, imageUrl, author } = body;
+
     try {
-      const causeModel = await Cause.create(req.body);
+      const causeModel = await Cause.create({
+        title,
+        content,
+        imageUrl,
+        author
+      });
       res.status(201).json(causeModel);
     } catch (err) {
       res.status(422).json(err);
