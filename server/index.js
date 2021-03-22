@@ -36,16 +36,26 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dono", {
   useNewUrlParser: true
 });
 
-io.use(async (socket, next) => {
-  socket.room = socket.handshake.query.room;
-  return next();
-});
+// io.use(async (socket, next) => {
+//   socket.room = socket.handshake.query.room;
+//   return next();
+// });
 
 // Connect the client to the socket.
 io.on("connection", socket => {
-  console.log("User Logged In: ", socket.id);
-  const id = socket.handshake.query.id;
-  socket.join(id);
+  socket.on("adduser", username => {
+    // we store the username in the socket session for this client
+    socket.username = username;
+  });
+
+  socket.on("switch-convo", newConvo => {
+    // leave the current room (stored in session)
+    socket.leave(socket.room);
+    // join new room, received as parameter.
+    socket.join(newConvo);
+    socket.emit("update-convo", "SERVER", "you have connected to" + newConvo);
+    socket.room = newConvo;
+  });
 
   socket.on("send-message", ({ recipients, text }) => {
     recipients.forEach(recipient => {
