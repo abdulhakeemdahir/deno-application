@@ -1,4 +1,4 @@
-import { Divider, Grid, List, ListItem, Typography } from "@material-ui/core";
+import { Grid, List, ListItem, Typography } from "@material-ui/core";
 
 export default function Sidebar({ convos }) {
   return (
