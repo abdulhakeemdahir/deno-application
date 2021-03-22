@@ -33,7 +33,7 @@ import {
   POST_LOADING,
   REMOVE_POST,
   GET_FOLLOWING,
-} from "../../utils/actions/actions";
+} from "../../../utils/actions/actions.js";
 
 import API from "../../../utils/api";
 
