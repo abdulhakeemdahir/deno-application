@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
+const Conversation = require("./models/messenger");
 // const { Conversation } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
@@ -54,9 +55,10 @@ io.on("connection", socket => {
     io.emit("new user", users);
   });
 
-  socket.on("join:room", (roomName, cb) => {
+  socket.on("join:room", async (roomName, cb) => {
+    const conversation = await Conversation.findOne({ name: roomName });
     socket.join(roomName);
-    cb(messages[roomName]);
+    socket.emit("set-messages", conversation);
   });
 
   socket.on("send-message", ({ content, to, sender, postId, isPost }) => {
