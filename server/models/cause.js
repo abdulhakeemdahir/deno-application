@@ -16,7 +16,7 @@ const causeSchema = new Schema({
   date: { type: Date, default: Date.now },
   category: {
     type: String,
-    required: [true, "Causes must have a category."]
+    required: [false, "Causes must have a category."]
   },
   likes: [
     {
