@@ -59,8 +59,9 @@ class API {
   }
 
   //-----------------------user api-------------------------//
-  updateUser(_id) {
-    return this.axios.put(`/api/users/${_id}`);
+  updateUser(id, data) {
+    console.log(id, data);
+    return this.axios.put(`/api/users/${id}`, data);
   }
   deleteUser(_id) {
     return this.axios.delete(`/api/users/${_id}`);
@@ -145,7 +146,7 @@ class API {
   createHashtag(data) {
     return this.axios.post(`/api/hashtags/`, data);
   }
-  updateHashtagComment(id, data) {
+  updateHashtag(id, data) {
     return this.axios.put(`/api/hashtags/${id}`, data);
   }
   removeHashtag(_id) {

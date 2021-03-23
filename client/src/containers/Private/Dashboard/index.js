@@ -48,9 +48,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchUserInfo() {
       await userDispatch({ type: USER_LOADING });
-      const userInfo = await API.getUser(userState._id)
-
-      console.log(userInfo);
+      const userInfo = await API.getUser(userState._id);
       
       await userDispatch({
         type: UPDATE_USER,
@@ -59,6 +57,8 @@ const Dashboard = () => {
           loading: false
         }
       })
+
+	  console.log(userInfo);
     }
 
     fetchUserInfo();
