@@ -6,9 +6,11 @@ import {
 	CardContent,
 	CardMedia,
 	Button,
+	ButtonGroup,
 } from "@material-ui/core";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
+import { ThumbUpAlt } from "@material-ui/icons";
 
 export default function Causes(props) {
 	return (
@@ -33,9 +35,15 @@ export default function Causes(props) {
 						</Typography>
 					</CardContent>
 				</Grid>
-				<Button size='large' className='styleButton' fullWidth id={props.id}>
-					<CreditCardIcon /> Support Cause
-				</Button>
+				<ButtonGroup justify='center'>
+					<Button size='large' className='styleButton' fullWidth id={props.id}>
+						<i class='fab fa-paypal'></i>
+						Support
+					</Button>
+					<Button size='large' className='followButton' fullWidth>
+						<ThumbUpAlt /> Follow
+					</Button>
+				</ButtonGroup>
 			</Grid>
 		</Grid>
 	);

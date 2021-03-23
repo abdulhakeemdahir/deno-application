@@ -2,6 +2,10 @@
 	background: linear-gradient(-135deg, #ffb74d, #ff8a65);
 	color: #ffffff !important;
 }
+.followButton {
+	background: linear-gradient(-135deg, #c498ff, #00d4ff);
+	color: #ffffff !important;
+}
 .analyticsButton {
 	background: linear-gradient(-135deg, #e57373, #f06292);
 	color: #ffffff !important;
