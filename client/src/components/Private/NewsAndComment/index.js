@@ -15,7 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
-import { Favorite, FavoriteOutlined } from "@material-ui/icons";
+import { Favorite } from "@material-ui/icons";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -56,29 +57,24 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function NewsAndComment(props) {
 	const classes = useStyles();
-	const [like, setLike] = React.useState();
+	const [like, setLike] = React.useState(false);
 	const handleLike = () => {
-		setLike(false);
+		setLike(!like);
+		console.log(like);
 	};
 	return (
 		<>
 			<Grid item className='card' xs={12}>
 				<Grid container className='headerContainer'>
-					<Grid item xs={9} sm={10}>
+					<Grid item xs={9} sm={11}>
 						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 							{props.title}
 						</Typography>
 					</Grid>
-					<Grid item xs={3} sm={2}>
-						{like === true ? (
-							<Button className='editButton' onClick={handleLike}>
-								<Favorite /> Like
-							</Button>
-						) : (
-							<Button className='editButton' onClick={handleLike}>
-								<FavoriteOutlined /> Like
-							</Button>
-						)}
+					<Grid item xs={3} sm={1}>
+						<Button className='editButton' onClick={handleLike}>
+							<>{like === true ? <Favorite /> : <FavoriteBorderIcon />}</>
+						</Button>
 					</Grid>
 				</Grid>
 				<Typography variant='body2' color='textSecondary' component='p'>

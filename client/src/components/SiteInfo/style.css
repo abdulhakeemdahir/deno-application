@@ -1,0 +1,20 @@
+.styleButton {
+	background: linear-gradient(-135deg, #899fd4, #a389d4);
+	color: #ffffff !important;
+}
+
+.headerColor {
+	color: #a389d4;
+	font-weight: 900 !important;
+	text-align: center;
+}
+.subtitleColor {
+	color: #899fd4;
+	font-weight: bold;
+	text-align: center;
+}
+
+.logo {
+	height: 15vw;
+	width: auto;
+}

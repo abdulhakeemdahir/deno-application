@@ -66,7 +66,7 @@ export default function Causes(props) {
 						</Typography>
 					</CardContent>
 				</Grid>
-				<ButtonGroup justify='center'>
+				<ButtonGroup justify='center' fullWidth>
 					<Button size='large' className='styleButton' fullWidth id={props.id}>
 						<i class='fab fa-paypal'></i>
 						Support

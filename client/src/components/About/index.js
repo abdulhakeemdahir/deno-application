@@ -72,7 +72,7 @@ export default function About(props) {
 			<CardMedia className='media' image={props.image} />
 			<Grid container direction='row' spacing={1}>
 				<Grid item xs={12} sm={12}>
-					<ButtonGroup>
+					<ButtonGroup fullWidth>
 						<Button size='large' className='aboutButton' fullWidth>
 							<i class='fab fa-paypal'></i>
 							<span> Support</span>
