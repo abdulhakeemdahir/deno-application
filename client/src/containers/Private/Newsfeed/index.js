@@ -16,40 +16,38 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 // import Splash from "../../../components/Splash";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
+import { useTrendingContext } from "../../../utils/GlobalStates/TrendingContext";
 import {
-	GET_CAUSE_INFO,
-	GET_ALL_CAUSE_INFO,
-	GET_POST_INFO,
-	GET_ALL_POST_INFO,
-	GET_TRENDING,
-	UPDATE_CAUSE,
-	UPDATE_POST,
 	CAUSE_LOADING,
-	REMOVE_CAUSE,
 	POST_LOADING,
-	REMOVE_POST,
-	GET_FOLLOWING,
 	ADD_CAUSE,
 	ADD_POST,
+	ADD_TREND,
+	TREND_LOADING,
 } from "../../../utils/actions/actions.js";
-
 import API from "../../../utils/api";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-// const useStyles = makeStyles(theme => ({}));
+
+//const useStyles = makeStyles(theme => ({}));
+
 const Newsfeed = () => {
 	const [causeState, causeDispatch] = useCauseContext();
 	const [postState, postDispatch] = usePostContext();
+	const [trendingStates, trendingDispatch] = useTrendingContext();
+	const socket = useSocket();
+	const [state] = useStoreContext();
 
 	useEffect(() => {
 		async function fetchAllPostsAndCauses() {
 			await causeDispatch({ type: CAUSE_LOADING });
 			const causes = await API.getAllCauses();
-
 			await causeDispatch({
 				type: ADD_CAUSE,
 				payload: {
@@ -57,7 +55,6 @@ const Newsfeed = () => {
 					loading: false,
 				},
 			});
-
 			await postDispatch({ type: POST_LOADING });
 			const postInfo = await API.getAllPost();
 
@@ -68,9 +65,23 @@ const Newsfeed = () => {
 					loading: false,
 				},
 			});
-		}
 
+			await trendingDispatch({ type: TREND_LOADING });
+			const hashInfo = await API.getHashtagAll();
+			console.log(hashInfo);
+			await trendingDispatch({
+				type: ADD_TREND,
+				payload: {
+					hashtag: hashInfo.data,
+					loading: false,
+				},
+			});
+		}
 		fetchAllPostsAndCauses();
+
+		if (!socket) return;
+
+		socket.emit("join:server", state.userAuth.user.username);
 	}, []);
 
 	const [trendingState] = useState([
@@ -87,7 +98,7 @@ const Newsfeed = () => {
 			url: "#",
 		},
 	]);
-	// const classes = useStyles();
+	//const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);

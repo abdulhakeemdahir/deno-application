@@ -25,12 +25,10 @@ const causeSchema = new Schema({
       required: [false]
     }
   ],
-  hashtags: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Hashtags"
-    }
-  ]
+  hashtags: {
+    type: Schema.Types.ObjectId,
+    ref: "Hashtags"
+  }
 });
 
 causeSchema.methods.handleLike = async function(userId) {

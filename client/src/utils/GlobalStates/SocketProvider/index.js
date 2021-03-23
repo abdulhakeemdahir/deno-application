@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import io from "socket.io-client";
 import api from "../../api";
-import { useStoreDispatch } from "../AuthStore";
+import { useStoreContext, useStoreDispatch } from "../AuthStore";
 import { SET_SOCKET } from "../AuthStore/actions";
 
 export const useSocketConnection = () => {
   const dispatch = useStoreDispatch();
 
   useEffect(() => {
-    console.log(localStorage.getItem("jwtToken"));
+
     const newSocket = io(`${window.location.origin}`, {
       transportOption: {
         polling: {
@@ -24,10 +24,20 @@ export const useSocketConnection = () => {
       dispatch({ type: SET_SOCKET, payload: newSocket });
     });
 
+    newSocket.on("join:server", () => {
+      console.log("hello world");
+    });
+
     return () => {
       newSocket.disconnect();
       api.setHeader("User-Socket-Id", false);
       dispatch({ type: SET_SOCKET, payload: false });
     };
   }, [dispatch]);
+};
+
+export const useSocket = () => {
+  const [{ socket }] = useStoreContext();
+
+  return socket;
 };

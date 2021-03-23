@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -17,6 +17,8 @@ import Footer from "../../../components/Footer";
 import Sidebar from "../../../components/Messaging/Sidebar";
 import ChatContainer from "../../../components/Messaging/ChatContainer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
 // import Splash from "../../../components/Splash";
 
 // const useStyles = makeStyles(theme => ({}));
@@ -28,107 +30,29 @@ TabPanel.propTypes = {
 };
 
 const Chatroom = () => {
-  const [trendingState] = useState([
-    {
-      hashTag: "Save the Dolphins",
-      url: "#"
-    },
-    {
-      hashTag: "Save the Elephants",
-      url: "#"
-    },
-    {
-      hashTag: "Save the Whales",
-      url: "#"
-    }
-  ]);
+  const toggleRef = useRef();
 
-  const [newsState] = useState([
-    {
-      title: "Dolphins Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Dolphin,
-      post:
-        "We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
-      hashTag: "Save the Dolphins",
-      comments: [
-        {
-          author: "Jake",
-          post: "This is a test comment"
-        },
-        {
-          author: "Bobby",
-          post: "This is a test comment"
-        },
-        {
-          author: "Drake",
-          post: "This is a test comment"
-        }
-      ]
-    },
-    {
-      title: "Elephant Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Elephant,
-      post:
-        "We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
-      hashTag: "Save the Elephant",
-      comments: [
-        {
-          author: "Chris",
-          post: "This is a test comment"
-        },
-        {
-          author: "Sherman",
-          post: "This is a test comment"
-        },
-        {
-          author: "Drake",
-          post: "This is a test comment"
-        }
-      ]
-    },
-    {
-      title: "Whale Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Whale,
-      post:
-        "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-      hashTag: "Save the Whale",
-      comments: [
-        {
-          author: "Ani",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
-        },
-        {
-          author: "Stewart",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
-        },
-        {
-          author: "Cassandra",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
-        },
-        {
-          author: "Cassandra",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
-        }
-      ]
-    }
-  ]);
-
-  // const classes = useStyles();
+  const socket = useSocket();
   const [value, setValue] = React.useState(0);
+  const [state] = useStoreContext();
+  const [convos, setConvo] = useState([
+    {
+      name: "pod",
+      participants: ["taani", "pod-1"],
+      message: "Attack on Titan > everything"
+    }
+  ]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  function toggleChat(roomName) {
+    console.log(roomName);
+
+    socket.emit("join:room", roomName, [{ _id: state.userAuth.user.id }]);
+    socket.on("get-messages");
+  }
 
   const { width } = useWindowDimensions();
   return (
@@ -150,7 +74,11 @@ const Chatroom = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3} className='card-container'>
                   <Typography variant='subtitle2'>Conversations</Typography>
-                  <Sidebar />
+                  <Sidebar
+                    toggleChat={toggleChat}
+                    convos={convos}
+                    toggleRef={toggleRef}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
                   <Typography variant='subtitle2'>Messenger</Typography>

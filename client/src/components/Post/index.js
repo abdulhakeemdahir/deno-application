@@ -13,6 +13,7 @@ import API from "../../utils/api.js";
 import { ADD_CAUSE, ADD_POST, CAUSE_LOADING, POST_LOADING } from "../../utils/actions/actions";
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
+import findHashtags from "find-hashtags"
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -90,27 +91,69 @@ const addCause = async (causeInfo) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if(createPost.type === "" || createPost.title === "" || createPost.content === "" || createPost.imageUrl === ""){
+      return
+    }
 		try {
+      
 			const post = {
 				...createPost,
 				author: userState._id,
 		}
 
+    const hashtags = await findHashtags(createPost.content);
+
+    if (hashtags.length) {
+      const createHashtags = await API.createHashtag({ hashtag:hashtags });
+      post.hashtags = createHashtags.data._id
+    }
+
 		if(createPost.type === "Post"){
 			
       const {data} = await API.createPost(post);
+      if (post.hashtags){
+          await API.updateHashtag(post.hashtags, {
+            posts: data._id,
+          });
+      }
+      
+      await API.updateUser(post.author, {
+        posts: data._id,
+      });
+
       addPost(data);
-      return;
-    	}
-		const {data} = await API.createCause(post);
-    addCause(data);
-    return;
+      return
+    }else{
+        const { data } = await API.createCause(post);
+
+        if (post.hashtags) {
+          await API.updateHashtag(post.hashtags, {
+            causes: data._id,
+          });
+        }
+
+        await API.updateUser(post.author, {
+          causes: data._id,
+        });
+
+        addCause(data);
+      }
+		
+    clearState();
 
 }catch (err) {
-      console.log(err)
+      console.log("here", err)
     }
 }
-
+const clearState = () =>{
+    setCreatePost({
+      type: "",
+      title: "",
+      content: "",
+      imageUrl: "",
+    });
+    return
+}
 
 	return (
     <Grid className="cardPost">
