@@ -6,28 +6,48 @@ module.exports = {
     try {
       const user = await User.findById({ username: req.body.username })
         .select("firstName lastname username email role profileImg bannerImg")
-        .populate({
-          path: "following",
-          populate: {
-            path: "user",
+        .populate([
+          {
+            path: "following",
+            select: "firstName",
             model: "User"
           },
-          path: "followers",
-          populate: {
-            path: "user",
+          {
+            path: "followers",
+            select: "firstName",
             model: "User"
           },
-          path: "posts",
-          populate: {
-            path: "user",
-            model: "User"
+          {
+            path: "posts",
+            model: "Post",
+            populate: {
+              path: "author",
+              select: "firstName",
+              model: "User",
+
+              path: "likes",
+              model: "User",
+              populate: {
+                path: "user",
+                select: "firstName",
+                model: "User"
+              },
+
+              path: "comments",
+              model: "Comment",
+              populate: {
+                path: "user",
+                select: "firstName",
+                model: "User"
+              }
+            }
           },
-          path: "cause",
-          populate: {
-            path: "user",
-            model: "User"
+          {
+            path: "cause",
+            model: "Causes"
           }
-        });
+        ])
+        .exec();
       res.status(200).json(user);
     } catch (err) {
       res.status(422).json(err);

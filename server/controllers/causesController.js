@@ -6,6 +6,7 @@ module.exports = {
     try {
       const Post = await Cause.find({})
         .find({})
+        .sort({ date: -1 })
         .populate([
           {
             path: "author",

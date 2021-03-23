@@ -32,24 +32,20 @@ import {
   ADD_CAUSE,
   ADD_POST,
 } from "../../../utils/actions/actions.js";
-
 import API from "../../../utils/api";
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
-
   useEffect(() => {
     async function fetchAllPostsAndCauses() {
       await causeDispatch({ type: CAUSE_LOADING });
       const causes = await API.getAllCauses();
-	 
       await causeDispatch({
         type: ADD_CAUSE,
         payload: {
@@ -57,10 +53,11 @@ const Newsfeed = () => {
           loading: false,
         },
       });
-
       await postDispatch({ type: POST_LOADING });
       const postInfo = await API.getAllPost();
-	  
+
+      console.log(postInfo.data);
+
       await postDispatch({
         type: ADD_POST,
         payload: {
@@ -69,23 +66,23 @@ const Newsfeed = () => {
         },
       });
     }
-
     fetchAllPostsAndCauses();
-  }, []);
 
+    console.log(postState);
+  }, []);
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
-      url: "#"
+      url: "#",
     },
     {
       hashTag: "Save the Elephants",
-      url: "#"
+      url: "#",
     },
     {
       hashTag: "Save the Whales",
-      url: "#"
-    }
+      url: "#",
+    },
   ]);
   // const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -94,13 +91,13 @@ const Newsfeed = () => {
   };
   const { width } = useWindowDimensions();
   return (
-    <div className='Main'>
+    <div className="Main">
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction='row'
-          justify='center'
+          direction="row"
+          justify="center"
           className={"container"}
           xs={12}
           lg={10}
@@ -122,6 +119,7 @@ const Newsfeed = () => {
                 <Grid item xs={12} sm={6} className="card-container">
                   <Typography variant="subtitle2">NEWS FEED</Typography>
                   <Post className="card" />
+                
                   {postState.posts.map((card) => {
                     return (
                       <News
