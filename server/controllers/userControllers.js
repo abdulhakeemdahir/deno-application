@@ -18,9 +18,6 @@ module.exports = {
           },
           {
             path: "posts",
-<<<<<<< HEAD
-            model: "Post"
-=======
             model: "Post",
             populate: {
               path: "author",
@@ -43,7 +40,6 @@ module.exports = {
                 model: "User"
               }
             }
->>>>>>> aef6e33aca56a621b3e3382e211ca324854ae594
           },
           {
             path: "cause",

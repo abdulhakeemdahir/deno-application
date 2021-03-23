@@ -44,10 +44,6 @@ const Newsfeed = () => {
     async function fetchAllPostsAndCauses() {
       await causeDispatch({ type: CAUSE_LOADING });
       const causes = await API.getAllCauses();
-<<<<<<< HEAD
-
-=======
->>>>>>> aef6e33aca56a621b3e3382e211ca324854ae594
       await causeDispatch({
         type: ADD_CAUSE,
         payload: {
@@ -155,12 +151,6 @@ const Newsfeed = () => {
             </>
           ) : (
             <>
-<<<<<<< HEAD
-              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="Trending" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
-=======
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -169,7 +159,6 @@ const Newsfeed = () => {
                 <Tab label='News' {...a11yProps(0)} />
                 <Tab label='Trending' {...a11yProps(1)} />
                 <Tab label='Causes' {...a11yProps(2)} />
->>>>>>> aef6e33aca56a621b3e3382e211ca324854ae594
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
