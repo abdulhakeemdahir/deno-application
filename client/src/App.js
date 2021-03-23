@@ -30,10 +30,7 @@ const theme = createMuiTheme({
   }
 });
 function App() {
-  const [state] = useStoreContext();
   useSocketConnection();
-
-  console.log(state);
 
   useAuthTokenStore();
 

@@ -1,6 +1,6 @@
-import { Grid, List, ListItem, Typography } from "@material-ui/core";
+import { Button, Grid, List, ListItem, Typography } from "@material-ui/core";
 
-export default function Sidebar({ convos }) {
+export default function Sidebar({ convos, toggleChat }) {
   return (
     <Grid container class='chat-sidebar'>
       <Grid item>
@@ -8,10 +8,12 @@ export default function Sidebar({ convos }) {
           {convos?.length > 0 ? (
             convos.map(convo => {
               return (
-                <ListItem>
-                  <Typography>{convo.participants}</Typography>
-                  <Typography>{convo.message}</Typography>
-                </ListItem>
+                <Button onClick={() => toggleChat(convo.name)}>
+                  <ListItem>
+                    <Typography>{convo.participants}</Typography>
+                    <Typography>{convo.message}</Typography>
+                  </ListItem>
+                </Button>
               );
             })
           ) : (

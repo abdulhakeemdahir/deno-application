@@ -1,10 +1,10 @@
+/* eslint-disable indent */
 const express = require("express");
 const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const Conversation = require("./models/messenger");
-// const { Conversation } = require("./models");
+const { User, Conversation } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -45,20 +45,31 @@ mongoose.connect(mongodb, {
 
 // Connect the client to the socket.
 io.on("connection", socket => {
-  socket.on("join:server", username => {
-    // we store the username in the socket session for this client
-    const user = {
-      username,
-      id: socket.id
-    };
-    users.push(user);
-    io.emit("new user", users);
+  socket.on("join:server", async username => {
+    const user = await User.findOne({ username });
+    user.socketId
+      ? (socket.id = user.socketId)
+      : User.findOneAndUpdate(username, { socketId: socket.id });
+    user.socketId = socket.id;
   });
 
-  socket.on("join:room", async (roomName, cb) => {
+  socket.on("join:room", async (roomName, participants) => {
+    console.log(roomName);
     const conversation = await Conversation.findOne({ name: roomName });
-    socket.join(roomName);
-    socket.emit("set-messages", conversation);
+    console.log("Line 59: ", conversation);
+    if (conversation) {
+      console.log("Line 60: ", conversation);
+      socket.join(roomName);
+      socket.to(roomName).emit("get-messages", conversation);
+    } else {
+      const newConvo = await Conversation.create({
+        name: roomName,
+        participants
+      });
+      console.log("newConvo", newConvo);
+      socket.to(roomName).emit("get-messages", newConvo);
+      socket.join(roomName);
+    }
   });
 
   socket.on("send-message", ({ content, to, sender, postId, isPost }) => {

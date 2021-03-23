@@ -12,7 +12,6 @@ const { Provider } = StoreContext;
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case SET_SOCKET:
-      console.log(payload);
       return { ...state, socket: payload };
 
     case LOGIN_USER:
