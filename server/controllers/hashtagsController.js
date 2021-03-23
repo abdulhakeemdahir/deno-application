@@ -3,7 +3,7 @@ const { Hashtag } = require("../models");
 module.exports = {
   getHashtagAll: async (req, res) => {
     try {
-      const hashtagModel = await Hashtag.find(req.query)
+      const hashtagModel = await Hashtag.find({})
         .sort({ date: -1 })
         .populate([
           {
@@ -13,10 +13,6 @@ module.exports = {
           {
             path: "causes",
             model: "Causes"
-          },
-          {
-            path: "comments",
-            model: "Comments"
           }
         ])
         .exec();
@@ -63,11 +59,12 @@ module.exports = {
       const hashtagModel = await Hashtag.findByIdAndUpdate(
         params.id,
         {
-          $push: { body }
+          $push: body
         },
 
         { new: true, runValidators: true }
       );
+
       res.status(200).json(hashtagModel);
     } catch (err) {
       res.status(422).json(err);

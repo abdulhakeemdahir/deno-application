@@ -16,11 +16,14 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 // import Splash from "../../../components/Splash";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
+import { useTrendingContext } from "../../../utils/GlobalStates/TrendingContext";
 import {
   CAUSE_LOADING,
   POST_LOADING,
   ADD_CAUSE,
-  ADD_POST
+  ADD_POST,
+ ADD_TREND,
+  TREND_LOADING 
 } from "../../../utils/actions/actions.js";
 import API from "../../../utils/api";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
@@ -32,11 +35,12 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-// const useStyles = makeStyles(theme => ({}));
+//const useStyles = makeStyles(theme => ({}));
 
 const Newsfeed = () => {
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
+  const [trendingStates, trendingDispatch] = useTrendingContext();
   const socket = useSocket();
   const [state] = useStoreContext();
 
@@ -61,6 +65,18 @@ const Newsfeed = () => {
           loading: false
         }
       });
+
+      await trendingDispatch({ type: TREND_LOADING });
+      const hashInfo = await API.getHashtagAll();
+      console.log(hashInfo);
+      await trendingDispatch({
+        type: ADD_TREND,
+        payload: {
+          hashtag: hashInfo.data,
+          loading: false,
+        },
+      });
+      
     }
     fetchAllPostsAndCauses();
 
@@ -83,7 +99,7 @@ const Newsfeed = () => {
       url: "#",
     },
   ]);
-  // const classes = useStyles();
+  //const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);

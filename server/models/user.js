@@ -22,6 +22,10 @@ const userSchema = new Schema({
     trim: true,
     unique: true
   },
+  bio: {
+    type: String,
+    trim: true
+  },
   email: {
     type: String,
     required: true,
