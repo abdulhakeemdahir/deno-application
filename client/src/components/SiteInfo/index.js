@@ -21,7 +21,7 @@ export default function SiteInfo(props) {
 				<Grid container className='headerContainer'>
 					<Grid item xs={12}>
 						<Typography variant='h4' className='headerColor'>
-							How to use DONO!
+							DONO Features!
 						</Typography>
 						<Typography variant='subtitle1' className='subtitleColor'>
 							Welcome to Social Giving!
