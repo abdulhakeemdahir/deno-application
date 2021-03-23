@@ -4,6 +4,7 @@ import {
 	Grid,
 	Divider,
 	CardContent,
+	CardMedia,
 	Button,
 } from "@material-ui/core";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
@@ -21,10 +22,11 @@ export default function Causes(props) {
 			</Grid>
 			<Divider />
 			<Grid container direction='row' spacing={1}>
-				{/* <Grid item xs={12} sm={4}>
+				<Grid item xs={12}>
 					<CardMedia className={"media"} image={props.image} />
-				</Grid> */}
-				<Grid item xs={12} sm={12}>
+				</Grid>
+				<Divider />
+				<Grid item xs={12}>
 					<CardContent>
 						<Typography variant='body2' color='textSecondary'>
 							{props.post}

@@ -4,7 +4,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles({
 	gradientStyle: {
-		backgroundColor: "rgb(0, 212, 255)",
 		bottom: "0px",
 		position: "fixed",
 		height: "100%",
@@ -18,7 +17,7 @@ export default function Splash() {
 	return (
 		<CssBaseline>
 			<div className={classes.gradientStyle}>
-				<img src={Image} alt='forest' />
+				<img src={Image} alt='forest' className={classes.gradientStyle} />
 			</div>
 		</CssBaseline>
 	);

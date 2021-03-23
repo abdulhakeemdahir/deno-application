@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -7,9 +7,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
 import News from "../../../components/News";
-import Elephant from "../../../images/elephant.jpeg";
-import Dolphin from "../../../images/dolphin.jpeg";
-import Whale from "../../../images/whale.jpeg";
 import Gradient from "../../../components/Gradient";
 import Trending from "../../../components/Trending";
 import Causes from "../../../components/Causes";
@@ -18,18 +15,14 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 // import Splash from "../../../components/Splash";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
+
 import {
-	GET_CAUSE_INFO,
-	GET_POST_INFO,
-	UPDATE_CAUSE,
-	UPDATE_POST,
 	CAUSE_LOADING,
-	REMOVE_CAUSE,
+	POST_LOADING,
 	ADD_CAUSE,
 	ADD_POST,
-	POST_LOADING,
-	REMOVE_POST,
-} from "../../../utils/actions/actions";
+} from "../../../utils/actions/actions.js";
+
 import API from "../../../utils/api";
 
 TabPanel.propTypes = {
@@ -42,117 +35,33 @@ const Explore = () => {
 	const [causeState, causeDispatch] = useCauseContext();
 	const [postState, postDispatch] = usePostContext();
 
-	//*CAUSES*
+	useEffect(() => {
+		async function fetchAllPostsAndCauses() {
+			await causeDispatch({ type: CAUSE_LOADING });
+			const causes = await API.getAllCauses();
 
-	//Create cause
-	const addCause = async data => {
-		causeDispatch({ type: CAUSE_LOADING });
-		const causeInfo = await API.createCause(data);
-		causeDispatch({
-			type: ADD_CAUSE,
-			payload: {
-				...causeInfo,
-				loading: false,
-			},
-		});
-	};
+			await causeDispatch({
+				type: ADD_CAUSE,
+				payload: {
+					causes: causes.data,
+					loading: false,
+				},
+			});
 
-	//Read cause
-	const getCauseInfo = async data => {
-		causeDispatch({ type: CAUSE_LOADING });
-		const causeInfo = await API.getUsersCauses(data);
-		causeDispatch({
-			type: GET_CAUSE_INFO,
-			payload: {
-				...causeInfo,
-				loading: false,
-			},
-		});
-	};
+			await postDispatch({ type: POST_LOADING });
+			const postInfo = await API.getAllPost();
 
-	//Update cause
-	const updateCauseInfo = async id => {
-		causeDispatch({ type: CAUSE_LOADING });
-		const data = await API.updateCause(id);
-		causeDispatch({
-			type: UPDATE_CAUSE,
-			payload: {
-				...data,
-				loading: false,
-			},
-		});
-	};
+			await postDispatch({
+				type: ADD_POST,
+				payload: {
+					posts: postInfo.data,
+					loading: false,
+				},
+			});
+		}
 
-	//Delete cause
-	const removeCause = async id => {
-		causeDispatch({ type: CAUSE_LOADING });
-		await API.deleteCause(id);
-		causeDispatch({
-			type: REMOVE_CAUSE,
-			payload: {
-				causes: causeState.causes.filter(cause => {
-					return cause._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
-
-	//*POSTS*
-
-	//Create post
-	const addPost = async data => {
-		postDispatch({ type: POST_LOADING });
-		const postInfo = await API.createPost(data);
-		postDispatch({
-			type: ADD_POST,
-			payload: {
-				...postInfo,
-				loading: false,
-			},
-		});
-	};
-
-	//Read post
-	const getPostInfo = async data => {
-		postDispatch({ type: POST_LOADING });
-		const postInfo = await API.getPost(data);
-		postDispatch({
-			type: GET_POST_INFO,
-			payload: {
-				...postInfo,
-				loading: false,
-			},
-		});
-	};
-
-	//Update post
-	const updatePostInfo = async id => {
-		postDispatch({ type: POST_LOADING });
-		const data = await API.updatePost(id);
-		postDispatch({
-			type: UPDATE_POST,
-			payload: {
-				...data,
-				loading: false,
-			},
-		});
-	};
-
-	//Delete post
-	const deletePost = async id => {
-		postDispatch({ type: POST_LOADING });
-		await API.removePost(id);
-		postDispatch({
-			type: REMOVE_POST,
-			payload: {
-				posts: postState.posts.filter(post => {
-					return post._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
+		fetchAllPostsAndCauses();
+	}, []);
 
 	const [trendingState] = useState([
 		{
@@ -168,86 +77,7 @@ const Explore = () => {
 			url: "#",
 		},
 	]);
-	const [newsState] = useState([
-		{
-			title: "Dolphins Preservation",
-			author: "Abdul",
-			url: "#",
-			thumbnail: Dolphin,
-			post:
-				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
-			hashTag: "Save the Dolphins",
-			comments: [
-				{
-					author: "Jake",
-					post: "This is a test comment",
-				},
-				{
-					author: "Bobby",
-					post: "This is a test comment",
-				},
-				{
-					author: "Drake",
-					post: "This is a test comment",
-				},
-			],
-		},
-		{
-			title: "Elephant Preservation",
-			author: "Abdul",
-			url: "#",
-			thumbnail: Elephant,
-			post:
-				"We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
-			hashTag: "Save the Elephant",
-			comments: [
-				{
-					author: "Chris",
-					post: "This is a test comment",
-				},
-				{
-					author: "Sherman",
-					post: "This is a test comment",
-				},
-				{
-					author: "Drake",
-					post: "This is a test comment",
-				},
-			],
-		},
-		{
-			title: "Whale Preservation",
-			author: "Abdul",
-			url: "#",
-			thumbnail: Whale,
-			post:
-				"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-			hashTag: "Save the Whale",
-			comments: [
-				{
-					author: "Ani",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-				{
-					author: "Stewart",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-				{
-					author: "Cassandra",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-				{
-					author: "Cassandra",
-					post:
-						"We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-				},
-			],
-		},
-	]);
-	// const classes = useStyles();
+
 	const [value, setValue] = React.useState(0);
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -271,36 +101,49 @@ const Explore = () => {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>TRENDING</Typography>
-									{trendingState.map(card => (
-										<Trending hashTag={card.hashTag} link={card.url} />
+									{trendingState.map((card, index) => (
+										<Trending
+											hashTag={card.hashTag}
+											link={card.url}
+											key={index}
+										/>
 									))}
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									{newsState.map(card => (
-										<News
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-											comments={card.comments}
-										/>
-									))}
+									{postState.posts.map(card => {
+										return (
+											<News
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+												comments={card.comments}
+											/>
+										);
+									})}
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
-									{newsState.map(card => (
-										<Causes
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-										/>
-									))}
+									{postState.posts.map(card => {
+										return (
+											<Causes
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+												comments={card.comments}
+											/>
+										);
+									})}
 								</Grid>
 							</Grid>
 						</>
@@ -317,17 +160,21 @@ const Explore = () => {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
-									{newsState.map(card => (
-										<News
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-											comments={card.comments}
-										/>
-									))}
+									{postState.posts.map(card => {
+										return (
+											<News
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+												comments={card.comments}
+											/>
+										);
+									})}
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={1}>
@@ -339,16 +186,20 @@ const Explore = () => {
 							</TabPanel>
 							<TabPanel value={value} index={2}>
 								<Grid item xs={12}>
-									{newsState.map(card => (
-										<Causes
-											title={card.title}
-											author={card.author}
-											link={card.url}
-											image={card.thumbnail}
-											post={card.post}
-											hashTag={card.hashTag}
-										/>
-									))}
+									{causeState.causes.map(card => {
+										return (
+											<Causes
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+											/>
+										);
+									})}
 								</Grid>
 							</TabPanel>
 						</>
