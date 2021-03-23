@@ -30,9 +30,12 @@ import {
   REMOVE_POST,
   GET_FOLLOWING,
   ADD_CAUSE,
-  ADD_POST,
+  ADD_POST
 } from "../../../utils/actions/actions.js";
 import API from "../../../utils/api";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
+
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
@@ -42,6 +45,9 @@ TabPanel.propTypes = {
 const Newsfeed = () => {
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
+  const socket = useSocket();
+  const [state] = useStoreContext();
+
   useEffect(() => {
     async function fetchAllPostsAndCauses() {
       await causeDispatch({ type: CAUSE_LOADING });
@@ -50,26 +56,27 @@ const Newsfeed = () => {
         type: ADD_CAUSE,
         payload: {
           causes: causes.data,
-          loading: false,
-        },
+          loading: false
+        }
       });
       await postDispatch({ type: POST_LOADING });
       const postInfo = await API.getAllPost();
-
-      console.log(postInfo.data);
 
       await postDispatch({
         type: ADD_POST,
         payload: {
           posts: postInfo.data,
-          loading: false,
-        },
+          loading: false
+        }
       });
     }
     fetchAllPostsAndCauses();
 
-    console.log(postState);
+    if (!socket) return;
+
+    socket.emit("join:server", state.userAuth.user.username);
   }, []);
+
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
@@ -106,8 +113,8 @@ const Newsfeed = () => {
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">TRENDING</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>TRENDING</Typography>
                   {trendingState.map((card, index) => (
                     <Trending
                       hashTag={card.hashTag}
@@ -116,11 +123,10 @@ const Newsfeed = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  <Post className="card" />
-                
-                  {postState.posts.map((card) => {
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  <Post className='card' />
+                  {postState.posts.map(card => {
                     return (
                       <News
                         key={card._id}
@@ -136,9 +142,9 @@ const Newsfeed = () => {
                     );
                   })}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
-                  {causeState.causes.map((card) => {
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
+                  {causeState.causes.map(card => {
                     return (
                       <Causes
                         key={card._id}
@@ -160,16 +166,16 @@ const Newsfeed = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="simple tabs example"
+                aria-label='simple tabs example'
               >
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="Trending" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='Trending' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  <Post className="card" />
-                  {postState.posts.map((card) => {
+                  <Post className='card' />
+                  {postState.posts.map(card => {
                     return (
                       <News
                         key={card._id}
@@ -199,7 +205,7 @@ const Newsfeed = () => {
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {causeState.causes.map((card) => {
+                  {causeState.causes.map(card => {
                     return (
                       <Causes
                         key={card._id}
