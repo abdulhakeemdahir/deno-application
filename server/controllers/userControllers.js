@@ -18,7 +18,32 @@ module.exports = {
           },
           {
             path: "posts",
+<<<<<<< HEAD
             model: "Post"
+=======
+            model: "Post",
+            populate: {
+              path: "author",
+              select: "firstName",
+              model: "User",
+
+              path: "likes",
+              model: "User",
+              populate: {
+                path: "user",
+                select: "firstName",
+                model: "User"
+              },
+
+              path: "comments",
+              model: "Comment",
+              populate: {
+                path: "user",
+                select: "firstName",
+                model: "User"
+              }
+            }
+>>>>>>> aef6e33aca56a621b3e3382e211ca324854ae594
           },
           {
             path: "cause",

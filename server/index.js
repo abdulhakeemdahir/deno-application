@@ -1,9 +1,10 @@
+/* eslint-disable indent */
 const express = require("express");
 const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-// const { Conversation } = require("./models");
+const { User, Conversation } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -44,37 +45,55 @@ mongoose.connect(mongodb, {
 
 // Connect the client to the socket.
 io.on("connection", socket => {
-  socket.on("adduser", username => {
-    // we store the username in the socket session for this client
-    socket.username = username;
+  socket.on("join:server", async username => {
+    const user = await User.findOne({ username });
+    user.socketId
+      ? (socket.id = user.socketId)
+      : User.findOneAndUpdate(username, { socketId: socket.id });
+    user.socketId = socket.id;
   });
 
-  socket.on("switch-convo", newConvo => {
-    // leave the current room (stored in session)
-    socket.leave(socket.room);
-    // join new room, received as parameter.
-    socket.join(newConvo);
-    socket.emit("update-convo", "SERVER", "you have connected to" + newConvo);
-    socket.room = newConvo;
-  });
-
-  socket.on("send-message", ({ recipients, text }) => {
-    recipients.forEach(recipient => {
-      const newRecipients = recipients.filter(newR => newR !== recipient);
-      newRecipients.push(id);
-      socket.broadcast.to(recipient).emit("receive-message", {
-        recipients: newRecipients,
-        sender: id,
-        text
+  socket.on("join:room", async (roomName, participants) => {
+    console.log(roomName);
+    const conversation = await Conversation.findOne({ name: roomName });
+    console.log("Line 59: ", conversation);
+    if (conversation) {
+      console.log("Line 60: ", conversation);
+      socket.join(roomName);
+      socket.to(roomName).emit("get-messages", conversation);
+    } else {
+      const newConvo = await Conversation.create({
+        name: roomName,
+        participants
       });
-    });
+      console.log("newConvo", newConvo);
+      socket.to(roomName).emit("get-messages", newConvo);
+      socket.join(roomName);
+    }
   });
 
-  socket.on("comment", ({ post, text }) => {
-    socket.broadcast.to(post).emit("update-comment-board", {
-      post,
-      text
-    });
+  socket.on("send-message", ({ content, to, sender, postId, isPost }) => {
+    if (isPost) {
+      const payload = {
+        content,
+        postId,
+        sender
+      };
+      socket.to(to).emit("new-message", payload);
+    } else {
+      const payload = {
+        content,
+        chatName: sender,
+        sender
+      };
+      socket.to(to).emit("new-message", payload);
+    }
+    if (messages[postId]) {
+      messages[postId].push({
+        sender,
+        content
+      });
+    }
   });
 
   socket.on("disconnect", () => {

@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const conversationSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: true
+    },
     participants: [
       {
         type: Schema.Types.ObjectId,
@@ -19,7 +23,7 @@ const conversationSchema = new Schema(
   { timestamps: true }
 );
 
-const messagesSchema = new Schema(
+const messageSchema = new Schema(
   {
     sender: {
       type: Schema.Types.ObjectId,
@@ -34,7 +38,7 @@ const messagesSchema = new Schema(
 );
 
 const Conversation = mongoose.model("Conversation", conversationSchema);
-const Message = mongoose.model("Message", messagesSchema);
+const Message = mongoose.model("Message", messageSchema);
 
 module.exports = Conversation;
 module.exports = Message;

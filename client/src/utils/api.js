@@ -108,11 +108,11 @@ class API {
   createPost(data) {
     return this.axios.post(`/api/posts/`, data);
   }
-  updatePost(_id, data) {
-    return this.axios.put(`/api/posts/${_id}`, data);
+  updatePost(id, data) {
+    return this.axios.put(`/api/posts/${id}`, data);
   }
-  removePost(_id) {
-    return this.axios.delete(`/api/posts/${_id}`);
+  removePost(id) {
+    return this.axios.delete(`/api/posts/${id}`);
   }
 
   //-----------------------comment api-------------------------//
@@ -120,7 +120,7 @@ class API {
     return this.axios.get(`/api/comments/`);
   }
   createComments(data) {
-    return this.axios.get(`/api/comments/`, data);
+    return this.axios.post(`/api/comments/`, data);
   }
   updateComments(_id, data) {
     return this.axios.put(`/api/comments/${_id}`, data);
@@ -130,8 +130,8 @@ class API {
   }
 
   //-----------------------hashtags api-------------------------//
-  getHashtagAll(data) {
-    return this.axios.get(`/api/hashtags/`, data);
+  getHashtagAll() {
+    return this.axios.get(`/api/hashtags/`);
   }
   getHashtagPost(data) {
     return this.axios.get(`/api/hashtags/post`, data);
@@ -145,8 +145,8 @@ class API {
   createHashtag(data) {
     return this.axios.post(`/api/hashtags/`, data);
   }
-  updateHashtagComment(_id, data) {
-    return this.axios.put(`/api/hashtags/${_id}`, data);
+  updateHashtagComment(id, data) {
+    return this.axios.put(`/api/hashtags/${id}`, data);
   }
   removeHashtag(_id) {
     return this.axios.delete(`/api/hashtags/${_id}`);
