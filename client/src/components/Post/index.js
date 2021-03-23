@@ -139,7 +139,7 @@ const addCause = async (causeInfo) => {
         addCause(data);
       }
 		
-    
+    clearState();
 
 }catch (err) {
       console.log("here", err)

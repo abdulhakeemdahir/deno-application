@@ -78,6 +78,10 @@ module.exports = {
             model: "User"
           },
           {
+            path: "hashtags",
+            model: "Hashtag"
+          },
+          {
             path: "likes",
             model: "User",
             populate: {

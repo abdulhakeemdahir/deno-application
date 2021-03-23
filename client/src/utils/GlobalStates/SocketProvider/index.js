@@ -8,7 +8,7 @@ export const useSocketConnection = () => {
   const dispatch = useStoreDispatch();
 
   useEffect(() => {
-    console.log(localStorage.getItem("jwtToken"));
+
     const newSocket = io(`${window.location.origin}`, {
       transportOption: {
         polling: {

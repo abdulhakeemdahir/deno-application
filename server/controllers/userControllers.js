@@ -3,7 +3,6 @@ const { createPassword } = require("../config/bcrypt.js");
 module.exports = {
   getUser: async (req, res) => {
     try {
-      console.log("HEREREREEEEEEE", req.params);
       const user = await User.findById(req.params.id)
         .select(
           "firstName lastname username email role profileImg bannerImg following followers posts"
@@ -22,27 +21,35 @@ module.exports = {
           {
             path: "posts",
             model: "Post",
-            populate: {
-              path: "author",
-              select: "firstName",
-              model: "User",
-
-              path: "likes",
-              model: "User",
-              populate: {
-                path: "user",
+            populate: [
+              {
+                path: "author",
                 select: "firstName",
                 model: "User"
               },
-
-              path: "comments",
-              model: "Comment",
-              populate: {
-                path: "user",
-                select: "firstName",
-                model: "User"
+              {
+                path: "likes",
+                model: "User",
+                populate: {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
+              },
+              {
+                path: "hashtags",
+                model: "Hashtag"
+              },
+              {
+                path: "comments",
+                model: "Comment",
+                populate: {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
               }
-            }
+            ]
           },
           {
             path: "cause",
@@ -98,8 +105,6 @@ module.exports = {
       if (bannerImg) {
         updateUser.bannerImg = bannerImg;
       }
-
-      console.log("here", updateUser);
 
       const foundUser = await User.findByIdAndUpdate(
         req.params.id,
