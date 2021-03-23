@@ -31,10 +31,12 @@ const postSchema = new Schema({
       ref: "Comments"
     }
   ],
-  hashtags: {
-    type: Schema.Types.ObjectId,
-    ref: "Hashtag"
-  }
+  hashtags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Hashtag"
+    }
+  ]
 });
 
 postSchema.methods.handleLike = async function(userId) {

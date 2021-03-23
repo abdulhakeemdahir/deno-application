@@ -17,7 +17,6 @@ const reducer = (state, { type, payload }) => {
       }
 
     case ADD_POST:
-      console.log("HEllo", payload)
       return {
         ...state,
         ...payload

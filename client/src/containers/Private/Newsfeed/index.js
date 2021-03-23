@@ -32,7 +32,6 @@ import {
   ADD_CAUSE,
   ADD_POST
 } from "../../../utils/actions/actions.js";
-
 import API from "../../../utils/api";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
@@ -40,7 +39,7 @@ import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
 // const useStyles = makeStyles(theme => ({}));
 const Newsfeed = () => {
@@ -53,7 +52,6 @@ const Newsfeed = () => {
     async function fetchAllPostsAndCauses() {
       await causeDispatch({ type: CAUSE_LOADING });
       const causes = await API.getAllCauses();
-
       await causeDispatch({
         type: ADD_CAUSE,
         payload: {
@@ -61,7 +59,6 @@ const Newsfeed = () => {
           loading: false
         }
       });
-
       await postDispatch({ type: POST_LOADING });
       const postInfo = await API.getAllPost();
 
@@ -73,7 +70,6 @@ const Newsfeed = () => {
         }
       });
     }
-
     fetchAllPostsAndCauses();
 
     if (!socket) return;
@@ -84,16 +80,16 @@ const Newsfeed = () => {
   const [trendingState] = useState([
     {
       hashTag: "Save the Dolphins",
-      url: "#"
+      url: "#",
     },
     {
       hashTag: "Save the Elephants",
-      url: "#"
+      url: "#",
     },
     {
       hashTag: "Save the Whales",
-      url: "#"
-    }
+      url: "#",
+    },
   ]);
   // const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -102,13 +98,13 @@ const Newsfeed = () => {
   };
   const { width } = useWindowDimensions();
   return (
-    <div className='Main'>
+    <div className="Main">
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction='row'
-          justify='center'
+          direction="row"
+          justify="center"
           className={"container"}
           xs={12}
           lg={10}
