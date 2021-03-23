@@ -57,8 +57,6 @@ const Dashboard = () => {
           loading: false
         }
       })
-
-	  console.log(userInfo);
     }
 
     fetchUserInfo();

@@ -60,7 +60,6 @@ class API {
 
   //-----------------------user api-------------------------//
   updateUser(id, data) {
-    console.log(id, data);
     return this.axios.put(`/api/users/${id}`, data);
   }
   deleteUser(_id) {
