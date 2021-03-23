@@ -199,7 +199,7 @@ export default function News(props) {
                         color="textSecondary"
                         component="p"
                       >
-                        {card}
+                        {card.user.firstName}
                       </Typography>
                     </Grid>
                     <Grid item xs={8}>
@@ -208,7 +208,9 @@ export default function News(props) {
                         color="textSecondary"
                         component="p"
                       >
-                        {card}
+                        {
+                          card.content
+                        }
                       </Typography>
                     </Grid>
                   </Grid>
