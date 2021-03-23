@@ -5,7 +5,7 @@ module.exports = {
     try {
       const user = await User.findById(req.params.id)
         .select(
-          "firstName lastname username email role profileImg bannerImg following followers posts"
+          "firstName lastname username email role profileImg bannerImg following followers posts bio"
         )
         .populate([
           {
@@ -75,7 +75,8 @@ module.exports = {
         posts,
         causes,
         profileImg,
-        bannerImg
+        bannerImg,
+        bio
       } = req.body;
       const updateUser = {};
       if (firstName) {
@@ -83,6 +84,9 @@ module.exports = {
       }
       if (email) {
         updateUser.email = email;
+      }
+      if (bio) {
+        updateUser.bio = bio;
       }
       if (password) {
         updateUser.password = await createPassword(password);
