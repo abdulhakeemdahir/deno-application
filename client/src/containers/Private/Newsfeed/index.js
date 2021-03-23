@@ -17,18 +17,8 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import {
-  GET_CAUSE_INFO,
-  GET_ALL_CAUSE_INFO,
-  GET_POST_INFO,
-  GET_ALL_POST_INFO,
-  GET_TRENDING,
-  UPDATE_CAUSE,
-  UPDATE_POST,
   CAUSE_LOADING,
-  REMOVE_CAUSE,
   POST_LOADING,
-  REMOVE_POST,
-  GET_FOLLOWING,
   ADD_CAUSE,
   ADD_POST
 } from "../../../utils/actions/actions.js";
@@ -41,7 +31,9 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
+
 // const useStyles = makeStyles(theme => ({}));
+
 const Newsfeed = () => {
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
@@ -116,11 +108,7 @@ const Newsfeed = () => {
                 <Grid item xs={12} sm={3} className='card-container'>
                   <Typography variant='subtitle2'>TRENDING</Typography>
                   {trendingState.map((card, index) => (
-                    <Trending
-                      hashTag={card.hashTag}
-                      link={card.url}
-                      key={index}
-                    />
+                    <Trending hashTag={card.hashTag} link={card.url} key={index} />
                   ))}
                 </Grid>
                 <Grid item xs={12} sm={6} className='card-container'>
@@ -195,11 +183,7 @@ const Newsfeed = () => {
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
                   {trendingState.map((card, index) => (
-                    <Trending
-                      hashTag={card.hashTag}
-                      link={card.url}
-                      key={index}
-                    />
+                    <Trending hashTag={card.hashTag} link={card.url} key={index} />
                   ))}
                 </Grid>
               </TabPanel>

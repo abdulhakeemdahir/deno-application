@@ -1,6 +1,5 @@
 const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
-
 module.exports = {
   getUser: async () => {
     try {
@@ -58,9 +57,7 @@ module.exports = {
   updateUser: async (req, res) => {
     try {
       const { firstName, email, password, username, lastname } = req.body;
-
       const updateUser = {};
-
       if (firstName) {
         updateUser.firstName = firstName;
       }
