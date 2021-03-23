@@ -111,7 +111,13 @@ const addCause = async (causeInfo) => {
 		if(createPost.type === "Post"){
 			
       const {data} = await API.createPost(post);
-      await API.updateHashtagComment(post.hashtags, {
+      if (post.hashtags){
+          await API.updateHashtag(post.hashtags, {
+            posts: data._id,
+          });
+      }
+      
+      await API.updateUser(post.author, {
         posts: data._id,
       });
 
@@ -119,16 +125,24 @@ const addCause = async (causeInfo) => {
       return
     }else{
         const { data } = await API.createCause(post);
-        await API.updateHashtagComment(post.hashtags, {
+
+        if (post.hashtags) {
+          await API.updateHashtag(post.hashtags, {
+            causes: data._id,
+          });
+        }
+
+        await API.updateUser(post.author, {
           causes: data._id,
         });
+
         addCause(data);
       }
 		
     
 
 }catch (err) {
-      console.log(err)
+      console.log("here", err)
     }
 }
 const clearState = () =>{

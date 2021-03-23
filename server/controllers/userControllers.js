@@ -1,10 +1,13 @@
 const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
 module.exports = {
-  getUser: async () => {
+  getUser: async (req, res) => {
     try {
-      const user = await User.findById({ username: req.body.username })
-        .select("firstName lastname username email role profileImg bannerImg")
+      console.log("HEREREREEEEEEE", req.params);
+      const user = await User.findById(req.params.id)
+        .select(
+          "firstName lastname username email role profileImg bannerImg following followers posts"
+        )
         .populate([
           {
             path: "following",
@@ -49,12 +52,24 @@ module.exports = {
         .exec();
       res.status(200).json(user);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   },
   updateUser: async (req, res) => {
+    console.log(req.params.id);
     try {
-      const { firstName, email, password, username, lastname } = req.body;
+      const {
+        firstName,
+        email,
+        password,
+        username,
+        lastname,
+        posts,
+        causes,
+        profileImg,
+        bannerImg
+      } = req.body;
       const updateUser = {};
       if (firstName) {
         updateUser.firstName = firstName;
@@ -71,9 +86,32 @@ module.exports = {
       if (lastname) {
         updateUser.lastname = lastname;
       }
-      await User.findByIdAndUpdate({ _id: req.params.id }, updateUser);
-      res.status(200).json(causeModel);
+      if (posts) {
+        updateUser.posts = posts;
+      }
+      if (causes) {
+        updateUser.causes = causes;
+      }
+      if (profileImg) {
+        updateUser.profileImg = profileImg;
+      }
+      if (bannerImg) {
+        updateUser.bannerImg = bannerImg;
+      }
+
+      console.log("here", updateUser);
+
+      const foundUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: updateUser
+        },
+
+        { new: true, runValidators: true }
+      );
+      res.status(200).json(foundUser);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   },

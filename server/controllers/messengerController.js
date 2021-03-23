@@ -4,6 +4,7 @@ module.exports = {
   getConversation: async (req, res) => {
     try {
       const convoModel = await Conversation.find(req.query).sort({ date: -1 });
+
       res.status(200).json(convoModel);
     } catch (err) {
       res.status(422).json(err);
