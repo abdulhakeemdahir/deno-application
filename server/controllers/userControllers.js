@@ -43,11 +43,13 @@ module.exports = {
               {
                 path: "comments",
                 model: "Comment",
-                populate: {
-                  path: "user",
-                  select: "firstName",
-                  model: "User"
-                }
+                populate: [
+                  {
+                    path: "user",
+                    select: "firstName",
+                    model: "User"
+                  }
+                ]
               }
             ]
           },
