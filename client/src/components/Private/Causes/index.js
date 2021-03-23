@@ -6,10 +6,11 @@ import {
 	CardContent,
 	Button,
 	Dialog,
+	ButtonGroup,
 } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Edit } from "@material-ui/icons";
+import { Edit, ThumbUpAlt } from "@material-ui/icons";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
 import UpdateCause from "../../Forms/UpdateCause/UpdateCause";
@@ -65,9 +66,15 @@ export default function Causes(props) {
 						</Typography>
 					</CardContent>
 				</Grid>
-				<Button size='large' className='styleButton' fullWidth>
-					<CreditCardIcon /> Support Cause
-				</Button>
+				<ButtonGroup justify='center' fullWidth>
+					<Button size='large' className='styleButton' fullWidth id={props.id}>
+						<i class='fab fa-paypal'></i>
+						Support
+					</Button>
+					<Button size='large' className='followButton' fullWidth>
+						<ThumbUpAlt /> Follow
+					</Button>
+				</ButtonGroup>
 			</Grid>
 		</Grid>
 	);

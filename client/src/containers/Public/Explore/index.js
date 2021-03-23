@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
+import {
+	Typography,
+	Grid,
+	CssBaseline,
+	Dialog,
+	Fade,
+	Backdrop,
+	Button,
+} from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
@@ -7,6 +15,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
 import News from "../../../components/News";
+import SiteInfo from "../../../components/SiteInfo";
 import Gradient from "../../../components/Gradient";
 import Trending from "../../../components/Trending";
 import Causes from "../../../components/Causes";
@@ -24,6 +33,7 @@ import {
 } from "../../../utils/actions/actions.js";
 
 import API from "../../../utils/api";
+import { Close } from "@material-ui/icons";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -82,10 +92,48 @@ const Explore = () => {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	const [open, setOpen] = React.useState(true);
+
+	// const handleOpen = () => {
+	// 	setOpen(true);
+	// };
+
+	// handleOpen();
+
+	const handleClose = () => {
+		setOpen(false);
+		console.log(open);
+	};
+
 	const { width } = useWindowDimensions();
 	return (
 		<div className='Main'>
 			<CssBaseline>
+				<Dialog
+					aria-labelledby='transition-modal-title'
+					aria-describedby='transition-modal-description'
+					open={open}
+					onClose={handleClose}
+					closeAfterTransition
+					BackdropComponent={Backdrop}
+					BackdropProps={{
+						timeout: 500,
+					}}
+				>
+					<Fade in={open}>
+						<SiteInfo />
+					</Fade>
+					<Button
+						size='large'
+						className='analyticsButton'
+						fullWidth
+						onClick={handleClose}
+					>
+						<Close />
+						Close Modal
+					</Button>
+				</Dialog>
 				<Nav />
 				<Grid
 					container
