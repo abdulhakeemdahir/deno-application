@@ -5,7 +5,9 @@ module.exports = {
   getUser: async () => {
     try {
       const user = await User.findById({ username: req.body.username })
-        .select("firstName lastname username email role profileImg bannerImg")
+        .select(
+          "firstName lastname username email role profileImg bannerImg following followers posts"
+        )
         .populate([
           {
             path: "following",
