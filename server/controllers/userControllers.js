@@ -1,33 +1,31 @@
 const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
-
 module.exports = {
   getUser: async () => {
     try {
       const user = await User.findById({ username: req.body.username })
         .select("firstName lastname username email role profileImg bannerImg")
-        .populate({
-          path: "following",
-          populate: {
-            path: "user",
+        .populate([
+          {
+            path: "following",
+            select: "firstName",
             model: "User"
           },
-          path: "followers",
-          populate: {
-            path: "user",
+          {
+            path: "followers",
+            select: "firstName",
             model: "User"
           },
-          path: "posts",
-          populate: {
-            path: "user",
-            model: "User"
+          {
+            path: "posts",
+            model: "Post"
           },
-          path: "cause",
-          populate: {
-            path: "user",
-            model: "User"
+          {
+            path: "cause",
+            model: "Causes"
           }
-        });
+        ])
+        .exec();
       res.status(200).json(user);
     } catch (err) {
       res.status(422).json(err);
@@ -36,9 +34,7 @@ module.exports = {
   updateUser: async (req, res) => {
     try {
       const { firstName, email, password, username, lastname } = req.body;
-
       const updateUser = {};
-
       if (firstName) {
         updateUser.firstName = firstName;
       }

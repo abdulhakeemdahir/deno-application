@@ -66,7 +66,7 @@ class API {
     return this.axios.delete(`/api/users/${_id}`);
   }
   getUser(_id) {
-    return this.axios.post(`/api/users/${_id}`);
+    return this.axios.get(`/api/users/${_id}`);
   }
   updatePassword(_id) {
     return this.axios.put(`/api/users/password/${_id}`);
