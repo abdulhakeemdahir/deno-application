@@ -156,7 +156,7 @@ export default function NewsAndComment(props) {
                 <ChatBubbleOutlineIcon id={props.id} /> Comment
               </Button>
             </Grid>
-            {props.comments.length > 0 ? (
+            {props.comments.length >= 0 ? (
               <Accordion className={classes.shadow}>
                 <AccordionSummary
                   expandIcon={
