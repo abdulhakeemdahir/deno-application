@@ -5,13 +5,13 @@ import {
 	Divider,
 	CardContent,
 	CardMedia,
-	Button,
 	Container,
 } from "@material-ui/core";
 import "./style.css";
-import { Close } from "@material-ui/icons";
-import Logo from "../../images/logo@2x.png";
-import Image from "../../images/splash.jpg";
+import Newsfeed from "../../images/newsfeed@2x.jpg";
+import Direct from "../../images/direct@2x.jpg";
+import Verified from "../../images/verified@2x.jpg";
+import Gamified from "../../images/gamified@2x.jpg";
 
 export default function SiteInfo(props) {
 	console.log(props.onClose);
@@ -20,8 +20,8 @@ export default function SiteInfo(props) {
 			<Grid container xs={12}>
 				<Grid container className='headerContainer'>
 					<Grid item xs={12}>
-						<Typography variant='h4' className='headerColor'>
-							DONO Features!
+						<Typography variant='h5' className='headerColor'>
+							The DONO Difference!
 						</Typography>
 						<Typography variant='subtitle1' className='subtitleColor'>
 							Welcome to Social Giving!
@@ -34,56 +34,74 @@ export default function SiteInfo(props) {
 						<Container justify='center'>
 							{/* <img src={Image} alt='logo' className='logo' /> */}
 
-							<CardMedia image={Image} className='logo' />
+							<CardMedia image={Newsfeed} className='logo' />
 						</Container>
 					</Grid>
-					<Divider />
 					<Grid item xs={12}>
+						<Divider />
 						<CardContent>
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
-								Section 1:
+								Newsfeed Full of Good:
 							</Typography>
 							<Typography variant='body2' color='textSecondary'>
-								Lorem Ipsum is simply dummy text of the printing and typesetting
-								industry. Lorem Ipsum has been the industry's standard dummy
-								text ever since the 1500s, when an unknown printer took a galley
-								of type and scrambled it to make a type specimen book. It has
-								survived not only five centuries, but also the leap into
-								electronic typesetting, remaining essentially unchanged. It was
-								popularised in the 1960s with the release of Letraset sheets
-								containing Lorem Ipsum passages, and more recently with desktop
-								publishing software like Aldus PageMaker including versions of
-								Lorem Ipsum.
+								We built this service so that Non Profit Organizations that are
+								helping to solve world issues have a clear and direct platform.
+								It is impractical to get Social Awareness for causes on other
+								Social Platforms. Our <strong>Newsfeed</strong> places Causes
+								and Programs first,{" "}
+								<strong>
+									so you can help solve problems you are passionate about.
+								</strong>
 							</Typography>
+							<Grid item xs={12}>
+								<Container justify='center'>
+									{/* <img src={Image} alt='logo' className='logo' /> */}
+
+									<CardMedia image={Direct} className='logo' />
+								</Container>
+							</Grid>
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
-								Section 1:
+								Direct Cause Support:
 							</Typography>
 							<Typography variant='body2' color='textSecondary'>
-								Lorem Ipsum is simply dummy text of the printing and typesetting
-								industry. Lorem Ipsum has been the industry's standard dummy
-								text ever since the 1500s, when an unknown printer took a galley
-								of type and scrambled it to make a type specimen book. It has
-								survived not only five centuries, but also the leap into
-								electronic typesetting, remaining essentially unchanged. It was
-								popularised in the 1960s with the release of Letraset sheets
-								containing Lorem Ipsum passages, and more recently with desktop
-								publishing software like Aldus PageMaker including versions of
-								Lorem Ipsum.
+								Here at Dono we don't force anyone to create an account to
+								support a cause they believe in. You can explore pertinent
+								issues in your area or Programs you haven't heard of.{" "}
+								<strong>You can support anonymously.</strong> But, with an
+								account, we make it worthwhile to do good!
 							</Typography>
+							<Grid item xs={12}>
+								<Container justify='center'>
+									{/* <img src={Image} alt='logo' className='logo' /> */}
+
+									<CardMedia image={Verified} className='logo' />
+								</Container>
+							</Grid>
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
-								Section 1:
+								Verified and Certified:
 							</Typography>
 							<Typography variant='body2' color='textSecondary'>
-								Lorem Ipsum is simply dummy text of the printing and typesetting
-								industry. Lorem Ipsum has been the industry's standard dummy
-								text ever since the 1500s, when an unknown printer took a galley
-								of type and scrambled it to make a type specimen book. It has
-								survived not only five centuries, but also the leap into
-								electronic typesetting, remaining essentially unchanged. It was
-								popularised in the 1960s with the release of Letraset sheets
-								containing Lorem Ipsum passages, and more recently with desktop
-								publishing software like Aldus PageMaker including versions of
-								Lorem Ipsum.
+								We make sure that any organization that uses our platform has
+								proper <strong>IRS certification</strong>, and
+								<strong> we verify all information</strong> regarding their Non
+								Profit Status and Standing. You can be sure you're giving to
+								real organizations.
+							</Typography>
+							<Grid item xs={12}>
+								<Container justify='center'>
+									{/* <img src={Image} alt='logo' className='logo' /> */}
+
+									<CardMedia image={Gamified} className='logo' />
+								</Container>
+							</Grid>
+							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+								Gamified Giving:
+							</Typography>
+							<Typography variant='body2' color='textSecondary'>
+								Doing good makes you feel good. What if it was fun as well?
+								Sometimes well natured competition is healthy. We believe you
+								should see and be proud of your Philanthropy.{" "}
+								<strong>Accumulate stats, stars and badges!</strong>
 							</Typography>
 						</CardContent>
 					</Grid>
