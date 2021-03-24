@@ -21,23 +21,27 @@ import {
 export default function Causes(props) {
 	const [userState, userDispatch] = useUserContext();
 	const handleFollow = async (id) => {
+    if(userState.role === "Organization"){
+      //TODO error message
+      console.log("you are an organization");
+      return
+    }
+    await api.updateUser(userState._id, {
+        causes: id,
+      });	
+    const userInfo = await api.getUser(userState._id);
 
-	await api.updateUser(userState._id, {
-      causes: id,
-    });	
-	const userInfo = await api.getUser(userState._id);
+    await userDispatch({ type: USER_LOADING });
 
-	await userDispatch({ type: USER_LOADING });
-
-	await userDispatch({
-		type: UPDATE_USER,
-		payload: {
-		...userInfo.data,
-		loading: false,
-		},
-	});
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+      ...userInfo.data,
+      loading: false,
+      },
+    });
       	console.log(id);
-    };
+};
 
 	const handleSupport = (id) => {
       console.log(id);

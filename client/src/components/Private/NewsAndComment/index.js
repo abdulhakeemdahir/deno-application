@@ -21,6 +21,7 @@ import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -146,9 +147,14 @@ export default function NewsAndComment(props) {
 							<Typography variant='body' color='textSecondary' component='p'>
 								{props.post}
 							</Typography>
-							<a href={props.link} className='hashTagStyle'>
-								#{props.hashTag}
-							</a>
+
+							{
+							props.hashTag?(
+								<Link to={props.link} className='hashTagStyle'>
+									#{props.hashTag}
+								</Link>):null
+							}
+
 						</CardContent>
 						<Divider />
 					</Grid>

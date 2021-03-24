@@ -21,6 +21,7 @@ import {
 	useLogout,
 } from "../../utils/auth";
 import { Link, useHistory, NavLink } from "react-router-dom";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -107,14 +108,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const navLinks = [
-	{ title: `landing`, path: `/` },
-	{ title: `explore`, path: `/explore` },
-	{ title: `newsfeed`, path: `/newsfeed` },
-	{ title: `dashboard`, path: `/dashboard` },
-];
+
 
 export default function Nav() {
+	const [userState, ] = useUserContext();
+
+	const navLinks = [
+		{ title: `landing`, path: `/` },
+		{ title: `explore`, path: `/explore` },
+		{ title: `newsfeed`, path: `/newsfeed` },
+		{ title: `dashboard`, path: `/dashboard/${userState._id}` },
+	];
+
 	const classes = useStyles();
 
 	const logout = useLogout();
@@ -183,7 +188,7 @@ export default function Nav() {
 											</ListItem>
 										</NavLink>
 										<NavLink
-											to='/dashboard'
+											to={`/dashboard/${userState._id}`}
 											key='dashboard'
 											className={classes.linkText}
 											activeClassName={classes.activeLink}
