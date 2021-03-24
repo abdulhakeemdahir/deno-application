@@ -1,3 +1,7 @@
+a {
+	text-decoration: none !important;
+}
+
 .styleButton {
 	background: linear-gradient(-135deg, #899fd4, #a389d4);
 	color: #ffffff !important;
