@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import "./style.css";
 
@@ -14,6 +14,9 @@ import Sidebar from "../../../components/Messaging/Sidebar";
 import ChatContainer from "../../../components/Messaging/ChatContainer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import api from "../../../utils/api";
+import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -25,7 +28,7 @@ const Chatroom = () => {
   const toggleRef = useRef();
 
   const socket = useSocket();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [convos, setConvo] = useState([
     {
       name: "pod",
@@ -34,10 +37,15 @@ const Chatroom = () => {
     }
   ]);
   const [chat, setChat] = useState({});
+  const [userState] = useUserContext();
+  const userId = userState._id;
 
-  // useEffect(() => {
-  //   API.
-  // }, [])
+  useEffect(() => {
+    console.log("hello");
+    api.getLatestConvo(userId).then(res => {
+      console.log(res);
+    });
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -46,14 +54,19 @@ const Chatroom = () => {
   const toggleChat = roomName => {
     socket.emit("join:room", roomName);
     socket.on("get-convo", conversation => {
-      setChat({ ...conversation });
+      const mapped = conversation.messages.map(message => message.content);
+      console.log(conversation);
+      setChat({
+        ...conversation,
+        messages: mapped
+      });
     });
   };
 
   const sendMessage = payload => {
-    socket.emit("new-message", payload);
+    socket.emit("send-message", payload);
     socket.on("update-chat", conversation => {
-      setChat({ ...conversation });
+      setChat({ messages: [...conversation.messages] });
     });
   };
 
@@ -85,7 +98,11 @@ const Chatroom = () => {
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
                   <Typography variant='subtitle2'>Messenger</Typography>
-                  <ChatContainer chat={chat} sendMessage={sendMessage} />
+                  <ChatContainer
+                    chat={chat}
+                    sendMessage={sendMessage}
+                    userId={userId}
+                  />
                 </Grid>
               </Grid>
             </>
@@ -101,12 +118,20 @@ const Chatroom = () => {
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  <Sidebar />
+                  <Sidebar
+                    toggleChat={toggleChat}
+                    convos={convos}
+                    toggleRef={toggleRef}
+                  />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
-                  <ChatContainer />
+                  <ChatContainer
+                    chat={chat}
+                    sendMessage={sendMessage}
+                    userId={userId}
+                  />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>

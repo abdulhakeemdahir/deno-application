@@ -1,6 +1,7 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Button,
+  FormControl,
   FormGroup,
   Grid,
   List,
@@ -9,7 +10,6 @@ import {
   Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useStoreContext } from "../../utils/GlobalStates/AuthStore";
 
 const useStyles = makeStyles(theme => ({
   styleMain: {
@@ -27,23 +27,41 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ChatContainer({ chat, sendMessage }) {
+export default function ChatContainer({ chat, sendMessage, userId }) {
   const classes = useStyles();
 
-  const [state] = useStoreContext();
+  const [content, setContent] = useState("");
 
   const textRef = useRef();
 
-  const userId = state.userAuth.user.id;
+  console.log(chat.participants);
 
-  console.log(chat);
+  const sendMessageToServer = () => {
+    const filterPart = chat.participants.filter(
+      participant => participant !== userId
+    );
+
+    const payload = {
+      content,
+      to: filterPart,
+      parentId: chat._id,
+      sender: userId,
+      isPost: false
+    };
+
+    sendMessage(payload);
+  };
+
+  const handleInput = e => {
+    setContent(e.target.value);
+  };
 
   return (
     <>
       <Grid container className={classes.chatContainer}>
         <List>
           {chat.messages?.length ? (
-            chat.map(message => {
+            chat.messages.map(message => {
               return (
                 <ListItem>
                   <Typography>{message}</Typography>
@@ -56,33 +74,27 @@ export default function ChatContainer({ chat, sendMessage }) {
         </List>
       </Grid>
       <Grid className={classes.textContainer} item>
-        <FormGroup
-          onSubmit={() => {
-            const payload = {
-              content: textRef.current.value,
-              to: chat.participants.filter(
-                participant => participant.id !== userId
-              ),
-              parentId: chat._id,
-              sender: userId,
-              isPost: false
-            };
-            sendMessage(payload);
-          }}
-        >
-          <form id='chat-form'>
+        <FormGroup>
+          <FormControl id='chat-form'>
             <TextField
               name='chatform'
               variant='outlined'
               label='Chat'
               placeholder='Enter Message'
               ref={textRef}
+              onInput={handleInput}
               fullWidth
             />
-            <Button size='large' className={classes.styleMain} fullWidth>
+            <Button
+              type='submit'
+              size='large'
+              className={classes.styleMain}
+              onClick={sendMessageToServer}
+              fullWidth
+            >
               Send Message
             </Button>
-          </form>
+          </FormControl>
         </FormGroup>
       </Grid>
     </>

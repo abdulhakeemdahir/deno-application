@@ -29,7 +29,7 @@ const messageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    message: {
+    content: {
       type: String,
       default: ""
     }

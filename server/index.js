@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { User, Conversation } = require("./models");
+const { User, Conversation, Message } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -52,15 +52,15 @@ io.on("connection", socket => {
       ? (socket.id = user.socketId)
       : User.findOneAndUpdate(username, { socketId: socket.id });
     user.socketId = socket.id;
-
-    socket.join(user.socketId);
   });
 
   socket.on("join:room", async name => {
-    // console.log(roomName);
-    const conversation = await Conversation.findOne({ name });
-
-    console.log(conversation);
+    const conversation = await Conversation.findOne({ name }).populate([
+      {
+        path: "messages",
+        model: "Message"
+      }
+    ]);
 
     socket.join(name);
 
@@ -79,31 +79,35 @@ io.on("connection", socket => {
 
   socket.on(
     "send-message",
-    async ({ message, to, sender, parentId, isPost }) => {
+    async ({ content, to, parentId, sender, isPost }) => {
       if (!isPost) {
-        const payload = await Message.create({
+        console.log("is not a post");
+        const response = await Message.create({
           sender,
-          message
+          content
         });
         await Conversation.findByIdAndUpdate(
           { _id: parentId },
-          { messages: [{ id: payload.id }] }
+          { $push: { messages: [{ _id: response.id }] } }
         );
-        socket.to(to).emit("new-message", payload);
+        console.log(response);
+        socket.to(to).emit("update-chat", response);
         return;
       }
 
       if (isPost) {
-        const payload = await Comment.create({
+        console.log("is a post");
+        const response = await Comment.create({
           user: sender,
           post: parentId,
-          content: message
+          content
         });
+        console.log(response);
         await Post.findByIdAndUpdate(
           { _id: parentId },
-          { comments: [{ id: payload.id }] }
+          { comments: [{ id: response.id }] }
         );
-        socket.to(to).emit("new-message", payload);
+        socket.to(to).emit("update-post", response);
         return;
       }
     }
