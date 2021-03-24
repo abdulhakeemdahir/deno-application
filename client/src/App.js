@@ -55,7 +55,7 @@ function App() {
 
                     <PrivateRoute
                       exact
-                      path="/dashboard"
+                      path="/dashboard/:id"
                       redirectTo="/"
                       component={Dashboard}
                     />
