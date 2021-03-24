@@ -1,3 +1,7 @@
+a {
+	text-decoration: none !important;
+}
+
 .styleButton {
 	background: linear-gradient(-135deg, #899fd4, #a389d4);
 	color: #ffffff !important;
@@ -15,6 +19,13 @@
 }
 
 .logo {
-	height: 15vw;
+	height: 30vh;
 	width: auto;
+}
+
+@media only screen and (max-device-width: 600px) {
+	.logo {
+		height: 20vh;
+		width: auto;
+	}
 }
