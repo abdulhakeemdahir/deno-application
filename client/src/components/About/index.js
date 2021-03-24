@@ -6,6 +6,7 @@ import {
 	Divider,
 	CardContent,
 	Button,
+	ButtonGroup,
 	Dialog,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -71,9 +72,15 @@ export default function About(props) {
 			<CardMedia className='media' image={props.image} />
 			<Grid container direction='row' spacing={1}>
 				<Grid item xs={12} sm={12}>
-					<Button size='large' className='aboutButton' fullWidth>
-						<ThumbUpAltIcon /> Support Us
-					</Button>
+					<ButtonGroup fullWidth>
+						<Button size='large' className='aboutButton' fullWidth>
+							<i class='fab fa-paypal'></i>
+							<span> Support</span>
+						</Button>
+						<Button size='large' className='followButton' fullWidth>
+							<ThumbUpAltIcon /> Follow
+						</Button>
+					</ButtonGroup>
 					<CardContent>
 						<Typography variant='body2' color='textSecondary'>
 							{props.bio}

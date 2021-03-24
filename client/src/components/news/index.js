@@ -57,7 +57,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function News(props) {
 	const classes = useStyles();
-	console.log()
 	return (
 		<>
 			<Grid item className='card' xs={12}>
