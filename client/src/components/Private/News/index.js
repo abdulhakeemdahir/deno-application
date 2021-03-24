@@ -24,6 +24,7 @@ import "./style.css";
 import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -68,7 +69,7 @@ export default function News(props) {
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 
-	const [userState] = useUserContext();
+	const [userState, userDispatch] = useUserContext();
 
 	const [commentState, setCommentState] = useState({
     content: "",
@@ -93,6 +94,18 @@ export default function News(props) {
       const { data } = await api.createComments(comment);
 
       await api.updatePost(id, { comments: data._id });
+
+      const userInfo = await api.getUser(userState._id);
+
+      await userDispatch({ type: USER_LOADING });
+
+      await userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false,
+        },
+      });
     } catch (err) {}
   };
 
@@ -199,7 +212,7 @@ export default function News(props) {
                         color="textSecondary"
                         component="p"
                       >
-                        {card}
+                        {card.user.firstName}
                       </Typography>
                     </Grid>
                     <Grid item xs={8}>
@@ -208,7 +221,9 @@ export default function News(props) {
                         color="textSecondary"
                         component="p"
                       >
-                        {card}
+                        {
+                          card.content
+                        }
                       </Typography>
                     </Grid>
                   </Grid>

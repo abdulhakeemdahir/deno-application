@@ -89,7 +89,7 @@ const organizationSchema = new Schema({
   causes: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Causes"
+      ref: "Cause"
     }
   ],
   orgName: {

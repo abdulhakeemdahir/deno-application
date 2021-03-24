@@ -25,14 +25,13 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 import {
-  GET_USER_INFO,
-  REMOVE_USER,
   UPDATE_USER,
   USER_LOADING,
   //What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
 import API from "../../../utils/api";
+import { useHistory, useParams } from "react-router";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -45,11 +44,17 @@ TabPanel.propTypes = {
 const Dashboard = () => {
   const [userState, userDispatch] = useUserContext();
 
+  const {id} = useParams()
+
+  const history = useHistory()
+
   useEffect(() => {
     async function fetchUserInfo() {
+
+      const userInfo = await API.getUser(id);
+
       await userDispatch({ type: USER_LOADING });
-      const userInfo = await API.getUser(userState._id);
-      console.log(userInfo)
+      
       await userDispatch({
         type: UPDATE_USER,
         payload: {

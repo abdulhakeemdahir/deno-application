@@ -20,7 +20,8 @@ import {
 	useIsAuthenticated,
 	useLogout,
 } from "../../utils/auth";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, NavLink } from "react-router-dom";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -102,16 +103,23 @@ const useStyles = makeStyles(theme => ({
 		color: "white",
 		textDecoration: "none",
 	},
+	activeLink: {
+		borderBottom: "2px solid #e57373",
+	},
 }));
 
-const navLinks = [
-	{ title: `landing`, path: `/` },
-	{ title: `explore`, path: `/explore` },
-	{ title: `newsfeed`, path: `/newsfeed` },
-	{ title: `dashboard`, path: `/dashboard` },
-];
+
 
 export default function Nav() {
+	const [userState, ] = useUserContext();
+
+	const navLinks = [
+		{ title: `landing`, path: `/` },
+		{ title: `explore`, path: `/explore` },
+		{ title: `newsfeed`, path: `/newsfeed` },
+		{ title: `dashboard`, path: `/dashboard/${userState._id}` },
+	];
+
 	const classes = useStyles();
 
 	const logout = useLogout();
@@ -169,57 +177,62 @@ export default function Nav() {
 							>
 								{isAuth ? (
 									<>
-										<Link
+										<NavLink
 											to='/newsfeed'
 											key='newsfeed'
 											className={classes.linkText}
+											activeClassName={classes.activeLink}
 										>
 											<ListItem button>
 												<ListItemText primary='newsfeed' />
 											</ListItem>
-										</Link>
-										<Link
-											to='/dashboard'
+										</NavLink>
+										<NavLink
+											to={`/dashboard/${userState._id}`}
 											key='dashboard'
 											className={classes.linkText}
+											activeClassName={classes.activeLink}
 										>
 											<ListItem button>
 												<ListItemText primary='dashboard' />
 											</ListItem>
-										</Link>
-										<Link
+										</NavLink>
+										<NavLink
 											to='/chatroom'
 											key='chatroom'
 											className={classes.linkText}
+											activeClassName={classes.activeLink}
 										>
 											<ListItem button>
 												<ListItemText primary='chatroom' />
 											</ListItem>
-										</Link>
-										<Link
+										</NavLink>
+										<NavLink
 											onClick={logout}
 											className={classes.logoutStyle}
 											to='/'
 											key='/'
+											activeClassName={classes.activeLink}
 										>
 											<ListItem button>
 												<ListItemText className={classes.linkText}>
 													Log Out
 												</ListItemText>
 											</ListItem>
-										</Link>
+										</NavLink>
 									</>
 								) : (
 									<>
-										<Link
+										<NavLink
 											key='explore'
 											to='/explore'
 											className={classes.linkText}
+											activeClassName={classes.activeLink}
 										>
 											<ListItem button>
 												<ListItemText primary='explore' />
 											</ListItem>
-										</Link>
+										</NavLink>
 										<ListItem
 											onClick={login}
 											button

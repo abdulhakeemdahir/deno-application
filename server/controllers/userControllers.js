@@ -5,7 +5,7 @@ module.exports = {
     try {
       const user = await User.findById(req.params.id)
         .select(
-          "firstName lastname username email role profileImg bannerImg following followers posts bio"
+          "firstName lastname username email role profileImg bannerImg following followers posts bio causes"
         )
         .populate([
           {
@@ -54,12 +54,48 @@ module.exports = {
             ]
           },
           {
-            path: "cause",
-            model: "Causes"
+            path: "causes",
+            model: "Cause",
+            populate: [
+              {
+                path: "author",
+                select: "firstName",
+                model: "User"
+              },
+              {
+                path: "likes",
+                model: "User",
+                populate: {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
+              }
+            ]
           }
         ])
         .exec();
       res.status(200).json(user);
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
+    }
+  },
+  findIfUserLikesCause: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id)
+        .select("causes")
+        .exec();
+
+      const found = user.causes.find(
+        element => element.toString() === req.params.causeId.toString()
+      );
+
+      if (found) {
+        return res.status(200).json(true);
+      }
+
+      res.status(200).json(false);
     } catch (err) {
       console.log(err);
       res.status(422).json(err);
