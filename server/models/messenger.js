@@ -40,5 +40,4 @@ const messageSchema = new Schema(
 const Conversation = mongoose.model("Conversation", conversationSchema);
 const Message = mongoose.model("Message", messageSchema);
 
-module.exports = Conversation;
-module.exports = Message;
+module.exports = { Conversation, Message };

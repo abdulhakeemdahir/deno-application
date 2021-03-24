@@ -17,6 +17,17 @@ module.exports = {
       res.status(422).json(err);
     }
   },
+  getLatestConversation: async (req, res) => {
+    try {
+      const convoModel = await Conversation.findOne(
+        { participants: req.query },
+        { sort: { updatedAt: -1 } }
+      );
+      res.status(200).json(convoModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
   createConversation: async (req, res) => {
     try {
       const convoModel = await Conversation.create(req.body);

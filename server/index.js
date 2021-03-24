@@ -51,50 +51,62 @@ io.on("connection", socket => {
       ? (socket.id = user.socketId)
       : User.findOneAndUpdate(username, { socketId: socket.id });
     user.socketId = socket.id;
+
+    socket.join(user.socketId);
   });
 
-  socket.on("join:room", async (roomName, participants) => {
-    console.log(roomName);
-    const conversation = await Conversation.findOne({ name: roomName });
-    console.log("Line 59: ", conversation);
-    if (conversation) {
-      console.log("Line 60: ", conversation);
-      socket.join(roomName);
-      socket.to(roomName).emit("get-messages", conversation);
-    } else {
-      const newConvo = await Conversation.create({
-        name: roomName,
-        participants
-      });
-      console.log("newConvo", newConvo);
-      socket.to(roomName).emit("get-messages", newConvo);
-      socket.join(roomName);
-    }
+  socket.on("join:room", async name => {
+    // console.log(roomName);
+    const conversation = await Conversation.findOne({ name });
+
+    console.log(conversation);
+
+    socket.join(name);
+
+    socket.emit("get-convo", conversation);
   });
 
-  socket.on("send-message", ({ content, to, sender, postId, isPost }) => {
-    if (isPost) {
-      const payload = {
-        content,
-        postId,
-        sender
-      };
-      socket.to(to).emit("new-message", payload);
-    } else {
-      const payload = {
-        content,
-        chatName: sender,
-        sender
-      };
-      socket.to(to).emit("new-message", payload);
-    }
-    if (messages[postId]) {
-      messages[postId].push({
-        sender,
-        content
-      });
-    }
+  socket.on("create:room", async (roomName, participants) => {
+    const newConvo = await Conversation.create({
+      name: roomName,
+      participants
+    });
+    console.log("newConvo", newConvo);
+    socket.to(roomName).emit("get-messages", newConvo);
+    socket.join(roomName);
   });
+
+  socket.on(
+    "send-message",
+    async ({ message, to, sender, parentId, isPost }) => {
+      if (!isPost) {
+        const payload = await Message.create({
+          sender,
+          message
+        });
+        await Conversation.findByIdAndUpdate(
+          { _id: parentId },
+          { messages: [{ id: payload.id }] }
+        );
+        socket.to(to).emit("new-message", payload);
+        return;
+      }
+
+      if (isPost) {
+        const payload = await Comment.create({
+          user: sender,
+          post: parentId,
+          content: message
+        });
+        await Post.findByIdAndUpdate(
+          { _id: parentId },
+          { comments: [{ id: payload.id }] }
+        );
+        socket.to(to).emit("new-message", payload);
+        return;
+      }
+    }
+  );
 
   socket.on("disconnect", () => {
     console.log("user has left.");

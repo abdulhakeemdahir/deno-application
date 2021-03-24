@@ -48,6 +48,9 @@ class API {
   getMessages_id(_id) {
     return this.axios.get(`/api/messenger/${_id}`);
   }
+  getLatestConvo(_id) {
+    return this.axios.get(`/api/messenger/${_id}`);
+  }
   createConvo(_id) {
     return this.axios.post(`/api/messenger/${_id}`);
   }

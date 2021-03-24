@@ -34,7 +34,6 @@ const Chatroom = () => {
 
   const socket = useSocket();
   const [value, setValue] = React.useState(0);
-  const [state] = useStoreContext();
   const [convos, setConvo] = useState([
     {
       name: "pod",
@@ -42,17 +41,22 @@ const Chatroom = () => {
       message: "Attack on Titan > everything"
     }
   ]);
+  const [chat, setChat] = useState({});
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  function toggleChat(roomName) {
-    console.log(roomName);
+  const toggleChat = roomName => {
+    socket.emit("join:room", roomName);
+    socket.on("get-convo", conversation => {
+      setChat({ ...conversation });
+    });
+  };
 
-    socket.emit("join:room", roomName, [{ _id: state.userAuth.user.id }]);
-    socket.on("get-messages");
-  }
+  const sendMessage = payload => {
+    socket.emit("new-message", payload);
+  };
 
   const { width } = useWindowDimensions();
   return (
@@ -82,7 +86,7 @@ const Chatroom = () => {
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
                   <Typography variant='subtitle2'>Messenger</Typography>
-                  <ChatContainer />
+                  <ChatContainer chat={chat} sendMessage={sendMessage} />
                 </Grid>
               </Grid>
             </>
