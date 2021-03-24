@@ -31,18 +31,14 @@ export default function SiteInfo(props) {
 				<Divider />
 				<Grid container direction='row' spacing={1}>
 					<Grid item xs={12}>
-						<Container justify='center'>
-							{/* <img src={Image} alt='logo' className='logo' /> */}
-
-							<CardMedia image={Newsfeed} className='logo' />
-						</Container>
+						<CardMedia image={Newsfeed} className='logo' />
 					</Grid>
 					<Grid item xs={12}>
-						<Divider />
 						<CardContent>
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 								Newsfeed Full of Good:
 							</Typography>
+							<Divider />
 							<Typography variant='body2' color='textSecondary'>
 								We built this service so that Non Profit Organizations that are
 								helping to solve world issues have a clear and direct platform.
@@ -54,15 +50,13 @@ export default function SiteInfo(props) {
 								</strong>
 							</Typography>
 							<Grid item xs={12}>
-								<Container justify='center'>
-									{/* <img src={Image} alt='logo' className='logo' /> */}
-
-									<CardMedia image={Direct} className='logo' />
-								</Container>
+								<CardMedia image={Direct} className='logo' />
 							</Grid>
+
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 								Direct Cause Support:
 							</Typography>
+							<Divider />
 							<Typography variant='body2' color='textSecondary'>
 								Here at Dono we don't force anyone to create an account to
 								support a cause they believe in. You can explore pertinent
@@ -71,15 +65,13 @@ export default function SiteInfo(props) {
 								account, we make it worthwhile to do good!
 							</Typography>
 							<Grid item xs={12}>
-								<Container justify='center'>
-									{/* <img src={Image} alt='logo' className='logo' /> */}
-
-									<CardMedia image={Verified} className='logo' />
-								</Container>
+								<CardMedia image={Verified} className='logo' />
 							</Grid>
+
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 								Verified and Certified:
 							</Typography>
+							<Divider />
 							<Typography variant='body2' color='textSecondary'>
 								We make sure that any organization that uses our platform has
 								proper <strong>IRS certification</strong>, and
@@ -88,15 +80,13 @@ export default function SiteInfo(props) {
 								real organizations.
 							</Typography>
 							<Grid item xs={12}>
-								<Container justify='center'>
-									{/* <img src={Image} alt='logo' className='logo' /> */}
-
-									<CardMedia image={Gamified} className='logo' />
-								</Container>
+								<CardMedia image={Gamified} className='logo' />
 							</Grid>
+
 							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
 								Gamified Giving:
 							</Typography>
+							<Divider />
 							<Typography variant='body2' color='textSecondary'>
 								Doing good makes you feel good. What if it was fun as well?
 								Sometimes well natured competition is healthy. We believe you
