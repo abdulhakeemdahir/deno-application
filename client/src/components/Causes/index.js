@@ -4,10 +4,13 @@ import {
 	Grid,
 	Divider,
 	CardContent,
+	CardMedia,
 	Button,
+	ButtonGroup,
 } from "@material-ui/core";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
+import { ThumbUpAlt } from "@material-ui/icons";
 
 export default function Causes(props) {
 	return (
@@ -21,19 +24,26 @@ export default function Causes(props) {
 			</Grid>
 			<Divider />
 			<Grid container direction='row' spacing={1}>
-				{/* <Grid item xs={12} sm={4}>
+				<Grid item xs={12}>
 					<CardMedia className={"media"} image={props.image} />
-				</Grid> */}
-				<Grid item xs={12} sm={12}>
+				</Grid>
+				<Divider />
+				<Grid item xs={12}>
 					<CardContent>
 						<Typography variant='body2' color='textSecondary'>
 							{props.post}
 						</Typography>
 					</CardContent>
 				</Grid>
-				<Button size='large' className='styleButton' fullWidth id={props.id}>
-					<CreditCardIcon /> Support Cause
-				</Button>
+				<ButtonGroup justify='center' fullWidth>
+					<Button size='large' className='styleButton' fullWidth id={props.id}>
+						<i class='fab fa-paypal'></i>
+						Support
+					</Button>
+					<Button size='large' className='followButton' fullWidth>
+						<ThumbUpAlt /> Follow
+					</Button>
+				</ButtonGroup>
 			</Grid>
 		</Grid>
 	);

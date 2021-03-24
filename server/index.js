@@ -35,15 +35,16 @@ app.use(require("./routes"));
 mongoose.connect(mongodb, {
   useCreateIndex: true,
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 });
 
-// io.use(async (socket, next) => {
-//   socket.room = socket.handshake.query.room;
-//   return next();
-// });
+io.use(async (socket, next) => {
+  socket.room = socket.handshake.query.room;
+  return next();
+});
 
-// Connect the client to the socket.
+//Connect the client to the socket.
 io.on("connection", socket => {
   socket.on("join:server", async username => {
     const user = await User.findOne({ username });
@@ -113,7 +114,7 @@ io.on("connection", socket => {
   });
 });
 
-// Start the API server
+//Start the API server
 server.listen(PORT, () => {
   console.log(
     "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",

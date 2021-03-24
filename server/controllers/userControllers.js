@@ -1,49 +1,94 @@
 const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
-
 module.exports = {
-  getUser: async () => {
+  getUser: async (req, res) => {
     try {
-      const user = await User.findById({ username: req.body.username })
-        .select("firstName lastname username email role profileImg bannerImg")
-        .populate({
-          path: "following",
-          populate: {
-            path: "user",
+      const user = await User.findById(req.params.id)
+        .select(
+          "firstName lastname username email role profileImg bannerImg following followers posts bio"
+        )
+        .populate([
+          {
+            path: "following",
+            select: "firstName",
             model: "User"
           },
-          path: "followers",
-          populate: {
-            path: "user",
+          {
+            path: "followers",
+            select: "firstName",
             model: "User"
           },
-          path: "posts",
-          populate: {
-            path: "user",
-            model: "User"
+          {
+            path: "posts",
+            model: "Post",
+            populate: [
+              {
+                path: "author",
+                select: "firstName",
+                model: "User"
+              },
+              {
+                path: "likes",
+                model: "User",
+                populate: {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
+              },
+              {
+                path: "hashtags",
+                model: "Hashtag"
+              },
+              {
+                path: "comments",
+                model: "Comment",
+                populate: [
+                  {
+                    path: "user",
+                    select: "firstName",
+                    model: "User"
+                  }
+                ]
+              }
+            ]
           },
-          path: "cause",
-          populate: {
-            path: "user",
-            model: "User"
+          {
+            path: "cause",
+            model: "Causes"
           }
-        });
+        ])
+        .exec();
       res.status(200).json(user);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   },
   updateUser: async (req, res) => {
+    console.log(req.params.id);
     try {
-      const { firstName, email, password, username, lastname } = req.body;
-
+      const {
+        firstName,
+        email,
+        password,
+        username,
+        lastname,
+        posts,
+        causes,
+        profileImg,
+        bannerImg,
+        bio
+      } = req.body;
       const updateUser = {};
-
       if (firstName) {
         updateUser.firstName = firstName;
       }
       if (email) {
         updateUser.email = email;
+      }
+      if (bio) {
+        updateUser.bio = bio;
       }
       if (password) {
         updateUser.password = await createPassword(password);
@@ -54,9 +99,30 @@ module.exports = {
       if (lastname) {
         updateUser.lastname = lastname;
       }
-      await User.findByIdAndUpdate({ _id: req.params.id }, updateUser);
-      res.status(200).json(causeModel);
+      if (posts) {
+        updateUser.posts = posts;
+      }
+      if (causes) {
+        updateUser.causes = causes;
+      }
+      if (profileImg) {
+        updateUser.profileImg = profileImg;
+      }
+      if (bannerImg) {
+        updateUser.bannerImg = bannerImg;
+      }
+
+      const foundUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: updateUser
+        },
+
+        { new: true, runValidators: true }
+      );
+      res.status(200).json(foundUser);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   },

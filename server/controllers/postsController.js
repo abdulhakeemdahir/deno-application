@@ -44,9 +44,14 @@ module.exports = {
   update: async (req, res) => {
     try {
       const postModel = await Post.findByIdAndUpdate(
-        { _id: req.params.id },
-        req.body
+        req.params.id,
+        {
+          $push: req.body
+        },
+
+        { new: true, runValidators: true }
       );
+
       res.status(200).json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -73,8 +78,21 @@ module.exports = {
             model: "User"
           },
           {
+            path: "hashtags",
+            model: "Hashtag"
+          },
+          {
             path: "likes",
             model: "User",
+            populate: {
+              path: "user",
+              select: "firstName",
+              model: "User"
+            }
+          },
+          {
+            path: "comments",
+            model: "Comment",
             populate: {
               path: "user",
               select: "firstName",

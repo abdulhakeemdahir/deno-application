@@ -35,6 +35,10 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
+    bio: {
+      type: String,
+      trim: true
+    },
     uuid: {
       type: String,
       required: false

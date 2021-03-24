@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
 import PropTypes from "prop-types";
@@ -8,9 +7,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import Nav from "../../../components/Navigation";
-import Elephant from "../../../images/elephant.jpeg";
-import Dolphin from "../../../images/dolphin.jpeg";
-import Whale from "../../../images/whale.jpeg";
 
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
@@ -18,10 +14,6 @@ import Sidebar from "../../../components/Messaging/Sidebar";
 import ChatContainer from "../../../components/Messaging/ChatContainer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
-// import Splash from "../../../components/Splash";
-
-// const useStyles = makeStyles(theme => ({}));
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -43,6 +35,10 @@ const Chatroom = () => {
   ]);
   const [chat, setChat] = useState({});
 
+  // useEffect(() => {
+  //   API.
+  // }, [])
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -56,6 +52,9 @@ const Chatroom = () => {
 
   const sendMessage = payload => {
     socket.emit("new-message", payload);
+    socket.on("update-chat", conversation => {
+      setChat({ ...conversation });
+    });
   };
 
   const { width } = useWindowDimensions();
