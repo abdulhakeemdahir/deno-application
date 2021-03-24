@@ -45,44 +45,52 @@ const Newsfeed = () => {
 	const [state] = useStoreContext();
 
 	useEffect(() => {
-		async function fetchAllPostsAndCauses() {
-			await causeDispatch({ type: CAUSE_LOADING });
-			const causes = await API.getAllCauses();
-			await causeDispatch({
-				type: ADD_CAUSE,
-				payload: {
-					causes: causes.data,
-					loading: false,
-				},
-			});
-			await postDispatch({ type: POST_LOADING });
-			const postInfo = await API.getAllPost();
+    async function fetchAllPostsAndCauses() {
+      await causeDispatch({ type: CAUSE_LOADING });
 
-			await postDispatch({
-				type: ADD_POST,
-				payload: {
-					posts: postInfo.data,
-					loading: false,
-				},
-			});
+      const causes = await API.getAllCauses();
 
-			await trendingDispatch({ type: TREND_LOADING });
-			const hashInfo = await API.getHashtagAll();
-			console.log(hashInfo);
-			await trendingDispatch({
-				type: ADD_TREND,
-				payload: {
-					hashtag: hashInfo.data,
-					loading: false,
-				},
-			});
-		}
-		fetchAllPostsAndCauses();
+      await causeDispatch({
+        type: ADD_CAUSE,
+        payload: {
+          causes: causes.data,
+          loading: false,
+        },
+      });
 
-		if (!socket) return;
+      const postInfo = await API.getAllPost();
 
-		socket.emit("join:server", state.userAuth.user.username);
-	}, []);
+	  await postDispatch({ type: POST_LOADING });
+
+      await postDispatch({
+        type: ADD_POST,
+        payload: {
+          posts: postInfo.data,
+          loading: false,
+        },
+      });
+
+    //   await trendingDispatch({ type: TREND_LOADING });
+    //   const hashInfo = await API.getHashtagAll();
+    //   console.log(hashInfo);
+    //   await trendingDispatch({
+    //     type: ADD_TREND,
+    //     payload: {
+    //       hashtag: hashInfo.data,
+    //       loading: false,
+    //     },
+    //   });
+	  
+    }
+    fetchAllPostsAndCauses();
+
+    if (!socket) return;
+
+    socket.emit("join:server", state.userAuth.user.username);
+  }, []);
+
+
+
 
 	const [trendingState] = useState([
 		{

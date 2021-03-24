@@ -19,6 +19,8 @@ import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
+import { usePostContext } from "../../../utils/GlobalStates/PostContext";
+import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -60,9 +62,11 @@ const useStyles = makeStyles(theme => ({
 export default function NewsAndComment(props) {
 	const classes = useStyles();
 
+	const [postState, postDispatch] = usePostContext();
+
 	const [userState] = useUserContext();
 
-	const [open, setOpen] = useState(false);
+	const [, setOpen] = useState(false);
 
 	const [commentState, setCommentState] = useState({
 		content: "",
@@ -87,6 +91,18 @@ export default function NewsAndComment(props) {
 			const { data } = await api.createComments(comment);
 
 			await api.updatePost(id, { comments: data._id });
+
+			const postInfo = await api.getAllPost();
+
+			await postDispatch({ type: POST_LOADING });
+
+			await postDispatch({
+				type: ADD_POST,
+				payload: {
+				posts: postInfo.data,
+				loading: false,
+				},
+			});
 		} catch (err) {}
 	};
 
@@ -163,7 +179,7 @@ export default function NewsAndComment(props) {
 							<ChatBubbleOutlineIcon id={props.id} /> Comment
 						</Button>
 					</Grid>
-					{props.comments.length <= 0 ? (
+					{props.comments.length >= 0 ? (
 						<Accordion className={classes.shadow}>
 							<AccordionSummary
 								expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}

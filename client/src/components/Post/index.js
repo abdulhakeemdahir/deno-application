@@ -53,27 +53,32 @@ export default function Post() {
 	const classes = useStyles();
 
 	//*Create Post
-	const addPost = async postInfo => {
-		postDispatch({ type: POST_LOADING });
-		postDispatch({
-			type: ADD_POST,
-			payload: {
-				...postInfo,
-				loading: false,
-			},
-		});
-	};
+	const addPost = async () => {
+		  await postDispatch({ type: POST_LOADING });
 
+      const postInfo = await API.getAllPost();
+
+      await postDispatch({
+        type: ADD_POST,
+        payload: {
+          posts: postInfo.data,
+          loading: false,
+        },
+      });
+    }
 	//Create cause
-	const addCause = async causeInfo => {
-		causeDispatch({ type: CAUSE_LOADING });
-		causeDispatch({
-			type: ADD_CAUSE,
-			payload: {
-				...causeInfo,
-				loading: false,
-			},
-		});
+	const addCause = async () => {
+		  await causeDispatch({ type: CAUSE_LOADING });
+
+      const causes = await API.getAllCauses();
+
+      await causeDispatch({
+        type: ADD_CAUSE,
+        payload: {
+          causes: causes.data,
+          loading: false,
+        },
+      });
 	};
 
 	const [createPost, setCreatePost] = useState({
@@ -98,8 +103,7 @@ export default function Post() {
 		if (
 			createPost.type === "" ||
 			createPost.title === "" ||
-			createPost.content === "" ||
-			createPost.imageUrl === ""
+			createPost.content === ""
 		) {
 			return;
 		}
@@ -128,7 +132,7 @@ export default function Post() {
 					posts: data._id,
 				});
 
-				addPost(data);
+				addPost();
 				return;
 			} else {
 				const { data } = await API.createCause(post);
@@ -139,11 +143,7 @@ export default function Post() {
 					});
 				}
 
-				await API.updateUser(post.author, {
-					causes: data._id,
-				});
-
-				addCause(data);
+				addCause();
 			}
 
 			clearState();
