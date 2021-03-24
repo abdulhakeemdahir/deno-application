@@ -2,13 +2,14 @@ const { Hashtag } = require("../models");
 
 module.exports = {
   getHashtagAll: async (req, res) => {
+    console.log("hit inside controllers hashtag");
     try {
       const hashtagModel = await Hashtag.find({})
         .sort({ date: -1 })
         .populate([
           {
             path: "posts",
-            model: "Posts"
+            model: "Post"
           },
           {
             path: "causes",
@@ -18,6 +19,7 @@ module.exports = {
         .exec();
       res.status(200).json(hashtagModel);
     } catch (err) {
+      console.log("hit inside controllers hashtag", err);
       res.status(422).json(err);
     }
   },

@@ -109,7 +109,7 @@ export default function News(props) {
 												color='textSecondary'
 												component='p'
 											>
-												{card.author}
+												{card.user.firstName}
 											</Typography>
 										</Grid>
 										<Grid item xs={8}>
@@ -118,7 +118,7 @@ export default function News(props) {
 												color='textSecondary'
 												component='p'
 											>
-												{card.post}
+												{card.content}
 											</Typography>
 										</Grid>
 									</Grid>
