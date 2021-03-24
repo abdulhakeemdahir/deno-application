@@ -54,8 +54,24 @@ module.exports = {
             ]
           },
           {
-            path: "cause",
-            model: "Causes"
+            path: "causes",
+            model: "Cause",
+            populate: [
+              {
+                path: "author",
+                select: "firstName",
+                model: "User"
+              },
+              {
+                path: "likes",
+                model: "User",
+                populate: {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
+              }
+            ]
           }
         ])
         .exec();
