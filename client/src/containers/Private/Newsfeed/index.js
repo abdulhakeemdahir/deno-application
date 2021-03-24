@@ -80,9 +80,6 @@ const Newsfeed = () => {
           loading: false,
         },
       });
-
-	  console.log(postInfo.data)
-	  
     }
     fetchAllPostsAndCauses();
 

@@ -26,6 +26,15 @@ export default function Causes(props) {
       console.log("you are an organization");
       return
     }
+
+    const checkIfLiked = await api.findIfUserLikesCause(userState._id, id)
+    
+    if(checkIfLiked.data){
+      //TODO error message you like this already
+      console.log("sorry")
+      return
+    }
+
     await api.updateUser(userState._id, {
         causes: id,
       });	
@@ -40,7 +49,6 @@ export default function Causes(props) {
       loading: false,
       },
     });
-      	console.log(id);
 };
 
 	const handleSupport = (id) => {

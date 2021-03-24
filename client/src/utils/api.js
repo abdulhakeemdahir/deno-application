@@ -71,6 +71,10 @@ class API {
   updatePassword(_id) {
     return this.axios.put(`/api/users/password/${_id}`);
   }
+  findIfUserLikesCause(id, causeId) {
+    return this.axios.get(`/api/users/liked/${id}/${causeId}`);
+  }
+  
 
   //-----------------------causes api-------------------------//
   getUsersCauses(_id) {
