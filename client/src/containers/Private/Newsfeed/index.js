@@ -70,16 +70,18 @@ const Newsfeed = () => {
         },
       });
 
-    //   await trendingDispatch({ type: TREND_LOADING });
-    //   const hashInfo = await API.getHashtagAll();
-    //   console.log(hashInfo);
-    //   await trendingDispatch({
-    //     type: ADD_TREND,
-    //     payload: {
-    //       hashtag: hashInfo.data,
-    //       loading: false,
-    //     },
-    //   });
+      await trendingDispatch({ type: TREND_LOADING });
+      const hashInfo = await API.getHashtagAll();
+
+      await trendingDispatch({
+        type: ADD_TREND,
+        payload: {
+          hashtag: hashInfo.data,
+          loading: false,
+        },
+      });
+
+	  console.log(postInfo.data)
 	  
     }
     fetchAllPostsAndCauses();
@@ -130,10 +132,10 @@ const Newsfeed = () => {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>TRENDING</Typography>
-									{trendingState.map((card, index) => (
+									{trendingStates.hashtag.map((card, index) => (
 										<Trending
-											hashTag={card.hashTag}
-											link={card.url}
+											hashTag={card.hashtag}
+											link={card._id}
 											key={index}
 										/>
 									))}
@@ -209,10 +211,10 @@ const Newsfeed = () => {
 							</TabPanel>
 							<TabPanel value={value} index={1}>
 								<Grid item xs={12}>
-									{trendingState.map((card, index) => (
+									{trendingStates.hashtag.map((card, index) => (
 										<Trending
-											hashTag={card.hashTag}
-											link={card.url}
+											hashTag={card.hashtag}
+											link={card._id}
 											key={index}
 										/>
 									))}

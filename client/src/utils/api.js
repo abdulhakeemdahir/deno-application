@@ -131,7 +131,7 @@ class API {
 
   //-----------------------hashtags api-------------------------//
   getHashtagAll() {
-    console.log("Inside Hash tag axios")
+  
     return this.axios.get(`/api/hashtags/`);
   }
   getHashtagPost(data) {

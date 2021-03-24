@@ -97,9 +97,14 @@ export default function Post() {
 	};
 
 	const [userState] = useUserContext();
-
+	
 	const handleSubmit = async event => {
 		event.preventDefault();
+		if(userState.role === "Personal") {
+			//TODO display error message
+			console.log("sorry")
+			return
+		}
 		if (
 			createPost.type === "" ||
 			createPost.title === "" ||

@@ -2,7 +2,6 @@ const { Hashtag } = require("../models");
 
 module.exports = {
   getHashtagAll: async (req, res) => {
-    console.log("hit inside controllers hashtag");
     try {
       const hashtagModel = await Hashtag.find({})
         .sort({ date: -1 })
@@ -13,7 +12,7 @@ module.exports = {
           },
           {
             path: "causes",
-            model: "Causes"
+            model: "Cause"
           }
         ])
         .exec();
