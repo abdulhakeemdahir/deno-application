@@ -17,7 +17,6 @@ import { ThumbUp } from "@material-ui/icons";
 import api from "../../utils/api";
 //import { useHistory } from "react-router";
 
-
 const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
@@ -48,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function SignUpOrg() {
-
 	const [stateForm, setStateForm] = useState({
 		step: 1,
 	});
@@ -66,20 +64,99 @@ export default function SignUpOrg() {
 		});
 	};
 
-	// const handleFieldsChange = input => e => {
-	// 	setStateForm({ [input]: e.target.value });
-	// };
-
 	const [stateSignUp, setStateSignUp] = useState({
 		email: "",
+		emailError: "",
 		password: "",
+		passwordError: "",
 		username: "",
+		usernameError: "",
 		firstName: "",
+		firstNameError: "",
 		lastname: "",
+		lastnameError: "",
+		orgname: "",
+		orgnameError: "",
+		response: "",
 		role: "Organization",
 		bio: "",
 		thumbnail: "",
 	});
+
+	// Validate e-mail
+	const validateEmail = () => {
+		let isError = false;
+		const errors = {};
+		if (!/.+@.+..+/.test(values.email)) {
+			isError = true;
+			errors.emailError = "Not a correct e-mail";
+		}
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (/.+@.+..+/.test(values.email)) {
+			errors.emailError = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+	};
+
+	//Validate password to make sure it has 1 letter 1 name and minimum 8 characters
+	const validatePassword = () => {
+		let isError = false;
+		const errors = {};
+		if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+			isError = true;
+			errors.passwordError =
+				"Needs 1 letter and 1 number, minimum 8 characters";
+		}
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+			errors.passwordError = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+	};
+
+	// Form validation for inputs to be more than 6 characters
+	const validate = event => {
+		const { name, value } = event.target;
+		console.log(name);
+		let isError = false;
+		const errors = {};
+		if (value.length < 6) {
+			isError = true;
+			errors[`${name}Error`] = "Needs to be more than 6 characters";
+		}
+		console.log(value.length);
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (value.length >= 6) {
+			errors[`${name}Error`] = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+
+		return isError;
+	};
 
 	const handleChange = function(event) {
 		const { name, value } = event.target;
@@ -92,7 +169,6 @@ export default function SignUpOrg() {
 	//const history = useHistory()
 
 	const handleSubmit = async () => {
-
 		try {
 			// Register the user.
 			await api.register(setStateSignUp);
@@ -115,8 +191,15 @@ export default function SignUpOrg() {
 		email,
 		username,
 		password,
+		orgname,
 		bio,
 		thumbnail,
+		orgnameError,
+		firstNameError,
+		lastnameError,
+		emailError,
+		usernameError,
+		passwordError,
 	} = stateSignUp;
 	const values = {
 		firstName,
@@ -125,10 +208,16 @@ export default function SignUpOrg() {
 		email,
 		username,
 		password,
+		orgname,
 		bio,
 		thumbnail,
+		orgnameError,
+		firstNameError,
+		lastnameError,
+		emailError,
+		usernameError,
+		passwordError,
 	};
-
 
 	switch (step) {
 		case 1:
@@ -152,6 +241,8 @@ export default function SignUpOrg() {
 						nextStep={nextStep}
 						handleChange={handleChange}
 						values={values}
+						validate={validate}
+						validateEmail={validateEmail}
 					/>
 				</Grid>
 			);
@@ -177,6 +268,8 @@ export default function SignUpOrg() {
 						previousStep={previousStep}
 						handleChange={handleChange}
 						values={values}
+						validate={validate}
+						validatePassword={validatePassword}
 					/>
 				</Grid>
 			);

@@ -85,16 +85,62 @@ export default function SignUpUser() {
 		thumbnail: "",
 	});
 
-	// const
+	// Validate e-mail
+	const validateEmail = () => {
+		let isError = false;
+		const errors = {};
+		if (!/.+@.+..+/.test(values.email)) {
+			isError = true;
+			errors.emailError = "Not a correct e-mail";
+		}
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (/.+@.+..+/.test(values.email)) {
+			errors.emailError = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+	};
 
+	//Validate password to make sure it has 1 letter 1 name and minimum 8 characters
+	const validatePassword = () => {
+		let isError = false;
+		const errors = {};
+		if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+			isError = true;
+			errors.passwordError =
+				"Needs 1 letter and 1 number, minimum 8 characters";
+		}
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+			errors.passwordError = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+	};
+
+	// Form validation for inputs to be more than 6 characters
 	const validate = event => {
 		const { name, value } = event.target;
 		console.log(name);
 		let isError = false;
 		const errors = {};
-		if (value.length < 5) {
+		if (value.length < 6) {
 			isError = true;
-			errors[`${name}Error`] = "Name needs to be more than 5 characters";
+			errors[`${name}Error`] = "Needs to be more than 6 characters";
 		}
 		console.log(value.length);
 		if (isError) {
@@ -103,7 +149,7 @@ export default function SignUpUser() {
 				...errors,
 			});
 		}
-		if (value.length >= 5) {
+		if (value.length >= 6) {
 			errors[`${name}Error`] = "";
 			setStateSignUp({
 				...stateSignUp,
@@ -121,14 +167,6 @@ export default function SignUpUser() {
 			[name]: value,
 		});
 	};
-
-	// let temp = {};
-	// temp.firstName = values.firstName < 5 ? "" : "First Name is required";
-	// temp.lastname = values.lastname ? "" : "Last Name is required";
-	// temp.email = /.+@.+..+/.test(values.email) ? "" : "E-mail is required";
-	// setErrors({
-	// 	...temp,
-	// });
 
 	const history = useHistory();
 
@@ -207,6 +245,7 @@ export default function SignUpUser() {
 						handleChange={handleChange}
 						values={values}
 						validate={validate}
+						validateEmail={validateEmail}
 					/>
 				</Grid>
 			);
@@ -232,6 +271,8 @@ export default function SignUpUser() {
 						previousStep={previousStep}
 						handleChange={handleChange}
 						values={values}
+						validate={validate}
+						validatePassword={validatePassword}
 					/>
 				</Grid>
 			);

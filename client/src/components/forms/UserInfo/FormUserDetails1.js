@@ -39,7 +39,7 @@ export default function FormUserDetails1(props) {
 		props.nextStep();
 	};
 
-	const { values, handleChange, validate } = props;
+	const { values, handleChange, validate, validateEmail } = props;
 	const classes = useStyles();
 
 	return (
@@ -71,6 +71,9 @@ export default function FormUserDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.emailError}
+				helperText={values.emailError}
+				onBlur={validateEmail}
 				name='email'
 				value={values.email}
 				onChange={handleChange}
