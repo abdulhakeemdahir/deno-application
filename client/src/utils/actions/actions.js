@@ -16,6 +16,13 @@ export const USER_MESSAGE = "USER_MESSAGE";
 export const UPDATE_USER = "UPDATE_USER";
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
+
+//GUESS USER
+export const GET_GUESS_USER_INFO = "GET_USER_INFO";
+export const ADD_GUESS_USER = "ADD_USER";
+export const REMOVE_GUESS_USER = "REMOVE_USER";
+export const USER_GUESS_LOADING = "USER_LOADING";
+
 //CAUSE
 export const GET_CAUSE_INFO = "GET_CAUSE_INFO";
 export const GET_ALL_CAUSE_INFO = "GET_ALL_CAUSE_INFO";

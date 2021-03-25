@@ -73,7 +73,7 @@ export default function About(props) {
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12} sm={12}>
           <ButtonGroup fullWidth>
-            {props.role === "Organization" ? (
+            {props.role === "Organization" && props.user ? (
               <Button size="large" className="aboutButton" fullWidth>
                 <i class="fab fa-paypal"></i>
                 <span> Support</span>
