@@ -39,11 +39,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FormOrgConfirm(props) {
-	const continueOne = async (e) => {
+	const continueOne = async e => {
 		e.preventDefault();
 		await props.handleSubmit();
 		props.nextStep();
 	};
+
 	const previousOne = e => {
 		e.preventDefault();
 		props.previousStep();
