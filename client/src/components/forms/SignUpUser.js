@@ -17,7 +17,6 @@ import { ThumbUp } from "@material-ui/icons";
 
 import { useHistory } from "react-router";
 
-
 const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
@@ -71,15 +70,95 @@ export default function SignUpUser() {
 
 	const [stateSignUp, setStateSignUp] = useState({
 		email: "",
+		emailError: "",
 		password: "",
+		passwordError: "",
 		username: "",
+		usernameError: "",
 		firstName: "",
+		firstNameError: "",
 		lastname: "",
-    response: "",
+		lastnameError: "",
+		response: "",
 		role: "Personal",
 		bio: "",
 		thumbnail: "",
 	});
+
+	// Validate e-mail
+	const validateEmail = () => {
+		let isError = false;
+		const errors = {};
+		if (!/.+@.+..+/.test(values.email)) {
+			isError = true;
+			errors.emailError = "Not a correct e-mail";
+		}
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (/.+@.+..+/.test(values.email)) {
+			errors.emailError = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+	};
+
+	//Validate password to make sure it has 1 letter 1 name and minimum 8 characters
+	const validatePassword = () => {
+		let isError = false;
+		const errors = {};
+		if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+			isError = true;
+			errors.passwordError =
+				"Needs 1 letter and 1 number, minimum 8 characters";
+		}
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+			errors.passwordError = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+	};
+
+	// Form validation for inputs to be more than 6 characters
+	const validate = event => {
+		const { name, value } = event.target;
+		console.log(name);
+		let isError = false;
+		const errors = {};
+		if (value.length < 1) {
+			isError = true;
+			errors[`${name}Error`] = "Input cannot be empty";
+		}
+		console.log(value.length);
+		if (isError) {
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+		if (value.length >= 1) {
+			errors[`${name}Error`] = "";
+			setStateSignUp({
+				...stateSignUp,
+				...errors,
+			});
+		}
+
+		return isError;
+	};
 
 	const handleChange = function(event) {
 		const { name, value } = event.target;
@@ -89,21 +168,20 @@ export default function SignUpUser() {
 		});
 	};
 
-	const history = useHistory()
+	const history = useHistory();
 
 	const handleSubmit = async () => {
 		//event.preventDefault();
-		console.log(stateSignUp)
 		try {
 			// Register the user.
-			const {data} = await api.register(stateSignUp);
-			
-      setStateSignUp({
-        ...stateSignUp,
-        response: data,
-      });
+			const { data } = await api.register(stateSignUp);
+
+			setStateSignUp({
+				...stateSignUp,
+				response: data,
+			});
 			history.go(0);
-			
+
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
 			// Handle error responses from the API. This will include
@@ -122,6 +200,11 @@ export default function SignUpUser() {
 		password,
 		bio,
 		thumbnail,
+		firstNameError,
+		lastnameError,
+		emailError,
+		usernameError,
+		passwordError,
 	} = stateSignUp;
 	const values = {
 		firstName,
@@ -132,8 +215,12 @@ export default function SignUpUser() {
 		password,
 		bio,
 		thumbnail,
+		firstNameError,
+		lastnameError,
+		emailError,
+		usernameError,
+		passwordError,
 	};
-console.log(values)
 
 	switch (step) {
 		case 1:
@@ -157,6 +244,8 @@ console.log(values)
 						nextStep={nextStep}
 						handleChange={handleChange}
 						values={values}
+						validate={validate}
+						validateEmail={validateEmail}
 					/>
 				</Grid>
 			);
@@ -182,6 +271,8 @@ console.log(values)
 						previousStep={previousStep}
 						handleChange={handleChange}
 						values={values}
+						validate={validate}
+						validatePassword={validatePassword}
 					/>
 				</Grid>
 			);
@@ -212,34 +303,34 @@ console.log(values)
 			);
 		case 4:
 			return (
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          className={classes.paper}
-        >
-          <Container>
-            <Grid item align="center">
-              <Avatar className={classes.styleIcon}>
-                <ThumbUp />
-              </Avatar>
-              <Typography variation="h6" color="default">
-                {stateSignUp.response.headers}
-              </Typography>
-            </Grid>
-            <Typography variation="h6" color="default">
-              {stateSignUp.response.message}
-            </Typography>
-            <br />
-            <Divider />
-            <br />
-            <Typography variation="h6" color="default">
-              {stateSignUp.response.footer}
-            </Typography>
-          </Container>
-        </Grid>
-      );
+				<Grid
+					container
+					direction='column'
+					justify='center'
+					alignItems='center'
+					className={classes.paper}
+				>
+					<Container>
+						<Grid item align='center'>
+							<Avatar className={classes.styleIcon}>
+								<ThumbUp />
+							</Avatar>
+							<Typography variation='h6' color='default'>
+								{stateSignUp.response.headers}
+							</Typography>
+						</Grid>
+						<Typography variation='h6' color='default'>
+							{stateSignUp.response.message}
+						</Typography>
+						<br />
+						<Divider />
+						<br />
+						<Typography variation='h6' color='default'>
+							{stateSignUp.response.footer}
+						</Typography>
+					</Container>
+				</Grid>
+			);
 		default:
 			return;
 	}

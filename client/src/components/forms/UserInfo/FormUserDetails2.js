@@ -48,7 +48,7 @@ export default function FormUserDetails2(props) {
 		props.previousStep();
 	};
 
-	const { values, handleChange } = props;
+	const { values, handleChange, validate, validatePassword } = props;
 	const classes = useStyles();
 
 	return (
@@ -64,6 +64,9 @@ export default function FormUserDetails2(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.usernameError}
+				helperText={values.usernameError}
+				onBlur={validate}
 				name='username'
 				value={values.username}
 				onChange={handleChange}
@@ -74,6 +77,9 @@ export default function FormUserDetails2(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.passwordError}
+				helperText={values.passwordError}
+				onBlur={validatePassword}
 				name='password'
 				value={values.password}
 				onChange={handleChange}
