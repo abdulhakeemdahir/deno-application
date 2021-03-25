@@ -19,9 +19,17 @@ import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
-import { usePostContext } from "../../../utils/GlobalStates/PostContext";
-import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
+import {
+  usePostContext,
+} from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
+import {
+  ADD_POST,
+  POST_LOADING,
+
+} from "../../../utils/actions/actions";
+
+;
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -61,15 +69,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function NewsAndComment(props) {
-	console.log(props.hashTag != false);
+
 
 	const classes = useStyles();
 
-	const [postState, postDispatch] = usePostContext();
+	const [, postDispatch] = usePostContext();
+
 
 	const [userState] = useUserContext();
 
 	const [, setOpen] = useState(false);
+
+
 
 	const [commentState, setCommentState] = useState({
 		content: "",
@@ -91,6 +102,8 @@ export default function NewsAndComment(props) {
 				post: id,
 			};
 
+      
+
 			const { data } = await api.createComments(comment);
 
 			await api.updatePost(id, { comments: data._id });
@@ -106,6 +119,8 @@ export default function NewsAndComment(props) {
 				loading: false,
 				},
 			});
+
+      
 		} catch (err) {}
 	};
 
@@ -137,7 +152,8 @@ export default function NewsAndComment(props) {
           </Grid>
         </Grid>
         <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span> {props.author}
+          <span className="authorStyle"> Author:</span>
+          <Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
         </Typography>
         <Divider />
         <Grid container direction="row" spacing={1}>
@@ -150,7 +166,8 @@ export default function NewsAndComment(props) {
                 {props.post}
               </Typography>
 
-              {//props.hashTag != false ? (
+              {
+                //props.hashTag != false ? (
                 //<>
                 //   {props.hashTag[0].hashtag.map((tag) => (
                 //     <Link to={props.hashTag[0]._id} className="hashTagStyle">
@@ -158,8 +175,8 @@ export default function NewsAndComment(props) {
                 //     </Link>
                 //   ))}
                 //</>
-              //) : null
-			}
+                //) : null
+              }
             </CardContent>
             <Divider />
           </Grid>

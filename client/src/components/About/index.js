@@ -47,9 +47,11 @@ export default function About(props) {
           </Typography>
         </Grid>
         <Grid item xs={3}>
-          <Button className="editButton" onClick={handleOpen}>
-            <Edit /> Edit
-          </Button>
+          {props.check ? null : (
+            <Button className="editButton" onClick={handleOpen}>
+              <Edit /> Edit
+            </Button>
+          )}
           <Dialog
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -73,7 +75,7 @@ export default function About(props) {
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12} sm={12}>
           <ButtonGroup fullWidth>
-            {props.role === "Organization" ? (
+            {props.role === "Organization" && props.user ? (
               <Button size="large" className="aboutButton" fullWidth>
                 <i class="fab fa-paypal"></i>
                 <span> Support</span>
@@ -128,7 +130,8 @@ export default function About(props) {
                 variant="body2"
                 color="textSecondary"
               >
-                <span className="authorStyle"> Name </span> {`${props.firstName} ${props.lastname}`}
+                <span className="authorStyle"> Name </span>{" "}
+                {`${props.firstName} ${props.lastname}`}
               </Typography>
               <Typography
                 className="borderStyle"

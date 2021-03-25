@@ -9,7 +9,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/icons";
 import * as React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, NavLink } from "react-router-dom";
+
+import {
+	useAuthTokenStore,
+	useIsAuthenticated,
+	useLogout,
+} from "../../utils/auth";
+
 import "./style.css";
 
 const useStyles = makeStyles({
@@ -26,7 +33,14 @@ const useStyles = makeStyles({
 		background: "linear-gradient(-135deg, #e57373, #f06292)",
 		color: "white",
 		textDecoration: "none",
-		padding: "10px 0px",
+	},
+	loginStyle: {
+		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+		color: "white",
+		textDecoration: "none",
+	},
+	activeLink: {
+		color: "#e57373",
 	},
 	spanStyle: {
 		margin: "10px",
@@ -36,6 +50,18 @@ const useStyles = makeStyles({
 const SideDrawer = ({ navLinks }) => {
 	const classes = useStyles();
 	const [state, setState] = useState({ right: false });
+
+	const logout = useLogout();
+
+	const history = useHistory();
+
+	const login = () => {
+		history.push("/");
+	};
+
+	useAuthTokenStore();
+
+	const isAuth = useIsAuthenticated();
 
 	const toggleDrawer = (anchor, open) => event => {
 		if (
@@ -55,7 +81,7 @@ const SideDrawer = ({ navLinks }) => {
 			onClick={toggleDrawer(anchor, false)}
 			onKeyDown={toggleDrawer(anchor, false)}
 		>
-			<List component='nav'>
+			{/* <List component='nav'>
 				{navLinks.map(({ title, path }) => (
 					<Link  to={path} key={title} className={classes.linkText}>
 						<ListItem button>
@@ -70,6 +96,74 @@ const SideDrawer = ({ navLinks }) => {
 						</ListItemText>
 					</ListItem>
 				</Link>
+			</List> */}
+			<List
+				component='nav'
+				aria-labelledby='main navigation'
+				className={classes.navDisplayFlex}
+			>
+				{isAuth ? (
+					<>
+						<NavLink
+							to='/newsfeed'
+							key='newsfeed'
+							className={classes.linkText}
+							activeClassName={classes.activeLink}
+						>
+							<ListItem button>
+								<ListItemText primary='newsfeed' />
+							</ListItem>
+						</NavLink>
+						<NavLink
+							to={`/dashboard`}
+							key='dashboard'
+							className={classes.linkText}
+							activeClassName={classes.activeLink}
+						>
+							<ListItem button>
+								<ListItemText primary='dashboard' />
+							</ListItem>
+						</NavLink>
+						<NavLink
+							to='/chatroom'
+							key='chatroom'
+							className={classes.linkText}
+							activeClassName={classes.activeLink}
+						>
+							<ListItem button>
+								<ListItemText primary='chatroom' />
+							</ListItem>
+						</NavLink>
+						<NavLink
+							onClick={logout}
+							to='/'
+							key='/'
+							activeClassName={classes.activeLink}
+						>
+							<ListItem button className={classes.logoutStyle}>
+								<ListItemText className={classes.linkText}>
+									Log Out
+								</ListItemText>
+							</ListItem>
+						</NavLink>
+					</>
+				) : (
+					<>
+						<NavLink
+							key='explore'
+							to='/explore'
+							className={classes.linkText}
+							activeClassName={classes.activeLink}
+						>
+							<ListItem button>
+								<ListItemText primary='explore' />
+							</ListItem>
+						</NavLink>
+						<ListItem onClick={login} button className={classes.loginStyle}>
+							<ListItemText className={classes.linkText}>Log In</ListItemText>
+						</ListItem>
+					</>
+				)}
 			</List>
 		</div>
 	);

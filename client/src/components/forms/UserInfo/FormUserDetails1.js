@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { TextField, Button } from "@material-ui/core";
@@ -39,14 +39,17 @@ export default function FormUserDetails1(props) {
 		props.nextStep();
 	};
 
-	const { values, handleChange } = props;
+	const { values, handleChange, validate, validateEmail } = props;
 	const classes = useStyles();
 
 	return (
 		<>
 			<TextField
+				error={values.firstNameError}
+				helperText={values.firstNameError}
 				name='firstName'
 				value={values.firstName}
+				onBlur={validate}
 				onChange={handleChange}
 				variant='outlined'
 				label='First Name'
@@ -55,8 +58,11 @@ export default function FormUserDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.lastnameError}
+				helperText={values.lastnameError}
 				name='lastname'
 				value={values.lastname}
+				onBlur={validate}
 				onChange={handleChange}
 				variant='outlined'
 				label='Last Name'
@@ -65,6 +71,9 @@ export default function FormUserDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.emailError}
+				helperText={values.emailError}
+				onBlur={validateEmail}
 				name='email'
 				value={values.email}
 				onChange={handleChange}
