@@ -67,6 +67,13 @@ export default function UpdateUser() {
 
 	const classes = useStyles();
 
+  const [fileInputState, setFileInputState] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
+  
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+  };
+
 	return (
 		<Grid
 			container
@@ -105,37 +112,18 @@ export default function UpdateUser() {
 					className={classes.mgstyle}
 				/>
 				<TextField
-					name='email'
-					value={stateSignUp.email}
-					onChange={handleChange}
+					type="file"
+          name="image"
+          onChange={handleFileInputChange}
+          value={fileInputState}
 					variant='outlined'
-					label='email'
-					placeholder='Enter Email'
-					fullWidth
-					type='email'
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='username'
-					value={stateSignUp.username}
-					onChange={handleChange}
-					variant='outlined'
-					label='Username'
-					placeholder='Enter Username'
+					label='Image'
+					placeholder='Add Image'
 					fullWidth
 					className={classes.mgstyle}
 				/>
-				<TextField
-					name='password'
-					value={stateSignUp.password}
-					onChange={handleChange}
-					variant='outlined'
-					label='Password'
-					placeholder='Enter Password'
-					type='password'
-					fullWidth
-					className={classes.mgstyle}
-				/>
+			
+
 				<Button size='large' className={classes.styleMain} fullWidth>
 					Update
 				</Button>

@@ -3,7 +3,9 @@
     "astralgnome",
     "camelcase",
     "cloudinary",
+    "heroku",
     "labelledby",
+    "postbuild",
     "signin",
     "tabpanel"
   ]
