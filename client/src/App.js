@@ -16,6 +16,8 @@ import SinglePost from "./containers/SinglePost";
 import Analytics from "./containers/Private/Analytics";
 import ErrorPage from "./containers/Public/ErrorPage";
 import { TrendingProvider } from "./utils/GlobalStates/TrendingContext";
+import { GuessProvider } from "./utils/GlobalStates/GuessContext";
+import PublicDash from "./containers/Public/PublicDash";
 //import GuestRoute from "./components/GuestRoute.js"
 
 const theme = createMuiTheme({
@@ -41,40 +43,48 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <div className="App">
           <UserProvider>
-            <CauseProvider>
-              <TrendingProvider>
-                <PostProvider>
-                  <Switch>
-                    <PrivateRoute
-                      exact
-                      path="/newsfeed"
-                      redirectTo="/"
-                      component={Newsfeed}
-                    />
+            <GuessProvider>
+              <CauseProvider>
+                <TrendingProvider>
+                  <PostProvider>
+                    <Switch>
+                      <PrivateRoute
+                        exact
+                        path="/newsfeed"
+                        redirectTo="/"
+                        component={Newsfeed}
+                      />
 
-                    <PrivateRoute
-                      exact
-                      path="/dashboard"
-                      redirectTo="/"
-                      component={Dashboard}
-                    />
-                    <PrivateRoute
-                      exact
-                      path="/chatroom"
-                      redirectTo="/"
-                      component={Chatroom}
-                    />
+                      <PrivateRoute
+                        exact
+                        path="/dashboard"
+                        redirectTo="/"
+                        component={Dashboard}
+                      />
+                      <PrivateRoute
+                        exact
+                        path="/chatroom"
+                        redirectTo="/"
+                        component={Chatroom}
+                      />
+                      <PrivateRoute
+                        exact
+                        path="/dashboard/:id"
+                        redirectTo="/"
+                        component={PublicDash}
+                      />
+                      
+                      <Route path="/explore" exact component={Explore} />
+                      <Route path="/post" exact component={SinglePost} />
+                      <Route path="/analytics" exact component={Analytics} />
+                      <Route path="/404" exact component={ErrorPage} />
 
-                    <Route path="/explore" exact component={Explore} />
-                    <Route path="/post" exact component={SinglePost} />
-                    <Route path="/analytics" exact component={Analytics} />
-                    <Route path="/404" exact component={ErrorPage} />
-
-                    <Route path="/" exact component={Landing} />
-                  </Switch>
-                </PostProvider>
-              </TrendingProvider>
-            </CauseProvider>
+                      <Route path="/" exact component={Landing} />
+                    </Switch>
+                  </PostProvider>
+                </TrendingProvider>
+              </CauseProvider>
+            </GuessProvider>
           </UserProvider>
         </div>
       </MuiThemeProvider>

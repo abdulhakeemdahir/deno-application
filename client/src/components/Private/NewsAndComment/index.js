@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 export default function NewsAndComment(props) {
-	console.log(props.hashTag != false);
+
 
 	const classes = useStyles();
 
@@ -137,7 +137,8 @@ export default function NewsAndComment(props) {
           </Grid>
         </Grid>
         <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span> {props.author}
+          <span className="authorStyle"> Author:</span>
+          <Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
         </Typography>
         <Divider />
         <Grid container direction="row" spacing={1}>
@@ -150,7 +151,8 @@ export default function NewsAndComment(props) {
                 {props.post}
               </Typography>
 
-              {//props.hashTag != false ? (
+              {
+                //props.hashTag != false ? (
                 //<>
                 //   {props.hashTag[0].hashtag.map((tag) => (
                 //     <Link to={props.hashTag[0]._id} className="hashTagStyle">
@@ -158,8 +160,8 @@ export default function NewsAndComment(props) {
                 //     </Link>
                 //   ))}
                 //</>
-              //) : null
-			}
+                //) : null
+              }
             </CardContent>
             <Divider />
           </Grid>

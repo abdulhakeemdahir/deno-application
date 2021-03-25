@@ -10,10 +10,7 @@ import Tab from "@material-ui/core/Tab";
 
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
-// import defaultPic from "../../images/dp.png";
-import Elephant from "../../../images/elephant.jpeg";
-import Dolphin from "../../../images/dolphin.jpeg";
-import Whale from "../../../images/whale.jpeg";
+
 //import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
@@ -48,7 +45,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchUserInfo() {
 
-      console.log(userState._id);
+      console.log(userState);
 
       const userInfo = await API.getUser(userState._id);
 
