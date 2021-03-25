@@ -6,7 +6,7 @@ import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
+//import Box from "@material-ui/core/Box";
 
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
@@ -14,7 +14,7 @@ import News from "../../../components/Private/News";
 import Elephant from "../../../images/elephant.jpeg";
 import Dolphin from "../../../images/dolphin.jpeg";
 import Whale from "../../../images/whale.jpeg";
-import NGO from "../../../images/ngo.png";
+//import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
 import Causes from "../../../components/Private/Causes";
@@ -31,7 +31,6 @@ import {
 } from "../../../utils/actions/actions";
 
 import API from "../../../utils/api";
-import { useHistory, useParams } from "react-router";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -39,19 +38,19 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-// const useStyles = makeStyles(theme => ({}));
-
 const Dashboard = () => {
   const [userState, userDispatch] = useUserContext();
 
-  const {id} = useParams()
+  // const {id} = useParams()
 
-  const history = useHistory()
+  // const history = useHistory()
 
   useEffect(() => {
     async function fetchUserInfo() {
 
-      const userInfo = await API.getUser(id);
+      console.log(userState._id);
+
+      const userInfo = await API.getUser(userState._id);
 
       await userDispatch({ type: USER_LOADING });
       

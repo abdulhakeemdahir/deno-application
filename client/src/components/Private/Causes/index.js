@@ -39,9 +39,10 @@ export default function Causes(props) {
           </Typography>
         </Grid>
         <Grid item xs={3}>
+          {props.role === "Organization"?(
           <Button className="editButton" onClick={handleOpen}>
             <Edit /> Edit
-          </Button>
+          </Button>):null}
           <Dialog
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -72,21 +73,11 @@ export default function Causes(props) {
           </CardContent>
         </Grid>
         <ButtonGroup justify="center" fullWidth>
-          <Button
-            size="large"
-            className="styleButton"
-            fullWidth
-            id={props.id}
-
-          >
+          <Button size="large" className="styleButton" fullWidth id={props.id}>
             <i className="fab fa-paypal"></i>
             Support
           </Button>
-          <Button
-            size="large"
-            className="followButton"
-            fullWidth
-          >
+          <Button size="large" className="followButton" fullWidth>
             <ThumbUpAlt /> Follow
           </Button>
         </ButtonGroup>

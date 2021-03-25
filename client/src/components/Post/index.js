@@ -54,11 +54,11 @@ export default function Post() {
 
 	//*Create Post
 	const addPost = async () => {
-		  await postDispatch({ type: POST_LOADING });
+		await postDispatch({ type: POST_LOADING });
 
-      const postInfo = await API.getAllPost();
+    	const postInfo = await API.getAllPost();
 
-      await postDispatch({
+    	await postDispatch({
         type: ADD_POST,
         payload: {
           posts: postInfo.data,
@@ -68,17 +68,17 @@ export default function Post() {
     }
 	//Create cause
 	const addCause = async () => {
-		  await causeDispatch({ type: CAUSE_LOADING });
+		await causeDispatch({ type: CAUSE_LOADING });
 
-      const causes = await API.getAllCauses();
+		const causes = await API.getAllCauses();
 
-      await causeDispatch({
-        type: ADD_CAUSE,
-        payload: {
-          causes: causes.data,
-          loading: false,
-        },
-      });
+		await causeDispatch({
+			type: ADD_CAUSE,
+			payload: {
+			causes: causes.data,
+			loading: false,
+			},
+		});
 	};
 
 	const [createPost, setCreatePost] = useState({
@@ -100,11 +100,11 @@ export default function Post() {
 	
 	const handleSubmit = async event => {
 		event.preventDefault();
-		if(userState.role === "Personal") {
-			//TODO display error message
-			console.log("sorry")
-			return
-		}
+		if (userState.role === "Personal" && createPost.type === "Cause") {
+      //TODO display error message
+      console.log("sorry");
+      return;
+    }
 		if (
 			createPost.type === "" ||
 			createPost.title === "" ||
@@ -124,7 +124,7 @@ export default function Post() {
 				const createHashtags = await API.createHashtag({ hashtag: hashtags });
 				post.hashtags = createHashtags.data._id;
 			}
-
+			console.log(post)
 			if (createPost.type === "Post") {
 				const { data } = await API.createPost(post);
 				if (post.hashtags) {

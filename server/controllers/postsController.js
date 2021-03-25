@@ -33,7 +33,7 @@ module.exports = {
     }
   },
   create: async ({ body }, res) => {
-    const { title, content, imageUrl, author } = body;
+    const { title, content, imageUrl, author, hashtags } = body;
     try {
       //*CLOUD BEG
       //Upload image to cloudinary
@@ -52,7 +52,8 @@ module.exports = {
         title,
         content,
         imageUrl,
-        author
+        author,
+        hashtags
       });
       res.status(201).json(postModel);
     } catch (err) {
@@ -86,7 +87,6 @@ module.exports = {
     }
   },
   getAllPost: async (req, res) => {
-    console.log("Hitting");
     try {
       const allPost = await Post.find({})
         .sort({ date: -1 })
@@ -112,6 +112,7 @@ module.exports = {
           {
             path: "comments",
             model: "Comment",
+            options: { sort: { date: -1 } },
             populate: {
               path: "user",
               select: "firstName",
