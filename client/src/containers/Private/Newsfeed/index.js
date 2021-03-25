@@ -78,8 +78,6 @@ const Newsfeed = () => {
           loading: false,
         },
       });
-
-	  console.log(trendingStates);
 	  
     }
     fetchAllPostsAndCauses();

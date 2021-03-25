@@ -15,8 +15,11 @@ module.exports = {
       password,
       role,
       email,
-      orgName
-    } = body;
+      orgName,
+      phoneNumber,
+      website,
+      address
+    } = body; -A
 
     const userObject = {
       firstName: firstName,
@@ -30,7 +33,15 @@ module.exports = {
     if (orgName) {
       userObject.orgName = orgName;
     }
-
+    if (phoneNumber) {
+      updateUser.phoneNumber = phoneNumber;
+    }
+    if (website) {
+      updateUser.website = website;
+    }
+    if (address) {
+      updateUser.address = address;
+    }
     try {
       const isUser = await User.findOne({
         $or: [{ username: username }, { email: email }]
