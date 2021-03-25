@@ -38,10 +38,6 @@ TabPanel.propTypes = {
 const Dashboard = () => {
   const [userState, userDispatch] = useUserContext();
 
-  // const {id} = useParams()
-
-  // const history = useHistory()
-
   useEffect(() => {
     async function fetchUserInfo() {
 

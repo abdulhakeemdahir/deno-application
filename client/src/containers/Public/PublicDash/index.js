@@ -44,14 +44,11 @@ const PublicDash = () => {
   useEffect(() => {
     async function fetchUserInfo() {
 
-      console.log(id);
-
       const userInfo = await API.getUser(id);
 
       if(!userInfo){
           history.push("/404")
       }
-      console.log(userInfo);
 
       await guessDispatch({ type: USER_GUESS_LOADING, });
 
@@ -108,6 +105,7 @@ const PublicDash = () => {
                     causes={guessState.causes}
                     profileImg={guessState.profileImg}
                     bannerImg={guessState.bannerImg}
+                    check={id}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} className="card-container">
@@ -123,6 +121,7 @@ const PublicDash = () => {
                       post={card.content}
                       hashTag={card.hashtag}
                       comments={card.comments}
+                      check={id}
                     />
                   ))}
                 </Grid>
@@ -138,6 +137,7 @@ const PublicDash = () => {
                       image={card.imageUrl}
                       post={card.content}
                       hashTag={card.hashtag}
+                      check={id}
                     />
                   ))}
                 </Grid>
@@ -167,6 +167,7 @@ const PublicDash = () => {
                       post={card.content}
                       hashTag={card.hashtag}
                       comments={card.comments}
+                      check={id}
                     />
                   ))}
                 </Grid>
@@ -189,6 +190,7 @@ const PublicDash = () => {
                     causes={guessState.causes}
                     profileImg={guessState.profileImg}
                     bannerImg={guessState.bannerImg}
+                    check={id}
                   />
                 </Grid>
               </TabPanel>
@@ -204,6 +206,7 @@ const PublicDash = () => {
                       image={card.imageUrl}
                       post={card.content}
                       hashTag={card.hashtag}
+                      check={id}
                     />
                   ))}
                 </Grid>

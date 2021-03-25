@@ -19,9 +19,17 @@ import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
-import { usePostContext } from "../../../utils/GlobalStates/PostContext";
-import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
+import {
+  usePostContext,
+} from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
+import {
+  ADD_POST,
+  POST_LOADING,
+
+} from "../../../utils/actions/actions";
+
+;
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -65,11 +73,14 @@ export default function NewsAndComment(props) {
 
 	const classes = useStyles();
 
-	const [postState, postDispatch] = usePostContext();
+	const [, postDispatch] = usePostContext();
+
 
 	const [userState] = useUserContext();
 
 	const [, setOpen] = useState(false);
+
+
 
 	const [commentState, setCommentState] = useState({
 		content: "",
@@ -91,6 +102,8 @@ export default function NewsAndComment(props) {
 				post: id,
 			};
 
+      
+
 			const { data } = await api.createComments(comment);
 
 			await api.updatePost(id, { comments: data._id });
@@ -106,6 +119,8 @@ export default function NewsAndComment(props) {
 				loading: false,
 				},
 			});
+
+      
 		} catch (err) {}
 	};
 

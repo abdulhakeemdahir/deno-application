@@ -23,8 +23,11 @@ import { Edit } from "@material-ui/icons";
 import "./style.css";
 import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
-import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
+import { UPDATE_USER, USER_LOADING, ADD_GUESS_USER,
+  USER_GUESS_LOADING, } from "../../../utils/actions/actions";
+  import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -71,6 +74,8 @@ export default function News(props) {
 
 	const [userState, userDispatch] = useUserContext();
 
+  const [guessState, guessDispatch] = useGuessContext();
+
 	const [commentState, setCommentState] = useState({
     content: "",
   });
@@ -106,6 +111,22 @@ export default function News(props) {
           loading: false,
         },
       });
+
+      console.log("guessState._id");
+
+      if (guessState._id) {
+        const guessInfo = await api.getUser(guessState._id);
+
+        await guessDispatch({ type: USER_GUESS_LOADING });
+
+        await guessDispatch({
+          type: ADD_GUESS_USER,
+          payload: {
+            ...guessInfo.data,
+            loading: false,
+          },
+        });
+      }
     } catch (err) {}
   };
 
@@ -126,9 +147,11 @@ export default function News(props) {
             </Typography>
           </Grid>
           <Grid item xs={3} sm={2}>
-            <Button className="editButton" onClick={handleOpen}>
-              <Edit /> Edit
-            </Button>
+            {props.check ? null : (
+              <Button className="editButton" onClick={handleOpen}>
+                <Edit /> Edit
+              </Button>
+            )}
             <Dialog
               aria-labelledby="transition-modal-title"
               aria-describedby="transition-modal-description"
@@ -221,9 +244,7 @@ export default function News(props) {
                         color="textSecondary"
                         component="p"
                       >
-                        {
-                          card.content
-                        }
+                        {card.content}
                       </Typography>
                     </Grid>
                   </Grid>
