@@ -2,11 +2,11 @@
   "name": "dono-application",
   "version": "1.0.0",
   "description": "UW Project 3",
-  "main": "server.js",
+  "main": "./server",
   "scripts": {
     "test": "npm run lint",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
-    "start:prod": "node server.js",
+    "start:prod": "node index.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "lint": "eslint --quiet .",
@@ -36,16 +36,23 @@
     "prettier": "^1.13.7"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "axios": "^0.18.0",
     "bcryptjs": "2.4.3",
     "compression": "^1.7.4",
+    "crypto-random-string": "^3.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.0",
     "express-session": "^1.16.1",
+    "find-hashtags": "^1.0.1",
     "if-env": "^1.0.4",
     "mongoose": "^5.11.15",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "paypal-rest-sdk": "^1.8.1",
+    "socket.io": "^4.0.0",
     "uuid": "^8.3.2"
   }
 }

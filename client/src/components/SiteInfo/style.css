@@ -1,0 +1,31 @@
+a {
+	text-decoration: none !important;
+}
+
+.styleButton {
+	background: linear-gradient(-135deg, #899fd4, #a389d4);
+	color: #ffffff !important;
+}
+
+.headerColor {
+	color: #a389d4;
+	font-weight: 900 !important;
+	text-align: center;
+}
+.subtitleColor {
+	color: #899fd4;
+	font-weight: bold;
+	text-align: center;
+}
+
+.logo {
+	height: 30vh;
+	width: auto;
+}
+
+@media only screen and (max-device-width: 600px) {
+	.logo {
+		height: 20vh;
+		width: auto;
+	}
+}

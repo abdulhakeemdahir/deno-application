@@ -4,7 +4,7 @@
 }
 
 .cardPost {
-	background: rgba(255, 255, 255, 0.6);
+	background: #fff im !important;
 	border-radius: 0px;
 	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
 	padding: 10px;
@@ -16,4 +16,8 @@
 .postStyle {
 	background: #fff !important;
 	margin: 5px;
+}
+
+.MuiFilledInput-root {
+	background-color: rgba(29, 196, 233, 0.1) !important;
 }

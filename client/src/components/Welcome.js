@@ -1,6 +1,14 @@
-import { Typography, Grid, Button, ButtonGroup } from "@material-ui/core";
+import {
+	Typography,
+	Grid,
+	Button,
+	ButtonGroup,
+	ListItem,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import Logo from "../images/logo@2x.png";
+import { NavLink } from "react-router-dom";
+
+import Logo from "../images/logo@2x.png";
 
 const useStyles = makeStyles({
 	paper: {
@@ -36,13 +44,16 @@ const useStyles = makeStyles({
 		background: "linear-gradient(-135deg,#899fd4,#a389d4)",
 		color: "#ffffff",
 	},
+	linkStyle: {
+		textDecoration: "none !important",
+	},
 });
 export default function Welcome() {
 	const classes = useStyles();
 
 	return (
 		<Grid item align='center'>
-			{/* <img src={Logo} alt='logo' style={{ height: "50px", width: "auto" }} /> */}
+			<img src={Logo} alt='logo' style={{ height: "50px", width: "auto" }} />
 			<Typography variant='h3' color='primary' style={{ fontWeight: "100" }}>
 				Welcome to Dono
 			</Typography>
@@ -53,14 +64,11 @@ export default function Welcome() {
 				Please Log In, otherwise, please sign up! Otherwise you can go and
 				explore.
 			</Typography>
-			<ButtonGroup className={classes.mgstyle}>
-				{/* <Button variant='outlined' color='primary' href='/signup'>
-					Sign Up
-				</Button> */}
-				<Button variant='outlined' color='secondary' href='/main'>
-					Explore
+			<NavLink key='explore' to='/explore'>
+				<Button variant='outlined' color='secondary'>
+					<span className='linkStyle'>Explore</span>
 				</Button>
-			</ButtonGroup>
+			</NavLink>
 		</Grid>
 	);
 }
