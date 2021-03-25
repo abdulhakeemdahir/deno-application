@@ -3,10 +3,10 @@ import "./style.css";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import { Link } from "react-router-dom";
 export default function Trending(props) {
-	//console.log(props)
-	return (
-		<div className='cardTrending'>
-			{
+  //console.log(props)
+  return (
+    <div className='cardTrending'>
+      {/* {
 				props.hashTag.map((tag, index) =>(
 					<Link to={`#${props.link}`} className='textStyle' key={index}>
 						<Typography variant='body3'>
@@ -14,8 +14,7 @@ export default function Trending(props) {
 						</Typography>
 					</Link>
 				))
-			}
-			
-		</div>
-	);
+			} */}
+    </div>
+  );
 }
