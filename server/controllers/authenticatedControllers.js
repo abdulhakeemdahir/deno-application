@@ -19,7 +19,7 @@ module.exports = {
       phoneNumber,
       website,
       address
-    } = body; -A
+    } = body;
 
     const userObject = {
       firstName: firstName,
