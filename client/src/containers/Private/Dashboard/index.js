@@ -6,7 +6,7 @@ import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
+//import Box from "@material-ui/core/Box";
 
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
@@ -14,7 +14,7 @@ import News from "../../../components/Private/News";
 import Elephant from "../../../images/elephant.jpeg";
 import Dolphin from "../../../images/dolphin.jpeg";
 import Whale from "../../../images/whale.jpeg";
-import NGO from "../../../images/ngo.png";
+//import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
 import Causes from "../../../components/Private/Causes";
@@ -31,7 +31,6 @@ import {
 } from "../../../utils/actions/actions";
 
 import API from "../../../utils/api";
-import { useHistory, useParams } from "react-router";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -39,19 +38,19 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-// const useStyles = makeStyles(theme => ({}));
-
 const Dashboard = () => {
   const [userState, userDispatch] = useUserContext();
 
-  const {id} = useParams()
+  // const {id} = useParams()
 
-  const history = useHistory()
+  // const history = useHistory()
 
   useEffect(() => {
     async function fetchUserInfo() {
 
-      const userInfo = await API.getUser(id);
+      console.log(userState._id);
+
+      const userInfo = await API.getUser(userState._id);
 
       await userDispatch({ type: USER_LOADING });
       
@@ -67,148 +66,6 @@ const Dashboard = () => {
     fetchUserInfo();
   }, []);
 
-  // //Read
-  // const getUserInfo = async (id) => {
-  //   userDispatch({ type: USER_LOADING });
-  //   const userInfo = await API.getUser(id)
-  //   userDispatch({
-  //     type: GET_USER_INFO,
-  //     payload: {
-  //       ...userInfo,
-  //       loading: false
-
-  //     }
-  //   })
-  // };
-
-  // //Update
-  // const updateUserInfo = async(id) => {
-  //   userDispatch({ type: USER_LOADING });
-  //   const data = await API.updateUser(id)
-  //   userDispatch({
-  //     type: UPDATE_USER,
-  //     payload: {
-  //       ...data,
-  //       loading: false
-  //     }
-  //   })
-  // };
-
-  // //Delete user
-  // const removeUser = async (id) => {
-  //   userDispatch({ type: USER_LOADING });
-  //   await API.deleteUser(id);
-  //   userDispatch({
-  //     type: REMOVE_USER,
-  //     payload: {
-  //       users: userState.users.filter((user) => {
-  //         return user._id !== id;
-  //       }),
-  //       loading: false,
-  //     },
-  //   });
-  // };
-
-  // useEffect(() => {
-  // 	getUserInfo();
-  // }, []);
-
-  // const [aboutState] = useState([
-  // 	{
-  // 		title: "Elephant Helpers",
-  // 		name: "Abdul",
-  // 		url: "#",
-  // 		thumbnail: NGO,
-  // 		bio:
-  // 			"We need to save the Elephant! They are the humans of the Savanah! Plus, they were in the Lion King!",
-  // 		followers: "5000",
-  // 		website: "google.com",
-  // 		address: "123 45th St, Seattle, WA 98188",
-  // 		phone: "206--677-9090",
-  // 		email: "elephant@gmail.com",
-  // 	},
-  // ]);
-  const [newsState] = useState([
-    {
-      title: "Dolphins Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Dolphin,
-      post:
-        "We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
-      hashTag: "Save the Dolphins",
-      comments: [
-        {
-          author: "Jake",
-          post: "This is a test comment",
-        },
-        {
-          author: "Bobby",
-          post: "This is a test comment",
-        },
-        {
-          author: "Drake",
-          post: "This is a test comment",
-        },
-      ],
-    },
-    {
-      title: "Elephant Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Elephant,
-      post:
-        "We need to save the Elephant! They are the humans of the Sahara! Plus, they were in the Lion King!",
-      hashTag: "Save the Elephant",
-      comments: [
-        {
-          author: "Chris",
-          post: "This is a test comment",
-        },
-        {
-          author: "Sherman",
-          post: "This is a test comment",
-        },
-        {
-          author: "Drake",
-          post: "This is a test comment",
-        },
-      ],
-    },
-    {
-      title: "Whale Preservation",
-      author: "Abdul",
-      url: "#",
-      thumbnail: Whale,
-      post:
-        "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-      hashTag: "Save the Whale",
-      comments: [
-        {
-          author: "Ani",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-        },
-        {
-          author: "Stewart",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-        },
-        {
-          author: "Cassandra",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-        },
-        {
-          author: "Cassandra",
-          post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-        },
-      ],
-    },
-  ]);
-
-  // const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {

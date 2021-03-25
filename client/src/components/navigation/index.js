@@ -21,7 +21,7 @@ import {
 	useLogout,
 } from "../../utils/auth";
 import { Link, useHistory, NavLink } from "react-router-dom";
-import { useUserContext } from "../../utils/GlobalStates/UserContext";
+
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -111,13 +111,12 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Nav() {
-	const [userState, ] = useUserContext();
 
 	const navLinks = [
 		{ title: `landing`, path: `/` },
 		{ title: `explore`, path: `/explore` },
 		{ title: `newsfeed`, path: `/newsfeed` },
-		{ title: `dashboard`, path: `/dashboard/${userState._id}` },
+		{ title: `dashboard`, path: `/dashboard` },
 	];
 
 	const classes = useStyles();
@@ -188,7 +187,7 @@ export default function Nav() {
 											</ListItem>
 										</NavLink>
 										<NavLink
-											to={`/dashboard/${userState._id}`}
+											to={`/dashboard`}
 											key='dashboard'
 											className={classes.linkText}
 											activeClassName={classes.activeLink}

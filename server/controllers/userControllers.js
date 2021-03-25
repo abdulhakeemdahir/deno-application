@@ -21,6 +21,7 @@ module.exports = {
           {
             path: "posts",
             model: "Post",
+            options: { sort: { date: -1 } },
             populate: [
               {
                 path: "author",
@@ -43,6 +44,7 @@ module.exports = {
               {
                 path: "comments",
                 model: "Comment",
+                options: { sort: { date: -1 } },
                 populate: [
                   {
                     path: "user",
@@ -56,6 +58,7 @@ module.exports = {
           {
             path: "causes",
             model: "Cause",
+            options: { sort: { date: -1 } },
             populate: [
               {
                 path: "author",
