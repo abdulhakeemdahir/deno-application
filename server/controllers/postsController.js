@@ -1,10 +1,5 @@
 const { Post } = require("../models");
 
-//*CLOUD BEG
-// const cloudinary = require("../../utils/cloudinary");
-
-//*CLOUD END
-
 module.exports = {
   findFollowing: async (req, res) => {
     try {
@@ -35,7 +30,6 @@ module.exports = {
     const { title, content, imageUrl, author, hashtags } = body;
     try {
       //*CLOUD BEG
-      //Upload image to cloudinary
       //Create post body with form data and cloudinary secure_url and public_id
       const value = {
         body,
