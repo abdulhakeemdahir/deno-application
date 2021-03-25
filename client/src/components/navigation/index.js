@@ -22,7 +22,6 @@ import {
 } from "../../utils/auth";
 import { Link, useHistory, NavLink } from "react-router-dom";
 
-
 const useStyles = makeStyles(theme => ({
 	appBar: {
 		// boxShadow: "0 3.42857px 23px rgba(0, 0, 0, 0.1)",
@@ -108,10 +107,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-
-
 export default function Nav() {
-
 	const navLinks = [
 		{ title: `landing`, path: `/` },
 		{ title: `explore`, path: `/explore` },
@@ -148,10 +144,6 @@ export default function Nav() {
 								alt='logo'
 								style={{ height: "40px", width: "auto" }}
 							/>{" "}
-							{/* <AccountCircle fontSize='large' /> */}
-							{/* <Typography variant='h6' className={classes.logoText}>
-								Dono
-							</Typography> */}
 						</IconButton>
 						<div className={classes.search}>
 							<div className={classes.searchIcon}>
@@ -168,7 +160,7 @@ export default function Nav() {
 							/>
 						</div>
 						<div className={classes.grow} />
-						<Hidden smDown>
+						{/* <Hidden smDown>
 							<List
 								component='nav'
 								aria-labelledby='main navigation'
@@ -244,10 +236,10 @@ export default function Nav() {
 									</>
 								)}
 							</List>
-						</Hidden>
-						<Hidden mdUp>
-							<NavDrawer navLinks={navLinks} />
-						</Hidden>
+						</Hidden> */}
+						{/* <Hidden mdUp> */}
+						<NavDrawer navLinks={navLinks} />
+						{/* </Hidden> */}
 					</Container>
 				</Toolbar>
 			</AppBar>
