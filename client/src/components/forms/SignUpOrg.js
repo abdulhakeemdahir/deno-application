@@ -13,6 +13,7 @@ import FormOrgDetails1 from "./OrgInfo/FormOrgDetails1.js";
 import FormOrgDetails2 from "./OrgInfo/FormOrgDetails2.js";
 import FormOrgConfirm from "./OrgInfo/FormOrgConfirm.js";
 import { ThumbUp } from "@material-ui/icons";
+import { useHistory } from "react-router";
 
 import api from "../../utils/api";
 //import { useHistory } from "react-router";
@@ -166,14 +167,19 @@ export default function SignUpOrg() {
 		});
 	};
 
-	//const history = useHistory()
+	const history = useHistory();
 
 	const handleSubmit = async () => {
+		//event.preventDefault();
 		try {
 			// Register the user.
-			await api.register(setStateSignUp);
+			const { data } = await api.register(stateSignUp);
 
-			//history.go(0);
+			setStateSignUp({
+				...stateSignUp,
+				response: data,
+			});
+			history.go(0);
 
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {

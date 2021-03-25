@@ -45,11 +45,8 @@ export default function FormUserDetails1(props) {
 	return (
 		<>
 			<TextField
-				error={values.firstNameError}
-				helperText={values.firstNameError}
 				name='firstName'
 				value={values.firstName}
-				onBlur={validate}
 				onChange={handleChange}
 				variant='outlined'
 				label='First Name'
@@ -58,11 +55,8 @@ export default function FormUserDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
-				error={values.lastnameError}
-				helperText={values.lastnameError}
 				name='lastname'
 				value={values.lastname}
-				onBlur={validate}
 				onChange={handleChange}
 				variant='outlined'
 				label='Last Name'
