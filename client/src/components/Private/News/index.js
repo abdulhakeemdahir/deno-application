@@ -147,9 +147,11 @@ export default function News(props) {
             </Typography>
           </Grid>
           <Grid item xs={3} sm={2}>
-            <Button className="editButton" onClick={handleOpen}>
-              <Edit /> Edit
-            </Button>
+            {props.check ? null : (
+              <Button className="editButton" onClick={handleOpen}>
+                <Edit /> Edit
+              </Button>
+            )}
             <Dialog
               aria-labelledby="transition-modal-title"
               aria-describedby="transition-modal-description"
@@ -242,9 +244,7 @@ export default function News(props) {
                         color="textSecondary"
                         component="p"
                       >
-                        {
-                          card.content
-                        }
+                        {card.content}
                       </Typography>
                     </Grid>
                   </Grid>
