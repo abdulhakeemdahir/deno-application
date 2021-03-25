@@ -1,4 +1,5 @@
 const { Post } = require("../models");
+// const cloudinary = require("../../utils/cloudinary")
 
 module.exports = {
   findFollowing: async (req, res) => {
