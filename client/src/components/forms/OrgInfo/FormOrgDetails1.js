@@ -45,6 +45,9 @@ export default function FormOrgDetails1(props) {
 	return (
 		<>
 			<TextField
+				error={values.firstNameError}
+				helperText={values.firstNameError}
+				onBlur={validate}
 				name='firstName'
 				value={values.firstName}
 				onChange={handleChange}
@@ -55,6 +58,9 @@ export default function FormOrgDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.lastnameError}
+				helperText={values.lastnameError}
+				onBlur={validate}
 				name='lastname'
 				value={values.lastname}
 				onChange={handleChange}
@@ -65,6 +71,9 @@ export default function FormOrgDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.orgnameError}
+				helperText={values.orgnameError}
+				onBlur={validate}
 				name='orgname'
 				value={values.orgname}
 				onChange={handleChange}

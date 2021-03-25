@@ -137,9 +137,9 @@ export default function SignUpOrg() {
 		console.log(name);
 		let isError = false;
 		const errors = {};
-		if (value.length < 6) {
+		if (value.length < 1) {
 			isError = true;
-			errors[`${name}Error`] = "Needs to be more than 6 characters";
+			errors[`${name}Error`] = "Input cannot be empty";
 		}
 		console.log(value.length);
 		if (isError) {
@@ -148,7 +148,7 @@ export default function SignUpOrg() {
 				...errors,
 			});
 		}
-		if (value.length >= 6) {
+		if (value.length >= 1) {
 			errors[`${name}Error`] = "";
 			setStateSignUp({
 				...stateSignUp,
