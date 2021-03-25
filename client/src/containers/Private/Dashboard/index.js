@@ -17,6 +17,10 @@ import Gradient from "../../../components/Gradient";
 import Causes from "../../../components/Private/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
+
+//Cloudinary
+import { Image } from 'cloudinary-react';
+
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 // import Splash from "../../components/Splash2";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
