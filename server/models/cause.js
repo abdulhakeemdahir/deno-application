@@ -8,6 +8,11 @@ const causeSchema = new Schema({
     required: true,
     ref: "Users"
   },
+  imageUrl: {
+    type: String,
+    trim: true,
+    required: false
+  },
   content: {
     type: String,
     trim: true,
