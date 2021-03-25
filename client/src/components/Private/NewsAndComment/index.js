@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Typography,
 	Grid,
@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
-import { Favorite } from "@material-ui/icons";
+import { CompassCalibrationOutlined, Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
@@ -110,6 +110,8 @@ export default function NewsAndComment(props) {
 
 			const postInfo = await api.getAllPost();
 
+      console.log(postInfo)
+
 			await postDispatch({ type: POST_LOADING });
 
 			await postDispatch({
@@ -132,10 +134,25 @@ export default function NewsAndComment(props) {
 	};
 
 	const [like, setLike] = React.useState(false);
-	const handleLike = () => {
-		setLike(!like);
-		console.log(like);
+
+	const handleLike = async (id) =>{
+    setLike(!like)
+
+    // const { data } = await api.findLikePost(id, userState._id);
+    // console.log(data)
+    // if (data) {
+    //   console.log("still working on it");
+    //   return false;
+
+    // }else if (!data) {
+
+    await api.updatePost(id, { likes: userState._id });
+    //   return true
+
+    // }
+  
 	};
+
 	return (
     <>
       <Grid item className="card" xs={12}>
@@ -146,8 +163,14 @@ export default function NewsAndComment(props) {
             </Typography>
           </Grid>
           <Grid item xs={3} sm={1}>
-            <Button className="editButton" onClick={handleLike}>
-              <>{like === true ? <Favorite /> : <FavoriteBorderIcon />}</>
+            <Button className="editButton" onClick={() => handleLike(props.id)}>
+              <>
+                {props.liked.find((l) => l._id === userState._id) && !like ? (
+                  <Favorite />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </>
             </Button>
           </Grid>
         </Grid>

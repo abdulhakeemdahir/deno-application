@@ -6,9 +6,9 @@ router
   .get(postController.getAllPost)
   .post(postController.create);
 
-router.route("/following").get(postController.findFollowing);
+router.route("/likes/:id:user").put(postController.addLike);
 
-router.route("/trending").get(postController.findTrending);
+router.route("/findliked/:id/:user").get(postController.findLiked);
 
 router
   .route("/:id")
