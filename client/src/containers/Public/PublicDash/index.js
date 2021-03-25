@@ -44,14 +44,11 @@ const PublicDash = () => {
   useEffect(() => {
     async function fetchUserInfo() {
 
-      console.log(id);
-
       const userInfo = await API.getUser(id);
 
       if(!userInfo){
           history.push("/404")
       }
-      console.log(userInfo);
 
       await guessDispatch({ type: USER_GUESS_LOADING, });
 
