@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Typography,
   Grid,
@@ -36,25 +36,52 @@ TabPanel.propTypes = {
 const Chatroom = () => {
   const socket = useSocket();
   const [value, setValue] = useState(0);
-  const [convos, setConvo] = useState([
-    {
-      name: "pod",
-      participants: ["taani", "pod-1"],
-      message: "Attack on Titan > everything"
-    }
-  ]);
+  const [convos, setConvos] = useState([]);
+  const [currentConvo, setCurrentConvo] = useState({});
   const [chat, setChat] = useState({});
   const [userState] = useUserContext();
+  const [loading, setLoading] = useState(false);
   const userId = userState._id;
-  console.log(userState);
 
   useEffect(() => {
+    if (!socket) return;
+    if (convos.length) return;
+
+    setLoading(true);
     socket.emit("chatroom", userId);
     socket.on("get-convos", conversations => {
-      console.log(conversations);
-      setConvo([...conversations]);
+      setConvos([...conversations]);
+
+      setChat([{ ...conversations[conversations.length - 1] }], () => {
+        setLoading(false);
+      });
     });
-  }, [socket]);
+  }, []);
+
+  // const addMessageToConvo = useCallback(
+  //   message => {
+  //     console.log(message);
+  //     setChat(prevChat => {
+  //       let madeChange = false;
+  //       const newChat = prevChat.map(update => {
+  //         madeChange = true;
+  //         return {
+  //           ...update,
+  //           messages: [...update.messages, message]
+  //         };
+  //       });
+
+  //       console.log(newChat);
+
+  //       if (madeChange) return newChat;
+
+  //       return [...prevChat];
+  //     });
+  //   },
+  //   [setChat]
+  // );
+
+  // NEXT STEP IS TO GET THE MESSAGES UPDATED IN REALTIME!
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -63,21 +90,11 @@ const Chatroom = () => {
   const toggleChat = roomName => {
     socket.emit("join:room", roomName);
     socket.on("get-convo", conversation => {
-      const mapped = conversation.messages.map(message => message.content);
-
-      setChat({
-        ...conversation,
-        messages: mapped
-      });
+      setChat([conversation]);
     });
   };
 
-  const sendMessage = payload => {
-    socket.emit("send-message", payload);
-    socket.on("update-chat", conversation => {
-      setChat({ messages: [...conversation.messages] });
-    });
-  };
+  const sendMessage = payload => socket.emit("send-message", payload);
 
   const createConvo = ({ username, _id }) => {
     const payload = {
@@ -87,6 +104,17 @@ const Chatroom = () => {
 
     socket.emit("create:room", payload);
   };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("update-chat", async conversation => {
+      setChat([conversation]);
+      console.log(chat);
+    });
+
+    return () => socket.off("update-chat");
+  }, []);
 
   const { width } = useWindowDimensions();
   return (
@@ -118,6 +146,7 @@ const Chatroom = () => {
                   <Typography variant='subtitle2'>Messenger</Typography>
                   <ChatContainer
                     chat={chat}
+                    currentConvo={currentConvo}
                     sendMessage={sendMessage}
                     userId={userId}
                   />
@@ -147,6 +176,7 @@ const Chatroom = () => {
                 <Grid item xs={12}>
                   <ChatContainer
                     chat={chat}
+                    currentConvo={currentConvo}
                     sendMessage={sendMessage}
                     userId={userId}
                   />

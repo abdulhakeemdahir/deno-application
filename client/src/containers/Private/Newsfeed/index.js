@@ -45,7 +45,6 @@ const Newsfeed = () => {
   const [postState, postDispatch] = usePostContext();
   const [trendingStates, trendingDispatch] = useTrendingContext();
   const socket = useSocket();
-  const [state] = useStoreContext();
 
   const [userState, userDispatch] = useUserContext();
 
@@ -53,7 +52,6 @@ const Newsfeed = () => {
     async function fetchUserInfo() {
       await userDispatch({ type: USER_LOADING });
       const userInfo = await API.getUser(userState._id);
-      console.log(userInfo);
       await userDispatch({
         type: UPDATE_USER,
         payload: {
@@ -103,7 +101,7 @@ const Newsfeed = () => {
 
     if (!socket) return;
 
-    socket.emit("join:server", state.userAuth.user.username);
+    socket.emit("join:server", userState.username);
   }, []);
 
   const [trendingState] = useState([

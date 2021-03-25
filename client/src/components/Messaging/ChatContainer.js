@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Button,
   FormControl,
@@ -10,6 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSocket } from "../../utils/GlobalStates/SocketProvider";
 
 const useStyles = makeStyles(theme => ({
   styleMain: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ChatContainer({ chat, sendMessage, userId }) {
+const ChatContainer = ({ chat, currentConvo, sendMessage, userId }) => {
   const classes = useStyles();
 
   const [content, setContent] = useState("");
@@ -35,14 +36,14 @@ export default function ChatContainer({ chat, sendMessage, userId }) {
   const textRef = useRef();
 
   const sendMessageToServer = () => {
-    const filterPart = chat.participants.filter(
+    const filterPart = chat[0].participants.filter(
       participant => participant !== userId
     );
 
     const payload = {
       content,
       to: filterPart,
-      parentId: chat._id,
+      parentId: chat[0]._id,
       sender: userId,
       isPost: false
     };
@@ -58,11 +59,16 @@ export default function ChatContainer({ chat, sendMessage, userId }) {
     <>
       <Grid container className={classes.chatContainer}>
         <List>
-          {chat.messages?.length ? (
-            chat.messages.map(message => {
+          {chat[0]?.messages?.length ? (
+            chat[0].messages?.map(message => {
               return (
                 <ListItem>
-                  <Typography>{message}</Typography>
+                  <List>
+                    <ListItem>
+                      <Typography>{message.content}</Typography>
+                    </ListItem>
+                    <ListItem>{message.sender.username}</ListItem>
+                  </List>
                 </ListItem>
               );
             })
@@ -97,4 +103,6 @@ export default function ChatContainer({ chat, sendMessage, userId }) {
       </Grid>
     </>
   );
-}
+};
+
+export default ChatContainer;

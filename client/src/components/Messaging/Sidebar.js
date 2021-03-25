@@ -53,7 +53,6 @@ export default function Sidebar({ convos, toggleChat, createConvo }) {
         <List>
           {convos?.length > 0 ? (
             convos.map(convo => {
-              console.log(convo);
               return (
                 <Button
                   onClick={() => toggleChat(convo.name)}

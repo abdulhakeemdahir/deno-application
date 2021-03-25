@@ -55,7 +55,6 @@ io.on("connection", socket => {
   });
 
   socket.on("chatroom", async userId => {
-    console.log(userId);
     const conversations = await Conversation.find({
       participants: userId
     }).populate([
@@ -66,11 +65,17 @@ io.on("connection", socket => {
       },
       {
         path: "messages",
-        model: "Message"
+        select: "sender content createdAt",
+        model: "Message",
+        populate: [
+          {
+            path: "sender",
+            select: "username",
+            model: "User"
+          }
+        ]
       }
     ]);
-
-    console.log(conversations);
 
     socket.emit("get-convos", conversations);
   });
@@ -78,8 +83,21 @@ io.on("connection", socket => {
   socket.on("join:room", async name => {
     const conversation = await Conversation.findOne({ name }).populate([
       {
+        path: "participants",
+        select: "username",
+        model: "User"
+      },
+      {
         path: "messages",
-        model: "Message"
+        select: "sender content createdAt",
+        model: "Message",
+        populate: [
+          {
+            path: "sender",
+            select: "username",
+            model: "User"
+          }
+        ]
       }
     ]);
 
@@ -103,11 +121,21 @@ io.on("connection", socket => {
     socket.join(name);
   });
 
+  socket.on("get-messages", async name => {
+    const conversation = await Conversation.findOne({ name }).populate([
+      {
+        path: "messages",
+        model: "Message"
+      }
+    ]);
+
+    socket.emit("set-messages", conversation);
+  });
+
   socket.on(
     "send-message",
     async ({ content, to, parentId, sender, isPost }) => {
       if (!isPost) {
-        console.log("is not a post");
         const response = await Message.create({
           sender,
           content
@@ -116,8 +144,7 @@ io.on("connection", socket => {
           { _id: parentId },
           { $push: { messages: [{ _id: response.id }] } }
         );
-        console.log(response);
-        socket.to(to).emit("update-chat", response);
+        socket.emit("update-chat", response);
         return;
       }
 
