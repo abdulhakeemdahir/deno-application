@@ -168,7 +168,7 @@ module.exports = {
       const foundUser = await User.findByIdAndUpdate(
         req.params.id,
         {
-          $push: updateUser
+          updateUser
         },
 
         { new: true, runValidators: true }
