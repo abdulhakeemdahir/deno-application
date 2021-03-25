@@ -62,6 +62,9 @@ class API {
   }
 
   //-----------------------user api-------------------------//
+  async getAllUsers() {
+    return this.axios.get(`/api/users`);
+  }
   updateUser(id, data) {
     return this.axios.put(`/api/users/${id}`, data);
   }

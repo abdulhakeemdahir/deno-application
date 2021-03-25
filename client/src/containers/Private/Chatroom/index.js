@@ -1,10 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
+import {
+  Typography,
+  Grid,
+  CssBaseline,
+  Button,
+  Modal,
+  TextField
+} from "@material-ui/core";
 import "./style.css";
 
 import PropTypes from "prop-types";
+
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import AddIcon from "@material-ui/icons/Add";
 
 import Nav from "../../../components/Navigation";
 
@@ -25,8 +34,6 @@ TabPanel.propTypes = {
 };
 
 const Chatroom = () => {
-  const toggleRef = useRef();
-
   const socket = useSocket();
   const [value, setValue] = useState(0);
   const [convos, setConvo] = useState([
@@ -39,13 +46,15 @@ const Chatroom = () => {
   const [chat, setChat] = useState({});
   const [userState] = useUserContext();
   const userId = userState._id;
+  console.log(userState);
 
   useEffect(() => {
-    console.log("hello");
-    api.getLatestConvo(userId).then(res => {
-      console.log(res);
+    socket.emit("chatroom", userId);
+    socket.on("get-convos", conversations => {
+      console.log(conversations);
+      setConvo([...conversations]);
     });
-  }, []);
+  }, [socket]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -55,7 +64,7 @@ const Chatroom = () => {
     socket.emit("join:room", roomName);
     socket.on("get-convo", conversation => {
       const mapped = conversation.messages.map(message => message.content);
-      console.log(conversation);
+
       setChat({
         ...conversation,
         messages: mapped
@@ -68,6 +77,15 @@ const Chatroom = () => {
     socket.on("update-chat", conversation => {
       setChat({ messages: [...conversation.messages] });
     });
+  };
+
+  const createConvo = ({ username, _id }) => {
+    const payload = {
+      name: `${userState.username}:${username}`,
+      participants: [userId, _id]
+    };
+
+    socket.emit("create:room", payload);
   };
 
   const { width } = useWindowDimensions();
@@ -93,7 +111,7 @@ const Chatroom = () => {
                   <Sidebar
                     toggleChat={toggleChat}
                     convos={convos}
-                    toggleRef={toggleRef}
+                    createConvo={createConvo}
                   />
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
@@ -121,7 +139,7 @@ const Chatroom = () => {
                   <Sidebar
                     toggleChat={toggleChat}
                     convos={convos}
-                    toggleRef={toggleRef}
+                    createConvo={createConvo}
                   />
                 </Grid>
               </TabPanel>

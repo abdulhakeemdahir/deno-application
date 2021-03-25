@@ -28,7 +28,7 @@ import {
   GET_USER_INFO,
   REMOVE_USER,
   UPDATE_USER,
-  USER_LOADING,
+  USER_LOADING
   //What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
@@ -37,31 +37,13 @@ import API from "../../../utils/api";
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 
 // const useStyles = makeStyles(theme => ({}));
 
 const Dashboard = () => {
-  const [userState, userDispatch] = useUserContext();
-
-  useEffect(() => {
-    async function fetchUserInfo() {
-      await userDispatch({ type: USER_LOADING });
-      const userInfo = await API.getUser(userState._id);
-      console.log(userInfo)
-      await userDispatch({
-        type: UPDATE_USER,
-        payload: {
-          ...userInfo.data,
-          loading: false,
-        },
-      });
-    }
-
-    fetchUserInfo();
-  }, []);
-
+  const [userState] = useUserContext();
   // //Read
   // const getUserInfo = async (id) => {
   //   userDispatch({ type: USER_LOADING });
@@ -135,17 +117,17 @@ const Dashboard = () => {
       comments: [
         {
           author: "Jake",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Bobby",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Drake",
-          post: "This is a test comment",
-        },
-      ],
+          post: "This is a test comment"
+        }
+      ]
     },
     {
       title: "Elephant Preservation",
@@ -158,17 +140,17 @@ const Dashboard = () => {
       comments: [
         {
           author: "Chris",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Sherman",
-          post: "This is a test comment",
+          post: "This is a test comment"
         },
         {
           author: "Drake",
-          post: "This is a test comment",
-        },
-      ],
+          post: "This is a test comment"
+        }
+      ]
     },
     {
       title: "Whale Preservation",
@@ -182,25 +164,25 @@ const Dashboard = () => {
         {
           author: "Ani",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
         },
         {
           author: "Stewart",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
         },
         {
           author: "Cassandra",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
         },
         {
           author: "Cassandra",
           post:
-            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!",
-        },
-      ],
-    },
+            "We need to save the Whale! They are the humans of space! Plus, they were on Space Whales!"
+        }
+      ]
+    }
   ]);
 
   // const classes = useStyles();
@@ -212,13 +194,13 @@ const Dashboard = () => {
 
   const { width } = useWindowDimensions();
   return (
-    <div className="Main">
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={"container"}
           xs={12}
           lg={10}
@@ -227,8 +209,8 @@ const Dashboard = () => {
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">ABOUT</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>ABOUT</Typography>
                   <About
                     key={userState._id}
                     id={userState._id}
@@ -247,9 +229,9 @@ const Dashboard = () => {
                     bannerImg={userState.bannerImg}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  {userState.posts.map((card) => (
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  {userState.posts.map(card => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -263,33 +245,37 @@ const Dashboard = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
-                  {userState.causes.map((card) => (
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
+                  {userState.causes.map(card => (
                     <Causes
-                        key={card._id}
-                        id={card._id}
-                        title={card.title}
-                        author={card.author.firstName}
-                        link={card.url}
-                        image={card.imageUrl}
-                        post={card.content}
-                        hashTag={card.hashtag}
-                      />
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      author={card.author.firstName}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtag}
+                    />
                   ))}
                 </Grid>
               </Grid>
             </>
           ) : (
             <>
-              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="About" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label='simple tabs example'
+              >
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='About' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  {userState.posts.map((card) => (
+                  {userState.posts.map(card => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -327,17 +313,17 @@ const Dashboard = () => {
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {userState.causes.map((card) => (
+                  {userState.causes.map(card => (
                     <Causes
-                        key={card._id}
-                        id={card._id}
-                        title={card.title}
-                        author={card.author.firstName}
-                        link={card.url}
-                        image={card.imageUrl}
-                        post={card.content}
-                        hashTag={card.hashtag}
-                      />
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      author={card.author.firstName}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtag}
+                    />
                   ))}
                 </Grid>
               </TabPanel>

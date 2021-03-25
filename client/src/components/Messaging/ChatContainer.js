@@ -34,8 +34,6 @@ export default function ChatContainer({ chat, sendMessage, userId }) {
 
   const textRef = useRef();
 
-  console.log(chat.participants);
-
   const sendMessageToServer = () => {
     const filterPart = chat.participants.filter(
       participant => participant !== userId

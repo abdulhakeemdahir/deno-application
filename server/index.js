@@ -54,6 +54,27 @@ io.on("connection", socket => {
     user.socketId = socket.id;
   });
 
+  socket.on("chatroom", async userId => {
+    console.log(userId);
+    const conversations = await Conversation.find({
+      participants: userId
+    }).populate([
+      {
+        path: "participants",
+        select: "username",
+        model: "User"
+      },
+      {
+        path: "messages",
+        model: "Message"
+      }
+    ]);
+
+    console.log(conversations);
+
+    socket.emit("get-convos", conversations);
+  });
+
   socket.on("join:room", async name => {
     const conversation = await Conversation.findOne({ name }).populate([
       {
@@ -67,14 +88,19 @@ io.on("connection", socket => {
     socket.emit("get-convo", conversation);
   });
 
-  socket.on("create:room", async (roomName, participants) => {
+  socket.on("create:room", async ({ name, participants }) => {
+    const search = await Conversation.findOne({ name });
+
+    // eslint-disable-next-line curly
+    if (search) return console.log("Convo already made.");
+
     const newConvo = await Conversation.create({
-      name: roomName,
+      name,
       participants
     });
     console.log("newConvo", newConvo);
-    socket.to(roomName).emit("get-messages", newConvo);
-    socket.join(roomName);
+    socket.to(name).emit("get-messages", newConvo);
+    socket.join(name);
   });
 
   socket.on(
