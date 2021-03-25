@@ -156,4 +156,7 @@ class API {
   }
 }
 
+//-----------------------image api-------------------------//
+
+
 export default new API();

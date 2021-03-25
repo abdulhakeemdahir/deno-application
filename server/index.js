@@ -8,6 +8,9 @@ const { User, Conversation } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
+// Cloudinary
+// const { cloudinary } = require("../utils/cloudinary");
+
 // Create server
 const app = express();
 const server = require("http").createServer(app);

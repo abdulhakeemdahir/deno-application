@@ -1,13 +1,14 @@
 import React from "react";
+import { Image } from "cloudinary-react";
 import {
-	Typography,
-	Grid,
-	CardMedia,
-	Divider,
-	CardContent,
-	Button,
-	ButtonGroup,
-	Dialog,
+  Typography,
+  Grid,
+  CardMedia,
+  Divider,
+  CardContent,
+  Button,
+  ButtonGroup,
+  Dialog,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -18,27 +19,27 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import "./style.css";
 import UpdateUser from "../Forms/UpdateUser/UpdateUser";
 
-const useStyles = makeStyles(theme => ({
-	modal: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		borderRadius: "0px !important",
-	},
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "0px !important",
+  },
 }));
 
 export default function About(props) {
-	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-	return (
+  const handleClose = () => {
+    setOpen(false);
+  };
+  return (
     <Grid item className="card">
       <Grid container className="headerContainer">
         <Grid item xs={9}>
@@ -71,6 +72,12 @@ export default function About(props) {
         </Grid>
       </Grid>
       {/* <Divider /> */}
+      <Image
+        cloudName={"astralgnome"}
+        publicId={props.profileImg}
+        width="300"
+        crop="scale"
+      />
       <CardMedia className="media" image={props.image} />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12} sm={12}>
@@ -94,68 +101,34 @@ export default function About(props) {
           <Divider />
           {props.role === "Organization" ? (
             <CardContent>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
                 <span className="authorStyle"> Website:</span> {props.website}
               </Typography>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
                 <span className="authorStyle"> Address:</span> {props.address}
               </Typography>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
                 <span className="authorStyle"> Phone:</span> {props.phone}
               </Typography>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
                 <span className="authorStyle"> E-mail:</span> {props.email}
               </Typography>
             </CardContent>
           ) : (
             <CardContent>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
-                <span className="authorStyle"> Name </span>{" "}
-                {`${props.firstName} ${props.lastname}`}
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
+                <span className="authorStyle"> Name </span> {`${props.firstName} ${props.lastname}`}
               </Typography>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
                 <span className="authorStyle"> Username:</span> {props.username}
               </Typography>
-              <Typography
-                className="borderStyle"
-                variant="body2"
-                color="textSecondary"
-              >
+              <Typography className="borderStyle" variant="body2" color="textSecondary">
                 <span className="authorStyle"> E-mail:</span> {props.email}
               </Typography>
             </CardContent>
           )}
 
-          <Button
-            size="large"
-            className="analyticsButton"
-            fullWidth
-            href="/analytics"
-          >
+          <Button size="large" className="analyticsButton" fullWidth href="/analytics">
             <EqualizerIcon /> Analytics
           </Button>
         </Grid>
