@@ -61,9 +61,6 @@ export default function UpdateUser() {
     uploadImage(previewSource);
     
     try {
-      // Register the user.
-      // await api.register(setStateSignUp);
-      
       // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
     } catch (err) {
       // Handle error responses from the API. This will include
@@ -73,11 +70,9 @@ export default function UpdateUser() {
   
   //*Associated with cloudinary
   const uploadImage = async (base64EncodedImage) => {
-    
 
     const updateUser = await api.updateUser(userState._id, ({profileImg: base64EncodedImage}))
       console.log(updateUser)
-
   }
   
   const classes = useStyles();
