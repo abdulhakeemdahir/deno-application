@@ -96,6 +96,29 @@ const organizationSchema = new Schema({
     type: String,
     required: false,
     trim: true
+  },
+  phoneNumber: {
+    type: String,
+    trim: true,
+    match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g
+  },
+  website: mongoose.SchemaTypes.Url,
+  address: {
+    street: {
+      type: String,
+      aptNo: {
+        type: String,
+        required: false
+      }
+    },
+    city: String,
+    state: String,
+    zipCode: Number,
+    country: String
+  },
+  authenticated: {
+    type: Boolean,
+    default: false
   }
 });
 
