@@ -11,13 +11,11 @@ import { useAuthTokenStore } from "./utils/auth.js";
 import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
 // import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
-import { useStoreContext } from "./utils/GlobalStates/AuthStore";
 import Chatroom from "./containers/Private/Chatroom";
 import SinglePost from "./containers/SinglePost";
 import Analytics from "./containers/Private/Analytics";
 import ErrorPage from "./containers/Public/ErrorPage";
 import { TrendingProvider } from "./utils/GlobalStates/TrendingContext";
-import GuestRoute from "./components/GuestRoute";
 //import GuestRoute from "./components/GuestRoute.js"
 
 const theme = createMuiTheme({
@@ -56,7 +54,7 @@ function App() {
 
                     <PrivateRoute
                       exact
-                      path="/dashboard/:id"
+                      path="/dashboard"
                       redirectTo="/"
                       component={Dashboard}
                     />

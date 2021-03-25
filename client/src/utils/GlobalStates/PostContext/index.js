@@ -19,7 +19,7 @@ const PostProvider = ({ value = [], ...props }) => {
       date: "",
       imageUrl: "",
       likes: [],
-      hashtag: "",
+      hashtags: [],
       comments: [],
     },
 

@@ -21,6 +21,7 @@ module.exports = {
           {
             path: "posts",
             model: "Post",
+            options: { sort: { date: -1 } },
             populate: [
               {
                 path: "author",
@@ -43,6 +44,7 @@ module.exports = {
               {
                 path: "comments",
                 model: "Comment",
+                options: { sort: { date: -1 } },
                 populate: [
                   {
                     path: "user",
@@ -56,6 +58,7 @@ module.exports = {
           {
             path: "causes",
             model: "Cause",
+            options: { sort: { date: -1 } },
             populate: [
               {
                 path: "author",
@@ -114,7 +117,11 @@ module.exports = {
         causes,
         profileImg,
         bannerImg,
-        bio
+        bio,
+        orgName,
+        phoneNumber,
+        address,
+        website
       } = req.body;
       const updateUser = {};
       if (firstName) {
@@ -147,7 +154,18 @@ module.exports = {
       if (bannerImg) {
         updateUser.bannerImg = bannerImg;
       }
-
+      if (orgName) {
+        updateUser.orgName = orgName;
+      }
+      if (phoneNumber) {
+        updateUser.phoneNumber = phoneNumber;
+      }
+      if (website) {
+        updateUser.website = website;
+      }
+      if (address) {
+        updateUser.address = address;
+      }
       const foundUser = await User.findByIdAndUpdate(
         req.params.id,
         {
