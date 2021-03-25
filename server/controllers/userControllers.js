@@ -33,12 +33,8 @@ module.exports = {
               },
               {
                 path: "likes",
-                model: "User",
-                populate: {
-                  path: "user",
-                  select: "firstName",
-                  model: "User"
-                }
+                select: "firstName",
+                model: "User"
               },
               {
                 path: "hashtags",
@@ -70,12 +66,8 @@ module.exports = {
               },
               {
                 path: "likes",
-                model: "User",
-                populate: {
-                  path: "user",
-                  select: "firstName",
-                  model: "User"
-                }
+                select: "firstName",
+                model: "User"
               }
             ]
           }

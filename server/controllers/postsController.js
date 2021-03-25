@@ -100,12 +100,8 @@ module.exports = {
           },
           {
             path: "likes",
-            model: "User",
-            populate: {
-              path: "user",
-              select: "firstName",
-              model: "User"
-            }
+            select: "firstName",
+            model: "User"
           },
           {
             path: "comments",
@@ -120,6 +116,39 @@ module.exports = {
         ])
         .exec();
       res.status(200).json(allPost);
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
+    }
+  },
+  addLike: async (req, res) => {
+    try {
+      const isPost = await Post.findOne({ _id: req.params.id }).handleLike(
+        req.params.user
+      );
+
+      res.status(200).json(isPost);
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
+    }
+  },
+  findLiked: async (req, res) => {
+    console.log(req.params);
+    try {
+      const findPost = await Post.findById(req.params.id)
+        .select("likes")
+        .exec();
+
+      const found = findPost.likes.find(
+        element => element.toString() === req.params.user.toString()
+      );
+
+      if (found) {
+        return res.status(200).json(true);
+      }
+
+      return res.status(200).json(false);
     } catch (err) {
       console.log(err);
       res.status(422).json(err);

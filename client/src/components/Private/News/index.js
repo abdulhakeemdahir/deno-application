@@ -112,8 +112,6 @@ export default function News(props) {
         },
       });
 
-      console.log("guessState._id");
-
       if (guessState._id) {
         const guessInfo = await api.getUser(guessState._id);
 
