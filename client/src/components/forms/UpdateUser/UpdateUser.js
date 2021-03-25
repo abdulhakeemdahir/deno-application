@@ -62,7 +62,7 @@ export default function UpdateUser() {
     
     try {
       // Register the user.
-      await api.register(setStateSignUp);
+      // await api.register(setStateSignUp);
       
       // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
     } catch (err) {
@@ -74,18 +74,9 @@ export default function UpdateUser() {
   //*Associated with cloudinary
   const uploadImage = async (base64EncodedImage) => {
     
-    const updateUser = await api.updateUser(userState._id)
 
-    try {
-      const image = await fetch("/api/upload", {
-        method: "POST",
-        body: JSON.stringify({data: base64EncodedImage}),
-        headers: {"Content-type": "application/json"}
-      })
-      console.log(image)
-    } catch (error) {
-      console.error(error);
-    }
+    const updateUser = await api.updateUser(userState._id, ({profileImg: base64EncodedImage}))
+      console.log(updateUser)
 
   }
   

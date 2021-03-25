@@ -1,5 +1,8 @@
 const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
+
+const cloudinary = require("../../utils/cloudinary");
+
 module.exports = {
   getUser: async (req, res) => {
     try {
@@ -149,7 +152,14 @@ module.exports = {
         updateUser.causes = causes;
       }
       if (profileImg) {
-        updateUser.profileImg = profileImg;
+        const result = await cloudinary.uploader.upload_large(profileImg, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        console.log("THIS IS A RESPONSE&&&&%%%%%%%%%%%%%%%%%%%%%&&&&", result);
+
+        return res.json("THIS IS A RESPONSE&&&&%%%%%%%%%%%%%%%%%%%%%&&&&");
+        // updateUser.profileImg = profileImg;
       }
       if (bannerImg) {
         updateUser.bannerImg = bannerImg;

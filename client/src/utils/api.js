@@ -135,7 +135,6 @@ class API {
 
   //-----------------------hashtags api-------------------------//
   getHashtagAll() {
-  
     return this.axios.get(`/api/hashtags/`);
   }
   getHashtagPost(data) {
@@ -157,5 +156,8 @@ class API {
     return this.axios.delete(`/api/hashtags/${_id}`);
   }
 }
+
+//-----------------------image api-------------------------//
+
 
 export default new API();

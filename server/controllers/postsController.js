@@ -1,8 +1,7 @@
 const { Post } = require("../models");
 
 //*CLOUD BEG
-
-const cloudinary = require("../../utils/cloudinary");
+// const cloudinary = require("../../utils/cloudinary");
 
 //*CLOUD END
 
@@ -37,7 +36,6 @@ module.exports = {
     try {
       //*CLOUD BEG
       //Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
       //Create post body with form data and cloudinary secure_url and public_id
       const value = {
         body,
