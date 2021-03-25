@@ -74,7 +74,6 @@ class API {
   findIfUserLikesCause(id, causeId) {
     return this.axios.get(`/api/users/liked/${id}/${causeId}`);
   }
-  
 
   //-----------------------causes api-------------------------//
   getUsersCauses(_id) {
@@ -103,17 +102,17 @@ class API {
   getAllPost() {
     return this.axios.get(`/api/posts/`);
   }
-  findFollowing(data) {
-    return this.axios.get(`/api/posts/following/`, data);
-  }
-  findTrending(data) {
-    return this.axios.get(`/api/posts/trending/`, data);
+  async findLikePost(id, user) {
+    return this.axios.get(`/api/posts/findliked/${id}/${user}`);
   }
   createPost(data) {
     return this.axios.post(`/api/posts/`, data);
   }
   updatePost(id, data) {
     return this.axios.put(`/api/posts/${id}`, data);
+  }
+  addLikePost(id, user) {
+    return this.axios.put(`/api/posts/likes/${id}`);
   }
   removePost(id) {
     return this.axios.delete(`/api/posts/${id}`);
@@ -135,7 +134,6 @@ class API {
 
   //-----------------------hashtags api-------------------------//
   getHashtagAll() {
-  
     return this.axios.get(`/api/hashtags/`);
   }
   getHashtagPost(data) {

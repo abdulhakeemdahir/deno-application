@@ -28,6 +28,7 @@ import {
 import API from "../../../utils/api";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -39,6 +40,7 @@ const Newsfeed = () => {
 	const [causeState, causeDispatch] = useCauseContext();
 	const [postState, postDispatch] = usePostContext();
 	const [trendingStates, trendingDispatch] = useTrendingContext();
+  const [userState] = useUserContext();
 	const socket = useSocket();
 	const [state] = useStoreContext();
 
@@ -78,7 +80,6 @@ const Newsfeed = () => {
           loading: false,
         },
       });
-	  
     }
     fetchAllPostsAndCauses();
 
@@ -136,6 +137,7 @@ const Newsfeed = () => {
                         post={card.content}
                         hashTag={card.hashtags}
                         comments={card.comments}
+                        liked={card.likes}
                       />
                     );
                   })}
@@ -185,6 +187,7 @@ const Newsfeed = () => {
                         post={card.content}
                         hashTag={card.hashtag}
                         comments={card.comments}
+                        liked={card.likes}
                       />
                     );
                   })}
