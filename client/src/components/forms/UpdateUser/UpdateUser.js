@@ -36,26 +36,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function UpdateUser() {
   const [userState] = useUserContext();
-  const [stateSignUp, setStateSignUp] = useState({
-    email: "",
-    password: "",
-    username: "",
+  const [stateUpdate, setStateUpdate] = useState({
     firstName: "",
     lastname: "",
-    role: "",
   });
 
   const handleChange = function(event) {
     const { name, value } = event.target;
-    setStateSignUp({
-      ...stateSignUp,
+    setStateUpdate({
+      ...stateUpdate,
       [name]: value,
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
+    if (
+      stateUpdate.firstName === "" ||
+      stateUpdate.lastname === ""
+    ) {
+      return;
+    }
+    console.log(stateUpdate);
     //*Associated with cloudinary
     if(!previewSource) return;
     uploadImage(previewSource);
@@ -75,7 +78,7 @@ export default function UpdateUser() {
   const uploadImage = async (base64EncodedImage) => {
     
 
-    const updateUser = await api.updateUser(userState._id, ({profileImg: base64EncodedImage}))
+    const updateUser = await api.updateUser(userState._id, ({profileImg: base64EncodedImage, ...stateUpdate}))
       console.log(updateUser)
 
   }
@@ -119,7 +122,7 @@ export default function UpdateUser() {
       <form autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           name="firstName"
-          value={stateSignUp.firstName}
+          value={stateUpdate.firstName}
           onChange={handleChange}
           variant="outlined"
           label="Firstname" //*Spelling?
@@ -129,7 +132,7 @@ export default function UpdateUser() {
         />
         <TextField
           name="lastname"
-          value={stateSignUp.lastname}
+          value={stateUpdate.lastname}
           onChange={handleChange}
           variant="outlined"
           label="Lastname"
@@ -146,15 +149,18 @@ export default function UpdateUser() {
           fullWidth
           className={classes.mgstyle}
         />
-        <Button 
+        <Button
           type="submit"
-          size="large" 
-          className={classes.styleMain} 
-          fullWidth>
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+        >
           Update
         </Button>
       </form>
-      {previewSource && <img src={previewSource} alt="chosen" style={{ width: "75%" }} />}
+      {previewSource && (
+        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
+      )}
     </Grid>
   );
 }
