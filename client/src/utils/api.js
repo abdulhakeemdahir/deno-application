@@ -111,8 +111,11 @@ class API {
   updatePost(id, data) {
     return this.axios.put(`/api/posts/${id}`, data);
   }
-  addLikePost(id, user) {
-    return this.axios.put(`/api/posts/likes/${id}`);
+  updateObjectID(id, data) {
+    return this.axios.put(`/api/posts/object/${id}`, data);
+  }
+  removeliked(id, data) {
+    return this.axios.put(`/api/posts/remove/like/${id}`, data);
   }
   removePost(id) {
     return this.axios.delete(`/api/posts/${id}`);

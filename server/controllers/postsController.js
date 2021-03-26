@@ -6,23 +6,6 @@ const { Post } = require("../models");
 //*CLOUD END
 
 module.exports = {
-  findFollowing: async (req, res) => {
-    try {
-      const postModel = await Post.find({}).sort({ date: -1 });
-      res.json(postModel);
-    } catch (err) {
-      res.status(422).json(err);
-    }
-  },
-  findTrending: async (req, res) => {
-    try {
-      const postModel = await Post.find({}).sort({ date: -1 });
-
-      res.json(postModel);
-    } catch (err) {
-      res.status(422).json(err);
-    }
-  },
   findUserPosts: async (req, res) => {
     try {
       const postModel = await Post.findById(req.query).sort({ date: -1 });
@@ -60,6 +43,22 @@ module.exports = {
     }
   },
   update: async (req, res) => {
+    const body = req.body;
+    try {
+      const postModel = await Post.findByIdAndUpdate(
+        req.params.id,
+        { body },
+
+        { new: true, runValidators: true }
+      );
+
+      res.status(200).json(postModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
+  updateObjectID: async (req, res) => {
+    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
@@ -121,36 +120,20 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  addLike: async (req, res) => {
+  removeliked: async (req, res) => {
+    console.log(req.body)
     try {
-      const isPost = await Post.findOne({ _id: req.params.id }).handleLike(
-        req.params.user
+      const postModel = await Post.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: req.body
+        },
+
+        { new: true, runValidators: true }
       );
 
-      res.status(200).json(isPost);
+      res.status(200).json(postModel);
     } catch (err) {
-      console.log(err);
-      res.status(422).json(err);
-    }
-  },
-  findLiked: async (req, res) => {
-    console.log(req.params);
-    try {
-      const findPost = await Post.findById(req.params.id)
-        .select("likes")
-        .exec();
-
-      const found = findPost.likes.find(
-        element => element.toString() === req.params.user.toString()
-      );
-
-      if (found) {
-        return res.status(200).json(true);
-      }
-
-      return res.status(200).json(false);
-    } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   }
