@@ -72,13 +72,13 @@ export default function About(props) {
         </Grid>
       </Grid>
       {/* <Divider /> */}
-      <Image
+      {/* <Image
         cloudName={"astralgnome"}
         publicId={props.profileImg}
         width="300"
         crop="scale"
-      />
-      <CardMedia className="media" image={props.image} />
+      /> */}
+      <CardMedia className="media" image={`https://res.cloudinary.com/astralgnome/image/upload/${props.profileImg}`} />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12} sm={12}>
           <ButtonGroup fullWidth>
