@@ -100,9 +100,32 @@ const Newsfeed = () => {
     }
     fetchAllPostsAndCauses();
 
+    console.log("poststate: ", postState);
+
     if (!socket) return;
 
     socket.emit("join:server", userState.username);
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const updatePost = async ({ newComment, post }) => {
+      console.log(newComment, post);
+      post.comments.push(newComment);
+      await postDispatch({
+        type: "NEW_COMMENT",
+        payload: {
+          posts: [...postState.posts, post]
+        }
+      });
+    };
+
+    socket.on("update-post", updatePost);
+
+    return () => {
+      socket.off("update-post");
+    };
   }, []);
 
   const [trendingState] = useState([

@@ -1,4 +1,5 @@
 const { Post } = require("../models");
+// const { populate } = require("../models/cause");
 
 module.exports = {
   findFollowing: async (req, res) => {

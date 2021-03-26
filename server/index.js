@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { User, Conversation, Message } = require("./models");
+const { User, Conversation, Message, Comment, Post } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -146,71 +146,67 @@ io.on("connection", socket => {
     socket.emit("set-messages", conversation);
   });
 
-  socket.on(
-    "send-message",
-    async ({ content, to, parentId, sender, isPost }) => {
-      if (!isPost) {
-        const createMessage = await Message.create({
-          sender,
-          content
-        });
-        const newMessage = await Message.findById(createMessage._id).populate([
-          {
-            path: "sender",
-            select: "username",
-            model: "User"
-          }
-        ]);
-        const newConvo = await Conversation.findByIdAndUpdate(
-          { _id: parentId },
-          { $push: { messages: [{ _id: createMessage.id }] } }
-        ).populate([
-          {
-            path: "participants",
-            select: "username _id socketId",
-            model: "User"
-          },
-          {
-            path: "messages",
-            select: "sender content createdAt",
-            model: "Message",
-            populate: [
-              {
-                path: "sender",
-                select: "username",
-                model: "User"
-              }
-            ]
-          }
-        ]);
+  socket.on("send-message", async payload => {
+    if (!payload.isPost) {
+      const createMessage = await Message.create({
+        sender: payload.sender,
+        content: payload.content
+      });
+      const newMessage = await Message.findById(createMessage._id).populate([
+        {
+          path: "sender",
+          select: "username",
+          model: "User"
+        }
+      ]);
+      const newConvo = await Conversation.findByIdAndUpdate(
+        { _id: payload.parentId },
+        { $push: { messages: [{ _id: createMessage.id }] } }
+      ).populate([
+        {
+          path: "participants",
+          select: "username _id socketId",
+          model: "User"
+        },
+        {
+          path: "messages",
+          select: "sender content createdAt",
+          model: "Message",
+          populate: [
+            {
+              path: "sender",
+              select: "username",
+              model: "User"
+            }
+          ]
+        }
+      ]);
 
-        socket.join(newConvo.name);
+      socket.join(newConvo.name);
 
-        socket.emit("update-chat", { newMessage, newConvo });
-        io.in(newConvo.name).emit("update-chat", {
-          newMessage,
-          newConvo
-        });
-        return;
-      }
-
-      if (isPost) {
-        console.log("is a post");
-        const response = await Comment.create({
-          user: sender,
-          post: parentId,
-          content
-        });
-        console.log(response);
-        await Post.findByIdAndUpdate(
-          { _id: parentId },
-          { comments: [{ id: response.id }] }
-        );
-        socket.to(to).emit("update-post", response);
-        return;
-      }
+      socket.emit("update-chat", { newMessage, newConvo });
+      io.in(newConvo.name).emit("update-chat", {
+        newMessage,
+        newConvo
+      });
+      return;
     }
-  );
+
+    if (payload.isPost) {
+      console.log(payload);
+      const newComment = await Comment.create({
+        user: payload.userId,
+        post: payload._id,
+        content: payload.content
+      });
+      const post = await Post.findByIdAndUpdate(
+        { _id: payload._id },
+        { $push: { comments: [{ id: newComment._id }] } }
+      );
+      // socket.to(to).emit("update-post", { newComment, post });
+      return;
+    }
+  });
 
   socket.on("disconnect", () => {
     console.log("user has left.");
