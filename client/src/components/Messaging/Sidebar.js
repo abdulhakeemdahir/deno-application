@@ -25,7 +25,7 @@ export default function Sidebar({ convos, toggleChat, createConvo }) {
         id='combo-box-demo'
         options={users}
         getOptionLabel={option => option.username}
-        style={{ marginTop: "1em" }}
+        style={{ marginTop: "1em", textAlign: "left" }}
         renderInput={params => (
           <TextField
             {...params}

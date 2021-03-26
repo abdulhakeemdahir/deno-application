@@ -52,6 +52,7 @@ io.on("connection", socket => {
       ? (socket.id = user.socketId)
       : User.findOneAndUpdate(username, { socketId: socket.id });
     user.socketId = socket.id;
+    user.username = socket.username;
   });
 
   socket.on("chatroom", async userId => {
@@ -81,6 +82,12 @@ io.on("connection", socket => {
   });
 
   socket.on("join:room", async name => {
+    const roomToLeave = Object.keys(socket.rooms)[1];
+
+    if (roomToLeave) {
+      socket.leave(roomToLeave);
+    }
+
     const conversation = await Conversation.findOne({ name }).populate([
       {
         path: "participants",
@@ -109,8 +116,9 @@ io.on("connection", socket => {
   socket.on("create:room", async ({ name, participants }) => {
     const search = await Conversation.findOne({ name });
 
-    // eslint-disable-next-line curly
-    if (search) return console.log("Convo already made.");
+    if (search) {
+      return console.log("Convo already made.");
+    }
 
     const newConvo = await Conversation.create({
       name,
@@ -136,15 +144,34 @@ io.on("connection", socket => {
     "send-message",
     async ({ content, to, parentId, sender, isPost }) => {
       if (!isPost) {
-        const response = await Message.create({
+        const newMessage = await Message.create({
           sender,
           content
         });
-        await Conversation.findByIdAndUpdate(
+        const newConvo = await Conversation.findByIdAndUpdate(
           { _id: parentId },
-          { $push: { messages: [{ _id: response.id }] } }
-        );
-        socket.emit("update-chat", response);
+          { $push: { messages: [{ _id: newMessage.id }] } }
+        ).populate([
+          {
+            path: "participants",
+            select: "username",
+            model: "User"
+          },
+          {
+            path: "messages",
+            select: "sender content createdAt",
+            model: "Message",
+            populate: [
+              {
+                path: "sender",
+                select: "username",
+                model: "User"
+              }
+            ]
+          }
+        ]);
+        console.log(newMessage);
+        socket.emit("update-chat", { newMessage, newConvo });
         return;
       }
 

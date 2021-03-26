@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+
 import {
   Typography,
   Grid,
@@ -8,24 +9,26 @@ import {
   TextField
 } from "@material-ui/core";
 import "./style.css";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 import PropTypes from "prop-types";
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import AddIcon from "@material-ui/icons/Add";
-
 import Nav from "../../../components/Navigation";
-
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Sidebar from "../../../components/Messaging/Sidebar";
 import ChatContainer from "../../../components/Messaging/ChatContainer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import api from "../../../utils/api";
-import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import { useConvoContext } from "../../../utils/GlobalStates/ConvoContext";
+import {
+  GET_A_CONVO,
+  GET_CONVOS,
+  LOADING,
+  UPDATE_CHAT
+} from "../../../utils/GlobalStates/ConvoContext/action";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -34,64 +37,53 @@ TabPanel.propTypes = {
 };
 
 const Chatroom = () => {
+  const [conversations, convoDispatch] = useConvoContext();
   const socket = useSocket();
   const [value, setValue] = useState(0);
-  const [convos, setConvos] = useState([]);
-  const [currentConvo, setCurrentConvo] = useState({});
-  const [chat, setChat] = useState({});
   const [userState] = useUserContext();
-  const [loading, setLoading] = useState(false);
   const userId = userState._id;
+  const messengerName = conversations.chat.participants.filter(
+    user => user.username !== userState.username
+  );
 
   useEffect(() => {
     if (!socket) return;
-    if (convos.length) return;
 
-    setLoading(true);
     socket.emit("chatroom", userId);
-    socket.on("get-convos", conversations => {
-      setConvos([...conversations]);
+    socket.on("get-convos", async data => {
+      await convoDispatch({ type: LOADING });
 
-      setChat([{ ...conversations[conversations.length - 1] }], () => {
-        setLoading(false);
+      await convoDispatch({
+        type: GET_CONVOS,
+        payload: { conversations: [...data] }
+      });
+      await convoDispatch(LOADING);
+
+      await convoDispatch({
+        type: GET_A_CONVO,
+        payload: { chat: { ...data[data.length - 1] } }
       });
     });
+
+    return () => socket.off("get-convos");
   }, []);
-
-  // const addMessageToConvo = useCallback(
-  //   message => {
-  //     console.log(message);
-  //     setChat(prevChat => {
-  //       let madeChange = false;
-  //       const newChat = prevChat.map(update => {
-  //         madeChange = true;
-  //         return {
-  //           ...update,
-  //           messages: [...update.messages, message]
-  //         };
-  //       });
-
-  //       console.log(newChat);
-
-  //       if (madeChange) return newChat;
-
-  //       return [...prevChat];
-  //     });
-  //   },
-  //   [setChat]
-  // );
-
-  // NEXT STEP IS TO GET THE MESSAGES UPDATED IN REALTIME!
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const toggleChat = roomName => {
-    socket.emit("join:room", roomName);
-    socket.on("get-convo", conversation => {
-      setChat([conversation]);
+    // if (conversations.chat.name === roomName) return;
+
+    socket.emit("join:room", (roomName, conversations.chat.name));
+    socket.on("get-convo", async conversation => {
+      await convoDispatch({
+        type: GET_A_CONVO,
+        payload: { chat: conversation }
+      });
     });
+
+    socket.off("get-convo");
   };
 
   const sendMessage = payload => socket.emit("send-message", payload);
@@ -108,9 +100,17 @@ const Chatroom = () => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("update-chat", async conversation => {
-      setChat([conversation]);
-      console.log(chat);
+    socket.on("update-chat", async ({ newMessage, newConvo }) => {
+      console.log(newMessage, newConvo);
+      await convoDispatch({
+        type: UPDATE_CHAT,
+        payload: {
+          chat: {
+            ...newConvo,
+            messages: [...newConvo.messages, { ...newMessage }]
+          }
+        }
+      });
     });
 
     return () => socket.off("update-chat");
@@ -138,15 +138,16 @@ const Chatroom = () => {
                   <Typography variant='subtitle2'>Conversations</Typography>
                   <Sidebar
                     toggleChat={toggleChat}
-                    convos={convos}
+                    convos={conversations.conversations}
                     createConvo={createConvo}
                   />
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
-                  <Typography variant='subtitle2'>Messenger</Typography>
+                  <Typography variant='subtitle2'>
+                    Messenger: {messengerName[0].username}
+                  </Typography>
                   <ChatContainer
-                    chat={chat}
-                    currentConvo={currentConvo}
+                    chat={conversations.chat}
                     sendMessage={sendMessage}
                     userId={userId}
                   />
@@ -167,7 +168,7 @@ const Chatroom = () => {
                 <Grid item xs={12}>
                   <Sidebar
                     toggleChat={toggleChat}
-                    convos={convos}
+                    convos={conversations.conversations}
                     createConvo={createConvo}
                   />
                 </Grid>
@@ -175,8 +176,7 @@ const Chatroom = () => {
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
                   <ChatContainer
-                    chat={chat}
-                    currentConvo={currentConvo}
+                    chat={conversations.chat}
                     sendMessage={sendMessage}
                     userId={userId}
                   />

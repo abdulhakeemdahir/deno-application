@@ -20,7 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
   chatContainer: {
     position: "relative",
-    height: "60vh"
+    height: "60vh",
+    overflowY: "scroll",
+    clear: "both"
     // boxShadow: "0px 1px 1px #de1dde"
   },
   textContainer: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ChatContainer = ({ chat, currentConvo, sendMessage, userId }) => {
+const ChatContainer = ({ chat, sendMessage, userId }) => {
   const classes = useStyles();
 
   const [content, setContent] = useState("");
@@ -36,14 +38,14 @@ const ChatContainer = ({ chat, currentConvo, sendMessage, userId }) => {
   const textRef = useRef();
 
   const sendMessageToServer = () => {
-    const filterPart = chat[0].participants.filter(
+    const filterPart = chat.participants.filter(
       participant => participant !== userId
     );
 
     const payload = {
       content,
       to: filterPart,
-      parentId: chat[0]._id,
+      parentId: chat._id,
       sender: userId,
       isPost: false
     };
@@ -59,15 +61,15 @@ const ChatContainer = ({ chat, currentConvo, sendMessage, userId }) => {
     <>
       <Grid container className={classes.chatContainer}>
         <List>
-          {chat[0]?.messages?.length ? (
-            chat[0].messages?.map(message => {
+          {chat?.messages?.length ? (
+            chat.messages?.map(message => {
               return (
                 <ListItem>
                   <List>
                     <ListItem>
                       <Typography>{message.content}</Typography>
                     </ListItem>
-                    <ListItem>{message.sender.username}</ListItem>
+                    <ListItem>{message.sender?.username}</ListItem>
                   </List>
                 </ListItem>
               );
