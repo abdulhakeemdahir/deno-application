@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
+
+import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/NewsAndComment";
 import Post from "../../../components/Post";
@@ -12,11 +13,15 @@ import Gradient from "../../../components/Gradient";
 import Trending from "../../../components/Trending";
 import Causes from "../../../components/Causes";
 import Footer from "../../../components/Footer";
+
+import API from "../../../utils/api";
+
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-// import Splash from "../../../components/Splash";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { useTrendingContext } from "../../../utils/GlobalStates/TrendingContext";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import {
   CAUSE_LOADING,
   POST_LOADING,
@@ -27,10 +32,6 @@ import {
   USER_LOADING,
   UPDATE_USER
 } from "../../../utils/actions/actions.js";
-import API from "../../../utils/api";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 TabPanel.propTypes = {
   children: PropTypes.node,

@@ -42,15 +42,14 @@ const Chatroom = () => {
   const [value, setValue] = useState(0);
   const [userState] = useUserContext();
   const userId = userState._id;
-  const messengerName = conversations.chat.participants.filter(
-    user => user.username !== userState.username
-  );
+  const chatRef = useRef(conversations.chat);
 
   useEffect(() => {
     if (!socket) return;
 
     socket.emit("chatroom", userId);
     socket.on("get-convos", async data => {
+      console.log(data);
       await convoDispatch({ type: LOADING });
 
       await convoDispatch({
@@ -61,8 +60,10 @@ const Chatroom = () => {
 
       await convoDispatch({
         type: GET_A_CONVO,
-        payload: { chat: { ...data[data.length - 1] } }
+        payload: { chat: { ...data[0], loading: false } }
       });
+
+      socket.emit("join:room", conversations.chat.name);
     });
 
     return () => socket.off("get-convos");
@@ -73,17 +74,15 @@ const Chatroom = () => {
   };
 
   const toggleChat = roomName => {
-    // if (conversations.chat.name === roomName) return;
+    if (conversations.chat.name === roomName) return;
 
-    socket.emit("join:room", (roomName, conversations.chat.name));
+    socket.emit("join:room", roomName);
     socket.on("get-convo", async conversation => {
       await convoDispatch({
         type: GET_A_CONVO,
         payload: { chat: conversation }
       });
     });
-
-    socket.off("get-convo");
   };
 
   const sendMessage = payload => socket.emit("send-message", payload);
@@ -100,18 +99,20 @@ const Chatroom = () => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("update-chat", async ({ newMessage, newConvo }) => {
-      console.log(newMessage, newConvo);
+    const updateChat = async ({ newMessage, newConvo }) => {
+      console.log(newMessage);
       await convoDispatch({
         type: UPDATE_CHAT,
         payload: {
           chat: {
             ...newConvo,
-            messages: [...newConvo.messages, { ...newMessage }]
+            messages: [...newConvo.messages, newMessage]
           }
         }
       });
-    });
+    };
+
+    socket.on("update-chat", updateChat);
 
     return () => socket.off("update-chat");
   }, []);
@@ -143,9 +144,7 @@ const Chatroom = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
-                  <Typography variant='subtitle2'>
-                    Messenger: {messengerName[0].username}
-                  </Typography>
+                  <Typography variant='subtitle2'>Messenger</Typography>
                   <ChatContainer
                     chat={conversations.chat}
                     sendMessage={sendMessage}

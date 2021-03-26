@@ -52,31 +52,37 @@ io.on("connection", socket => {
       ? (socket.id = user.socketId)
       : User.findOneAndUpdate(username, { socketId: socket.id });
     user.socketId = socket.id;
-    user.username = socket.username;
+    socket.username = user.username;
+    console.log(socket.id);
   });
 
   socket.on("chatroom", async userId => {
+    console.log(socket.rooms);
     const conversations = await Conversation.find({
       participants: userId
-    }).populate([
-      {
-        path: "participants",
-        select: "username",
-        model: "User"
-      },
-      {
-        path: "messages",
-        select: "sender content createdAt",
-        model: "Message",
-        populate: [
-          {
-            path: "sender",
-            select: "username",
-            model: "User"
-          }
-        ]
-      }
-    ]);
+    })
+      .populate([
+        {
+          path: "participants",
+          select: "username",
+          model: "User"
+        },
+        {
+          path: "messages",
+          select: "sender content createdAt",
+          model: "Message",
+          populate: [
+            {
+              path: "sender",
+              select: "username",
+              model: "User"
+            }
+          ]
+        }
+      ])
+      .sort({ updatedAt: -1 });
+
+    socket.join(conversations[0].name);
 
     socket.emit("get-convos", conversations);
   });
@@ -87,6 +93,8 @@ io.on("connection", socket => {
     if (roomToLeave) {
       socket.leave(roomToLeave);
     }
+
+    socket.join(name);
 
     const conversation = await Conversation.findOne({ name }).populate([
       {
@@ -108,8 +116,6 @@ io.on("connection", socket => {
       }
     ]);
 
-    socket.join(name);
-
     socket.emit("get-convo", conversation);
   });
 
@@ -124,7 +130,7 @@ io.on("connection", socket => {
       name,
       participants
     });
-    console.log("newConvo", newConvo);
+
     socket.to(name).emit("get-messages", newConvo);
     socket.join(name);
   });
@@ -144,17 +150,24 @@ io.on("connection", socket => {
     "send-message",
     async ({ content, to, parentId, sender, isPost }) => {
       if (!isPost) {
-        const newMessage = await Message.create({
+        const createMessage = await Message.create({
           sender,
           content
         });
+        const newMessage = await Message.findById(createMessage._id).populate([
+          {
+            path: "sender",
+            select: "username",
+            model: "User"
+          }
+        ]);
         const newConvo = await Conversation.findByIdAndUpdate(
           { _id: parentId },
-          { $push: { messages: [{ _id: newMessage.id }] } }
+          { $push: { messages: [{ _id: createMessage.id }] } }
         ).populate([
           {
             path: "participants",
-            select: "username",
+            select: "username _id socketId",
             model: "User"
           },
           {
@@ -170,8 +183,14 @@ io.on("connection", socket => {
             ]
           }
         ]);
-        console.log(newMessage);
+
+        socket.join(newConvo.name);
+
         socket.emit("update-chat", { newMessage, newConvo });
+        io.in(newConvo.name).emit("update-chat", {
+          newMessage,
+          newConvo
+        });
         return;
       }
 

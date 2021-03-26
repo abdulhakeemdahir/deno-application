@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import {
   Button,
   FormControl,
@@ -10,7 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSocket } from "../../utils/GlobalStates/SocketProvider";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
 
 const useStyles = makeStyles(theme => ({
   styleMain: {
@@ -25,8 +25,67 @@ const useStyles = makeStyles(theme => ({
     clear: "both"
     // boxShadow: "0px 1px 1px #de1dde"
   },
-  textContainer: {
-    // position: "absolute"
+  p: {
+    maxWidth: 255,
+    wordWrap: "break-word",
+    marginBottom: 12,
+    lineHeight: 24,
+    position: "relative",
+    padding: "10px 20px",
+    borderRadius: 25,
+
+    "&:before": {
+      content: '"',
+      position: "absolute",
+      bottom: 0,
+      height: 25
+    },
+    "&:after": {
+      content: '"',
+      position: "absolute",
+      bottom: 0,
+      height: 25
+    }
+  },
+
+  fromMe: {
+    color: "white",
+    background: "#0B93F6",
+    alignSelf: "flex-end",
+
+    "&:before": {
+      right: "-7px",
+      width: 20,
+      backgroundColor: "#0B93F6",
+      borderBottomLeftRadius: "16px 14px"
+    },
+
+    "&:after": {
+      right: "-26px",
+      width: 26,
+      backgroundColor: "white",
+      borderBottomLeftRadius: 10
+    }
+  },
+
+  fromThem: {
+    background: "#E5E5EA",
+    color: "black",
+    alignSelf: "flex-start",
+
+    "&:before": {
+      left: "-7px",
+      width: 20,
+      backgroundColor: "#E5E5EA",
+      borderBottomRightRadius: 16
+    },
+
+    "&:after": {
+      left: "-26px",
+      width: 26,
+      backgroundColor: "white",
+      borderBottomRightRadius: 10
+    }
   }
 }));
 
@@ -34,6 +93,8 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
   const classes = useStyles();
 
   const [content, setContent] = useState("");
+
+  const [userState] = useUserContext();
 
   const textRef = useRef();
 
@@ -63,13 +124,20 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
         <List>
           {chat?.messages?.length ? (
             chat.messages?.map(message => {
+              let messageDeco =
+                message.sender.username !== userState.username
+                  ? classes.fromThem
+                  : classes.fromMe;
+
               return (
                 <ListItem>
                   <List>
                     <ListItem>
-                      <Typography>{message.content}</Typography>
+                      <p className={messageDeco}>{message.content}</p>
                     </ListItem>
-                    <ListItem>{message.sender?.username}</ListItem>
+                    <ListItem>
+                      {message.sender?.username} - {message.createdAt}
+                    </ListItem>
                   </List>
                 </ListItem>
               );
