@@ -106,11 +106,9 @@ export default function NewsAndComment(props) {
 
 			const { data } = await api.createComments(comment);
 
-			await api.updatePost(id, { comments: data._id });
+			await api.updateObjectID(id, { comments: data._id });
 
 			const postInfo = await api.getAllPost();
-
-      console.log(postInfo)
 
 			await postDispatch({ type: POST_LOADING });
 
@@ -136,20 +134,28 @@ export default function NewsAndComment(props) {
 	const [like, setLike] = React.useState(false);
 
 	const handleLike = async (id) =>{
-    setLike(!like)
-
-    // const { data } = await api.findLikePost(id, userState._id);
-    // console.log(data)
-    // if (data) {
-    //   console.log("still working on it");
-    //   return false;
-
-    // }else if (!data) {
-
-    await api.updatePost(id, { likes: userState._id });
+    
+    const found = props.liked.find((l) => l._id === userState._id)
+    console.log(found)
+    if(found){
+      await api.removeliked(id, { likes: userState._id });
+    }else{
+      await api.updateObjectID(id, { likes: userState._id });
     //   return true
+    }
 
-    // }
+    const postInfo = await api.getAllPost();
+
+			await postDispatch({ type: POST_LOADING });
+
+			await postDispatch({
+				type: ADD_POST,
+				payload: {
+				posts: postInfo.data,
+				loading: false,
+				},
+			});
+    
   
 	};
 
