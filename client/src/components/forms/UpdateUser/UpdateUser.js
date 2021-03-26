@@ -58,20 +58,10 @@ export default function UpdateUser() {
     ) {
       return;
     }
-    console.log(stateUpdate);
     //*Associated with cloudinary
     if(!previewSource) return;
     uploadImage(previewSource);
     
-    try {
-      // Register the user.
-      // await api.register(setStateSignUp);
-      
-      // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
-    } catch (err) {
-      // Handle error responses from the API. This will include
-      if (err.response && err.response.data) console.log(err.response.data);
-    }
   };
   
   //*Associated with cloudinary
@@ -119,45 +109,50 @@ export default function UpdateUser() {
           Update User
         </Typography>
       </Grid>
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
-          name="firstName"
-          value={stateUpdate.firstName}
-          onChange={handleChange}
-          variant="outlined"
-          label="Firstname" //*Spelling?
-          placeholder="Enter First Name"
-          fullWidth
-          className={classes.mgstyle}
-        />
-        <TextField
-          name="lastname"
-          value={stateUpdate.lastname}
-          onChange={handleChange}
-          variant="outlined"
-          label="Lastname"
-          placeholder="Enter Last Name"
-          fullWidth
-          className={classes.mgstyle}
-        />
-        <TextField //*Associated with cloudinary
-          type="file"
-          name="image"
-          onChange={handleFileInputChange}
-          value={fileInputState}
-          variant="outlined"
-          fullWidth
-          className={classes.mgstyle}
-        />
-        <Button
-          type="submit"
-          size="large"
-          className={classes.styleMain}
-          fullWidth
-        >
-          Update
-        </Button>
-      </form>
+      <Grid container>
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <TextField
+            name="firstName"
+            value={stateUpdate.firstName}
+            onChange={handleChange}
+            variant="outlined"
+            label="Firstname" //*Spelling?
+            placeholder="Enter First Name"
+            fullWidth
+            className={classes.mgstyle}
+          />
+          <TextField
+            name="lastname"
+            value={stateUpdate.lastname}
+            onChange={handleChange}
+            variant="outlined"
+            label="Lastname"
+            placeholder="Enter Last Name"
+            fullWidth
+            className={classes.mgstyle}
+          />
+          <Button //*Associated with cloudinary
+            type="file"
+            name="image"
+            onChange={handleFileInputChange}
+            value={fileInputState}
+            rows={4}
+            variant="outlined"
+            fullWidth
+            className={classes.mgstyle}
+          >Upload Image
+          </Button>
+          
+          <Button
+            type="submit"
+            size="large"
+            className={classes.styleMain}
+            fullWidth
+          >
+            Update
+          </Button>
+        </form>
+      </Grid>
       {previewSource && (
         <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
       )}

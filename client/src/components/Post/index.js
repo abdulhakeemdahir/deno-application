@@ -101,10 +101,11 @@ export default function Post() {
 	const handleSubmit = async event => {
 		event.preventDefault();
 		if (userState.role === "Personal" && createPost.type === "Cause") {
-      //TODO display error message
-      console.log("sorry");
-      return;
-    }
+		//TODO display error message
+		console.log("sorry");
+		return;
+		}
+
 		if (
 			createPost.type === "" ||
 			createPost.title === "" ||
@@ -112,6 +113,7 @@ export default function Post() {
 		) {
 			return;
 		}
+
 		try {
 			const post = {
 				...createPost,
@@ -124,7 +126,7 @@ export default function Post() {
 				const createHashtags = await API.createHashtag({ hashtag: hashtags });
 				post.hashtags = createHashtags.data._id;
 			}
-			console.log(post)
+
 			if (createPost.type === "Post") {
 				const { data } = await API.createPost(post);
 				if (post.hashtags) {
@@ -152,10 +154,12 @@ export default function Post() {
 			}
 
 			clearState();
+
 		} catch (err) {
 			console.log("here", err);
 		}
 	};
+
 	const clearState = () => {
 		setCreatePost({
 			type: "",

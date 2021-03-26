@@ -162,7 +162,7 @@ export default function News(props) {
               }}
             >
               <Fade in={open}>
-                <UpdatePost className={"cardPost"} />
+                <UpdatePost className={"cardPost"} id={props.id} />
               </Fade>
             </Dialog>
           </Grid>
@@ -180,9 +180,11 @@ export default function News(props) {
               <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
-              <a href={props.link} className="hashTagStyle">
-                #{props.hashTag}
-              </a>
+              {
+                // <a href={props.link} className="hashTagStyle">
+                //   #{props.hashTag}
+                // </a>
+              }
             </CardContent>
             <Divider />
           </Grid>
