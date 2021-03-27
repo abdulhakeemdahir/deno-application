@@ -1,15 +1,18 @@
 /* eslint-disable prettier/prettier */
 const paypal = require("paypal-rest-sdk");
 const siteUrl = require("./options")("siteUrl");
+const clientId = require("./options")("clientId");
+const client = require("./options")("client");
+const sandbox = require("./options")("sandbox");
 
 class PayPal {
   constructor() {
     this.paypal = paypal.configure({
-      "mode": "sandbox", //sandbox or live
+      mode: sandbox, //sandbox or live
       // eslint-disable-next-line camelcase
-      "client_id": "client_id",
+      client_id: clientId,
       // eslint-disable-next-line camelcase
-      "client_secret": "client"
+      client_secret: client,
     });
 
     this.amount = 0;
@@ -26,9 +29,9 @@ class PayPal {
       // eslint-disable-next-line camelcase
       redirect_urls: {
         // eslint-disable-next-line camelcase
-        return_url: `${siteUrl}success`,
+        return_url: `${siteUrl}/api/donations/success`,
         // eslint-disable-next-line camelcase
-        cancel_url: `${siteUrl}cancel`,
+        cancel_url: `${siteUrl}/api/donations/cancel`,
       },
       transactions: [
         {

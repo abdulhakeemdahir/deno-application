@@ -146,7 +146,7 @@ export default function Post() {
           });
         }
 
-        await API.updateUser(post.author, {
+        await API.updateUserObjectID(post.author, {
           posts: data._id,
         });
 

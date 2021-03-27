@@ -126,19 +126,37 @@ module.exports = {
       }
       console.log(updateUser);
 
-      const foundUser = await User.updateOne(
+      const foundUser = await User.findOneAndUpdate(
         {
           _id: req.params.id
         },
         {
-          $set: { updateUser }
+          $set: updateUser
         },
         { new: true, runValidators: true }
       );
-      console.log(foundUser);
+      console.log("here", foundUser);
       res.status(200).json(foundUser.firstName);
     } catch (err) {
       console.log(err);
+      res.status(422).json(err);
+    }
+  },
+  updateUserObjectID: async (req, res) => {
+    console.log(req.body);
+    console.log(req.params.id);
+    try {
+      const postModel = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: req.body
+        },
+
+        { new: true, runValidators: true }
+      );
+      console.log(postModel);
+      res.status(200).json(postModel);
+    } catch (err) {
       res.status(422).json(err);
     }
   },

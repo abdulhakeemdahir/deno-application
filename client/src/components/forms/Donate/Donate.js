@@ -3,6 +3,8 @@ import { Grid, Button, TextField, Typography } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
+import { useState } from "react";
+import api from "../../../utils/api";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -34,30 +36,61 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function Donate() {
+export default function Donate(props) {
 	const classes = useStyles();
+    const [donateState, setDonateState] = useState({
+      amount: "", title:props.title
+    });
+
+     const handleChange = function(event) {
+       const { name, value } = event.target;
+       setDonateState({
+         ...donateState,
+         [name]: value,
+       });
+     };
+
+     const handleSubmit = async (event) => {
+        event.preventDefault();
+        //Todo please add a nice styling for validation numbers
+        if(!donateState.amount.match(/^\d+/)){
+            alert("numbers only")
+            return
+        };
+        const pay = await api.donate(donateState);
+
+        console.log(donateState)
+     }
 
 	return (
-		<Grid className='cardPost'>
-			<form className={classes.root} noValidate autoComplete='off'>
-				<div>
-					<Grid container>
-						<Typography variant='h6' className={classes.textStyle}>
-							Please Support this Cause!
-						</Typography>
-						<TextField
-							id='donate'
-							label='Donation Amount'
-							variant='filled'
-							fullWidth
-							size='small'
-						/>
-					</Grid>
-				</div>
-				<Button size='small' className={classes.styleMain}>
-					<ChatBubbleOutlineIcon /> Donate
-				</Button>
-			</form>
-		</Grid>
-	);
+    <Grid className="cardPost">
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <div>
+          <Grid container>
+            <Typography variant="h6" className={classes.textStyle}>
+              Please Support this Cause!
+            </Typography>
+            <TextField
+              name="amount"
+              value={donateState.amount}
+              onChange={handleChange}
+              id="donate"
+              label="Donation Amount"
+              variant="filled"
+              fullWidth
+              size="small"
+            />
+          </Grid>
+        </div>
+        <Button size="small" type="submit"  className={classes.styleMain}>
+          <ChatBubbleOutlineIcon /> Donate
+        </Button>
+      </form>
+    </Grid>
+  );
 }

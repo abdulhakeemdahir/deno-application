@@ -4,11 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    background: "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
+    background:
+      "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
     borderRadius: "0px",
     boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
     padding: "20px",
@@ -34,8 +35,11 @@ const useStyles = makeStyles((theme) => ({
     background: "#3f4d67",
   },
 }));
-export default function UpdateUser() {
-  const [userState] = useUserContext();
+export default function UpdateUser(props) {
+  const [userState, userDispatch] = useUserContext();
+    //*Associated with cloudinary
+  const [fileInputState, ] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
   const [stateUpdate, setStateUpdate] = useState({
     firstName: "",
     lastname: "",
@@ -57,7 +61,7 @@ export default function UpdateUser() {
       udateUser.firstName = stateUpdate.firstName;
     }
     if (stateUpdate.lastname !== "") {
-      udateUser.firstName = stateUpdate.lastname;
+      udateUser.lastname = stateUpdate.lastname;
     }
 
     //*Associated with cloudinary
@@ -65,6 +69,21 @@ export default function UpdateUser() {
       udateUser.profileImg = previewSource;
     }
     upDateUser(udateUser);
+
+      const userInfo = await api.getUser(userState._id);
+
+      await userDispatch({ type: USER_LOADING });
+
+      await userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false
+        }
+      });
+
+
+    props.onClose();
   };
 
   //*Associated with cloudinary
@@ -74,11 +93,6 @@ export default function UpdateUser() {
   };
 
   const classes = useStyles();
-
-  //*Associated with cloudinary
-  const [fileInputState, setFileInputState] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -109,49 +123,45 @@ export default function UpdateUser() {
           Update User
         </Typography>
       </Grid>
-      <Grid container>
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <TextField
-            name="firstName"
-            value={stateUpdate.firstName}
-            onChange={handleChange}
-            variant="outlined"
-            label="Firstname" //*Spelling?
-            placeholder="Enter First Name"
-            fullWidth
-            className={classes.mgstyle}
-          />
-          <TextField
-            name="lastname"
-            value={stateUpdate.lastname}
-            onChange={handleChange}
-            variant="outlined"
-            label="Lastname"
-            placeholder="Enter Last Name"
-            fullWidth
-            className={classes.mgstyle}
-          />
-          <TextField //*Associated with cloudinary
-            type="file"
-            name="image"
-            onChange={handleFileInputChange}
-            value={fileInputState}
-            rows={4}
-            variant="outlined"
-            fullWidth
-            className={classes.mgstyle}
-          />
-          <Button
-            type="submit"
-            size="large"
-            className={classes.styleMain}
-            fullWidth
-            onClick={handleSubmit}
-          >
-            Update
-          </Button>
-        </form>
-      </Grid>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          name="firstName"
+          value={stateUpdate.firstName}
+          onChange={handleChange}
+          variant="outlined"
+          label="Firstname" //*Spelling?
+          placeholder="Enter First Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="lastname"
+          value={stateUpdate.lastname}
+          onChange={handleChange}
+          variant="outlined"
+          label="Lastname"
+          placeholder="Enter Last Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField //*Associated with cloudinary
+          type="file"
+          name="image"
+          onChange={handleFileInputChange}
+          value={fileInputState}
+          variant="outlined"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <Button
+          type="submit"
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+        >
+          Update
+        </Button>
+      </form>
       {previewSource && (
         <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
       )}
