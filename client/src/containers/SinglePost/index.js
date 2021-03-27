@@ -52,7 +52,7 @@ const SinglePost = () => {
 
 	useEffect(() => {
 		getUserInfo();
-	}, []);
+	});
 
 	const [aboutState] = useState([
 		{
