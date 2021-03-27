@@ -8,6 +8,10 @@ router
   .post(messengerController.createConversation)
   .put(messengerController.createMessage);
 
+router
+  .route("/conversation/:id")
+  .get(messengerController.getLatestConversation);
+
 router.route("messenger/:messageId/:id").put(messengerController.updateMessage);
 
 module.exports = router;
