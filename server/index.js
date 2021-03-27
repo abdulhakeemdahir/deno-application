@@ -85,7 +85,9 @@ io.on("connection", socket => {
       ])
       .sort({ updatedAt: -1 });
 
-    socket.join(conversations[0].name);
+    if (conversations.length) {
+      socket.join(conversations[0].name);
+    }
 
     socket.emit("get-convos", conversations);
   });
@@ -134,8 +136,8 @@ io.on("connection", socket => {
       participants
     });
 
-    socket.to(name).emit("get-messages", newConvo);
-    socket.join(name);
+    socket.emit("get-newConvo", newConvo);
+    socket.join(newConvo.name);
   });
 
   socket.on("get-messages", async name => {

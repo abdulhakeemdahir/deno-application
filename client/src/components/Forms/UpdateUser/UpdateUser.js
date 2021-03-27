@@ -4,11 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    background: "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
+    background:
+      "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
     borderRadius: "0px",
     boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
     padding: "20px",
@@ -34,8 +35,11 @@ const useStyles = makeStyles((theme) => ({
     background: "#3f4d67",
   },
 }));
-export default function UpdateUser() {
-  const [userState] = useUserContext();
+export default function UpdateUser(props) {
+  const [userState, userDispatch] = useUserContext();
+    //*Associated with cloudinary
+  const [fileInputState, ] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
   const [stateUpdate, setStateUpdate] = useState({
     firstName: "",
     lastname: "",
@@ -51,45 +55,50 @@ export default function UpdateUser() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const udateUser = {};
 
-    if (
-      stateUpdate.firstName === "" ||
-      stateUpdate.lastname === ""
-    ) {
-      return;
+    if (stateUpdate.firstName !== "") {
+      udateUser.firstName = stateUpdate.firstName;
     }
-    console.log(stateUpdate);
+    if (stateUpdate.lastname !== "") {
+      udateUser.lastname = stateUpdate.lastname;
+    }
+
     //*Associated with cloudinary
-    if(!previewSource) return;
-    uploadImage(previewSource);
-    
-    try {
-      // User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
-    } catch (err) {
-      // Handle error responses from the API. This will include
-      if (err.response && err.response.data) console.log(err.response.data);
+    if (previewSource) {
+      udateUser.profileImg = previewSource;
     }
-  };
-  
-  //*Associated with cloudinary
-  const uploadImage = async (base64EncodedImage) => {
+    upDateUser(udateUser);
 
-    const updateUser = await api.updateUser(userState._id, ({profileImg: base64EncodedImage, ...stateUpdate}))
-      console.log(updateUser)
-  }
-  
-  const classes = useStyles();
-  
+      const userInfo = await api.getUser(userState._id);
+
+      await userDispatch({ type: USER_LOADING });
+
+      await userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false
+        }
+      });
+
+
+    props.onClose();
+  };
+
   //*Associated with cloudinary
-  const [fileInputState, setFileInputState] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  
+  const upDateUser = async (update) => {
+    const updateUser = await api.updateUser(userState._id, update);
+    console.log(updateUser);
+  };
+
+  const classes = useStyles();
+
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
   };
-  
+
   const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -97,7 +106,7 @@ export default function UpdateUser() {
       setPreviewSource(reader.result);
     };
   };
-  
+
   return (
     <Grid
       container

@@ -49,14 +49,12 @@ const Chatroom = () => {
 
     socket.emit("chatroom", userId);
     socket.on("get-convos", async data => {
-      console.log(data);
       await convoDispatch({ type: LOADING });
 
       await convoDispatch({
         type: GET_CONVOS,
         payload: { conversations: [...data] }
       });
-      await convoDispatch(LOADING);
 
       await convoDispatch({
         type: GET_A_CONVO,
@@ -95,6 +93,26 @@ const Chatroom = () => {
 
     socket.emit("create:room", payload);
   };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const updateSidebar = async newConvo => {
+      await convoDispatch({ type: LOADING });
+
+      await convoDispatch({
+        type: GET_CONVOS,
+        payload: {
+          conversations: [newConvo, ...conversations.conversations],
+          loading: false
+        }
+      });
+    };
+
+    socket.on("get-newConvo", updateSidebar);
+
+    return () => socket.off("get-newConvo");
+  });
 
   useEffect(() => {
     if (!socket) return;
