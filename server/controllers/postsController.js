@@ -1,28 +1,8 @@
 const { Post } = require("../models");
 
-//*CLOUD BEG
-// const cloudinary = require("../../utils/cloudinary");
-
-//*CLOUD END
+const cloudinary = require("../../utils/cloudinary");
 
 module.exports = {
-  findFollowing: async (req, res) => {
-    try {
-      const postModel = await Post.find({}).sort({ date: -1 });
-      res.json(postModel);
-    } catch (err) {
-      res.status(422).json(err);
-    }
-  },
-  findTrending: async (req, res) => {
-    try {
-      const postModel = await Post.find({}).sort({ date: -1 });
-
-      res.json(postModel);
-    } catch (err) {
-      res.status(422).json(err);
-    }
-  },
   findUserPosts: async (req, res) => {
     try {
       const postModel = await Post.findById(req.query).sort({ date: -1 });
@@ -34,22 +14,19 @@ module.exports = {
   create: async ({ body }, res) => {
     const { title, content, imageUrl, author, hashtags } = body;
     try {
-      //*CLOUD BEG
-      //Upload image to cloudinary
-      //Create post body with form data and cloudinary secure_url and public_id
-      const value = {
-        body,
-        image: result.secure_url,
-        // eslint-disable-next-line camelcase
-        cloudinary_id: result.public_id
-      };
-      const model = await db.Post.create(value);
-      res.json(model);
-      //*CLOUD END
+      let img = "";
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        img = result.public_id;
+      }
+
       const postModel = await Post.create({
         title,
         content,
-        imageUrl,
+        imageUrl: img,
         author,
         hashtags
       });
@@ -60,6 +37,32 @@ module.exports = {
     }
   },
   update: async (req, res) => {
+    const { imageUrl } = req.body;
+    const upDatePost = req.body;
+
+    if (imageUrl) {
+      const result = await cloudinary.uploader.upload_large(profileImg, {
+        // eslint-disable-next-line camelcase
+        upload_preset: "dev_setup"
+      });
+      upDatePost.imageUrl = result.public_id;
+    }
+    try {
+      const postModel = await Post.findByIdAndUpdate(
+        req.params.id,
+        {
+          upDatePost
+        },
+        { new: true, runValidators: true }
+      );
+
+      res.status(200).json(postModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
+  updateObjectID: async (req, res) => {
+    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
@@ -121,36 +124,20 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  addLike: async (req, res) => {
+  removeliked: async (req, res) => {
+    console.log(req.body);
     try {
-      const isPost = await Post.findOne({ _id: req.params.id }).handleLike(
-        req.params.user
+      const postModel = await Post.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: req.body
+        },
+
+        { new: true, runValidators: true }
       );
 
-      res.status(200).json(isPost);
+      res.status(200).json(postModel);
     } catch (err) {
-      console.log(err);
-      res.status(422).json(err);
-    }
-  },
-  findLiked: async (req, res) => {
-    console.log(req.params);
-    try {
-      const findPost = await Post.findById(req.params.id)
-        .select("likes")
-        .exec();
-
-      const found = findPost.likes.find(
-        element => element.toString() === req.params.user.toString()
-      );
-
-      if (found) {
-        return res.status(200).json(true);
-      }
-
-      return res.status(200).json(false);
-    } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   }

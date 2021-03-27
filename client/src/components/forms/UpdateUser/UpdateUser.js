@@ -51,27 +51,28 @@ export default function UpdateUser() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const udateUser = {}
 
-    if (
-      stateUpdate.firstName === "" ||
-      stateUpdate.lastname === ""
-    ) {
-      return;
-    }
+    if (stateUpdate.firstName !== ""){
+        udateUser.firstName = stateUpdate.firstName 
+      }
+    if (stateUpdate.lastname !== ""){
+        udateUser.firstName = stateUpdate.lastname 
+      }
+    
     //*Associated with cloudinary
-    if(!previewSource) return;
-    uploadImage(previewSource);
+    if(previewSource){
+        udateUser.profileImg = previewSource; 
+    } 
+    upDateUser(udateUser);
     
   };
   
   //*Associated with cloudinary
-  const uploadImage = async (base64EncodedImage) => {
-    
-
-    const updateUser = await api.updateUser(userState._id, ({profileImg: base64EncodedImage, ...stateUpdate}))
-      console.log(updateUser)
-
-  }
+  const upDateUser = async (update) => {
+    const updateUser = await api.updateUser(userState._id, update);
+    console.log(updateUser);
+  };
   
   const classes = useStyles();
   
@@ -131,7 +132,7 @@ export default function UpdateUser() {
             fullWidth
             className={classes.mgstyle}
           />
-          <Button //*Associated with cloudinary
+          <TextField //*Associated with cloudinary
             type="file"
             name="image"
             onChange={handleFileInputChange}
@@ -140,14 +141,13 @@ export default function UpdateUser() {
             variant="outlined"
             fullWidth
             className={classes.mgstyle}
-          >Upload Image
-          </Button>
-          
+          />
           <Button
             type="submit"
             size="large"
             className={classes.styleMain}
             fullWidth
+            onClick={handleSubmit}
           >
             Update
           </Button>

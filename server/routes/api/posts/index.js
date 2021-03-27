@@ -6,15 +6,13 @@ router
   .get(postController.getAllPost)
   .post(postController.create);
 
-router.route("/likes/:id:user").put(postController.addLike);
-
-router.route("/findliked/:id/:user").get(postController.findLiked);
+router.route("/:id").put(postController.update);
 
 router
-  .route("/:id")
-  .put(postController.update)
+  .route("/object/:id")
+  .put(postController.updateObjectID)
   .delete(postController.remove);
 
-router.route("/user").get(postController.findUserPosts);
+router.route("/remove/like/:id").put(postController.removeliked);
 
 module.exports = router;
