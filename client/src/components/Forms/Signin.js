@@ -73,10 +73,7 @@ export default function Signin() {
 		event.preventDefault();
 
 		try {
-			const foundUser = await api.getUsersByUsername(stateSignIn.username);
-			if (foundUser) {
-				console.log(foundUser);
-			}
+			
 			const { _id } = await login(stateSignIn);
 
 			// User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.

@@ -117,11 +117,6 @@ export default function Post() {
 	const handleSubmit = async event => {
 		event.preventDefault();
 
-		if (userState.role === "Personal" && createPost.type === "Cause") {
-			//TODO display error message
-			console.log("sorry");
-			return;
-		}
 		if (
 			createPost.type === "" ||
 			createPost.title === "" ||
@@ -222,6 +217,7 @@ export default function Post() {
 		return isError;
 	};
 
+
 	return (
 		<Grid className='cardPost'>
 			<form
@@ -239,8 +235,13 @@ export default function Post() {
 						name='type'
 						onChange={handleChange}
 					>
+						{(userState.role === "Personal") ?
+						<MenuItem value={"Post"} >Post</MenuItem> :
+						<>
 						<MenuItem value={"Post"}>Post</MenuItem>
 						<MenuItem value={"Cause"}>Cause</MenuItem>
+						</>
+					}
 					</Select>
 				</FormControl>
 				<div>
@@ -298,7 +299,7 @@ export default function Post() {
 				</Button>
 			</form>
 			{previewSource && (
-				<img src={previewSource} alt='chosen' style={{ width: "75%" }} />
+				<img src={previewSource} alt='chosen' className={classes.imgStyle} />
 			)}
 		</Grid>
 	);
