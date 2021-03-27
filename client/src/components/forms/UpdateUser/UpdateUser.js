@@ -51,41 +51,40 @@ export default function UpdateUser() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const udateUser = {}
+    const udateUser = {};
 
-    if (stateUpdate.firstName !== ""){
-        udateUser.firstName = stateUpdate.firstName 
-      }
-    if (stateUpdate.lastname !== ""){
-        udateUser.firstName = stateUpdate.lastname 
-      }
-    
+    if (stateUpdate.firstName !== "") {
+      udateUser.firstName = stateUpdate.firstName;
+    }
+    if (stateUpdate.lastname !== "") {
+      udateUser.firstName = stateUpdate.lastname;
+    }
+
     //*Associated with cloudinary
-    if(previewSource){
-        udateUser.profileImg = previewSource; 
-    } 
+    if (previewSource) {
+      udateUser.profileImg = previewSource;
+    }
     upDateUser(udateUser);
-    
   };
-  
+
   //*Associated with cloudinary
   const upDateUser = async (update) => {
     const updateUser = await api.updateUser(userState._id, update);
     console.log(updateUser);
   };
-  
+
   const classes = useStyles();
-  
+
   //*Associated with cloudinary
   const [fileInputState, setFileInputState] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
-  
+
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
   };
-  
+
   const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -93,7 +92,7 @@ export default function UpdateUser() {
       setPreviewSource(reader.result);
     };
   };
-  
+
   return (
     <Grid
       container
