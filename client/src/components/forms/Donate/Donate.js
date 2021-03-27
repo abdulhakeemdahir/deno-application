@@ -29,6 +29,9 @@ const useStyles = makeStyles(theme => ({
 	inputMargin: {
 		margin: "5px",
 	},
+	textStyle: {
+		textAlign: "center",
+	},
 }));
 
 export default function Donate() {
@@ -39,7 +42,7 @@ export default function Donate() {
 			<form className={classes.root} noValidate autoComplete='off'>
 				<div>
 					<Grid container>
-						<Typography variant='h6' align='center'>
+						<Typography variant='h6' className={classes.textStyle}>
 							Please Support this Cause!
 						</Typography>
 						<TextField
