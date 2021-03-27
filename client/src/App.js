@@ -12,7 +12,7 @@ import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
 // import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Chatroom from "./containers/Private/Chatroom";
-import SinglePost from "./containers/SinglePost";
+// import SinglePost from "./containers/SinglePost";
 import Analytics from "./containers/Private/Analytics";
 import ErrorPage from "./containers/Public/ErrorPage";
 import { TrendingProvider } from "./utils/GlobalStates/TrendingContext";
@@ -22,76 +22,76 @@ import PublicDash from "./containers/Public/PublicDash";
 //import GuestRoute from "./components/GuestRoute.js"
 
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#1dc4e9"
-    },
-    secondary: { main: "#d500f9" },
-    default: {
-      main: "#454545"
-      // second: "#899fd4"
-    }
-  }
+	palette: {
+		primary: {
+			main: "#1dc4e9",
+		},
+		secondary: { main: "#d500f9" },
+		default: {
+			main: "#454545",
+			// second: "#899fd4"
+		},
+	},
 });
 function App() {
-  useSocketConnection();
+	useSocketConnection();
 
-  useAuthTokenStore();
+	useAuthTokenStore();
 
-  return (
-    <Router>
-      <MuiThemeProvider theme={theme}>
-        <div className='App'>
-          <UserProvider>
-            <GuessProvider>
-              <CauseProvider>
-                <TrendingProvider>
-                  <PostProvider>
-                    <ConvoProvider>
-                      <Switch>
-                        <PrivateRoute
-                          exact
-                          path='/newsfeed'
-                          redirectTo='/'
-                          component={Newsfeed}
-                        />
+	return (
+		<Router>
+			<MuiThemeProvider theme={theme}>
+				<div className='App'>
+					<UserProvider>
+						<GuessProvider>
+							<CauseProvider>
+								<TrendingProvider>
+									<PostProvider>
+										<ConvoProvider>
+											<Switch>
+												<PrivateRoute
+													exact
+													path='/newsfeed'
+													redirectTo='/'
+													component={Newsfeed}
+												/>
 
-                        <PrivateRoute
-                          exact
-                          path='/dashboard'
-                          redirectTo='/'
-                          component={Dashboard}
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/chatroom'
-                          redirectTo='/'
-                          component={Chatroom}
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/dashboard/:id'
-                          redirectTo='/'
-                          component={PublicDash}
-                        />
+												<PrivateRoute
+													exact
+													path='/dashboard'
+													redirectTo='/'
+													component={Dashboard}
+												/>
+												<PrivateRoute
+													exact
+													path='/chatroom'
+													redirectTo='/'
+													component={Chatroom}
+												/>
+												<PrivateRoute
+													exact
+													path='/dashboard/:id'
+													redirectTo='/'
+													component={PublicDash}
+												/>
 
-                        <Route path='/explore' exact component={Explore} />
-                        <Route path='/post' exact component={SinglePost} />
-                        <Route path='/analytics' exact component={Analytics} />
-                        <Route path='/404' exact component={ErrorPage} />
+												<Route path='/explore' exact component={Explore} />
+												{/* <Route path='/post' exact component={SinglePost} /> */}
+												<Route path='/analytics' exact component={Analytics} />
+												<Route path='/404' exact component={ErrorPage} />
 
-                        <Route path='/' exact component={Landing} />
-                      </Switch>
-                    </ConvoProvider>
-                  </PostProvider>
-                </TrendingProvider>
-              </CauseProvider>
-            </GuessProvider>
-          </UserProvider>
-        </div>
-      </MuiThemeProvider>
-    </Router>
-  );
+												<Route path='/' exact component={Landing} />
+											</Switch>
+										</ConvoProvider>
+									</PostProvider>
+								</TrendingProvider>
+							</CauseProvider>
+						</GuessProvider>
+					</UserProvider>
+				</div>
+			</MuiThemeProvider>
+		</Router>
+	);
 }
 
 export default App;
