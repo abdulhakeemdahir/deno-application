@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import Nav from "../../components/Navigation";
+import Nav from "../../components/Navigation/index";
 // import defaultPic from "../../images/dp.png";
 import Dolphin from "../../images/dolphin.jpeg";
 import NGO from "../../images/ngo.png";
@@ -35,7 +35,7 @@ TabPanel.propTypes = {
 // const useStyles = makeStyles(theme => ({}));
 
 const SinglePost = () => {
-	const [userDispatch] = useUserContext();
+	const [userState, userDispatch] = useUserContext();
 
 	//Read
 	const getUserInfo = async id => {
@@ -52,7 +52,7 @@ const SinglePost = () => {
 
 	useEffect(() => {
 		getUserInfo();
-	});
+	}, []);
 
 	const [aboutState] = useState([
 		{
