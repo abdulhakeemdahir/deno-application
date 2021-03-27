@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { User, Conversation, Message, Comment, Post } = require("./models");
+const { User, Conversation, Message, Post } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -196,17 +196,36 @@ io.on("connection", socket => {
     }
 
     if (payload.isPost) {
-      console.log(payload);
-      const newComment = await Comment.create({
-        user: payload.userId,
-        post: payload._id,
-        content: payload.content
-      });
-      await Post.findByIdAndUpdate(
-        { _id: payload._id },
-        { $push: { comments: [{ id: newComment._id }] } }
-      );
-      // socket.to(to).emit("update-post", { newComment, post });
+      const posts = await Post.find({})
+        .sort({ date: -1 })
+        .populate([
+          {
+            path: "author",
+            select: "firstName",
+            model: "User"
+          },
+          {
+            path: "hashtags",
+            model: "Hashtag"
+          },
+          {
+            path: "likes",
+            select: "firstName",
+            model: "User"
+          },
+          {
+            path: "comments",
+            model: "Comment",
+            options: { sort: { date: -1 } },
+            populate: {
+              path: "user",
+              select: "firstName",
+              model: "User"
+            }
+          }
+        ]);
+
+      io.emit("update-post", posts);
       return;
     }
   });
