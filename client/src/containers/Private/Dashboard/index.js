@@ -32,6 +32,7 @@ import {
 } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
+import AddContent from "../../../components/Forms/AddContent";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -44,11 +45,11 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		async function fetchUserInfo() {
-			console.log(userState);
+			console.log(userState.posts.length === 0);
 			try {
 				const userInfo = await api.getUser(userState._id);
 
-				console.log(userInfo.data);
+				// console.log(userInfo.data);
 
 				await userDispatch({ type: USER_LOADING });
 
@@ -112,34 +113,42 @@ const Dashboard = () => {
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									{userState.posts.map(card => (
-										<News
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											comments={card.comments}
-										/>
-									))}
+									{userState.posts.length === 0 ? (
+										<AddContent text='Please make a Post in the Newsfeed ' />
+									) : (
+										userState.posts.map(card => (
+											<News
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+												comments={card.comments}
+											/>
+										))
+									)}
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
-									{userState.causes.map(card => (
-										<Causes
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-										/>
-									))}
+									{userState.posts.length === 0 ? (
+										<AddContent text='Please make/follow a Cause ' />
+									) : (
+										userState.causes.map(card => (
+											<Causes
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+											/>
+										))
+									)}
 								</Grid>
 							</Grid>
 						</>
