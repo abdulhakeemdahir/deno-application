@@ -33,12 +33,6 @@ import {
 
 import API from "../../../utils/api";
 
-import {
-	useAuthTokenStore,
-	useIsAuthenticated,
-	useLogout,
-} from "../../../utils/auth";
-
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
@@ -76,11 +70,6 @@ const Dashboard = () => {
 
 	const { width } = useWindowDimensions();
 
-	useAuthTokenStore();
-
-	const isAuth = useIsAuthenticated();
-
-	console.log(isAuth);
 	return (
 		<div className='Main'>
 			<CssBaseline>
