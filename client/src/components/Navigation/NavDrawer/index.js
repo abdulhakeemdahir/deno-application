@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/icons";
 import * as React from "react";
 import { useState } from "react";
-import { Link, useHistory, NavLink } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 
 import {
 	useAuthTokenStore,

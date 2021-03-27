@@ -65,9 +65,6 @@ class API {
 	async getAllUsers() {
 		return this.axios.get(`/api/users`);
 	}
-	async getUsersByUsername(username) {
-		return this.axios.get(`/api/users/username`);
-	}
 	updateUser(id, data) {
 		return this.axios.put(`/api/users/${id}`, data);
 	}

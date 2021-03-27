@@ -5,10 +5,10 @@ router.route("/").get(userController.getAllUsers);
 
 // api/user:id
 router
-	.route("/:id")
-	.put(userController.updateUser)
-	.delete(userController.deleteUser)
-	.get(userController.getUser);
+  .route("/:id")
+  .put(userController.updateUser)
+  .delete(userController.deleteUser)
+  .get(userController.getUser);
 
 router.route("/:username").get(userController.getUsersByUsername);
 

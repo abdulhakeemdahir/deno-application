@@ -104,9 +104,6 @@ export default function Signin() {
 	};
 	// Form validation for inputs to be more than 6 characters
 	const validateLogin = response => {
-		console.log(response);
-		const { value } = response;
-		// console.log(name);
 		let isError = false;
 		const errors = {};
 
