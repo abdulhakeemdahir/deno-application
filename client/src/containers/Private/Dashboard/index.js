@@ -26,17 +26,23 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 import {
-  UPDATE_USER,
-  USER_LOADING
-  //What about USER_LOADED?
+	UPDATE_USER,
+	USER_LOADING,
+	//What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
 
+import {
+	useAuthTokenStore,
+	useIsAuthenticated,
+	useLogout,
+} from "../../../utils/auth";
+
 TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
 };
 
 const Dashboard = () => {
