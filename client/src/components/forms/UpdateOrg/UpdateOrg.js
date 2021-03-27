@@ -80,6 +80,7 @@ export default function UpdateOrg() {
 
   //*Associated with cloudinary
   const [fileInputState, setFileInputState] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
 
   const handleFileInputChange = (e) => {
