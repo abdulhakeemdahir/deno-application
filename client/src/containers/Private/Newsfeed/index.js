@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
 
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
@@ -34,10 +32,7 @@ import {
   USER_LOADING,
   UPDATE_USER
 } from "../../../utils/actions/actions.js";
-import API from "../../../utils/api";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 TabPanel.propTypes = {
   children: PropTypes.node,

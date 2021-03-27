@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useRef, useState } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> 182eb841b768145d9ebfd16dc68b60a071c1e896
 import {
   Typography,
   Grid,
@@ -23,17 +19,10 @@ import { CompassCalibrationOutlined, Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
-import {
-  usePostContext,
-} from "../../../utils/GlobalStates/PostContext";
+import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
-import {
-  ADD_POST,
-  POST_LOADING,
+import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
 
-} from "../../../utils/actions/actions";
-
-;
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%"
@@ -73,60 +62,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function NewsAndComment(props) {
+  const classes = useStyles();
 
+  const [, postDispatch] = usePostContext();
 
-	const classes = useStyles();
+  const [userState] = useUserContext();
 
-	const [, postDispatch] = usePostContext();
-
-
-	const [userState] = useUserContext();
-
-	const [, setOpen] = useState(false);
-
-
+  const [, setOpen] = useState(false);
 
   const [commentState, setCommentState] = useState({
     content: ""
   });
 
   const handleChange = function(event) {
-	const { name, value } = event.target;
-	setCommentState({
-		...commentState,
-		[name]: value,
-	});
-};
-
-const handleSubmit = async id => {
-	try {
-		const comment = {
-			...commentState,
-			user: userState._id,
-			post: id,
-		};
-
-  
-
-		const { data } = await api.createComments(comment);
-
-		await api.updateObjectID(id, { comments: data._id });
-
-		const postInfo = await api.getAllPost();
-
-		await postDispatch({ type: POST_LOADING });
-
-		await postDispatch({
-			type: ADD_POST,
-			payload: {
-			posts: postInfo.data,
-			loading: false,
-			},
-		});
-
-  
-	} catch (err) {}
-};
+    const { name, value } = event.target;
+    setCommentState({
+      ...commentState,
+      [name]: value
+    });
+  };
 
   const handleSubmit = async id => {
     try {
@@ -136,47 +90,69 @@ const handleSubmit = async id => {
         post: id
       };
 
-	const [like, setLike] = React.useState(false);
+      const { data } = await api.createComments(comment);
 
-	const handleLike = async (id) =>{
-    
-    const found = props.liked.find((l) => l._id === userState._id)
-    console.log(found)
-    if(found){
+      await api.updateObjectID(id, { comments: data._id });
+
+      const postInfo = await api.getAllPost();
+
+      await postDispatch({ type: POST_LOADING });
+
+      await postDispatch({
+        type: ADD_POST,
+        payload: {
+          posts: postInfo.data,
+          loading: false
+        }
+      });
+    } catch (err) {}
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [like, setLike] = React.useState(false);
+
+  const handleLike = async id => {
+    const found = props.liked.find(l => l._id === userState._id);
+    console.log(found);
+    if (found) {
       await api.removeliked(id, { likes: userState._id });
-    }else{
+    } else {
       await api.updateObjectID(id, { likes: userState._id });
-    //   return true
+      //   return true
     }
 
     const postInfo = await api.getAllPost();
 
-			await postDispatch({ type: POST_LOADING });
+    await postDispatch({ type: POST_LOADING });
 
-			await postDispatch({
-				type: ADD_POST,
-				payload: {
-				posts: postInfo.data,
-				loading: false,
-				},
-			});
-    
-  
-	};
+    await postDispatch({
+      type: ADD_POST,
+      payload: {
+        posts: postInfo.data,
+        loading: false
+      }
+    });
+  };
 
-	return (
+  return (
     <>
-      <Grid item className="card" xs={12}>
-        <Grid container className="headerContainer">
+      <Grid item className='card' xs={12}>
+        <Grid container className='headerContainer'>
           <Grid item xs={9} sm={11}>
-            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={3} sm={1}>
-            <Button className="editButton" onClick={() => handleLike(props.id)}>
+            <Button className='editButton' onClick={() => handleLike(props.id)}>
               <>
-                {props.liked.find((l) => l._id === userState._id) && !like ? (
+                {props.liked.find(l => l._id === userState._id) && !like ? (
                   <Favorite />
                 ) : (
                   <FavoriteBorderIcon />
@@ -185,18 +161,18 @@ const handleSubmit = async id => {
             </Button>
           </Grid>
         </Grid>
-        <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          <span className='authorStyle'> Author:</span>
           <Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
         </Typography>
         <Divider />
-        <Grid container direction="row" spacing={1}>
+        <Grid container direction='row' spacing={1}>
           <Grid item xs={12} sm={4}>
             <CardMedia className={"media"} image={props.image} />
           </Grid>
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
 
@@ -218,13 +194,13 @@ const handleSubmit = async id => {
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name="content"
+              name='content'
               value={commentState.content}
               onChange={handleChange}
               id={props.id}
-              label="Post a Comment"
-              variant="filled"
-              size="small"
+              label='Post a Comment'
+              variant='filled'
+              size='small'
               multiline
               rowsMax={4}
               fullWidth
@@ -232,7 +208,7 @@ const handleSubmit = async id => {
           </Grid>
           <Grid item xs={12} sm={4} id={props.id}>
             <Button
-              size="small"
+              size='small'
               id={props.id}
               className={classes.styleMain}
               fullWidth
@@ -245,31 +221,31 @@ const handleSubmit = async id => {
             <Accordion className={classes.shadow}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+                aria-controls='panel1a-content'
+                id='panel1a-header'
               >
                 <Typography className={classes.heading}>
                   Read {props.comments.length} Comments
                 </Typography>
               </AccordionSummary>
-              <Grid className="cardComment">
-                {props.comments.map((card) => (
+              <Grid className='cardComment'>
+                {props.comments.map(card => (
                   <AccordionDetails>
                     <Grid container xs={12} className={classes.gridStyle}>
                       <Grid item xs={4}>
                         <Typography
-                          variant="body"
-                          color="textSecondary"
-                          component="p"
+                          variant='body'
+                          color='textSecondary'
+                          component='p'
                         >
                           {card.user.firstName}
                         </Typography>
                       </Grid>
                       <Grid item xs={8}>
                         <Typography
-                          variant="body"
-                          color="textSecondary"
-                          component="p"
+                          variant='body'
+                          color='textSecondary'
+                          component='p'
                         >
                           {card.content}
                         </Typography>

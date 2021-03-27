@@ -165,11 +165,6 @@ class API {
   }
 }
 
-<<<<<<< HEAD
-export default new API();
-=======
 //-----------------------image api-------------------------//
 
-
 export default new API();
->>>>>>> 182eb841b768145d9ebfd16dc68b60a071c1e896
