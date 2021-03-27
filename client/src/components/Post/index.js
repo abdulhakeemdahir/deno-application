@@ -14,6 +14,7 @@ import { ADD_CAUSE, ADD_POST, CAUSE_LOADING, POST_LOADING } from "../../utils/ac
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
+import api from "../../utils/api.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,6 +97,10 @@ export default function Post() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    //*Associated with cloudinary
+    if (!previewSource) return;
+    uploadImage(previewSource);
+
     if (userState.role === "Personal" && createPost.type === "Cause") {
       //TODO display error message
       console.log("sorry");
@@ -174,7 +179,11 @@ export default function Post() {
       setPreviewSource(reader.result);
     };
   };
-
+//*Associated with cloudinary
+const uploadImage = async (base64EncodedImage) => {
+  const updateUser = await api.updateUser(userState._id, { profileImg: base64EncodedImage });
+  console.log(updateUser);
+};
   return (
     <Grid className="cardPost">
       <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
