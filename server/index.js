@@ -85,7 +85,9 @@ io.on("connection", socket => {
       ])
       .sort({ updatedAt: -1 });
 
-    socket.join(conversations[0].name);
+    if (conversations.length) {
+      socket.join(conversations[0].name);
+    }
 
     socket.emit("get-convos", conversations);
   });
@@ -133,9 +135,28 @@ io.on("connection", socket => {
       name,
       participants
     });
+    const convoInfo = await Conversation.findOne({ name }).populate([
+      {
+        path: "participants",
+        select: "username",
+        model: "User"
+      },
+      {
+        path: "messages",
+        select: "sender content createdAt",
+        model: "Message",
+        populate: [
+          {
+            path: "sender",
+            select: "username",
+            model: "User"
+          }
+        ]
+      }
+    ]);
 
-    socket.to(name).emit("get-messages", newConvo);
-    socket.join(name);
+    socket.emit("get-newConvo", convoInfo);
+    socket.join(newConvo.name);
   });
 
   socket.on("get-messages", async name => {
