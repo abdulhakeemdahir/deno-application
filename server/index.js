@@ -135,8 +135,27 @@ io.on("connection", socket => {
       name,
       participants
     });
+    const convoInfo = await Conversation.findOne({ name }).populate([
+      {
+        path: "participants",
+        select: "username",
+        model: "User"
+      },
+      {
+        path: "messages",
+        select: "sender content createdAt",
+        model: "Message",
+        populate: [
+          {
+            path: "sender",
+            select: "username",
+            model: "User"
+          }
+        ]
+      }
+    ]);
 
-    socket.emit("get-newConvo", newConvo);
+    socket.emit("get-newConvo", convoInfo);
     socket.join(newConvo.name);
   });
 
