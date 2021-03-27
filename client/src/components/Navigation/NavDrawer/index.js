@@ -15,9 +15,9 @@ import {
 	useAuthTokenStore,
 	useIsAuthenticated,
 	useLogout,
-} from "../../utils/auth";
+} from "../../../utils/auth";
 
-import "./style.css";
+import "../style.css";
 
 const useStyles = makeStyles({
 	list: {
