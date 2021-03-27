@@ -1,0 +1,39 @@
+.cardComment {
+	background: #ffffff;
+	border-radius: 0px;
+	box-shadow: 0 3.42857px 23px rgb(0 0 0 / 10%);
+}
+
+.media {
+	height: 0;
+	padding-top: 56.25%;
+	border-radius: 0px;
+}
+
+.hashTagStyle {
+	background: #ffecb3;
+	color: #b29537;
+	text-decoration: none;
+	text-transform: lowercase;
+	border-radius: 0px;
+	padding: 2px;
+	/* margin-top: 5px !important; */
+}
+
+.authorStyle {
+	font-weight: 900;
+}
+
+.editButton {
+	color: #e57373 !important;
+	/* border-radius: 100px !important;
+	padding: 0px;
+	margin-right: 5px !important; */
+}
+
+.headerContainer {
+	align-items: center !important;
+	padding: 0px !important;
+	margin-top: -20px;
+	overflow: hidden;
+}
