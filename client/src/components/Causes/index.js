@@ -7,6 +7,10 @@ import {
 	CardMedia,
 	Button,
 	ButtonGroup,
+	Dialog,
+	Fade,
+	Backdrop,
+	TextField,
 } from "@material-ui/core";
 //import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
@@ -16,6 +20,7 @@ import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
 
 import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
+import Donate from "../Forms/Donate/Donate";
 
 export default function Causes(props) {
 	const [userState, userDispatch] = useUserContext();
@@ -58,6 +63,16 @@ export default function Causes(props) {
 
 	const isAuth = useIsAuthenticated();
 
+	const [open, setOpen] = React.useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	return (
 		<Grid item className='card'>
 			<Grid container className='headerContainer'>
@@ -85,7 +100,7 @@ export default function Causes(props) {
 						<Button
 							size='large'
 							className='styleButton'
-							onClick={() => handleSupport(props.id)}
+							onClick={handleOpen}
 							fullWidth
 							id={props.id}
 						>
@@ -102,6 +117,22 @@ export default function Causes(props) {
 						</Button>
 					</ButtonGroup>
 				) : null}
+				<Dialog
+					aria-labelledby='transition-modal-title'
+					aria-describedby='transition-modal-description'
+					open={open}
+					onClose={handleClose}
+					closeAfterTransition
+					BackdropComponent={Backdrop}
+					BackdropProps={{
+						timeout: 500,
+					}}
+					fullWidth
+				>
+					<Fade in={open}>
+						<Donate />
+					</Fade>
+				</Dialog>
 			</Grid>
 		</Grid>
 	);
