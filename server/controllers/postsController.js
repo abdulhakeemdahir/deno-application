@@ -1,4 +1,7 @@
 const { Post } = require("../models");
+// const { populate } = require("../models/cause");
+
+const cloudinary = require("../../utils/cloudinary");
 
 module.exports = {
   findUserPosts: async (req, res) => {
@@ -12,21 +15,19 @@ module.exports = {
   create: async ({ body }, res) => {
     const { title, content, imageUrl, author, hashtags } = body;
     try {
-      //*CLOUD BEG
-      //Create post body with form data and cloudinary secure_url and public_id
-      const value = {
-        body,
-        image: result.secure_url,
-        // eslint-disable-next-line camelcase
-        cloudinary_id: result.public_id
-      };
-      const model = await db.Post.create(value);
-      res.json(model);
-      //*CLOUD END
+      let img = "";
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        img = result.public_id;
+      }
+
       const postModel = await Post.create({
         title,
         content,
-        imageUrl,
+        imageUrl: img,
         author,
         hashtags
       });
@@ -37,12 +38,22 @@ module.exports = {
     }
   },
   update: async (req, res) => {
-    const body = req.body;
+    const { imageUrl } = req.body;
+    const upDatePost = req.body;
+
+    if (imageUrl) {
+      const result = await cloudinary.uploader.upload_large(profileImg, {
+        // eslint-disable-next-line camelcase
+        upload_preset: "dev_setup"
+      });
+      upDatePost.imageUrl = result.public_id;
+    }
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
-        { body },
-
+        {
+          upDatePost
+        },
         { new: true, runValidators: true }
       );
 
@@ -115,7 +126,7 @@ module.exports = {
     }
   },
   removeliked: async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,

@@ -4,6 +4,14 @@ const { createPassword } = require("../config/bcrypt.js");
 const cloudinary = require("../../utils/cloudinary");
 
 module.exports = {
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await User.find({});
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
   getUser: async (req, res) => {
     try {
       const user = await User.findById(req.params.id)
@@ -102,82 +110,53 @@ module.exports = {
   updateUser: async (req, res) => {
     console.log(req.params.id);
     try {
-      const {
-        // firstName,
-        // email,
-        password,
-        // username,
-        // lastname,
-        // posts,
-        // causes,
-        profileImg
-        // bannerImg,
-        // bio,
-        // orgName,
-        // phoneNumber,
-        // address,
-        // website
-      } = req.body;
-      const updateUser = {};
-      // if (firstName) {
-      //   updateUser.firstName = firstName;
-      // }
-      // if (email) {
-      //   updateUser.email = email;
-      // }
-      // if (bio) {
-      //   updateUser.bio = bio;
-      // }
+      const { password, profileImg } = req.body;
+      const updateUser = req.body;
+
       if (password) {
         updateUser.password = await createPassword(password);
       }
-      // if (username) {
-      //   updateUser.username = username;
-      // }
-      // if (lastname) {
-      //   updateUser.lastname = lastname;
-      // }
-      // if (posts) {
-      //   updateUser.posts = posts;
-      // }
-      // if (causes) {
-      //   updateUser.causes = causes;
-      // }
+
       if (profileImg) {
         const result = await cloudinary.uploader.upload_large(profileImg, {
           // eslint-disable-next-line camelcase
           upload_preset: "dev_setup"
         });
-        updateUser.profileImg = result.public_id;
+        updateUser.profileImg = result.public_id.toString();
       }
-      // if (bannerImg) {
-      //   updateUser.bannerImg = bannerImg;
-      // }
-      // if (orgName) {
-      //   updateUser.orgName = orgName;
-      // }
-      // if (phoneNumber) {
-      //   updateUser.phoneNumber = phoneNumber;
-      // }
-      // if (website) {
-      //   updateUser.website = website;
-      // }
-      // if (address) {
-      //   updateUser.address = address;
-      // }
       console.log(updateUser);
-      const foundUser = await User.findByIdAndUpdate(
+
+      const foundUser = await User.findOneAndUpdate(
+        {
+          _id: req.params.id
+        },
+        {
+          $set: updateUser
+        },
+        { new: true, runValidators: true }
+      );
+      console.log("here", foundUser);
+      res.status(200).json(foundUser.firstName);
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
+    }
+  },
+  updateUserObjectID: async (req, res) => {
+    console.log(req.body);
+    console.log(req.params.id);
+    try {
+      const postModel = await User.findByIdAndUpdate(
         req.params.id,
         {
-          updateUser
+          $push: req.body
         },
 
         { new: true, runValidators: true }
       );
-      console.log(foundUser);
-      res.status(200).json(foundUser);
+      console.log(postModel);
+      res.status(200).json(postModel);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },

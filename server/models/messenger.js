@@ -29,7 +29,7 @@ const messageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    message: {
+    content: {
       type: String,
       default: ""
     }
@@ -40,5 +40,4 @@ const messageSchema = new Schema(
 const Conversation = mongoose.model("Conversation", conversationSchema);
 const Message = mongoose.model("Message", messageSchema);
 
-module.exports = Conversation;
-module.exports = Message;
+module.exports = { Conversation, Message };

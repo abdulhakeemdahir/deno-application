@@ -66,19 +66,15 @@ export default function About(props) {
             }}
           >
             <Fade in={open}>
-              <UpdateUser />
+              <UpdateUser onClose={handleClose} />
             </Fade>
           </Dialog>
         </Grid>
       </Grid>
-      {/* <Divider /> */}
-      {/* <Image
-        cloudName={"astralgnome"}
-        publicId={props.profileImg}
-        width="300"
-        crop="scale"
-      /> */}
-      <CardMedia className="media" image={`https://res.cloudinary.com/astralgnome/image/upload/${props.profileImg}`} />
+      <CardMedia
+        className="media"
+        image={`https://res.cloudinary.com/astralgnome/image/upload/${props.profileImg}`}
+      />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12} sm={12}>
           <ButtonGroup fullWidth>
@@ -101,34 +97,68 @@ export default function About(props) {
           <Divider />
           {props.role === "Organization" ? (
             <CardContent>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
                 <span className="authorStyle"> Website:</span> {props.website}
               </Typography>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
                 <span className="authorStyle"> Address:</span> {props.address}
               </Typography>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
                 <span className="authorStyle"> Phone:</span> {props.phone}
               </Typography>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
                 <span className="authorStyle"> E-mail:</span> {props.email}
               </Typography>
             </CardContent>
           ) : (
             <CardContent>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
-                <span className="authorStyle"> Name </span> {`${props.firstName} ${props.lastname}`}
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
+                <span className="authorStyle"> Name </span>{" "}
+                {`${props.firstName} ${props.lastname}`}
               </Typography>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
                 <span className="authorStyle"> Username:</span> {props.username}
               </Typography>
-              <Typography className="borderStyle" variant="body2" color="textSecondary">
+              <Typography
+                className="borderStyle"
+                variant="body2"
+                color="textSecondary"
+              >
                 <span className="authorStyle"> E-mail:</span> {props.email}
               </Typography>
             </CardContent>
           )}
 
-          <Button size="large" className="analyticsButton" fullWidth href="/analytics">
+          <Button
+            size="large"
+            className="analyticsButton"
+            fullWidth
+            href="/analytics"
+          >
             <EqualizerIcon /> Analytics
           </Button>
         </Grid>

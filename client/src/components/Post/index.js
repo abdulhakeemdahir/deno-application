@@ -10,42 +10,59 @@ import "./style.css";
 import { useState } from "react";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import API from "../../utils/api.js";
-import { ADD_CAUSE, ADD_POST, CAUSE_LOADING, POST_LOADING } from "../../utils/actions/actions";
+import {
+	ADD_CAUSE,
+	ADD_POST,
+	CAUSE_LOADING,
+	POST_LOADING,
+} from "../../utils/actions/actions";
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
 import api from "../../utils/api.js";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(0),
-      width: "100%",
-    },
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  styleMain: {
-    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-    color: "#ffffff",
-    padding: "15px",
-    marginTop: "10px",
-    borderRadius: "0px",
-  },
-  inputMargin: {
-    margin: "5px",
-  },
+const useStyles = makeStyles(theme => ({
+	root: {
+		"& > *": {
+			marginTop: theme.spacing(1),
+			marginBottom: theme.spacing(0),
+			width: "100%",
+		},
+	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+	},
+	styleMain: {
+		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+		color: "#ffffff",
+		padding: "15px",
+		marginTop: "10px",
+		borderRadius: "0px",
+	},
+	inputMargin: {
+		margin: "5px",
+	},
+	mgStyle: {
+		marginTop: "5px",
+		marginBottom: "5px",
+	},
+	imgStyle: {
+		width: "100%",
+		marginTop: "10px",
+		marginBottom: "5px",
+	},
 }));
 
 export default function Post() {
   const [, causeDispatch] = useCauseContext();
   const [, postDispatch] = usePostContext();
+  //*Associated with cloudinary
+  const [fileInputState, setFileInputState] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
   const classes = useStyles();
 
   //*Create Post
@@ -114,6 +131,10 @@ export default function Post() {
         ...createPost,
         author: userState._id,
       };
+	  //the only line we need it to add
+	if (previewSource) {
+		post.imageUrl = previewSource;
+	}
 
       const hashtags = await findHashtags(createPost.content);
 
@@ -121,7 +142,7 @@ export default function Post() {
         const createHashtags = await API.createHashtag({ hashtag: hashtags });
         post.hashtags = createHashtags.data._id;
       }
-      console.log(post);
+
       if (createPost.type === "Post") {
         const { data } = await API.createPost(post);
         if (post.hashtags) {
@@ -130,7 +151,7 @@ export default function Post() {
           });
         }
 
-        await API.updateUser(post.author, {
+        await API.updateUserObjectID(post.author, {
           posts: data._id,
         });
 
@@ -148,25 +169,23 @@ export default function Post() {
         addCause();
       }
 
-      clearState();
+      setCreatePost({
+        type: " ",
+        title: " ",
+        content: " ",
+        imageUrl: " ",
+      });
+      setPreviewSource(" ");
+
     } catch (err) {
       console.log("here", err);
     }
   };
   const clearState = () => {
-    setCreatePost({
-      type: "",
-      title: "",
-      content: "",
-      imageUrl: "",
-    });
+    
     return;
   };
-  //*Associated with cloudinary
-  const [fileInputState, setFileInputState] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-
+  
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
@@ -186,10 +205,21 @@ const uploadImage = async (base64EncodedImage) => {
 };
   return (
     <Grid className="cardPost">
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <FormControl variant="outlined">
           <InputLabel id="post">Post Type</InputLabel>
-          <Select labelId="post" id="post" label="post type" name="type" onChange={handleChange}>
+          <Select
+            labelId="post"
+            id="post"
+            label="post type"
+            name="type"
+            onChange={handleChange}
+          >
             <MenuItem value={"Post"}>Post</MenuItem>
             <MenuItem value={"Cause"}>Cause</MenuItem>
           </Select>
@@ -207,17 +237,7 @@ const uploadImage = async (base64EncodedImage) => {
               className={classes.inputMargin}
               size="small"
             />
-            <TextField
-              name="imageUrl"
-              value={createPost.imageUrl}
-              onChange={handleChange}
-              id="imageUrl"
-              label="Image Url"
-              multiline
-              rowsMax={4}
-              className={classes.inputMargin}
-              size="small"
-            />
+
             <TextField
               name="content"
               value={createPost.content}
@@ -230,23 +250,28 @@ const uploadImage = async (base64EncodedImage) => {
               fullWidth
               size="small"
             />
-            <TextField //*Associated with cloudinary
-              type="file"
-              name="image"
-              onChange={handleFileInputChange}
-              value={fileInputState}
-              variant="outlined"
-              fullWidth
-              className={classes.mgstyle}
-            />
           </Grid>
         </div>
-        <Button type="submit" size="small" className={classes.styleMain} onClick={handleSubmit}>
+		
+        <TextField
+          type="file"
+          name="image"
+          onChange={handleFileInputChange}
+          value={fileInputState}
+          variant="outlined"
+        />
+        <Button
+          type="submit"
+          size="small"
+          className={classes.styleMain}
+          onClick={handleSubmit}
+        >
           <ChatBubbleOutlineIcon /> Post
         </Button>
       </form>
-      {previewSource && <img src={previewSource} alt="chosen" style={{ width: "75%" }} />}
-
+      {previewSource && (
+        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
+      )}
     </Grid>
   );
 }
