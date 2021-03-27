@@ -127,7 +127,7 @@ const Newsfeed = () => {
                 <Grid item xs={12} sm={6} className='card-container'>
                   <Typography variant='subtitle2'>NEWS FEED</Typography>
                   <Post className='card' />
-                  {postState.posts.map(card => {
+                  {postState.posts?.map(card => {
                     return (
                       <News
                         key={card._id}

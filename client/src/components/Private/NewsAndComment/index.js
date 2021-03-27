@@ -22,6 +22,7 @@ import api from "../../../utils/api";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
 import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,6 +75,8 @@ export default function NewsAndComment(props) {
     content: ""
   });
 
+  const socket = useSocket();
+
   const handleChange = function(event) {
     const { name, value } = event.target;
     setCommentState({
@@ -105,6 +108,10 @@ export default function NewsAndComment(props) {
           loading: false
         }
       });
+
+      const payload = { isPost: true };
+
+      socket.emit("send-message", payload);
     } catch (err) {}
   };
 
@@ -139,6 +146,25 @@ export default function NewsAndComment(props) {
       }
     });
   };
+
+  useEffect(() => {
+    const updatePosts = async posts => {
+      console.log(posts);
+      await postDispatch({ type: POST_LOADING });
+
+      await postDispatch({
+        type: ADD_POST,
+        payload: {
+          posts,
+          loading: false
+        }
+      });
+    };
+
+    socket.on("update-post", updatePosts);
+
+    return () => socket.off("update-post");
+  }, []);
 
   return (
     <>
