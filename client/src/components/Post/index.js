@@ -57,225 +57,212 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Post() {
-	const [, causeDispatch] = useCauseContext();
-	const [, postDispatch] = usePostContext();
-	const classes = useStyles();
+  const [, causeDispatch] = useCauseContext();
+  const [, postDispatch] = usePostContext();
+  //*Associated with cloudinary
+  const [fileInputState, setFileInputState] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
+  const classes = useStyles();
 
-	//*Create Post
-	const addPost = async () => {
-		await postDispatch({ type: POST_LOADING });
+  //*Create Post
+  const addPost = async () => {
+    await postDispatch({ type: POST_LOADING });
 
-		const postInfo = await API.getAllPost();
+    const postInfo = await API.getAllPost();
 
-		await postDispatch({
-			type: ADD_POST,
-			payload: {
-				posts: postInfo.data,
-				loading: false,
-			},
-		});
-	};
-	//Create cause
-	const addCause = async () => {
-		await causeDispatch({ type: CAUSE_LOADING });
+    await postDispatch({
+      type: ADD_POST,
+      payload: {
+        posts: postInfo.data,
+        loading: false,
+      },
+    });
+  };
+  //Create cause
+  const addCause = async () => {
+    await causeDispatch({ type: CAUSE_LOADING });
 
-		const causes = await API.getAllCauses();
+    const causes = await API.getAllCauses();
 
-		await causeDispatch({
-			type: ADD_CAUSE,
-			payload: {
-				causes: causes.data,
-				loading: false,
-			},
-		});
-	};
+    await causeDispatch({
+      type: ADD_CAUSE,
+      payload: {
+        causes: causes.data,
+        loading: false,
+      },
+    });
+  };
 
-	const [createPost, setCreatePost] = useState({
-		type: "",
-		title: "",
-		content: "",
-		imageUrl: "",
-	});
+  const [createPost, setCreatePost] = useState({
+    type: "",
+    title: "",
+    content: "",
+    imageUrl: "",
+  });
 
-	const handleChange = function(event) {
-		const { name, value } = event.target;
-		setCreatePost({
-			...createPost,
-			[name]: value,
-		});
-	};
+  const handleChange = function(event) {
+    const { name, value } = event.target;
+    setCreatePost({
+      ...createPost,
+      [name]: value,
+    });
+  };
 
-	const [userState] = useUserContext();
+  const [userState] = useUserContext();
 
-	const handleSubmit = async event => {
-		event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-		if (userState.role === "Personal" && createPost.type === "Cause") {
-			//TODO display error message
-			console.log("sorry");
-			return;
-		}
-		if (
-			createPost.type === "" ||
-			createPost.title === "" ||
-			createPost.content === ""
-		) {
-			return;
-		}
-		try {
-			const post = {
-				...createPost,
-				author: userState._id,
-			};
+    if (userState.role === "Personal" && createPost.type === "Cause") {
+      //TODO display error message
+      console.log("sorry");
+      return;
+    }
+    if (createPost.type === "" || createPost.title === "" || createPost.content === "") {
+      return;
+    }
+    try {
+      const post = {
+        ...createPost,
+        author: userState._id,
+      };
+	  //the only line we need it to add
+	if (previewSource) {
+		post.imageUrl = previewSource;
+	}
 
-			const hashtags = await findHashtags(createPost.content);
+      const hashtags = await findHashtags(createPost.content);
 
-			if (hashtags.length) {
-				const createHashtags = await API.createHashtag({ hashtag: hashtags });
-				post.hashtags = createHashtags.data._id;
-			}
-			console.log(post);
-			if (createPost.type === "Post") {
-				const { data } = await API.createPost(post);
-				if (post.hashtags) {
-					await API.updateHashtag(post.hashtags, {
-						posts: data._id,
-					});
-				}
+      if (hashtags.length) {
+        const createHashtags = await API.createHashtag({ hashtag: hashtags });
+        post.hashtags = createHashtags.data._id;
+      }
 
-				await API.updateUser(post.author, {
-					posts: data._id,
-				});
+      if (createPost.type === "Post") {
+        const { data } = await API.createPost(post);
+        if (post.hashtags) {
+          await API.updateHashtag(post.hashtags, {
+            posts: data._id,
+          });
+        }
 
-				addPost();
-				return;
-			} else {
-				const { data } = await API.createCause(post);
+        await API.updateUserObjectID(post.author, {
+          posts: data._id,
+        });
 
-				if (post.hashtags) {
-					await API.updateHashtag(post.hashtags, {
-						causes: data._id,
-					});
-				}
+        addPost();
+        return;
+      } else {
+        const { data } = await API.createCause(post);
 
-				addCause();
-			}
+        if (post.hashtags) {
+          await API.updateHashtag(post.hashtags, {
+            causes: data._id,
+          });
+        }
 
-			clearState();
-		} catch (err) {
-			console.log("here", err);
-		}
-	};
-	const clearState = () => {
-		setCreatePost({
-			type: "",
-			title: "",
-			content: "",
-			imageUrl: "",
-		});
-		return;
-	};
-	//*Associated with cloudinary
-	const [fileInputState, setFileInputState] = useState("");
-	const [selectedFile, setSelectedFile] = useState("");
-	const [previewSource, setPreviewSource] = useState("");
+        addCause();
+      }
 
-	const handleFileInputChange = e => {
-		const file = e.target.files[0];
-		previewFile(file);
-	};
+      setCreatePost({
+        type: " ",
+        title: " ",
+        content: " ",
+        imageUrl: " ",
+      });
+      setPreviewSource(" ");
 
-	const previewFile = file => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			setPreviewSource(reader.result);
-		};
-	};
+    } catch (err) {
+      console.log("here", err);
+    }
+  };
+  const clearState = () => {
+    
+    return;
+  };
+  
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
 
-	return (
-		<Grid className='cardPost'>
-			<form
-				className={classes.root}
-				noValidate
-				autoComplete='off'
-				onSubmit={handleSubmit}
-			>
-				<FormControl variant='outlined'>
-					<InputLabel id='post'>Post Type</InputLabel>
-					<Select
-						labelId='post'
-						id='post'
-						label='post type'
-						name='type'
-						onChange={handleChange}
-					>
-						<MenuItem value={"Post"}>Post</MenuItem>
-						<MenuItem value={"Cause"}>Cause</MenuItem>
-					</Select>
-				</FormControl>
-				<div>
-					<Grid container>
-						<TextField
-							name='title'
-							value={createPost.title}
-							onChange={handleChange}
-							id='title'
-							label='Title'
-							multiline
-							rowsMax={4}
-							className={classes.inputMargin}
-							size='small'
-							fullWidth
-						/>
-						{/* <TextField
-              name="imageUrl"
-              value={createPost.imageUrl}
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
+  return (
+    <Grid className="cardPost">
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <FormControl variant="outlined">
+          <InputLabel id="post">Post Type</InputLabel>
+          <Select
+            labelId="post"
+            id="post"
+            label="post type"
+            name="type"
+            onChange={handleChange}
+          >
+            <MenuItem value={"Post"}>Post</MenuItem>
+            <MenuItem value={"Cause"}>Cause</MenuItem>
+          </Select>
+        </FormControl>
+        <div>
+          <Grid container>
+            <TextField
+              name="title"
+              value={createPost.title}
               onChange={handleChange}
-              id="imageUrl"
-              label="Image Url"
+              id="title"
+              label="Title"
               multiline
               rowsMax={4}
               className={classes.inputMargin}
               size="small"
-            /> */}
-						<TextField //*Associated with cloudinary
-							type='file'
-							name='image'
-							onChange={handleFileInputChange}
-							value={fileInputState}
-							variant='outlined'
-							fullWidth
-							className={classes.mgStyle}
-						/>
-						<TextField
-							name='content'
-							value={createPost.content}
-							onChange={handleChange}
-							id='post'
-							label='Post a Message'
-							variant='filled'
-							multiline
-							rows={4}
-							fullWidth
-							size='small'
-						/>
-					</Grid>
-				</div>
-				<Button
-					type='submit'
-					size='small'
-					className={classes.styleMain}
-					onClick={handleSubmit}
-				>
-					<ChatBubbleOutlineIcon /> Post
-				</Button>
-			</form>
-			<Grid container xs={12}>
-				{previewSource && (
-					<img src={previewSource} alt='chosen' className={classes.imgStyle} />
-				)}
-			</Grid>
-		</Grid>
-	);
+            />
+
+            <TextField
+              name="content"
+              value={createPost.content}
+              onChange={handleChange}
+              id="post"
+              label="Post a Message"
+              variant="filled"
+              multiline
+              rows={4}
+              fullWidth
+              size="small"
+            />
+          </Grid>
+        </div>
+		
+        <TextField
+          type="file"
+          name="image"
+          onChange={handleFileInputChange}
+          value={fileInputState}
+          variant="outlined"
+        />
+        <Button
+          type="submit"
+          size="small"
+          className={classes.styleMain}
+          onClick={handleSubmit}
+        >
+          <ChatBubbleOutlineIcon /> Post
+        </Button>
+      </form>
+      {previewSource && (
+        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
+      )}
+    </Grid>
+  );
 }

@@ -68,6 +68,9 @@ class API {
   updateUser(id, data) {
     return this.axios.put(`/api/users/${id}`, data);
   }
+  updateUserObjectID(id, data) {
+    return this.axios.put(`/api/users/update/references/${id}`, data);
+  }
   deleteUser(_id) {
     return this.axios.delete(`/api/users/${_id}`);
   }
@@ -163,8 +166,11 @@ class API {
   removeHashtag(_id) {
     return this.axios.delete(`/api/hashtags/${_id}`);
   }
+  donate(data){
+   return this.axios.post("api/donations/pay", data)
+  }
 }
 
-//-----------------------image api-------------------------//
+//-----------------------donate api-------------------------//
 
 export default new API();

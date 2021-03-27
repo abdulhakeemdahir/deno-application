@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
-import { CompassCalibrationOutlined, Favorite } from "@material-ui/icons";
+import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
@@ -69,8 +69,6 @@ export default function NewsAndComment(props) {
 
 	const [userState] = useUserContext();
 
-	const [, setOpen] = useState(false);
-
 	const [commentState, setCommentState] = useState({
 		content: "",
 	});
@@ -123,15 +121,6 @@ export default function NewsAndComment(props) {
 		return;
 	};
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const [like, setLike] = React.useState(false);
-
 	const handleLike = async id => {
 		const found = props.liked.find(l => l._id === userState._id);
 		console.log(found);
@@ -139,7 +128,6 @@ export default function NewsAndComment(props) {
 			await api.removeliked(id, { likes: userState._id });
 		} else {
 			await api.updateObjectID(id, { likes: userState._id });
-			//   return true
 		}
 
 		const postInfo = await api.getAllPost();
@@ -175,40 +163,43 @@ export default function NewsAndComment(props) {
 	}, []);
 
 	return (
-		<>
-			<Grid item className='card' xs={12}>
-				<Grid container className='headerContainer'>
-					<Grid item xs={9} sm={11}>
-						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
-							{props.title}
-						</Typography>
-					</Grid>
-					<Grid item xs={3} sm={1}>
-						<Button className='editButton' onClick={() => handleLike(props.id)}>
-							<>
-								{props.liked.find(l => l._id === userState._id) && !like ? (
-									<Favorite />
-								) : (
-									<FavoriteBorderIcon />
-								)}
-							</>
-						</Button>
-					</Grid>
-				</Grid>
-				<Typography variant='body2' color='textSecondary' component='p'>
-					<span className='authorStyle'> Author:</span>
-					<Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
-				</Typography>
-				<Divider />
-				<Grid container direction='row' spacing={1}>
-					<Grid item xs={12} sm={4}>
-						<CardMedia className={"media"} image={props.image} />
-					</Grid>
-					<Grid item xs={12} sm={8}>
-						<CardContent>
-							<Typography variant='body' color='textSecondary' component='p'>
-								{props.post}
-							</Typography>
+    <>
+      <Grid item className="card" xs={12}>
+        <Grid container className="headerContainer">
+          <Grid item xs={9} sm={11}>
+            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+              {props.title}
+            </Typography>
+          </Grid>
+          <Grid item xs={3} sm={1}>
+            <Button className="editButton" onClick={() => handleLike(props.id)}>
+              <>
+                {props.liked.find((l) => l._id === userState._id)? (
+                  <Favorite />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </>
+            </Button>
+          </Grid>
+        </Grid>
+        <Typography variant="body2" color="textSecondary" component="p">
+          <span className="authorStyle"> Author:</span>
+          <Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
+        </Typography>
+        <Divider />
+        <Grid container direction="row" spacing={1}>
+          <Grid item xs={12} sm={4}>
+            <CardMedia
+              className={"media"}
+              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+            />
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <CardContent>
+              <Typography variant="body" color="textSecondary" component="p">
+                {props.post}
+              </Typography>
 
 							{
 								//props.hashTag != false ? (

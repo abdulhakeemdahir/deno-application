@@ -14,9 +14,19 @@ import { Edit, ThumbUpAlt } from "@material-ui/icons";
 //import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
 import UpdateCause from "../../Forms/UpdateCause/UpdateCause";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import api from "../../../utils/api";
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
+import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
+import Donate from "../../Forms/Donate/Donate.js";
 
 export default function Causes(props) {
 	const [open, setOpen] = React.useState(false);
+  const [userState, userDispatch] = useUserContext();
+
+  useAuthTokenStore();
+
+  const isAuth = useIsAuthenticated();
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -26,9 +36,36 @@ export default function Causes(props) {
 		setOpen(false);
 	};
 
-	// await API.updateUser(post.author, {
-	// 				causes: data._id,
-	// 			});
+	const handleFollow = async (id) => {
+    if (userState.role === "Organization") {
+      //TODO error message
+      console.log("you are an organization");
+      return;
+    }
+
+    const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
+
+    if (checkIfLiked.data) {
+      //TODO error message you like this already
+      console.log("sorry");
+      return;
+    }
+
+    await api.updateUserObjectID(userState._id, {
+      causes: id,
+    });
+    const userInfo = await api.getUser(userState._id);
+
+    await userDispatch({ type: USER_LOADING });
+
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false,
+      },
+    });
+  };
 
 	return (
     <Grid item className="card">
@@ -39,14 +76,11 @@ export default function Causes(props) {
           </Typography>
         </Grid>
         <Grid item xs={3}>
-          
-          {props.check ? null : (
-            props.role === "Organization" ? (
+          {props.check ? null : props.role === "Organization" ? (
             <Button className="editButton" onClick={handleOpen}>
               <Edit /> Edit
             </Button>
-          ) : null
-          )}
+          ) : null}
           <Dialog
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -59,7 +93,11 @@ export default function Causes(props) {
             }}
           >
             <Fade in={open}>
-              <UpdateCause className={"cardPost"} />
+              {props.check ? null : props.role === "Organization" ? (
+                <UpdateCause className={"cardPost"} />
+              ) : (
+                <Donate onClose={handleClose} cause={props.id} title={props.title}/>
+              )}
             </Fade>
           </Dialog>
         </Grid>
@@ -76,15 +114,28 @@ export default function Causes(props) {
             </Typography>
           </CardContent>
         </Grid>
-        <ButtonGroup justify="center" fullWidth>
-          <Button size="large" className="styleButton" fullWidth id={props.id}>
-            <i className="fab fa-paypal"></i>
-            Support
-          </Button>
-          <Button size="large" className="followButton" fullWidth>
-            <ThumbUpAlt /> Follow
-          </Button>
-        </ButtonGroup>
+        {isAuth ? (
+          <ButtonGroup justify="center" fullWidth>
+            <Button
+              size="large"
+              className="styleButton"
+              onClick={handleOpen}
+              fullWidth
+              id={props.id}
+            >
+              <i class="fab fa-paypal"></i>
+              Support
+            </Button>
+            <Button
+              size="large"
+              className="followButton"
+              onClick={() => handleFollow(props.id)}
+              fullWidth
+            >
+              <ThumbUpAlt /> Follow
+            </Button>
+          </ButtonGroup>
+        ) : null}
       </Grid>
     </Grid>
   );
