@@ -11,7 +11,8 @@ const hashtagSchema = new Schema({
   causes: {
     type: Schema.Types.ObjectId,
     ref: "Causes"
-  }
+  },
+  date: { type: Date, default: Date.now }
 });
 
 const Hashtag = mongoose.model("Hashtag", hashtagSchema);

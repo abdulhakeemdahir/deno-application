@@ -8,11 +8,56 @@ import {
 	Button,
 	ButtonGroup,
 } from "@material-ui/core";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
+//import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
 import { ThumbUpAlt } from "@material-ui/icons";
+import api from "../../utils/api";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
+import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
+
+import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
 
 export default function Causes(props) {
+	const [userState, userDispatch] = useUserContext();
+	const handleFollow = async id => {
+		if (userState.role === "Organization") {
+			//TODO error message
+			console.log("you are an organization");
+			return;
+		}
+
+		const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
+
+		if (checkIfLiked.data) {
+			//TODO error message you like this already
+			console.log("sorry");
+			return;
+		}
+
+		await api.updateUser(userState._id, {
+			causes: id,
+		});
+		const userInfo = await api.getUser(userState._id);
+
+		await userDispatch({ type: USER_LOADING });
+
+		await userDispatch({
+			type: UPDATE_USER,
+			payload: {
+				...userInfo.data,
+				loading: false,
+			},
+		});
+	};
+
+	const handleSupport = id => {
+		console.log(id);
+	};
+
+	useAuthTokenStore();
+
+	const isAuth = useIsAuthenticated();
+
 	return (
 		<Grid item className='card'>
 			<Grid container className='headerContainer'>
@@ -35,15 +80,28 @@ export default function Causes(props) {
 						</Typography>
 					</CardContent>
 				</Grid>
-				<ButtonGroup justify='center' fullWidth>
-					<Button size='large' className='styleButton' fullWidth id={props.id}>
-						<i class='fab fa-paypal'></i>
-						Support
-					</Button>
-					<Button size='large' className='followButton' fullWidth>
-						<ThumbUpAlt /> Follow
-					</Button>
-				</ButtonGroup>
+				{isAuth ? (
+					<ButtonGroup justify='center' fullWidth>
+						<Button
+							size='large'
+							className='styleButton'
+							onClick={() => handleSupport(props.id)}
+							fullWidth
+							id={props.id}
+						>
+							<i class='fab fa-paypal'></i>
+							Support
+						</Button>
+						<Button
+							size='large'
+							className='followButton'
+							onClick={() => handleFollow(props.id)}
+							fullWidth
+						>
+							<ThumbUpAlt /> Follow
+						</Button>
+					</ButtonGroup>
+				) : null}
 			</Grid>
 		</Grid>
 	);

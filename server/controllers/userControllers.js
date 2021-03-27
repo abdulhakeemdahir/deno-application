@@ -1,5 +1,8 @@
 const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
+
+const cloudinary = require("../../utils/cloudinary");
+
 module.exports = {
   getAllUsers: async (req, res) => {
     try {
@@ -13,7 +16,7 @@ module.exports = {
     try {
       const user = await User.findById(req.params.id)
         .select(
-          "firstName lastname username email role profileImg bannerImg following followers posts bio"
+          "firstName lastname username email role profileImg bannerImg following followers posts bio causes"
         )
         .populate([
           {
@@ -29,6 +32,7 @@ module.exports = {
           {
             path: "posts",
             model: "Post",
+            options: { sort: { date: -1 } },
             populate: [
               {
                 path: "author",
@@ -37,12 +41,8 @@ module.exports = {
               },
               {
                 path: "likes",
-                model: "User",
-                populate: {
-                  path: "user",
-                  select: "firstName",
-                  model: "User"
-                }
+                select: "firstName",
+                model: "User"
               },
               {
                 path: "hashtags",
@@ -51,6 +51,7 @@ module.exports = {
               {
                 path: "comments",
                 model: "Comment",
+                options: { sort: { date: -1 } },
                 populate: [
                   {
                     path: "user",
@@ -62,8 +63,21 @@ module.exports = {
             ]
           },
           {
-            path: "cause",
-            model: "Causes"
+            path: "causes",
+            model: "Cause",
+            options: { sort: { date: -1 } },
+            populate: [
+              {
+                path: "author",
+                select: "firstName",
+                model: "User"
+              },
+              {
+                path: "likes",
+                select: "firstName",
+                model: "User"
+              }
+            ]
           }
         ])
         .exec();
@@ -73,61 +87,102 @@ module.exports = {
       res.status(422).json(err);
     }
   },
+  findIfUserLikesCause: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id)
+        .select("causes")
+        .exec();
+
+      const found = user.causes.find(
+        element => element.toString() === req.params.causeId.toString()
+      );
+
+      if (found) {
+        return res.status(200).json(true);
+      }
+
+      res.status(200).json(false);
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
+    }
+  },
   updateUser: async (req, res) => {
     console.log(req.params.id);
     try {
       const {
-        firstName,
-        email,
+        // firstName,
+        // email,
         password,
-        username,
-        lastname,
-        posts,
-        causes,
-        profileImg,
-        bannerImg,
-        bio
+        // username,
+        // lastname,
+        // posts,
+        // causes,
+        profileImg
+        // bannerImg,
+        // bio,
+        // orgName,
+        // phoneNumber,
+        // address,
+        // website
       } = req.body;
       const updateUser = {};
-      if (firstName) {
-        updateUser.firstName = firstName;
-      }
-      if (email) {
-        updateUser.email = email;
-      }
-      if (bio) {
-        updateUser.bio = bio;
-      }
+      // if (firstName) {
+      //   updateUser.firstName = firstName;
+      // }
+      // if (email) {
+      //   updateUser.email = email;
+      // }
+      // if (bio) {
+      //   updateUser.bio = bio;
+      // }
       if (password) {
         updateUser.password = await createPassword(password);
       }
-      if (username) {
-        updateUser.username = username;
-      }
-      if (lastname) {
-        updateUser.lastname = lastname;
-      }
-      if (posts) {
-        updateUser.posts = posts;
-      }
-      if (causes) {
-        updateUser.causes = causes;
-      }
+      // if (username) {
+      //   updateUser.username = username;
+      // }
+      // if (lastname) {
+      //   updateUser.lastname = lastname;
+      // }
+      // if (posts) {
+      //   updateUser.posts = posts;
+      // }
+      // if (causes) {
+      //   updateUser.causes = causes;
+      // }
       if (profileImg) {
-        updateUser.profileImg = profileImg;
+        const result = await cloudinary.uploader.upload_large(profileImg, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        updateUser.profileImg = result.public_id;
       }
-      if (bannerImg) {
-        updateUser.bannerImg = bannerImg;
-      }
-
+      // if (bannerImg) {
+      //   updateUser.bannerImg = bannerImg;
+      // }
+      // if (orgName) {
+      //   updateUser.orgName = orgName;
+      // }
+      // if (phoneNumber) {
+      //   updateUser.phoneNumber = phoneNumber;
+      // }
+      // if (website) {
+      //   updateUser.website = website;
+      // }
+      // if (address) {
+      //   updateUser.address = address;
+      // }
+      console.log(updateUser);
       const foundUser = await User.findByIdAndUpdate(
         req.params.id,
         {
-          $push: updateUser
+          updateUser
         },
 
         { new: true, runValidators: true }
       );
+      console.log(foundUser);
       res.status(200).json(foundUser);
     } catch (err) {
       console.log(err);

@@ -77,6 +77,9 @@ class API {
   updatePassword(_id) {
     return this.axios.put(`/api/users/password/${_id}`);
   }
+  findIfUserLikesCause(id, causeId) {
+    return this.axios.get(`/api/users/liked/${id}/${causeId}`);
+  }
 
   //-----------------------causes api-------------------------//
   getUsersCauses(_id) {
@@ -105,17 +108,20 @@ class API {
   getAllPost() {
     return this.axios.get(`/api/posts/`);
   }
-  findFollowing(data) {
-    return this.axios.get(`/api/posts/following/`, data);
-  }
-  findTrending(data) {
-    return this.axios.get(`/api/posts/trending/`, data);
+  async findLikePost(id, user) {
+    return this.axios.get(`/api/posts/findliked/${id}/${user}`);
   }
   createPost(data) {
     return this.axios.post(`/api/posts/`, data);
   }
   updatePost(id, data) {
     return this.axios.put(`/api/posts/${id}`, data);
+  }
+  updateObjectID(id, data) {
+    return this.axios.put(`/api/posts/object/${id}`, data);
+  }
+  removeliked(id, data) {
+    return this.axios.put(`/api/posts/remove/like/${id}`, data);
   }
   removePost(id) {
     return this.axios.delete(`/api/posts/${id}`);
@@ -159,4 +165,11 @@ class API {
   }
 }
 
+<<<<<<< HEAD
 export default new API();
+=======
+//-----------------------image api-------------------------//
+
+
+export default new API();
+>>>>>>> 182eb841b768145d9ebfd16dc68b60a071c1e896

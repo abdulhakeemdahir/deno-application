@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { Typography, Grid, CssBaseline } from "@material-ui/core";
+// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
 
@@ -32,6 +34,10 @@ import {
   USER_LOADING,
   UPDATE_USER
 } from "../../../utils/actions/actions.js";
+import API from "../../../utils/api";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -39,36 +45,20 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-//const useStyles = makeStyles(theme => ({}));
-
 const Newsfeed = () => {
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
   const [trendingStates, trendingDispatch] = useTrendingContext();
+  const [userState] = useUserContext();
   const socket = useSocket();
-
-  const [userState, userDispatch] = useUserContext();
-
-  useEffect(() => {
-    async function fetchUserInfo() {
-      await userDispatch({ type: USER_LOADING });
-      const userInfo = await API.getUser(userState._id);
-      await userDispatch({
-        type: UPDATE_USER,
-        payload: {
-          ...userInfo.data,
-          loading: false
-        }
-      });
-    }
-
-    fetchUserInfo();
-  }, []);
+  const [state] = useStoreContext();
 
   useEffect(() => {
     async function fetchAllPostsAndCauses() {
       await causeDispatch({ type: CAUSE_LOADING });
+
       const causes = await API.getAllCauses();
+
       await causeDispatch({
         type: ADD_CAUSE,
         payload: {
@@ -76,8 +66,10 @@ const Newsfeed = () => {
           loading: false
         }
       });
-      await postDispatch({ type: POST_LOADING });
+
       const postInfo = await API.getAllPost();
+
+      await postDispatch({ type: POST_LOADING });
 
       await postDispatch({
         type: ADD_POST,
@@ -89,7 +81,6 @@ const Newsfeed = () => {
 
       await trendingDispatch({ type: TREND_LOADING });
       const hashInfo = await API.getHashtagAll();
-      console.log(hashInfo);
       await trendingDispatch({
         type: ADD_TREND,
         payload: {
@@ -100,48 +91,11 @@ const Newsfeed = () => {
     }
     fetchAllPostsAndCauses();
 
-    console.log("poststate: ", postState);
-
     if (!socket) return;
 
-    socket.emit("join:server", userState.username);
+    socket.emit("join:server", state.userAuth.user.username);
   }, []);
 
-  useEffect(() => {
-    if (!socket) return;
-
-    const updatePost = async ({ newComment, post }) => {
-      console.log(newComment, post);
-      post.comments.push(newComment);
-      await postDispatch({
-        type: "NEW_COMMENT",
-        payload: {
-          posts: [...postState.posts, post]
-        }
-      });
-    };
-
-    socket.on("update-post", updatePost);
-
-    return () => {
-      socket.off("update-post");
-    };
-  }, []);
-
-  const [trendingState] = useState([
-    {
-      hashTag: "Save the Dolphins",
-      url: "#"
-    },
-    {
-      hashTag: "Save the Elephants",
-      url: "#"
-    },
-    {
-      hashTag: "Save the Whales",
-      url: "#"
-    }
-  ]);
   //const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -166,10 +120,11 @@ const Newsfeed = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3} className='card-container'>
                   <Typography variant='subtitle2'>TRENDING</Typography>
-                  {trendingState.map((card, index) => (
+                  {trendingStates.hashtag.map((card, index) => (
                     <Trending
-                      hashTag={card.hashTag}
-                      link={card.url}
+                      hashTag={card.hashtag}
+                      post={card.posts}
+                      link={card._id}
                       key={index}
                     />
                   ))}
@@ -184,11 +139,13 @@ const Newsfeed = () => {
                         id={card._id}
                         title={card.title}
                         author={card.author.firstName}
+                        authorId={card.author._id}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
-                        hashTag={card.hashtag}
+                        hashTag={card.hashtags}
                         comments={card.comments}
+                        liked={card.likes}
                       />
                     );
                   })}
@@ -238,6 +195,7 @@ const Newsfeed = () => {
                         post={card.content}
                         hashTag={card.hashtag}
                         comments={card.comments}
+                        liked={card.likes}
                       />
                     );
                   })}
@@ -245,10 +203,10 @@ const Newsfeed = () => {
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
-                  {trendingState.map((card, index) => (
+                  {trendingStates.hashtag.map((card, index) => (
                     <Trending
-                      hashTag={card.hashTag}
-                      link={card.url}
+                      hashTag={card.hashtag}
+                      link={card._id}
                       key={index}
                     />
                   ))}

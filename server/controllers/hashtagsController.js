@@ -8,16 +8,17 @@ module.exports = {
         .populate([
           {
             path: "posts",
-            model: "Posts"
+            model: "Post"
           },
           {
             path: "causes",
-            model: "Causes"
+            model: "Cause"
           }
         ])
         .exec();
       res.status(200).json(hashtagModel);
     } catch (err) {
+      console.log("hit inside controllers hashtag", err);
       res.status(422).json(err);
     }
   },

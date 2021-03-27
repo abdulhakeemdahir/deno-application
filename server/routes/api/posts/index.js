@@ -6,15 +6,13 @@ router
   .get(postController.getAllPost)
   .post(postController.create);
 
-router.route("/following").get(postController.findFollowing);
-
-router.route("/trending").get(postController.findTrending);
+router.route("/:id").put(postController.update);
 
 router
-  .route("/:id")
-  .put(postController.update)
+  .route("/object/:id")
+  .put(postController.updateObjectID)
   .delete(postController.remove);
 
-router.route("/user").get(postController.findUserPosts);
+router.route("/remove/like/:id").put(postController.removeliked);
 
 module.exports = router;

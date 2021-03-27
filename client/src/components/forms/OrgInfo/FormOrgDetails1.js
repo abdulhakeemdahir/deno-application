@@ -39,12 +39,15 @@ export default function FormOrgDetails1(props) {
 		props.nextStep();
 	};
 
-	const { values, handleChange } = props;
+	const { values, handleChange, validate, validateEmail } = props;
 	const classes = useStyles();
 
 	return (
 		<>
 			<TextField
+				error={values.firstNameError}
+				helperText={values.firstNameError}
+				onBlur={validate}
 				name='firstName'
 				value={values.firstName}
 				onChange={handleChange}
@@ -55,6 +58,9 @@ export default function FormOrgDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.lastnameError}
+				helperText={values.lastnameError}
+				onBlur={validate}
 				name='lastname'
 				value={values.lastname}
 				onChange={handleChange}
@@ -65,6 +71,9 @@ export default function FormOrgDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.orgnameError}
+				helperText={values.orgnameError}
+				onBlur={validate}
 				name='orgname'
 				value={values.orgname}
 				onChange={handleChange}
@@ -75,6 +84,9 @@ export default function FormOrgDetails1(props) {
 				className={classes.mgstyle}
 			/>
 			<TextField
+				error={values.emailError}
+				helperText={values.emailError}
+				onBlur={validateEmail}
 				name='email'
 				value={values.email}
 				onChange={handleChange}

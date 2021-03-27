@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -11,51 +11,53 @@ import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
 
-//import NGO from "../../../images/ngo.png";
-
 import Gradient from "../../../components/Gradient";
 import Causes from "../../../components/Private/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
-
-//Cloudinary
-import { Image } from "cloudinary-react";
-
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-// import Splash from "../../components/Splash2";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 import {
-  UPDATE_USER,
-  USER_LOADING
+  ADD_GUESS_USER,
+  USER_GUESS_LOADING,
   //What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
 import API from "../../../utils/api";
+import { useHistory, useParams } from "react-router";
+import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
+//import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
 
-const Dashboard = () => {
-  const [userState, userDispatch] = useUserContext();
+const PublicDash = () => {
+  const [guessState, guessDispatch] = useGuessContext();
+
+  const {id} = useParams()
+
+  const history = useHistory()
 
   useEffect(() => {
     async function fetchUserInfo() {
-      console.log(userState);
 
-      const userInfo = await API.getUser(userState._id);
+      const userInfo = await API.getUser(id);
 
-      await userDispatch({ type: USER_LOADING });
+      if(!userInfo){
+          history.push("/404")
+      }
 
-      await userDispatch({
-        type: UPDATE_USER,
+      await guessDispatch({ type: USER_GUESS_LOADING, });
+
+      await guessDispatch({
+        type: ADD_GUESS_USER,
         payload: {
           ...userInfo.data,
-          loading: false
-        }
+          loading: false,
+        },
       });
     }
 
@@ -70,13 +72,13 @@ const Dashboard = () => {
 
   const { width } = useWindowDimensions();
   return (
-    <div className='Main'>
+    <div className="Main">
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction='row'
-          justify='center'
+          direction="row"
+          justify="center"
           className={"container"}
           xs={12}
           lg={10}
@@ -85,29 +87,30 @@ const Dashboard = () => {
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>ABOUT</Typography>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">ABOUT</Typography>
                   <About
-                    key={userState._id}
-                    id={userState._id}
-                    bio={userState.bio}
-                    firstName={userState.firstName}
-                    lastname={userState.lastname}
-                    username={userState.username}
-                    email={userState.email}
-                    role={userState.role}
-                    verified={userState.verified}
-                    following={userState.following.length}
-                    followers={userState.followers.length}
-                    posts={userState.posts}
-                    causes={userState.causes}
-                    profileImg={userState.profileImg}
-                    bannerImg={userState.bannerImg}
+                    key={guessState._id}
+                    id={guessState._id}
+                    bio={guessState.bio}
+                    firstName={guessState.firstName}
+                    lastname={guessState.lastname}
+                    username={guessState.username}
+                    email={guessState.email}
+                    role={guessState.role}
+                    verified={guessState.verified}
+                    following={guessState.following.length}
+                    followers={guessState.followers.length}
+                    posts={guessState.posts}
+                    causes={guessState.causes}
+                    profileImg={guessState.profileImg}
+                    bannerImg={guessState.bannerImg}
+                    check={id}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} className='card-container'>
-                  <Typography variant='subtitle2'>NEWS FEED</Typography>
-                  {userState.posts.map(card => (
+                <Grid item xs={12} sm={6} className="card-container">
+                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                  {guessState.posts.map((card) => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -118,12 +121,13 @@ const Dashboard = () => {
                       post={card.content}
                       hashTag={card.hashtag}
                       comments={card.comments}
+                      check={id}
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>CAUSES</Typography>
-                  {userState.causes.map(card => (
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">CAUSES</Typography>
+                  {guessState.causes.map((card) => (
                     <Causes
                       key={card._id}
                       id={card._id}
@@ -133,6 +137,7 @@ const Dashboard = () => {
                       image={card.imageUrl}
                       post={card.content}
                       hashTag={card.hashtag}
+                      check={id}
                     />
                   ))}
                 </Grid>
@@ -143,15 +148,15 @@ const Dashboard = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='simple tabs example'
+                aria-label="simple tabs example"
               >
-                <Tab label='News' {...a11yProps(0)} />
-                <Tab label='About' {...a11yProps(1)} />
-                <Tab label='Causes' {...a11yProps(2)} />
+                <Tab label="News" {...a11yProps(0)} />
+                <Tab label="About" {...a11yProps(1)} />
+                <Tab label="Causes" {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  {userState.posts.map(card => (
+                  {guessState.posts.map((card) => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -162,6 +167,7 @@ const Dashboard = () => {
                       post={card.content}
                       hashTag={card.hashtag}
                       comments={card.comments}
+                      check={id}
                     />
                   ))}
                 </Grid>
@@ -169,27 +175,28 @@ const Dashboard = () => {
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
                   <About
-                    key={userState._id}
-                    id={userState._id}
-                    bio={userState.bio}
-                    firstName={userState.firstName}
-                    lastname={userState.lastname}
-                    username={userState.username}
-                    email={userState.email}
-                    role={userState.role}
-                    verified={userState.verified}
-                    following={userState.following.length}
-                    followers={userState.followers.length}
-                    posts={userState.posts}
-                    causes={userState.causes}
-                    profileImg={userState.profileImg}
-                    bannerImg={userState.bannerImg}
+                    key={guessState._id}
+                    id={guessState._id}
+                    bio={guessState.bio}
+                    firstName={guessState.firstName}
+                    lastname={guessState.lastname}
+                    username={guessState.username}
+                    email={guessState.email}
+                    role={guessState.role}
+                    verified={guessState.verified}
+                    following={guessState.following.length}
+                    followers={guessState.followers.length}
+                    posts={guessState.posts}
+                    causes={guessState.causes}
+                    profileImg={guessState.profileImg}
+                    bannerImg={guessState.bannerImg}
+                    check={id}
                   />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {userState.causes.map(card => (
+                  {guessState.causes.map((card) => (
                     <Causes
                       key={card._id}
                       id={card._id}
@@ -199,6 +206,7 @@ const Dashboard = () => {
                       image={card.imageUrl}
                       post={card.content}
                       hashTag={card.hashtag}
+                      check={id}
                     />
                   ))}
                 </Grid>
@@ -214,4 +222,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default PublicDash;

@@ -2,13 +2,13 @@
 //post context holds info about specific pages post that we want to display
 //set states as arrays that I can push into
 import React, { createContext, useReducer, useContext } from "react";
-import reducer from "./userReducer";
+import reducer from "./guessReducer";
 
-const UserContext = createContext();
-const { Provider } = UserContext;
+const GuessContext = createContext();
+const { Provider } = GuessContext;
 
-const UserProvider = ({ value = [], ...props }) => {
-  const [userState, userDispatch] = useReducer(reducer, {
+const GuessProvider = ({ value = [], ...props }) => {
+  const [guessState, guessDispatch] = useReducer(reducer, {
     _id: 0,
 
     //from user.js in models
@@ -30,11 +30,11 @@ const UserProvider = ({ value = [], ...props }) => {
     bio: "",
   });
 
-  return <Provider value={[userState, userDispatch]} {...props} />;
+  return <Provider value={[guessState, guessDispatch]} {...props} />;
 };
 
-const useUserContext = () => {
-  return useContext(UserContext);
+const useGuessContext = () => {
+  return useContext(GuessContext);
 };
 
-export { UserProvider, useUserContext };
+export { GuessProvider, useGuessContext };
