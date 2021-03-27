@@ -4,13 +4,26 @@ import {
   Grid,
   List,
   ListItem,
+  makeStyles,
   TextField,
   Typography
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import api from "../../utils/api";
 
-export default function Sidebar({ convos, toggleChat, createConvo }) {
+const useStyles = makeStyles(theme => ({
+  sidebar: {
+    position: "relative",
+    height: "60vh",
+    overflowY: "scroll",
+    clear: "both"
+    // boxShadow: "0px 1px 1px #de1dde"
+  }
+}));
+
+const Sidebar = ({ convos, toggleChat, createConvo }) => {
+  const classes = useStyles();
+
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -20,10 +33,11 @@ export default function Sidebar({ convos, toggleChat, createConvo }) {
   }, []);
 
   return (
-    <Grid container class='chat-sidebar'>
+    <Grid container className={`chat-sidebar ${classes.sidebar}`}>
       <Autocomplete
-        id='combo-box-demo'
-        options={users}
+        fullWidth
+        id='create-message'
+        options={users ? users : ""}
         getOptionLabel={option => option.username}
         style={{ marginTop: "1em", textAlign: "left" }}
         renderInput={params => (
@@ -51,7 +65,7 @@ export default function Sidebar({ convos, toggleChat, createConvo }) {
       />
       <Grid item>
         <List>
-          {convos?.length > 0 ? (
+          {convos?.length ? (
             convos.map(convo => {
               return (
                 <Button
@@ -61,8 +75,8 @@ export default function Sidebar({ convos, toggleChat, createConvo }) {
                 >
                   <List>
                     <ListItem>
-                      {convo.participants[0].username},{" "}
-                      {convo.participants[1].username}
+                      {convo?.participants[0]?.username},{" "}
+                      {convo?.participants[1]?.username}
                     </ListItem>
                     <ListItem>
                       {convo.messages?.length ? (
@@ -82,4 +96,6 @@ export default function Sidebar({ convos, toggleChat, createConvo }) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Sidebar;
