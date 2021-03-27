@@ -15,7 +15,7 @@ import {
   useAuthTokenStore,
   useIsAuthenticated,
   useLogout
-} from "../../utils/auth";
+} from "../../../utils/auth";
 
 import "../style.css";
 
