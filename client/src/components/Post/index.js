@@ -253,11 +253,12 @@ export default function Post() {
 							onChange={handleChange}
 							onBlur={validate}
 							id='title'
-							label='Title'
-							multiline
-							rowsMax={4}
-							className={classes.inputMargin}
+							// label='Title'
+							placeholder='Enter Title'
+							className='postBackground'
 							size='small'
+							variant='outlined'
+							fullWidth
 						/>
 
 						<TextField
@@ -268,12 +269,14 @@ export default function Post() {
 							onChange={handleChange}
 							onBlur={validate}
 							id='post'
-							label='Post a Message'
-							variant='filled'
+							// label='Post'
+							placeholder='Post a Message'
+							variant='outlined'
 							multiline
 							rows={4}
 							fullWidth
 							size='small'
+							className='postBackground'
 						/>
 					</Grid>
 				</div>
