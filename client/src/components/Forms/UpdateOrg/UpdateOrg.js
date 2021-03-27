@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -34,15 +35,19 @@ const useStyles = makeStyles(theme => ({
 		background: "#3f4d67",
 	},
 }));
-export default function UpdateOrg() {
-	const [userState] = useUserContext();
+export default function UpdateOrg(props) {
+	const [userState, userDispatch] = useUserContext();
 	const [stateSignUp, setStateSignUp] = useState({
-		email: "",
-		password: "",
-		username: "",
 		firstName: "",
 		lastname: "",
-		role: "",
+    phone: "",
+    website: "",
+    address: "",
+    imageUrl: "",
+    bio: "",
+    email: "",
+		password: "",
+		username: "",
 	});
 
 	const handleChange = function(event) {
@@ -56,34 +61,68 @@ export default function UpdateOrg() {
 	const handleSubmit = async event => {
 		event.preventDefault();
 
-		//*Associated with cloudinary
-		if (!previewSource) return;
-		uploadImage(previewSource);
+		
+    const updateUser = {role: userState.role};
 
-		try {
-			// Register the user.
-			await api.register(setStateSignUp);
+    if (stateSignUp.firstName !== "") {
+      updateUser.firstName = stateSignUp.firstName;
+    }
+    if (stateSignUp.lastname !== "") {
+      updateUser.lastname = stateSignUp.lastname;
+    }
+    if (stateSignUp.phone !== "") {
+      updateUser.phone = stateSignUp.phone;
+    }
+    if (stateSignUp.website !== "") {
+      updateUser.website = stateSignUp.website;
+    }
+    if (stateSignUp.address !== "") {
+      updateUser.address = stateSignUp.address;
+    }
+    if (previewSource) {
+      updateUser.imageUrl = previewSource;
+    }
+    if (stateSignUp.bio !== "") {
+      updateUser.bio = stateSignUp.bio;
+    }
+    if (stateSignUp.email !== "") {
+      updateUser.email = stateSignUp.email;
+    }
+    if (stateSignUp.password !== "") {
+      updateUser.password = stateSignUp.password;
+    }
+    if (stateSignUp.username !== "") {
+      updateUser.username = stateSignUp.username;
+    }
 
-			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
-		} catch (err) {
-			// Handle error responses from the API. This will include
-			if (err.response && err.response.data) console.log(err.response.data);
-		}
-	};
 
-	//*Associated with cloudinary
-	const uploadImage = async base64EncodedImage => {
-		const updateUser = await api.updateUser(userState._id, {
-			profileImg: base64EncodedImage,
-		});
-		console.log(updateUser);
-	};
+    updateOrg(updateUser);
+
+    const userInfo = await api.getUser(userState._id);
+
+    await userDispatch({ type: USER_LOADING });
+
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false,
+      },
+    });
+
+    props.onClose();
+  };
+  //*Associated with cloudinary
+  const updateOrg = async (update) => {
+    console.log(update);
+    const updateUser = await api.updateUser(userState._id, update);
+    console.log(updateUser);
+  };
 
 	const classes = useStyles();
 
 	//*Associated with cloudinary
-	const [fileInputState, setFileInputState] = useState("");
-	const [selectedFile, setSelectedFile] = useState("");
+	const [fileInputState, ] = useState("");
 	const [previewSource, setPreviewSource] = useState("");
 
 	const handleFileInputChange = e => {
@@ -179,7 +218,7 @@ export default function UpdateOrg() {
 				/>
 				<TextField //*Associated with cloudinary
 					type='file'
-					name='image'
+					name='imageUrl'
 					onChange={handleFileInputChange}
 					value={fileInputState}
 					variant='outlined'

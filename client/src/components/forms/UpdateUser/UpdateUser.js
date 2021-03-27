@@ -54,20 +54,20 @@ export default function UpdateUser(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const udateUser = {};
+    const updateUser = {};
 
     if (stateUpdate.firstName !== "") {
-      udateUser.firstName = stateUpdate.firstName;
+      updateUser.firstName = stateUpdate.firstName;
     }
     if (stateUpdate.lastname !== "") {
-      udateUser.lastname = stateUpdate.lastname;
+      updateUser.lastname = stateUpdate.lastname;
     }
 
     //*Associated with cloudinary
     if (previewSource) {
-      udateUser.profileImg = previewSource;
+      updateUser.profileImg = previewSource;
     }
-    upDateUser(udateUser);
+    upDateUser(updateUser);
 
     const userInfo = await api.getUser(userState._id);
 
