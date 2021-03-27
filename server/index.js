@@ -202,7 +202,7 @@ io.on("connection", socket => {
         post: payload._id,
         content: payload.content
       });
-      const post = await Post.findByIdAndUpdate(
+      await Post.findByIdAndUpdate(
         { _id: payload._id },
         { $push: { comments: [{ id: newComment._id }] } }
       );

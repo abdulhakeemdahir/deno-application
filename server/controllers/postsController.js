@@ -116,7 +116,7 @@ module.exports = {
     }
   },
   removeliked: async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
