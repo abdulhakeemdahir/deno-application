@@ -10,36 +10,50 @@ import "./style.css";
 import { useState } from "react";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import API from "../../utils/api.js";
-import { ADD_CAUSE, ADD_POST, CAUSE_LOADING, POST_LOADING } from "../../utils/actions/actions";
+import {
+	ADD_CAUSE,
+	ADD_POST,
+	CAUSE_LOADING,
+	POST_LOADING,
+} from "../../utils/actions/actions";
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(0),
-      width: "100%",
-    },
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  styleMain: {
-    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-    color: "#ffffff",
-    padding: "15px",
-    marginTop: "10px",
-    borderRadius: "0px",
-  },
-  inputMargin: {
-    margin: "5px",
-  },
+const useStyles = makeStyles(theme => ({
+	root: {
+		"& > *": {
+			marginTop: theme.spacing(1),
+			marginBottom: theme.spacing(0),
+			width: "100%",
+		},
+	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+	},
+	styleMain: {
+		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+		color: "#ffffff",
+		padding: "15px",
+		marginTop: "10px",
+		borderRadius: "0px",
+	},
+	inputMargin: {
+		margin: "5px",
+	},
+	mgStyle: {
+		marginTop: "5px",
+		marginBottom: "5px",
+	},
+	imgStyle: {
+		width: "100%",
+		marginTop: "10px",
+		marginBottom: "5px",
+	},
 }));
 
 export default function Post() {

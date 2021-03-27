@@ -1,27 +1,34 @@
-import React, { useState, useRef } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
-import "./style.css";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import PropTypes from "prop-types";
+import {
+  Typography,
+  Grid,
+  CssBaseline,
+  Button,
+  Modal,
+  TextField
+} from "@material-ui/core";
+import "./style.css";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import Nav from "../../../components/Navigation";
-import Elephant from "../../../images/elephant.jpeg";
-import Dolphin from "../../../images/dolphin.jpeg";
-import Whale from "../../../images/whale.jpeg";
+import PropTypes from "prop-types";
 
+import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Sidebar from "../../../components/Messaging/Sidebar";
 import ChatContainer from "../../../components/Messaging/ChatContainer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
-// import Splash from "../../../components/Splash";
-
-// const useStyles = makeStyles(theme => ({}));
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import { useConvoContext } from "../../../utils/GlobalStates/ConvoContext";
+import {
+  GET_A_CONVO,
+  GET_CONVOS,
+  LOADING,
+  UPDATE_CHAT
+} from "../../../utils/GlobalStates/ConvoContext/action";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -30,29 +37,85 @@ TabPanel.propTypes = {
 };
 
 const Chatroom = () => {
-  const toggleRef = useRef();
-
+  const [conversations, convoDispatch] = useConvoContext();
   const socket = useSocket();
-  const [value, setValue] = React.useState(0);
-  const [state] = useStoreContext();
-  const [convos, setConvo] = useState([
-    {
-      name: "pod",
-      participants: ["taani", "pod-1"],
-      message: "Attack on Titan > everything"
-    }
-  ]);
+  const [value, setValue] = useState(0);
+  const [userState] = useUserContext();
+  const userId = userState._id;
+  const chatRef = useRef(conversations.chat);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.emit("chatroom", userId);
+    socket.on("get-convos", async data => {
+      console.log(data);
+      await convoDispatch({ type: LOADING });
+
+      await convoDispatch({
+        type: GET_CONVOS,
+        payload: { conversations: [...data] }
+      });
+      await convoDispatch(LOADING);
+
+      await convoDispatch({
+        type: GET_A_CONVO,
+        payload: { chat: { ...data[0], loading: false } }
+      });
+
+      socket.emit("join:room", conversations.chat.name);
+    });
+
+    return () => socket.off("get-convos");
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  function toggleChat(roomName) {
-    console.log(roomName);
+  const toggleChat = roomName => {
+    if (conversations.chat.name === roomName) return;
 
-    socket.emit("join:room", roomName, [{ _id: state.userAuth.user.id }]);
-    socket.on("get-messages");
-  }
+    socket.emit("join:room", roomName);
+    socket.on("get-convo", async conversation => {
+      await convoDispatch({
+        type: GET_A_CONVO,
+        payload: { chat: conversation }
+      });
+    });
+  };
+
+  const sendMessage = payload => socket.emit("send-message", payload);
+
+  const createConvo = ({ username, _id }) => {
+    const payload = {
+      name: `${userState.username}:${username}`,
+      participants: [userId, _id]
+    };
+
+    socket.emit("create:room", payload);
+  };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const updateChat = async ({ newMessage, newConvo }) => {
+      console.log(newMessage);
+      await convoDispatch({
+        type: UPDATE_CHAT,
+        payload: {
+          chat: {
+            ...newConvo,
+            messages: [...newConvo.messages, newMessage]
+          }
+        }
+      });
+    };
+
+    socket.on("update-chat", updateChat);
+
+    return () => socket.off("update-chat");
+  }, []);
 
   const { width } = useWindowDimensions();
   return (
@@ -76,13 +139,17 @@ const Chatroom = () => {
                   <Typography variant='subtitle2'>Conversations</Typography>
                   <Sidebar
                     toggleChat={toggleChat}
-                    convos={convos}
-                    toggleRef={toggleRef}
+                    convos={conversations.conversations}
+                    createConvo={createConvo}
                   />
                 </Grid>
                 <Grid item xs={12} sm={9} className='card-container'>
                   <Typography variant='subtitle2'>Messenger</Typography>
-                  <ChatContainer />
+                  <ChatContainer
+                    chat={conversations.chat}
+                    sendMessage={sendMessage}
+                    userId={userId}
+                  />
                 </Grid>
               </Grid>
             </>
@@ -98,12 +165,20 @@ const Chatroom = () => {
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  <Sidebar />
+                  <Sidebar
+                    toggleChat={toggleChat}
+                    convos={conversations.conversations}
+                    createConvo={createConvo}
+                  />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
-                  <ChatContainer />
+                  <ChatContainer
+                    chat={conversations.chat}
+                    sendMessage={sendMessage}
+                    userId={userId}
+                  />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
