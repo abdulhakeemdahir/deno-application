@@ -169,13 +169,7 @@ export default function Post() {
         addCause();
       }
 
-      setCreatePost({
-        type: " ",
-        title: " ",
-        content: " ",
-        imageUrl: " ",
-      });
-      setPreviewSource(" ");
+      window.render();
 
     } catch (err) {
       console.log("here", err);

@@ -8,8 +8,7 @@ import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    background:
-      "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
+    background: "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
     borderRadius: "0px",
     boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
     padding: "20px",
@@ -37,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function UpdateUser(props) {
   const [userState, userDispatch] = useUserContext();
-    //*Associated with cloudinary
-  const [fileInputState, ] = useState("");
+  //*Associated with cloudinary
+  const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const [stateUpdate, setStateUpdate] = useState({
     firstName: "",
@@ -70,18 +69,17 @@ export default function UpdateUser(props) {
     }
     upDateUser(udateUser);
 
-      const userInfo = await api.getUser(userState._id);
+    const userInfo = await api.getUser(userState._id);
 
-      await userDispatch({ type: USER_LOADING });
+    await userDispatch({ type: USER_LOADING });
 
-      await userDispatch({
-        type: UPDATE_USER,
-        payload: {
-          ...userInfo.data,
-          loading: false
-        }
-      });
-
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false,
+      },
+    });
 
     props.onClose();
   };
@@ -144,6 +142,16 @@ export default function UpdateUser(props) {
           fullWidth
           className={classes.mgstyle}
         />
+        <TextField
+          name="bio"
+          value={stateUpdate.bio}
+          onChange={handleChange}
+          variant="outlined"
+          label="Bio"
+          placeholder="Enter Bio"
+          fullWidth
+          className={classes.mgstyle}
+        />
         <TextField //*Associated with cloudinary
           type="file"
           name="image"
@@ -153,18 +161,11 @@ export default function UpdateUser(props) {
           fullWidth
           className={classes.mgstyle}
         />
-        <Button
-          type="submit"
-          size="large"
-          className={classes.styleMain}
-          fullWidth
-        >
+        <Button type="submit" size="large" className={classes.styleMain} fullWidth>
           Update
         </Button>
       </form>
-      {previewSource && (
-        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
-      )}
+      {previewSource && <img src={previewSource} alt="chosen" style={{ width: "75%" }} />}
     </Grid>
   );
 }
