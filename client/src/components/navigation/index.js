@@ -4,10 +4,6 @@ import {
 	Toolbar,
 	Container,
 	IconButton,
-	List,
-	ListItem,
-	ListItemText,
-	Hidden,
 	InputBase,
 	CssBaseline,
 } from "@material-ui/core";
@@ -20,7 +16,7 @@ import {
 	useIsAuthenticated,
 	useLogout,
 } from "../../utils/auth";
-import { Link, useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
