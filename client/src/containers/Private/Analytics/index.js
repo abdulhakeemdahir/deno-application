@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -20,6 +20,19 @@ import ChartCausesCreated from "../../../components/Graphs/ChartCausesCreated";
 import ChartCausesSupported from "../../../components/Graphs/ChartCausesSupported";
 import About from "../../../components/About";
 
+import { Image } from "cloudinary-react";
+
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+
+import {
+	UPDATE_USER,
+	USER_LOADING,
+	//What about USER_LOADED?
+} from "../../../utils/actions/actions";
+
+import api from "../../../utils/api";
+import AddContent from "../../../components/Forms/AddContent";
+
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
@@ -27,21 +40,33 @@ TabPanel.propTypes = {
 };
 
 const Analytics = () => {
-	const [aboutState] = useState([
-		{
-			title: "Elephant Helpers",
-			name: "Abdul",
-			url: "#",
-			thumbnail: NGO,
-			bio:
-				"We need to save the Elephant! They are the humans of the Savanah! Plus, they were in the Lion King!",
-			followers: "5000",
-			website: "google.com",
-			address: "123 45th St, Seattle, WA 98188",
-			phone: "206--677-9090",
-			email: "elephant@gmail.com",
-		},
-	]);
+	const [userState, userDispatch] = useUserContext();
+
+	useEffect(() => {
+		async function fetchUserInfo() {
+			console.log(userState.posts.length === 0);
+			try {
+				const userInfo = await api.getUser(userState._id);
+
+				// console.log(userInfo.data);
+
+				await userDispatch({ type: USER_LOADING });
+
+				await userDispatch({
+					type: UPDATE_USER,
+					payload: {
+						...userInfo.data,
+						loading: false,
+					},
+				});
+			} catch (err) {
+				console.log(err);
+			}
+		}
+
+		fetchUserInfo();
+	}, []);
+
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event, newValue) => {
@@ -67,20 +92,24 @@ const Analytics = () => {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>
-									{aboutState.map(card => (
+									
 										<About
-											title={card.title}
-											name={card.name}
-											link={card.url}
-											image={card.thumbnail}
-											bio={card.bio}
-											followers={card.followers}
-											website={card.website}
-											address={card.address}
-											phone={card.phone}
-											email={card.email}
-										/>
-									))}
+										key={userState._id}
+										id={userState._id}
+										bio={userState.bio}
+										firstName={userState.firstName}
+										lastname={userState.lastname}
+										username={userState.username}
+										email={userState.email}
+										role={userState.role}
+										verified={userState.verified}
+										following={userState.following.length}
+										followers={userState.followers.length}
+										posts={userState.posts}
+										causes={userState.causes}
+										profileImg={userState.profileImg}
+										bannerImg={userState.bannerImg}
+									/>
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>ENGAGEMENT</Typography>
@@ -115,20 +144,23 @@ const Analytics = () => {
 							</TabPanel>
 							<TabPanel value={value} index={1}>
 								<Grid container xs={12}>
-									{aboutState.map(card => (
 										<About
-											title={card.title}
-											name={card.name}
-											link={card.url}
-											image={card.thumbnail}
-											bio={card.bio}
-											followers={card.followers}
-											website={card.website}
-											address={card.address}
-											phone={card.phone}
-											email={card.email}
-										/>
-									))}
+										key={userState._id}
+										id={userState._id}
+										bio={userState.bio}
+										firstName={userState.firstName}
+										lastname={userState.lastname}
+										username={userState.username}
+										email={userState.email}
+										role={userState.role}
+										verified={userState.verified}
+										following={userState.following.length}
+										followers={userState.followers.length}
+										posts={userState.posts}
+										causes={userState.causes}
+										profileImg={userState.profileImg}
+										bannerImg={userState.bannerImg}
+									/>
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={2}>
