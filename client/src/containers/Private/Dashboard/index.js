@@ -31,7 +31,7 @@ import {
 	//What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
-import API from "../../../utils/api";
+import api from "../../../utils/api";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -45,18 +45,23 @@ const Dashboard = () => {
 	useEffect(() => {
 		async function fetchUserInfo() {
 			console.log(userState);
+			try {
+				const userInfo = await api.getUser(userState._id);
 
-			const userInfo = await API.getUser(userState._id);
+				console.log(userInfo.data);
 
-			await userDispatch({ type: USER_LOADING });
+				await userDispatch({ type: USER_LOADING });
 
-			await userDispatch({
-				type: UPDATE_USER,
-				payload: {
-					...userInfo.data,
-					loading: false,
-				},
-			});
+				await userDispatch({
+					type: UPDATE_USER,
+					payload: {
+						...userInfo.data,
+						loading: false,
+					},
+				});
+			} catch (err) {
+				console.log(err);
+			}
 		}
 
 		fetchUserInfo();
@@ -69,7 +74,6 @@ const Dashboard = () => {
 	};
 
 	const { width } = useWindowDimensions();
-
 	return (
 		<div className='Main'>
 			<CssBaseline>
