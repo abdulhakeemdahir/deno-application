@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import { useLogin } from "../../utils/auth";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { GET_USER_INFO, USER_LOADING } from "../../utils/actions/actions";
+import api from "../../utils/api";
 
 const useStyles = makeStyles({
 	paper: {
@@ -72,6 +73,10 @@ export default function Signin() {
 		event.preventDefault();
 
 		try {
+			const foundUser = await api.getUsersByUsername(stateSignIn.username);
+			if (foundUser) {
+				console.log(foundUser);
+			}
 			const { _id } = await login(stateSignIn);
 
 			// User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
@@ -86,25 +91,28 @@ export default function Signin() {
 					loading: false,
 				},
 			});
+			// console.log(stateSignIn);
 
 			history.push("/newsfeed");
 		} catch (err) {
 			// Handle error responses from the API
 			if (err.response && err.response.data) {
 				console.log(err.response.data);
-				validateLogin(event, err.response.data);
+				validateLogin(err.response.data);
 			}
 		}
 	};
 	// Form validation for inputs to be more than 6 characters
-	const validateLogin = (event, response) => {
-		const { name } = event.target;
-		console.log(name);
+	const validateLogin = response => {
+		console.log(response);
+		const { value } = response;
+		// console.log(name);
 		let isError = false;
 		const errors = {};
 
-		if (!response.data.username) {
-			errors[`${name}Error`] = "Wrong LogIn Information";
+		if (response) {
+			errors[`usernameError`] = "Username/Password is Wrong";
+			errors[`passwordError`] = "Username/Password is Wrong";
 			setStateSignIn({
 				...stateSignIn,
 				...errors,
@@ -117,7 +125,7 @@ export default function Signin() {
 	// Form validation for inputs to be more than 6 characters
 	const validate = event => {
 		const { name, value } = event.target;
-		console.log(name);
+		console.log(event.target);
 		let isError = false;
 		const errors = {};
 		if (value.length < 1) {
@@ -142,6 +150,7 @@ export default function Signin() {
 		return isError;
 	};
 
+	// console.log(stateSignIn);
 	return (
 		<Grid
 			container
