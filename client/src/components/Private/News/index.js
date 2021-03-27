@@ -81,6 +81,7 @@ export default function News(props) {
   });
 
   const handleChange = function(event) {
+    console.log("you are here");
     const { name, value } = event.target;
     setCommentState({
       ...commentState,
@@ -90,6 +91,7 @@ export default function News(props) {
 
   const handleSubmit = async (id) => {
     try {
+      console.log("you are here")
       const comment = {
         ...commentState,
         user: userState._id,
@@ -98,10 +100,12 @@ export default function News(props) {
 
       const { data } = await api.createComments(comment);
 
-      await api.updatePost(id, { comments: data._id });
+      console.log(data);
+
+      await api.updateObjectID(id, { comments: data._id });
 
       const userInfo = await api.getUser(userState._id);
-
+      
       await userDispatch({ type: USER_LOADING });
 
       await userDispatch({
@@ -173,7 +177,10 @@ export default function News(props) {
         <Divider />
         <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={4}>
-            <CardMedia className={"media"} image={props.image} />
+            <CardMedia
+              className={"media"}
+              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+            />
           </Grid>
           <Grid item xs={12} sm={8}>
             <CardContent>
