@@ -92,8 +92,8 @@ const Analytics = () => {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>
-									
-										<About
+
+									<About
 										key={userState._id}
 										id={userState._id}
 										bio={userState.bio}
@@ -144,7 +144,7 @@ const Analytics = () => {
 							</TabPanel>
 							<TabPanel value={value} index={1}>
 								<Grid container xs={12}>
-										<About
+									<About
 										key={userState._id}
 										id={userState._id}
 										bio={userState.bio}

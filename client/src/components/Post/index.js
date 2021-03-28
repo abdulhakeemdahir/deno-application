@@ -217,7 +217,6 @@ export default function Post() {
 		return isError;
 	};
 
-
 	return (
 		<Grid className='cardPost'>
 			<form
@@ -235,13 +234,14 @@ export default function Post() {
 						name='type'
 						onChange={handleChange}
 					>
-						{(userState.role === "Personal") ?
-						<MenuItem value={"Post"} >Post</MenuItem> :
-						<>
-						<MenuItem value={"Post"}>Post</MenuItem>
-						<MenuItem value={"Cause"}>Cause</MenuItem>
-						</>
-					}
+						{userState.role === "Personal" ? (
+							<MenuItem value={"Post"}>Post</MenuItem>
+						) : (
+							<>
+								<MenuItem value={"Post"}>Post</MenuItem>
+								<MenuItem value={"Cause"}>Cause</MenuItem>
+							</>
+						)}
 					</Select>
 				</FormControl>
 				<div>
