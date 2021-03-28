@@ -17,17 +17,20 @@ const UserProvider = ({ value = [], ...props }) => {
     username: "",
     email: "",
     password: "",
+    bio: "",
     uuid: "",
     role: "",
     verified: false,
     following: [],
     followers: [],
     posts: [],
+    causes: [],
     profileImg: "",
     bannerImg: "",
-    causes: [],
     orgName: "",
-    bio: "",
+    phoneNumber: "",
+    website: "",
+    address: "",
   });
 
   return <Provider value={[userState, userDispatch]} {...props} />;

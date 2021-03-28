@@ -25,9 +25,13 @@ import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
-import { UPDATE_USER, USER_LOADING, ADD_GUESS_USER,
-  USER_GUESS_LOADING, } from "../../../utils/actions/actions";
-  import { useParams } from "react-router-dom";
+import {
+	UPDATE_USER,
+	USER_LOADING,
+	ADD_GUESS_USER,
+	USER_GUESS_LOADING,
+} from "../../../utils/actions/actions";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -74,63 +78,71 @@ export default function News(props) {
 
 	const [userState, userDispatch] = useUserContext();
 
-  const [guessState, guessDispatch] = useGuessContext();
+	const [guessState, guessDispatch] = useGuessContext();
 
 	const [commentState, setCommentState] = useState({
-    content: "",
-  });
+		content: "",
+	});
 
-  const handleChange = function(event) {
-    console.log("you are here");
-    const { name, value } = event.target;
-    setCommentState({
-      ...commentState,
-      [name]: value,
-    });
-  };
+	const handleChange = function(event) {
+		console.log("you are here");
+		const { name, value } = event.target;
+		setCommentState({
+			...commentState,
+			[name]: value,
+		});
+	};
 
-  const handleSubmit = async (id) => {
-    try {
-      console.log("you are here")
-      const comment = {
-        ...commentState,
-        user: userState._id,
-        post: id,
-      };
+	const handleSubmit = async id => {
+		try {
+			console.log("you are here");
+			const comment = {
+				...commentState,
+				user: userState._id,
+				post: id,
+			};
 
-      const { data } = await api.createComments(comment);
+			const { data } = await api.createComments(comment);
 
-      console.log(data);
+			console.log(data);
 
-      await api.updateObjectID(id, { comments: data._id });
+			await api.updateObjectID(id, { comments: data._id });
 
-      const userInfo = await api.getUser(userState._id);
-      
-      await userDispatch({ type: USER_LOADING });
+			const userInfo = await api.getUser(userState._id);
 
-      await userDispatch({
-        type: UPDATE_USER,
-        payload: {
-          ...userInfo.data,
-          loading: false,
-        },
-      });
+			await userDispatch({ type: USER_LOADING });
 
-      if (guessState._id) {
-        const guessInfo = await api.getUser(guessState._id);
+			await userDispatch({
+				type: UPDATE_USER,
+				payload: {
+					...userInfo.data,
+					loading: false,
+				},
+			});
 
-        await guessDispatch({ type: USER_GUESS_LOADING });
+			if (guessState._id) {
+				const guessInfo = await api.getUser(guessState._id);
 
-        await guessDispatch({
-          type: ADD_GUESS_USER,
-          payload: {
-            ...guessInfo.data,
-            loading: false,
-          },
-        });
-      }
-    } catch (err) {}
-  };
+				await guessDispatch({ type: USER_GUESS_LOADING });
+
+				await guessDispatch({
+					type: ADD_GUESS_USER,
+					payload: {
+						...guessInfo.data,
+						loading: false,
+					},
+				});
+			}
+			clearState();
+		} catch (err) {}
+	};
+
+	const clearState = () => {
+		setCommentState({
+			content: "",
+		});
+		return;
+	};
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -166,7 +178,11 @@ export default function News(props) {
               }}
             >
               <Fade in={open}>
-                <UpdatePost className={"cardPost"} id={props.id} />
+                <UpdatePost
+                  className={"cardPost"}
+                  id={props.id}
+                  onClose={handleClose}
+                />
               </Fade>
             </Dialog>
           </Grid>

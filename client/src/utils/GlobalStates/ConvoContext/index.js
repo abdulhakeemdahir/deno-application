@@ -14,19 +14,6 @@ const ConvoProvider = ({ value = [], ...props }) => {
     loading: false
   });
 
-  // useEffect(() => {
-  //   if (!socket) return;
-
-  //   if (`${window.location.origin}/chatroom`) {
-  //     socket.on("update-chat", async conversation => {
-  //       convoDispatch(LOADING);
-  //       convoDispatch(UPDATE_CHAT);
-  //     });
-  //   }
-
-  //   return () => socket.off("update-chat");
-  // }, []);
-
   return <Provider value={[conversations, convoDispatch]} {...props} />;
 };
 

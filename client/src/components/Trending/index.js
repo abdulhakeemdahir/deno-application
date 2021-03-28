@@ -7,11 +7,11 @@ export default function Trending(props) {
 		<>
 			{props.hashTag.map((tag, index) => (
 				<div className='cardTrending' id={props.post}>
-					<Link to={`#${props.link}`} className='textStyle' key={index}>
-						<Typography variant='body3'>
-							<TrendingUpIcon className='iconStyle' /> {tag}{" "}
-						</Typography>
-					</Link>
+					{/* <Link to={`#${props.link}`} className='textStyle' key={index}> */}
+					<Typography variant='body3' className='textStyle'>
+						<TrendingUpIcon className='iconStyle' /> {tag}{" "}
+					</Typography>
+					{/* </Link> */}
 				</div>
 			))}
 		</>

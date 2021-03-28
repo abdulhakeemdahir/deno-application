@@ -112,10 +112,13 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
     };
 
     sendMessage(payload);
+
+    setContent("");
   };
 
   const handleInput = e => {
     setContent(e.target.value);
+    console.log(content);
   };
 
   return (
@@ -151,11 +154,11 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
         <FormGroup>
           <FormControl id='chat-form'>
             <TextField
+              value={content}
               name='chatform'
               variant='outlined'
               label='Chat'
               placeholder='Enter Message'
-              ref={textRef}
               onInput={handleInput}
               fullWidth
             />

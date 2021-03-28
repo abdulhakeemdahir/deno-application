@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
+import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
@@ -32,6 +32,8 @@ import {
 } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
+import AddContent from "../../../components/Forms/AddContent";
+import { NavLink } from "react-router-dom";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -78,6 +80,7 @@ const Dashboard = () => {
 		<div className='Main'>
 			<CssBaseline>
 				<Nav />
+
 				<Grid
 					container
 					direction='row'
@@ -89,6 +92,10 @@ const Dashboard = () => {
 				>
 					{width > 600 ? (
 						<>
+							<Breadcrumbs style={{ position: "absolute" }}>
+								<NavLink to='newsfeed'>Home</NavLink>
+								<Typography color='textSecondary'>Dashboard</Typography>
+							</Breadcrumbs>
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>
@@ -112,34 +119,42 @@ const Dashboard = () => {
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									{userState.posts.map(card => (
-										<News
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											comments={card.comments}
-										/>
-									))}
+									{userState.posts.length === 0 ? (
+										<AddContent text='Please make a Post in the Newsfeed ' />
+									) : (
+										userState.posts.map(card => (
+											<News
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+												comments={card.comments}
+											/>
+										))
+									)}
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
-									{userState.causes.map(card => (
-										<Causes
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-										/>
-									))}
+									{userState.posts.length === 0 ? (
+										<AddContent text='Please make/follow a Cause ' />
+									) : (
+										userState.causes.map(card => (
+											<Causes
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+											/>
+										))
+									)}
 								</Grid>
 							</Grid>
 						</>
@@ -156,19 +171,23 @@ const Dashboard = () => {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
-									{userState.posts.map(card => (
-										<News
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											comments={card.comments}
-										/>
-									))}
+									{userState.posts.length === 0 ? (
+										<AddContent text='Please make a Post in the Newsfeed ' />
+									) : (
+										userState.posts.map(card => (
+											<News
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+												comments={card.comments}
+											/>
+										))
+									)}
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={1}>
@@ -194,18 +213,22 @@ const Dashboard = () => {
 							</TabPanel>
 							<TabPanel value={value} index={2}>
 								<Grid item xs={12}>
-									{userState.causes.map(card => (
-										<Causes
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-										/>
-									))}
+									{userState.posts.length === 0 ? (
+										<AddContent text='Please make/follow a Cause ' />
+									) : (
+										userState.causes.map(card => (
+											<Causes
+												key={card._id}
+												id={card._id}
+												title={card.title}
+												author={card.author.firstName}
+												link={card.url}
+												image={card.imageUrl}
+												post={card.content}
+												hashTag={card.hashtag}
+											/>
+										))
+									)}
 								</Grid>
 							</TabPanel>
 						</>

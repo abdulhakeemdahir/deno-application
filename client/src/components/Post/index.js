@@ -19,6 +19,7 @@ import {
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
+import api from "../../utils/api.js";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -57,210 +58,262 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Post() {
-  const [, causeDispatch] = useCauseContext();
-  const [, postDispatch] = usePostContext();
-  //*Associated with cloudinary
-  const [fileInputState, setFileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  const classes = useStyles();
-
-  //*Create Post
-  const addPost = async () => {
-    await postDispatch({ type: POST_LOADING });
-
-    const postInfo = await API.getAllPost();
-
-    await postDispatch({
-      type: ADD_POST,
-      payload: {
-        posts: postInfo.data,
-        loading: false,
-      },
-    });
-  };
-  //Create cause
-  const addCause = async () => {
-    await causeDispatch({ type: CAUSE_LOADING });
-
-    const causes = await API.getAllCauses();
-
-    await causeDispatch({
-      type: ADD_CAUSE,
-      payload: {
-        causes: causes.data,
-        loading: false,
-      },
-    });
-  };
-
+	const [, causeDispatch] = useCauseContext();
+	const [, postDispatch] = usePostContext();
+	//*Associated with cloudinary
+	const [fileInputState, ] = useState("");
+	const [previewSource, setPreviewSource] = useState("");
+	const classes = useStyles();
   const [createPost, setCreatePost] = useState({
-    type: "",
-    title: "",
-    content: "",
-    imageUrl: "",
-  });
-
-  const handleChange = function(event) {
-    const { name, value } = event.target;
-    setCreatePost({
-      ...createPost,
-      [name]: value,
+      type: "",
+      title: "",
+      titleError: "",
+      content: "",
+      contentError: "",
+      imageUrl: "",
     });
-  };
+	//*Create Post
+	const addPost = async () => {
+		await postDispatch({ type: POST_LOADING });
 
-  const [userState] = useUserContext();
+		const postInfo = await API.getAllPost();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (userState.role === "Personal" && createPost.type === "Cause") {
-      //TODO display error message
-      console.log("sorry");
-      return;
-    }
-    if (createPost.type === "" || createPost.title === "" || createPost.content === "") {
-      return;
-    }
-    try {
-      const post = {
-        ...createPost,
-        author: userState._id,
-      };
-	  //the only line we need it to add
-	if (previewSource) {
-		post.imageUrl = previewSource;
-	}
-
-      const hashtags = await findHashtags(createPost.content);
-
-      if (hashtags.length) {
-        const createHashtags = await API.createHashtag({ hashtag: hashtags });
-        post.hashtags = createHashtags.data._id;
-      }
-
-      if (createPost.type === "Post") {
-        const { data } = await API.createPost(post);
-        if (post.hashtags) {
-          await API.updateHashtag(post.hashtags, {
-            posts: data._id,
-          });
-        }
-
-        await API.updateUserObjectID(post.author, {
-          posts: data._id,
-        });
-
-        addPost();
-        return;
-      } else {
-        const { data } = await API.createCause(post);
-
-		await API.updateUserObjectID(userState._id, {
-		causes: data._id,
+		await postDispatch({
+			type: ADD_POST,
+			payload: {
+				posts: postInfo.data,
+				loading: false,
+			},
+		});
+	};
+	//Create cause
+	const addCause = async () => {
+		await causeDispatch({
+			type: CAUSE_LOADING,
 		});
 
-        if (post.hashtags) {
-          await API.updateHashtag(post.hashtags, {
-            causes: data._id,
-          });
-        }
+		const causes = await API.getAllCauses();
 
-        addCause();
-      }
+		await causeDispatch({
+			type: ADD_CAUSE,
+			payload: {
+				causes: causes.data,
+				loading: false,
+			},
+		});
+	};
 
-      window.render();
+	
 
-    } catch (err) {
-      console.log("here", err);
-    }
-  };
-  const clearState = () => {
-    
-    return;
-  };
-  
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
-  };
+	const handleChange = function(event) {
+		const { name, value } = event.target;
+		setCreatePost({
+			...createPost,
+			[name]: value,
+		});
+	};
 
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
+	const [userState] = useUserContext();
 
-  return (
-    <Grid className="cardPost">
-      <form
-        className={classes.root}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
-        <FormControl variant="outlined">
-          <InputLabel id="post">Post Type</InputLabel>
-          <Select
-            labelId="post"
-            id="post"
-            label="post type"
-            name="type"
-            onChange={handleChange}
-          >
-            <MenuItem value={"Post"}>Post</MenuItem>
-            <MenuItem value={"Cause"}>Cause</MenuItem>
-          </Select>
-        </FormControl>
-        <div>
-          <Grid container>
-            <TextField
-              name="title"
-              value={createPost.title}
-              onChange={handleChange}
-              id="title"
-              label="Title"
-              multiline
-              rowsMax={4}
-              className={classes.inputMargin}
-              size="small"
-            />
+	const handleSubmit = async event => {
+		event.preventDefault();
 
-            <TextField
-              name="content"
-              value={createPost.content}
-              onChange={handleChange}
-              id="post"
-              label="Post a Message"
-              variant="filled"
-              multiline
-              rows={4}
-              fullWidth
-              size="small"
-            />
-          </Grid>
-        </div>
-		
-        <TextField
-          type="file"
-          name="image"
-          onChange={handleFileInputChange}
-          value={fileInputState}
-          variant="outlined"
-        />
-        <Button
-          type="submit"
-          size="small"
-          className={classes.styleMain}
-          onClick={handleSubmit}
-        >
-          <ChatBubbleOutlineIcon /> Post
-        </Button>
-      </form>
-      {previewSource && (
-        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
-      )}
-    </Grid>
-  );
+		if (
+			createPost.type === "" ||
+			createPost.title === "" ||
+			createPost.content === ""
+		) {
+			return;
+		}
+		try {
+			const post = {
+				...createPost,
+				author: userState._id,
+			};
+			//the only line we need it to add
+			if (previewSource) {
+				post.imageUrl = previewSource;
+			}
+
+			const hashtags = await findHashtags(createPost.content);
+
+			if (hashtags.length) {
+				const createHashtags = await API.createHashtag({ hashtag: hashtags });
+				post.hashtags = createHashtags.data._id;
+			}
+
+      console.log(post)
+
+			if (createPost.type === "Post") {
+				const { data } = await API.createPost(post);
+				if (post.hashtags) {
+					await API.updateHashtag(post.hashtags, {
+						posts: data._id,
+					});
+				}
+
+				await API.updateUserObjectID(post.author, {
+					posts: data._id,
+				});
+
+				await addPost();
+			
+			} else {
+				const { data } = await API.createCause(post);
+
+				if (post.hashtags) {
+					await API.updateHashtag(post.hashtags, {
+						causes: data._id,
+					});
+				}
+
+				await addCause();
+			}
+
+			clearState();
+
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const clearState = () => {
+    setCreatePost({
+      type: "",
+      title: "",
+      titleError: "",
+      content: "",
+      contentError: "",
+      imageUrl: "",
+    });
+    setPreviewSource("")
+
+		return;
+	};
+
+	const handleFileInputChange = e => {
+		const file = e.target.files[0];
+		previewFile(file);
+	};
+
+	const previewFile = file => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+			setPreviewSource(reader.result);
+		};
+	};
+
+	// Form validation for inputs to be more than 6 characters
+	const validate = event => {
+		const { name, value } = event.target;
+		console.log(name);
+		let isError = false;
+		const errors = {};
+		if (value.length < 1) {
+			isError = true;
+			errors[`${name}Error`] = "Input cannot be empty";
+		}
+    console.log(errors);
+		console.log(value.length);
+		if (isError) {
+			setCreatePost({
+        ...createPost,
+        ...errors,
+      });
+		}
+		if (value.length >= 1) {
+			errors[`${name}Error`] = "";
+      console.log(errors);
+
+			setCreatePost({
+        ...createPost,
+        ...errors,
+      });
+      console.log(createPost);
+		}
+
+		return isError;
+	};
+
+	return (
+		<Grid className='cardPost'>
+			<form
+				className={classes.root}
+				noValidate
+				autoComplete='off'
+				onSubmit={handleSubmit}
+			>
+				<FormControl variant='outlined'>
+					<InputLabel id='post'>Post Type</InputLabel>
+					<Select
+						labelId='post'
+						id='post'
+						label='post type'
+						name='type'
+						onChange={handleChange}
+					>
+						{userState.role === "Personal" ? (
+							<MenuItem value={"Post"}>Post</MenuItem>
+						) : (
+							<>
+								<MenuItem value={"Post"}>Post</MenuItem>
+								<MenuItem value={"Cause"}>Cause</MenuItem>
+							</>
+						)}
+					</Select>
+				</FormControl>
+				<div>
+					<Grid container>
+						<TextField
+							error={createPost.titleError}
+							helperText={createPost.titleError}
+							name='title'
+							value={createPost.title}
+							onChange={handleChange}
+							onBlur={validate}
+							id='title'
+							// label='Title'
+							placeholder='Enter Title'
+							className='postBackground'
+							size='small'
+							variant='outlined'
+							fullWidth
+						/>
+
+						<TextField
+							error={createPost.contentError}
+							helperText={createPost.contentError}
+							name='content'
+							value={createPost.content}
+							onChange={handleChange}
+							onBlur={validate}
+							id='post'
+							// label='Post'
+							placeholder='Post a Message'
+							variant='outlined'
+							multiline
+							rows={4}
+							fullWidth
+							size='small'
+							className='postBackground'
+						/>
+					</Grid>
+				</div>
+
+				<TextField
+					type='file'
+					name='image'
+					onChange={handleFileInputChange}
+					value={fileInputState}
+					variant='outlined'
+				/>
+				<Button type='submit' size='small' className={classes.styleMain}>
+					<ChatBubbleOutlineIcon /> Post
+				</Button>
+			</form>
+			{previewSource && (
+				<img src={previewSource} alt='chosen' className={classes.imgStyle} />
+			)}
+		</Grid>
+	);
 }
