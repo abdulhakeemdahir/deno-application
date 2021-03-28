@@ -53,7 +53,7 @@ export default function FormUserDetails2(props) {
 
 	return (
 		<>
-			<TextField
+			{/* <TextField
 				name='role'
 				value={values.role}
 				onChange={handleChange}
@@ -62,7 +62,7 @@ export default function FormUserDetails2(props) {
 				placeholder='Enter Role'
 				fullWidth
 				className={classes.mgstyle}
-			/>
+			/> */}
 			<TextField
 				error={values.usernameError}
 				helperText={values.usernameError}
