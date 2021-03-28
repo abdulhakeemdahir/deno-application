@@ -11,6 +11,8 @@ router
   .put(postController.update)
   .delete(postController.remove);
 
+router.route("/single/:id").get(postController.findUserPosts);
+
 router.route("/object/:id").put(postController.updateObjectID);
 
 router.route("/remove/like/:id").put(postController.removeliked);
