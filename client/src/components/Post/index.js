@@ -64,7 +64,14 @@ export default function Post() {
 	const [fileInputState, ] = useState("");
 	const [previewSource, setPreviewSource] = useState("");
 	const classes = useStyles();
-
+  const [createPost, setCreatePost] = useState({
+      type: "",
+      title: "",
+      titleError: "",
+      content: "",
+      contentError: "",
+      imageUrl: "",
+    });
 	//*Create Post
 	const addPost = async () => {
 		await postDispatch({ type: POST_LOADING });
@@ -96,14 +103,7 @@ export default function Post() {
 		});
 	};
 
-	const [createPost, setCreatePost] = useState({
-		type: "",
-		title: "",
-		titleError: "",
-		content: "",
-		contentError: "",
-		imageUrl: "",
-	});
+	
 
 	const handleChange = function(event) {
 		const { name, value } = event.target;
@@ -118,23 +118,22 @@ export default function Post() {
 	const handleSubmit = async event => {
 		event.preventDefault();
 
-
-    //*Associated with cloudinary
-    if (!previewSource) return;
-    uploadImage(previewSource);
-    
-    if (createPost.type === "" || createPost.title === "" || createPost.content === "") {
-      return;
-    }
-    try {
-      const post = {
-        ...createPost,
-        author: userState._id,
-      };
-	  //the only line we need it to add
-	if (previewSource) {
-		post.imageUrl = previewSource;
-	}
+		if (
+			createPost.type === "" ||
+			createPost.title === "" ||
+			createPost.content === ""
+		) {
+			return;
+		}
+		try {
+			const post = {
+				...createPost,
+				author: userState._id,
+			};
+			//the only line we need it to add
+			if (previewSource) {
+				post.imageUrl = previewSource;
+			}
 
 			const hashtags = await findHashtags(createPost.content);
 
@@ -142,6 +141,8 @@ export default function Post() {
 				const createHashtags = await API.createHashtag({ hashtag: hashtags });
 				post.hashtags = createHashtags.data._id;
 			}
+
+      console.log(post)
 
 			if (createPost.type === "Post") {
 				const { data } = await API.createPost(post);
@@ -155,8 +156,8 @@ export default function Post() {
 					posts: data._id,
 				});
 
-				addPost();
-				return;
+				await addPost();
+			
 			} else {
 				const { data } = await API.createCause(post);
 
@@ -166,15 +167,26 @@ export default function Post() {
 					});
 				}
 
-				addCause();
+				await addCause();
 			}
 
-			window.render();
+			clearState();
+
 		} catch (err) {
-			console.log("here", err);
+			console.log(err);
 		}
 	};
 	const clearState = () => {
+    setCreatePost({
+      type: "",
+      title: "",
+      titleError: "",
+      content: "",
+      contentError: "",
+      imageUrl: "",
+    });
+    setPreviewSource("")
+
 		return;
 	};
 
@@ -183,19 +195,13 @@ export default function Post() {
 		previewFile(file);
 	};
 
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
-//*Associated with cloudinary
-const uploadImage = async (base64EncodedImage) => {
-  const updateUser = await api.updateUser(userState._id, { profileImg: base64EncodedImage });
-  console.log(updateUser);
-};
-
+	const previewFile = file => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+			setPreviewSource(reader.result);
+		};
+	};
 
 	// Form validation for inputs to be more than 6 characters
 	const validate = event => {
@@ -207,19 +213,23 @@ const uploadImage = async (base64EncodedImage) => {
 			isError = true;
 			errors[`${name}Error`] = "Input cannot be empty";
 		}
+    console.log(errors);
 		console.log(value.length);
 		if (isError) {
 			setCreatePost({
-				...setCreatePost,
-				...errors,
-			});
+        ...createPost,
+        ...errors,
+      });
 		}
 		if (value.length >= 1) {
 			errors[`${name}Error`] = "";
+      console.log(errors);
+
 			setCreatePost({
-				...setCreatePost,
-				...errors,
-			});
+        ...createPost,
+        ...errors,
+      });
+      console.log(createPost);
 		}
 
 		return isError;
@@ -297,12 +307,7 @@ const uploadImage = async (base64EncodedImage) => {
 					value={fileInputState}
 					variant='outlined'
 				/>
-				<Button
-					type='submit'
-					size='small'
-					className={classes.styleMain}
-					onClick={handleSubmit}
-				>
+				<Button type='submit' size='small' className={classes.styleMain}>
 					<ChatBubbleOutlineIcon /> Post
 				</Button>
 			</form>

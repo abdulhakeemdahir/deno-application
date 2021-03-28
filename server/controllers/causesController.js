@@ -70,7 +70,7 @@ module.exports = {
   update: async (req, res) => {
     try {
       const causeModel = await Cause.findByIdAndUpdate(
-        { username: req.params.username },
+        req.params._id,
         req.body
       );
       res.status(200).json(causeModel);
