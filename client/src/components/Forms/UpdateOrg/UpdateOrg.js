@@ -94,6 +94,9 @@ export default function UpdateOrg(props) {
     if (stateSignUp.username !== "") {
       updateUser.username = stateSignUp.username;
     }
+    if (stateSignUp.orgName !== "") {
+      updateUser.orgName = stateSignUp.orgName;
+    }
 
 
     updateOrg(updateUser);
@@ -151,7 +154,7 @@ export default function UpdateOrg(props) {
 					<CreateIcon />
 				</Avatar>
 				<Typography variation='h6' color='default'>
-					Update User
+					Update Organization
 				</Typography>
 			</Grid>
 			<form autoComplete='off' onSubmit={handleSubmit}>
@@ -172,6 +175,16 @@ export default function UpdateOrg(props) {
 					variant='outlined'
 					label='Lastname'
 					placeholder='Enter Last Name'
+					fullWidth
+					className={classes.mgstyle}
+				/>
+				<TextField
+					name='orgName'
+					value={stateSignUp.orgName}
+					onChange={handleChange}
+					variant='outlined'
+					label='Organization name'
+					placeholder='Enter Organization Name'
 					fullWidth
 					className={classes.mgstyle}
 				/>
