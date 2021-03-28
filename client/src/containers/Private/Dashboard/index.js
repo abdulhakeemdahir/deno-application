@@ -130,7 +130,7 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.username}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
@@ -150,7 +150,8 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
@@ -182,7 +183,7 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.username}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
@@ -228,7 +229,8 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
