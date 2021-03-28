@@ -114,6 +114,12 @@ class API {
   async findLikePost(id, user) {
     return this.axios.get(`/api/posts/findliked/${id}/${user}`);
   }
+<<<<<<< HEAD
+=======
+  async findUserPosts(id, user) {
+    return this.axios.get(`/api/posts/single/${id}/`);
+  }
+>>>>>>> e7c695046139951eaf922de6d26c010c22695fb8
   createPost(data) {
     return this.axios.post(`/api/posts/`, data);
   }

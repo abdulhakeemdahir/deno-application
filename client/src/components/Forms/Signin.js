@@ -71,7 +71,7 @@ export default function Signin() {
   const [, userDispatch] = useUserContext();
   const handleSubmit = async event => {
     event.preventDefault();
-
+    // console.log(event)
     try {
       const { _id } = await login(stateSignIn);
 
@@ -145,49 +145,49 @@ export default function Signin() {
   return (
     <Grid
       container
-      direction='column'
-      justify='center'
-      alignItems='center'
+      direction="column"
+      justify="center"
+      alignItems="center"
       className={classes.paper}
     >
-      <Grid item align='center'>
+      <Grid item align="center">
         <Avatar className={classes.styleIcon}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variation='h6' color='default'>
+        <Typography variation="h6" color="default">
           Log In
         </Typography>
       </Grid>
-      <form autoComplete='off' onSubmit={handleSubmit}>
+      <form autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           error={stateSignIn.usernameError}
           helperText={stateSignIn.usernameError}
-          name='username'
+          name="username"
           value={stateSignIn.username}
           onChange={handleChange}
           onBlur={validate}
-          variant='outlined'
-          label='Username'
-          placeholder='Enter Username'
+          variant="outlined"
+          label="Username"
+          placeholder="Enter Username"
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
           error={stateSignIn.passwordError}
           helperText={stateSignIn.passwordError}
-          name='password'
+          name="password"
           value={stateSignIn.password}
           onChange={handleChange}
           onBlur={validate}
-          variant='outlined'
-          label='Password'
-          placeholder='Enter Password'
-          type='password'
+          variant="outlined"
+          label="Password"
+          placeholder="Enter Password"
+          type="password"
           fullWidth
           className={classes.mgstyle}
         />
         <Button
-          size='large'
+          size="large"
           className={classes.styleMain}
           fullWidth
           onClick={handleSubmit}

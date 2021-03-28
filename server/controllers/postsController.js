@@ -6,7 +6,32 @@ const cloudinary = require("../../utils/cloudinary");
 module.exports = {
   findUserPosts: async (req, res) => {
     try {
-      const postModel = await Post.findById(req.query).sort({ date: -1 });
+      const postModel = await Post.findById(req.params.id).populate([
+        {
+          path: "author",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "hashtags",
+          model: "Hashtag"
+        },
+        {
+          path: "likes",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "comments",
+          model: "Comment",
+          options: { sort: { date: -1 } },
+          populate: {
+            path: "user",
+            select: "firstName",
+            model: "User"
+          }
+        }
+      ]);
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -40,19 +65,19 @@ module.exports = {
   update: async (req, res) => {
     const { imageUrl } = req.body;
     const upDatePost = req.body;
-
-    if (imageUrl) {
-      const result = await cloudinary.uploader.upload_large(profileImg, {
-        // eslint-disable-next-line camelcase
-        upload_preset: "dev_setup"
-      });
-      upDatePost.imageUrl = result.public_id;
-    }
     try {
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        upDatePost.imageUrl = result.public_id;
+      }
+
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
         {
-          upDatePost
+          $set: upDatePost
         },
         { new: true, runValidators: true }
       );
@@ -63,7 +88,6 @@ module.exports = {
     }
   },
   updateObjectID: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
@@ -126,7 +150,6 @@ module.exports = {
     }
   },
   removeliked: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,

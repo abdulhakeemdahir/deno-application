@@ -1,4 +1,5 @@
 const { User } = require("../models");
+//const { Organization } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
 
 const cloudinary = require("../../utils/cloudinary");
@@ -16,7 +17,7 @@ module.exports = {
     try {
       const user = await User.findById(req.params.id)
         .select(
-          "firstName lastname username email role profileImg bannerImg following followers posts bio causes"
+          "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName"
         )
         .populate([
           {
@@ -124,19 +125,13 @@ module.exports = {
         });
         updateUser.profileImg = result.public_id.toString();
       }
-      console.log(updateUser);
+      const id = { _id: req.params.id };
+      const set = { $set: updateUser };
+      const validator = { new: true, runValidators: true };
 
-      const foundUser = await User.findOneAndUpdate(
-        {
-          _id: req.params.id
-        },
-        {
-          $set: updateUser
-        },
-        { new: true, runValidators: true }
-      );
-      console.log("here", foundUser);
-      res.status(200).json(foundUser.firstName);
+      const foundUser = await User.findOneAndUpdate(id, set, validator);
+
+      return res.status(200).json(foundUser.firstName);
     } catch (err) {
       console.log(err);
       res.status(422).json(err);

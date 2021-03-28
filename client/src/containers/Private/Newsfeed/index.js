@@ -258,7 +258,6 @@ const Newsfeed = () => {
           )}
         </Grid>
         <Gradient />
-        {/* <Splash /> */}
         <Footer />
       </CssBaseline>
     </div>

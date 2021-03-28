@@ -15,10 +15,13 @@ import {
 	ADD_POST,
 	CAUSE_LOADING,
 	POST_LOADING,
+	UPDATE_USER,
+	USER_LOADING,
 } from "../../utils/actions/actions";
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
+import api from "../../utils/api.js";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -57,13 +60,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Post() {
+	const [userState, userDispatch] = useUserContext();
 	const [, causeDispatch] = useCauseContext();
 	const [, postDispatch] = usePostContext();
 	//*Associated with cloudinary
-	const [fileInputState, setFileInputState] = useState("");
+	const [fileInputState, ] = useState("");
 	const [previewSource, setPreviewSource] = useState("");
 	const classes = useStyles();
-
+  const [createPost, setCreatePost] = useState({
+      type: "",
+      title: "",
+      titleError: "",
+      content: "",
+      contentError: "",
+      imageUrl: "",
+    });
 	//*Create Post
 	const addPost = async () => {
 		await postDispatch({ type: POST_LOADING });
@@ -95,14 +106,20 @@ export default function Post() {
 		});
 	};
 
-	const [createPost, setCreatePost] = useState({
-		type: "",
-		title: "",
-		titleError: "",
-		content: "",
-		contentError: "",
-		imageUrl: "",
-	});
+	const updateUserStates = async () => {
+    
+    const userInfo = await api.getUser(userState._id);
+
+    await userDispatch({ type: USER_LOADING });
+
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false,
+      },
+    });
+  };
 
 	const handleChange = function(event) {
 		const { name, value } = event.target;
@@ -112,18 +129,8 @@ export default function Post() {
 		});
 	};
 
-	const [userState] = useUserContext();
-
 	const handleSubmit = async event => {
 		event.preventDefault();
-
-		if (
-			createPost.type === "" ||
-			createPost.title === "" ||
-			createPost.content === ""
-		) {
-			return;
-		}
 		try {
 			const post = {
 				...createPost,
@@ -141,7 +148,12 @@ export default function Post() {
 				post.hashtags = createHashtags.data._id;
 			}
 
-			if (createPost.type === "Post") {
+
+			if (userState.role === "Personal" || createPost.type === "Post") {
+				setCreatePost({
+					...createPost,
+					type:"Post"
+				})
 				const { data } = await API.createPost(post);
 				if (post.hashtags) {
 					await API.updateHashtag(post.hashtags, {
@@ -153,8 +165,8 @@ export default function Post() {
 					posts: data._id,
 				});
 
-				addPost();
-				return;
+				await addPost();
+			
 			} else {
 				const { data } = await API.createCause(post);
 
@@ -164,15 +176,30 @@ export default function Post() {
 					});
 				}
 
-				addCause();
+				await API.updateUserObjectID(post.author, {
+					causes: data._id,
+				});
+				
+				await addCause();
 			}
+			await updateUserStates();
+			clearState();
 
-			window.render();
 		} catch (err) {
-			console.log("here", err);
+			console.log(err);
 		}
 	};
 	const clearState = () => {
+    setCreatePost({
+      type: "",
+      title: "",
+      titleError: "",
+      content: "",
+      contentError: "",
+      imageUrl: "",
+    });
+    setPreviewSource("")
+
 		return;
 	};
 
@@ -199,24 +226,27 @@ export default function Post() {
 			isError = true;
 			errors[`${name}Error`] = "Input cannot be empty";
 		}
+    console.log(errors);
 		console.log(value.length);
 		if (isError) {
 			setCreatePost({
-				...setCreatePost,
-				...errors,
-			});
+        ...createPost,
+        ...errors,
+      });
 		}
 		if (value.length >= 1) {
 			errors[`${name}Error`] = "";
+      console.log(errors);
+
 			setCreatePost({
-				...setCreatePost,
-				...errors,
-			});
+        ...createPost,
+        ...errors,
+      });
+      console.log(createPost);
 		}
 
 		return isError;
 	};
-
 
 	return (
 		<Grid className='cardPost'>
@@ -225,7 +255,10 @@ export default function Post() {
 				noValidate
 				autoComplete='off'
 				onSubmit={handleSubmit}
-			>
+			>	
+				{userState.role === "Personal" ? (
+							null
+						) : (
 				<FormControl variant='outlined'>
 					<InputLabel id='post'>Post Type</InputLabel>
 					<Select
@@ -235,15 +268,10 @@ export default function Post() {
 						name='type'
 						onChange={handleChange}
 					>
-						{(userState.role === "Personal") ?
-						<MenuItem value={"Post"} >Post</MenuItem> :
-						<>
 						<MenuItem value={"Post"}>Post</MenuItem>
 						<MenuItem value={"Cause"}>Cause</MenuItem>
-						</>
-					}
 					</Select>
-				</FormControl>
+				</FormControl>)}
 				<div>
 					<Grid container>
 						<TextField
@@ -289,12 +317,7 @@ export default function Post() {
 					value={fileInputState}
 					variant='outlined'
 				/>
-				<Button
-					type='submit'
-					size='small'
-					className={classes.styleMain}
-					onClick={handleSubmit}
-				>
+				<Button type='submit' size='small' className={classes.styleMain}>
 					<ChatBubbleOutlineIcon /> Post
 				</Button>
 			</form>

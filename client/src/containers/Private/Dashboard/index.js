@@ -9,12 +9,9 @@ import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Private/Causes";
+import Causes from "../../../components/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
-
-//Cloudinary
-import { Image } from "cloudinary-react";
 
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
@@ -23,7 +20,8 @@ import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { NavLink } from "react-router-dom";
+import Post from "../../../components/Post";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -34,11 +32,8 @@ TabPanel.propTypes = {
 const Dashboard = () => {
   const [userState, userDispatch] = useUserContext();
 
-  const socket = useSocket();
-
   useEffect(() => {
     async function fetchUserInfo() {
-      console.log(userState.posts.length === 0);
       try {
         const userInfo = await api.getUser(userState._id);
 
@@ -67,13 +62,13 @@ const Dashboard = () => {
 
   const { width } = useWindowDimensions();
   return (
-    <div className='Main'>
+    <div className="Main">
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction='row'
-          justify='center'
+          direction="row"
+          justify="center"
           className={"container"}
           xs={12}
           lg={10}
@@ -81,9 +76,13 @@ const Dashboard = () => {
         >
           {width > 600 ? (
             <>
+              <Breadcrumbs style={{ position: "absolute" }}>
+                <NavLink to="newsfeed">Home</NavLink>
+                <Typography color="textSecondary">Dashboard</Typography>
+              </Breadcrumbs>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>ABOUT</Typography>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">ABOUT</Typography>
                   <About
                     key={userState._id}
                     id={userState._id}
@@ -100,12 +99,17 @@ const Dashboard = () => {
                     causes={userState.causes}
                     profileImg={userState.profileImg}
                     bannerImg={userState.bannerImg}
+                    website={userState.website}
+                    address={userState.address}
+                    orgName={userState.orgName}
+                    phone={userState.phoneNumber}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} className='card-container'>
-                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                <Grid item xs={12} sm={6} className="card-container">
+                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                  <Post className="card" />
                   {userState.posts.length === 0 ? (
-                    <AddContent text='Please make a Post in the Newsfeed ' />
+                    <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
                     userState.posts.map(card => (
                       <News
@@ -122,10 +126,10 @@ const Dashboard = () => {
                     ))
                   )}
                 </Grid>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>CAUSES</Typography>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">CAUSES</Typography>
                   {userState.posts.length === 0 ? (
-                    <AddContent text='Please make/follow a Cause ' />
+                    <AddContent text="Please make/follow a Cause " />
                   ) : (
                     userState.causes.map(card => (
                       <Causes
@@ -148,16 +152,16 @@ const Dashboard = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='simple tabs example'
+                aria-label="simple tabs example"
               >
-                <Tab label='News' {...a11yProps(0)} />
-                <Tab label='About' {...a11yProps(1)} />
-                <Tab label='Causes' {...a11yProps(2)} />
+                <Tab label="News" {...a11yProps(0)} />
+                <Tab label="About" {...a11yProps(1)} />
+                <Tab label="Causes" {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
                   {userState.posts.length === 0 ? (
-                    <AddContent text='Please make a Post in the Newsfeed ' />
+                    <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
                     userState.posts.map(card => (
                       <News
@@ -193,13 +197,17 @@ const Dashboard = () => {
                     causes={userState.causes}
                     profileImg={userState.profileImg}
                     bannerImg={userState.bannerImg}
+                    website={userState.website}
+                    address={userState.address}
+                    orgName={userState.orgName}
+                    phone={userState.phoneNumber}
                   />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
                   {userState.posts.length === 0 ? (
-                    <AddContent text='Please make/follow a Cause ' />
+                    <AddContent text="Please make/follow a Cause " />
                   ) : (
                     userState.causes.map(card => (
                       <Causes

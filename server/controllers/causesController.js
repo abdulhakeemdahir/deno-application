@@ -43,6 +43,7 @@ module.exports = {
           path: "likes",
           populate: {
             path: "user",
+            select: "firstName",
             model: "User"
           }
         })
@@ -68,10 +69,22 @@ module.exports = {
     }
   },
   update: async (req, res) => {
+    const { imageUrl } = req.body;
+    const upDateCause = req.body;
     try {
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        upDateCause.imageUrl = result.public_id;
+      }
       const causeModel = await Cause.findByIdAndUpdate(
-        { username: req.params.username },
-        req.body
+        req.params._id,
+        {
+          $set: upDateCause
+        },
+        { new: true, runValidators: true }
       );
       res.status(200).json(causeModel);
     } catch (err) {

@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  Typography,
-  Grid,
-  CssBaseline,
-  Button,
-  Modal,
-  TextField
-} from "@material-ui/core";
+import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 import "./style.css";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -143,14 +136,14 @@ const Chatroom = () => {
 
   const { width } = useWindowDimensions();
   return (
-    <div className='Main'>
+    <div className="Main">
       <CssBaseline>
         <Nav />
 
         <Grid
           container
-          direction='row'
-          justify='center'
+          direction="row"
+          justify="center"
           className={"container"}
           xs={12}
           lg={10}
@@ -159,16 +152,16 @@ const Chatroom = () => {
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className='card-container'>
-                  <Typography variant='subtitle2'>Conversations</Typography>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">Conversations</Typography>
                   <Sidebar
                     toggleChat={toggleChat}
                     convos={conversations.conversations}
                     createConvo={createConvo}
                   />
                 </Grid>
-                <Grid item xs={12} sm={9} className='card-container'>
-                  <Typography variant='subtitle2'>Messenger</Typography>
+                <Grid item xs={12} sm={9} className="card-container">
+                  <Typography variant="subtitle2">Messenger</Typography>
                   <ChatContainer
                     chat={conversations.chat}
                     sendMessage={sendMessage}
@@ -182,10 +175,10 @@ const Chatroom = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='simple tabs example'
+                aria-label="simple tabs example"
               >
-                <Tab label='Convos' {...a11yProps(0)} />
-                <Tab label='Messenger' {...a11yProps(1)} />
+                <Tab label="Convos" {...a11yProps(0)} />
+                <Tab label="Messenger" {...a11yProps(1)} />
               </Tabs>
               <TabPanel value={value} index={0} style={{ width: "100%" }}>
                 <Grid item xs={12}>

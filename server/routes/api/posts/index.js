@@ -6,12 +6,14 @@ router
   .get(postController.getAllPost)
   .post(postController.create);
 
-router.route("/:id").put(postController.update);
-
 router
-  .route("/object/:id")
-  .put(postController.updateObjectID)
+  .route("/:id")
+  .put(postController.update)
   .delete(postController.remove);
+
+router.route("/single/:id").get(postController.findUserPosts);
+
+router.route("/object/:id").put(postController.updateObjectID);
 
 router.route("/remove/like/:id").put(postController.removeliked);
 

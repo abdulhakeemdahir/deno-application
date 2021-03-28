@@ -33,7 +33,6 @@ import {
   ADD_GUESS_USER,
   USER_GUESS_LOADING
 } from "../../../utils/actions/actions";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -88,6 +87,13 @@ const News = props => {
 
   const socket = useSocket();
 
+  const clearState = () => {
+    setCommentState({
+      content: ""
+    });
+    return;
+  };
+
   const handleChange = function(event) {
     const { name, value } = event.target;
     setCommentState({
@@ -137,12 +143,9 @@ const News = props => {
       } else {
         socket.emit("send-comment-dashboard", userState._id);
       }
+      clearState();
     } catch (err) {}
   };
-
-  // useEffect(() => {
-  //   socket.emit("join:dashboard", "dashboard");
-  // }, []);
 
   useEffect(() => {
     const updateDashboard = async user => {
@@ -184,22 +187,22 @@ const News = props => {
 
   return (
     <>
-      <Grid item className='card' xs={12}>
-        <Grid container className='headerContainer'>
+      <Grid item className="card" xs={12}>
+        <Grid container className="headerContainer">
           <Grid item xs={9} sm={10}>
-            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={3} sm={2}>
             {props.check ? null : (
-              <Button className='editButton' onClick={handleOpen}>
+              <Button className="editButton" onClick={handleOpen}>
                 <Edit /> Edit
               </Button>
             )}
             <Dialog
-              aria-labelledby='transition-modal-title'
-              aria-describedby='transition-modal-description'
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
               open={open}
               onClose={handleClose}
               closeAfterTransition
@@ -209,16 +212,20 @@ const News = props => {
               }}
             >
               <Fade in={open}>
-                <UpdatePost className={"cardPost"} id={props.id} />
+                <UpdatePost
+                  className={"cardPost"}
+                  id={props.id}
+                  onClose={handleClose}
+                />
               </Fade>
             </Dialog>
           </Grid>
         </Grid>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          <span className='authorStyle'> Author:</span> {props.author}
+        <Typography variant="body2" color="textSecondary" component="p">
+          <span className="authorStyle"> Author:</span> {props.author}
         </Typography>
         <Divider />
-        <Grid container direction='row' spacing={1}>
+        <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={4}>
             <CardMedia
               className={"media"}
@@ -227,7 +234,7 @@ const News = props => {
           </Grid>
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant='body' color='textSecondary' component='p'>
+              <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
               {
@@ -242,13 +249,13 @@ const News = props => {
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name='content'
+              name="content"
               value={commentState.content}
               onChange={handleChange}
               id={props.id}
-              label='Post a Comment'
-              variant='filled'
-              size='small'
+              label="Post a Comment"
+              variant="filled"
+              size="small"
               multiline
               rowsMax={4}
               fullWidth
@@ -256,7 +263,7 @@ const News = props => {
           </Grid>
           <Grid item xs={12} sm={4}>
             <Button
-              size='small'
+              size="small"
               id={props.id}
               className={classes.styleMain}
               fullWidth
@@ -268,31 +275,31 @@ const News = props => {
           <Accordion className={classes.shadow}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-              aria-controls='panel1a-content'
-              id='panel1a-header'
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
               <Typography className={classes.heading}>
                 Read {props.comments.length} Comments
               </Typography>
             </AccordionSummary>
-            <Grid className='cardComment'>
+            <Grid className="cardComment">
               {props.comments.map(card => (
                 <AccordionDetails>
                   <Grid container xs={12} className={classes.gridStyle}>
                     <Grid item xs={4}>
                       <Typography
-                        variant='body'
-                        color='textSecondary'
-                        component='p'
+                        variant="body"
+                        color="textSecondary"
+                        component="p"
                       >
                         {card.user.firstName}
                       </Typography>
                     </Grid>
                     <Grid item xs={8}>
                       <Typography
-                        variant='body'
-                        color='textSecondary'
-                        component='p'
+                        variant="body"
+                        color="textSecondary"
+                        component="p"
                       >
                         {card.content}
                       </Typography>

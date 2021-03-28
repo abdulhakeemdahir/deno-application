@@ -106,6 +106,10 @@ const PublicDash = () => {
                     causes={guessState.causes}
                     profileImg={guessState.profileImg}
                     bannerImg={guessState.bannerImg}
+                    orgName={guessState.orgName}
+										phoneNumber={guessState.phoneNumber}
+										website={guessState.website}
+										address={guessState.address}
                     check={id}
                   />
                 </Grid>
@@ -191,6 +195,10 @@ const PublicDash = () => {
                     causes={guessState.causes}
                     profileImg={guessState.profileImg}
                     bannerImg={guessState.bannerImg}
+                    orgName={guessState.orgName}
+										phoneNumber={guessState.phoneNumber}
+										website={guessState.website}
+										address={guessState.address}
                     check={id}
                   />
                 </Grid>
