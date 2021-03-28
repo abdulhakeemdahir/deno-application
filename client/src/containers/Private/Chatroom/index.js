@@ -42,7 +42,6 @@ const Chatroom = () => {
   const [value, setValue] = useState(0);
   const [userState] = useUserContext();
   const userId = userState._id;
-  const chatRef = useRef(conversations.chat);
 
   useEffect(() => {
     if (!socket) return;
@@ -66,6 +65,11 @@ const Chatroom = () => {
 
     return () => socket.off("get-convos");
   }, []);
+
+  const scrollToBottom = () =>
+    document
+      .querySelector(".messagesEnd")
+      .scrollIntoView({ behavior: "smooth" });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -111,6 +115,8 @@ const Chatroom = () => {
 
     socket.on("get-newConvo", updateSidebar);
 
+    scrollToBottom();
+
     return () => socket.off("get-newConvo");
   });
 
@@ -131,6 +137,8 @@ const Chatroom = () => {
     };
 
     socket.on("update-chat", updateChat);
+
+    scrollToBottom();
 
     return () => socket.off("update-chat");
   }, []);

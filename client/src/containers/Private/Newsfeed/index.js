@@ -33,6 +33,7 @@ import {
   UPDATE_USER
 } from "../../../utils/actions/actions.js";
 import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
+import api from "../../../utils/api";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -44,9 +45,34 @@ const Newsfeed = () => {
   const [causeState, causeDispatch] = useCauseContext();
   const [postState, postDispatch] = usePostContext();
   const [trendingStates, trendingDispatch] = useTrendingContext();
-  const [userState] = useUserContext();
+  const [userState, userDispatch] = useUserContext();
   const socket = useSocket();
   const [state] = useStoreContext();
+
+  useEffect(() => {
+    async function fetchUserInfo() {
+      console.log(userState);
+      try {
+        const userInfo = await api.getUser(userState._id);
+
+        console.log(userInfo.data);
+
+        await userDispatch({ type: USER_LOADING });
+
+        await userDispatch({
+          type: UPDATE_USER,
+          payload: {
+            ...userInfo.data,
+            loading: false
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchUserInfo();
+  }, []);
 
   useEffect(() => {
     async function fetchAllPostsAndCauses() {

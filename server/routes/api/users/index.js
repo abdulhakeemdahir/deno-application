@@ -10,8 +10,6 @@ router
   .delete(userController.deleteUser)
   .get(userController.getUser);
 
-router.route("/:username").get(userController.getUsersByUsername);
-
 //api/user/liked/:id
 router.route("/liked/:id/:causeId").get(userController.findIfUserLikesCause);
 
