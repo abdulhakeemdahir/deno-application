@@ -136,7 +136,7 @@ module.exports = {
           validator
         );
 
-        console.log("Hey this is it" + foundUser)
+        console.log("Hey this is it" + foundUser);
         return res.status(200).json(foundUser.firstName);
       }
 

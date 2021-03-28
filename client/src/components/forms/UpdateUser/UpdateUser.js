@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
   styleIcon: {
     background: "#3f4d67",
   },
+  imgStyle: {
+		width: "100%",
+		marginTop: "10px",
+		marginBottom: "5px",
+	},
 }));
 export default function UpdateUser(props) {
   const [userState, userDispatch] = useUserContext();
@@ -165,7 +170,8 @@ export default function UpdateUser(props) {
           Update
         </Button>
       </form>
-      {previewSource && <img src={previewSource} alt="chosen" style={{ width: "75%" }} />}
+      {previewSource && 
+      <img src={previewSource} alt="chosen" className={classes.imgStyle} />}
     </Grid>
   );
 }
