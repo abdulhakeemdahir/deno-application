@@ -35,13 +35,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function UpdateUser(props) {
-  const [userState, userDispatch] = useUserContext();
-  //*Associated with cloudinary
-  const [fileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  const [stateUpdate, setStateUpdate] = useState({
+	const [userState, userDispatch] = useUserContext();
+	//*Associated with cloudinary
+	const [fileInputState] = useState("");
+	const [previewSource, setPreviewSource] = useState("");
+	const [stateUpdate, setStateUpdate] = useState({
     firstName: "",
     lastname: "",
+    bio: "",
   });
 
   const handleChange = function(event) {
@@ -52,22 +53,25 @@ export default function UpdateUser(props) {
     });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const updateUser = {};
+	const handleSubmit = async event => {
+		event.preventDefault();
+		const updateUser = {};
 
-    if (stateUpdate.firstName !== "") {
-      updateUser.firstName = stateUpdate.firstName;
-    }
-    if (stateUpdate.lastname !== "") {
-      updateUser.lastname = stateUpdate.lastname;
+		if (stateUpdate.firstName !== "") {
+			updateUser.firstName = stateUpdate.firstName;
+		}
+		if (stateUpdate.lastname !== "") {
+			updateUser.lastname = stateUpdate.lastname;
+		}
+    if (stateUpdate.bio !== "") {
+      updateUser.bio = stateUpdate.bio;
     }
 
-    //*Associated with cloudinary
-    if (previewSource) {
-      updateUser.profileImg = previewSource;
-    }
-    upDateUser(updateUser);
+		//*Associated with cloudinary
+		if (previewSource) {
+			updateUser.profileImg = previewSource;
+		}
+		upDateUser(updateUser);
 
     const userInfo = await api.getUser(userState._id);
 
