@@ -33,6 +33,7 @@ import {
   ADD_GUESS_USER,
   USER_GUESS_LOADING
 } from "../../../utils/actions/actions";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
 const useStyles = makeStyles(theme => ({
   root: {
