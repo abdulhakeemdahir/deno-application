@@ -19,6 +19,7 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import "./style.css";
 import UpdateUser from "../Forms/UpdateUser/UpdateUser";
 import UpdateOrg from "../Forms/UpdateOrg/UpdateOrg";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	modal: {
@@ -157,15 +158,11 @@ export default function About(props) {
 							</Typography>
 						</CardContent>
 					)}
-
-					<Button
-						size='large'
-						className='analyticsButton'
-						fullWidth
-						href='/analytics'
-					>
-						<EqualizerIcon /> Analytics
-					</Button>
+					<NavLink to='/analytics'>
+						<Button size='large' className='analyticsButton' fullWidth>
+							<EqualizerIcon /> Analytics
+						</Button>
+					</NavLink>
 				</Grid>
 			</Grid>
 		</Grid>

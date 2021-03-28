@@ -4,9 +4,18 @@ import {
 	List,
 	ListItem,
 	ListItemText,
+	Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Menu } from "@material-ui/icons";
+import {
+	AccountCircle,
+	Chat,
+	Dashboard,
+	Equalizer,
+	Explore,
+	HomeSharp,
+	Menu,
+} from "@material-ui/icons";
 import * as React from "react";
 import { useState } from "react";
 import { useHistory, NavLink } from "react-router-dom";
@@ -110,8 +119,9 @@ const SideDrawer = ({ navLinks }) => {
 							className={classes.linkText}
 							activeClassName={classes.activeLink}
 						>
-							<ListItem button>
-								<ListItemText primary='newsfeed' />
+							<ListItem>
+								<HomeSharp />
+								<Typography>newsfeed</Typography>
 							</ListItem>
 						</NavLink>
 						<NavLink
@@ -120,8 +130,9 @@ const SideDrawer = ({ navLinks }) => {
 							className={classes.linkText}
 							activeClassName={classes.activeLink}
 						>
-							<ListItem button>
-								<ListItemText primary='dashboard' />
+							<ListItem>
+								<Dashboard />
+								<Typography>dashboard</Typography>
 							</ListItem>
 						</NavLink>
 						<NavLink
@@ -130,8 +141,9 @@ const SideDrawer = ({ navLinks }) => {
 							className={classes.linkText}
 							activeClassName={classes.activeLink}
 						>
-							<ListItem button>
-								<ListItemText primary='chatroom' />
+							<ListItem>
+								<Chat />
+								<Typography>chat</Typography>
 							</ListItem>
 						</NavLink>
 						<NavLink
@@ -140,8 +152,9 @@ const SideDrawer = ({ navLinks }) => {
 							className={classes.linkText}
 							activeClassName={classes.activeLink}
 						>
-							<ListItem button>
-								<ListItemText primary='analytics' />
+							<ListItem>
+								<Equalizer />
+								<Typography>analytics</Typography>
 							</ListItem>
 						</NavLink>
 						<NavLink
@@ -150,10 +163,9 @@ const SideDrawer = ({ navLinks }) => {
 							key='/'
 							activeClassName={classes.activeLink}
 						>
-							<ListItem button className={classes.logoutStyle}>
-								<ListItemText className={classes.linkText}>
-									Log Out
-								</ListItemText>
+							<ListItem className={classes.logoutStyle}>
+								<AccountCircle />
+								<Typography>LOGOUT</Typography>
 							</ListItem>
 						</NavLink>
 					</>
@@ -166,11 +178,13 @@ const SideDrawer = ({ navLinks }) => {
 							activeClassName={classes.activeLink}
 						>
 							<ListItem button>
-								<ListItemText primary='explore' />
+								<Explore />
+								<Typography>EXPLORE</Typography>
 							</ListItem>
 						</NavLink>
 						<ListItem onClick={login} button className={classes.loginStyle}>
-							<ListItemText className={classes.linkText}>Log In</ListItemText>
+							<AccountCircle />
+							<Typography>LOGIN</Typography>
 						</ListItem>
 					</>
 				)}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
+import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
@@ -26,60 +26,61 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 import {
-  UPDATE_USER,
-  USER_LOADING,
-  //What about USER_LOADED?
+	UPDATE_USER,
+	USER_LOADING,
+	//What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
+import { NavLink } from "react-router-dom";
 
 TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
 };
 
 const Dashboard = () => {
-  
-  const [userState, userDispatch] = useUserContext();
+	const [userState, userDispatch] = useUserContext();
 
-  useEffect(() => {
-    async function fetchUserInfo() {
-      console.log(userState);
-      try {
-        const userInfo = await api.getUser(userState._id);
+	useEffect(() => {
+		async function fetchUserInfo() {
+			console.log(userState);
+			try {
+				const userInfo = await api.getUser(userState._id);
 
-        console.log(userInfo.data);
+				console.log(userInfo.data);
 
-        await userDispatch({ type: USER_LOADING });
+				await userDispatch({ type: USER_LOADING });
 
-        await userDispatch({
-          type: UPDATE_USER,
-          payload: {
-            ...userInfo.data,
-            loading: false,
-          },
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
+				await userDispatch({
+					type: UPDATE_USER,
+					payload: {
+						...userInfo.data,
+						loading: false,
+					},
+				});
+			} catch (err) {
+				console.log(err);
+			}
+		}
 
-    fetchUserInfo();
-  }, []);
+		fetchUserInfo();
+	}, []);
 
-  const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
 
 	const { width } = useWindowDimensions();
 	return (
 		<div className='Main'>
 			<CssBaseline>
 				<Nav />
+
 				<Grid
 					container
 					direction='row'
@@ -91,6 +92,10 @@ const Dashboard = () => {
 				>
 					{width > 600 ? (
 						<>
+							<Breadcrumbs style={{ position: "absolute" }}>
+								<NavLink to='newsfeed'>Home</NavLink>
+								<Typography color='textSecondary'>Dashboard</Typography>
+							</Breadcrumbs>
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>

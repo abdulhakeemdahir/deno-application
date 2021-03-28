@@ -225,7 +225,6 @@ const uploadImage = async (base64EncodedImage) => {
 		return isError;
 	};
 
-
 	return (
 		<Grid className='cardPost'>
 			<form
@@ -243,13 +242,14 @@ const uploadImage = async (base64EncodedImage) => {
 						name='type'
 						onChange={handleChange}
 					>
-						{(userState.role === "Personal") ?
-						<MenuItem value={"Post"} >Post</MenuItem> :
-						<>
-						<MenuItem value={"Post"}>Post</MenuItem>
-						<MenuItem value={"Cause"}>Cause</MenuItem>
-						</>
-					}
+						{userState.role === "Personal" ? (
+							<MenuItem value={"Post"}>Post</MenuItem>
+						) : (
+							<>
+								<MenuItem value={"Post"}>Post</MenuItem>
+								<MenuItem value={"Cause"}>Cause</MenuItem>
+							</>
+						)}
 					</Select>
 				</FormControl>
 				<div>

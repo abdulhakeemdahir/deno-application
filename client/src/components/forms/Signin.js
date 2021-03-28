@@ -71,9 +71,8 @@ export default function Signin() {
 	const [, userDispatch] = useUserContext();
 	const handleSubmit = async event => {
 		event.preventDefault();
-
+		// console.log(event)
 		try {
-			
 			const { _id } = await login(stateSignIn);
 
 			// User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
