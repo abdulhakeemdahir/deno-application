@@ -31,7 +31,6 @@ import {
 	ADD_GUESS_USER,
 	USER_GUESS_LOADING,
 } from "../../../utils/actions/actions";
-import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
 	root: {

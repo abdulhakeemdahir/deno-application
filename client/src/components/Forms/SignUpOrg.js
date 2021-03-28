@@ -76,7 +76,7 @@ export default function SignUpOrg() {
 		firstNameError: "",
 		lastname: "",
 		lastnameError: "",
-		orgname: "",
+		orgName: "",
 		orgnameError: "",
 		response: "",
 		role: "Organization",

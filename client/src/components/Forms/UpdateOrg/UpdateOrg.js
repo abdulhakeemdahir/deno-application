@@ -38,17 +38,18 @@ const useStyles = makeStyles(theme => ({
 export default function UpdateOrg(props) {
 	const [userState, userDispatch] = useUserContext();
 	const [stateSignUp, setStateSignUp] = useState({
-		firstName: "",
-		lastname: "",
-    phone: "",
+    firstName: "",
+    lastname: "",
+    phoneNumber: "",
     website: "",
     address: "",
-    imageUrl: "",
+    profileImg: "",
     bio: "",
     email: "",
-		password: "",
-		username: "",
-	});
+    password: "",
+    username: "",
+    orgName: "",
+  });
 
 	const handleChange = function(event) {
 		const { name, value } = event.target;
@@ -63,15 +64,17 @@ export default function UpdateOrg(props) {
 
 		
     const updateUser = {role: userState.role};
-
+		if (stateSignUp.orgName !== "") {
+			updateUser.orgName = stateSignUp.orgName;
+		}
     if (stateSignUp.firstName !== "") {
       updateUser.firstName = stateSignUp.firstName;
     }
     if (stateSignUp.lastname !== "") {
       updateUser.lastname = stateSignUp.lastname;
     }
-    if (stateSignUp.phone !== "") {
-      updateUser.phone = stateSignUp.phone;
+    if (stateSignUp.phoneNumber !== "") {
+      updateUser.phoneNumber = stateSignUp.phoneNumber;
     }
     if (stateSignUp.website !== "") {
       updateUser.website = stateSignUp.website;
@@ -80,7 +83,7 @@ export default function UpdateOrg(props) {
       updateUser.address = stateSignUp.address;
     }
     if (previewSource) {
-      updateUser.imageUrl = previewSource;
+      updateUser.profileImg = previewSource;
     }
     if (stateSignUp.bio !== "") {
       updateUser.bio = stateSignUp.bio;
@@ -139,104 +142,115 @@ export default function UpdateOrg(props) {
 	};
 
 	return (
-		<Grid
-			container
-			direction='column'
-			justify='center'
-			alignItems='center'
-			className={classes.paper}
-		>
-			<Grid item align='center'>
-				<Avatar className={classes.styleIcon}>
-					<CreateIcon />
-				</Avatar>
-				<Typography variation='h6' color='default'>
-					Update User
-				</Typography>
-			</Grid>
-			<form autoComplete='off' onSubmit={handleSubmit}>
-				<TextField
-					name='firstName'
-					value={stateSignUp.firstName}
-					onChange={handleChange}
-					variant='outlined'
-					label='Firstname'
-					placeholder='Enter First Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='lastname'
-					value={stateSignUp.lastname}
-					onChange={handleChange}
-					variant='outlined'
-					label='Lastname'
-					placeholder='Enter Last Name'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='bio'
-					value={stateSignUp.bio}
-					onChange={handleChange}
-					variant='outlined'
-					label='Bio'
-					placeholder='Enter Bio'
-					fullWidth
-					type='bio'
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='phone'
-					value={stateSignUp.phone}
-					onChange={handleChange}
-					variant='outlined'
-					label='Phone'
-					placeholder='Enter Phone'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='website'
-					value={stateSignUp.website}
-					onChange={handleChange}
-					variant='outlined'
-					label='Website'
-					placeholder='Enter Website'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField
-					name='address'
-					value={stateSignUp.address}
-					onChange={handleChange}
-					variant='outlined'
-					label='Address'
-					placeholder='Enter Address'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<TextField //*Associated with cloudinary
-					type='file'
-					name='imageUrl'
-					onChange={handleFileInputChange}
-					value={fileInputState}
-					variant='outlined'
-					fullWidth
-					className={classes.mgstyle}
-				/>
-				<Button
-					type='submit'
-					size='large'
-					className={classes.styleMain}
-					fullWidth
-				>
-					Update
-				</Button>
-			</form>
-			{previewSource && (
-				<img src={previewSource} alt='chosen' style={{ width: "75%" }} />
-			)}
-		</Grid>
-	);
+    <Grid
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      className={classes.paper}
+    >
+      <Grid item align="center">
+        <Avatar className={classes.styleIcon}>
+          <CreateIcon />
+        </Avatar>
+        <Typography variation="h6" color="default">
+          Update Organization
+        </Typography>
+      </Grid>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          name="firstName"
+          value={stateSignUp.firstName}
+          onChange={handleChange}
+          variant="outlined"
+          label="Firstname"
+          placeholder="Enter First Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="lastname"
+          value={stateSignUp.lastname}
+          onChange={handleChange}
+          variant="outlined"
+          label="Lastname"
+          placeholder="Enter Last Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="orgName"
+          value={stateSignUp.orgName}
+          onChange={handleChange}
+          variant="outlined"
+          label="orgName"
+          placeholder="Enter Organization Name"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="bio"
+          value={stateSignUp.bio}
+          onChange={handleChange}
+          variant="outlined"
+          label="Bio"
+          placeholder="Enter Bio"
+          fullWidth
+          type="bio"
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="phoneNumber"
+          value={stateSignUp.phoneNumber}
+          onChange={handleChange}
+          variant="outlined"
+          label="phoneNumber"
+          placeholder="Enter Phone"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="website"
+          value={stateSignUp.website}
+          onChange={handleChange}
+          variant="outlined"
+          label="Website"
+          placeholder="Enter Website"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField
+          name="address"
+          value={stateSignUp.address}
+          onChange={handleChange}
+          variant="outlined"
+          label="Address"
+          placeholder="Enter Address"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <TextField //*Associated with cloudinary
+          type="file"
+          name="imageUrl"
+          onChange={handleFileInputChange}
+          value={fileInputState}
+          variant="outlined"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <Button
+          type="submit"
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Update
+        </Button>
+      </form>
+      {previewSource && (
+        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
+      )}
+    </Grid>
+  );
 }

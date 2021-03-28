@@ -149,7 +149,7 @@ export default function Post() {
 			}
 
 
-			if (userState.role === "Personal") {
+			if (userState.role === "Personal" || createPost.type === "Post") {
 				setCreatePost({
 					...createPost,
 					type:"Post"
@@ -176,6 +176,10 @@ export default function Post() {
 					});
 				}
 
+				await API.updateUserObjectID(post.author, {
+					causes: data._id,
+				});
+				
 				await addCause();
 			}
 			await updateUserStates();
