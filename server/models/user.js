@@ -106,17 +106,9 @@ const organizationSchema = new Schema({
   },
   website: mongoose.SchemaTypes.Url,
   address: {
-    street: {
-      type: String,
-      aptNo: {
-        type: String,
-        required: false
-      }
-    },
-    city: String,
-    state: String,
-    zipCode: Number,
-    country: String
+    type: String,
+    required: false,
+    trim: true
   },
   authenticated: {
     type: Boolean,

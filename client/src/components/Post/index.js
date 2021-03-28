@@ -155,6 +155,10 @@ export default function Post() {
       } else {
         const { data } = await API.createCause(post);
 
+		await API.updateUserObjectID(userState._id, {
+		causes: data._id,
+		});
+
         if (post.hashtags) {
           await API.updateHashtag(post.hashtags, {
             causes: data._id,
