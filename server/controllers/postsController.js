@@ -6,7 +6,32 @@ const cloudinary = require("../../utils/cloudinary");
 module.exports = {
   findUserPosts: async (req, res) => {
     try {
-      const postModel = await Post.findById(req.query).sort({ date: -1 });
+      const postModel = await Post.findById(req.params.id).populate([
+        {
+          path: "author",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "hashtags",
+          model: "Hashtag"
+        },
+        {
+          path: "likes",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "comments",
+          model: "Comment",
+          options: { sort: { date: -1 } },
+          populate: {
+            path: "user",
+            select: "firstName",
+            model: "User"
+          }
+        }
+      ]);
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);

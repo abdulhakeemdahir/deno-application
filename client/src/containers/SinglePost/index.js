@@ -19,12 +19,16 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../utils";
 // import Splash from "../../components/Splash2";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import {
+	ADD_GUESS_USER,
 	GET_USER_INFO,
+	USER_GUESS_LOADING,
 	USER_LOADING,
 	//What about USER_LOADED?
 } from "../../utils/actions/actions";
 import API from "../../utils/api";
 import SingleNews from "../../components/SingleNews";
+import { useHistory, useParams } from "react-router";
+import { useGuessContext } from "../../utils/GlobalStates/GuessContext";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -35,24 +39,37 @@ TabPanel.propTypes = {
 // const useStyles = makeStyles(theme => ({}));
 
 const SinglePost = () => {
-	const [userState, userDispatch] = useUserContext();
+	const [guessState, guessDispatch] = useGuessContext();
+	const [singleState, SingleStateDispatch] = useState({});
 
-	//Read
-	const getUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const userInfo = await API.getUser(id);
-		userDispatch({
-			type: GET_USER_INFO,
-			payload: {
-				...userInfo,
-				loading: false,
-			},
-		});
-	};
+
+	  const { id } = useParams();
+
+    const history = useHistory();
 
 	useEffect(() => {
-		getUserInfo();
-	}, []);
+    async function fetchUserInfo() {
+      const singlePost = await API.findUserPosts(id);
+
+      if (!userInfo) {
+        history.push("/404");
+      }
+
+			const userInfo = await API.getUser(userInfo.author._id);
+
+      await guessDispatch({ type: USER_GUESS_LOADING });
+
+      await guessDispatch({
+        type: ADD_GUESS_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false,
+        },
+      });
+    }
+
+    fetchUserInfo();
+  }, []);
 
 	const [aboutState] = useState([
 		{

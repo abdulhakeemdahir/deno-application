@@ -82,6 +82,33 @@ const userSchema = new Schema(
     },
     socketId: {
       type: String
+    },
+    causes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Cause"
+      }
+    ],
+    orgName: {
+      type: String,
+      required: false,
+      trim: true
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+      match: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/
+    },
+    website: mongoose.SchemaTypes.Url,
+
+    address: {
+      type: String,
+      required: false,
+      trim: true
+    },
+    authenticated: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }

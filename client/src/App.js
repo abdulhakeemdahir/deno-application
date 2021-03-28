@@ -12,7 +12,7 @@ import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
 // import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Chatroom from "./containers/Private/Chatroom";
-// import SinglePost from "./containers/SinglePost";
+import SinglePost from "./containers/SinglePost";
 import Analytics from "./containers/Private/Analytics";
 import ErrorPage from "./containers/Public/ErrorPage";
 import { TrendingProvider } from "./utils/GlobalStates/TrendingContext";
@@ -76,7 +76,7 @@ function App() {
 												/>
 
 												<Route path='/explore' exact component={Explore} />
-												{/* <Route path='/post' exact component={SinglePost} /> */}
+												<Route path='/post/:id' exact component={SinglePost} />
 												<Route path='/analytics' exact component={Analytics} />
 												<Route path='/404' exact component={ErrorPage} />
 

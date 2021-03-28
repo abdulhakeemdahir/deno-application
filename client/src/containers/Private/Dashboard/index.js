@@ -14,7 +14,7 @@ import News from "../../../components/Private/News";
 //import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Private/Causes";
+import Causes from "../../../components/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 
@@ -113,6 +113,10 @@ const Dashboard = () => {
                     causes={userState.causes}
                     profileImg={userState.profileImg}
                     bannerImg={userState.bannerImg}
+                    website={userState.website}
+                    address={userState.address}
+                    orgName={userState.orgName}
+                    phone={userState.phoneNumber}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} className="card-container">
@@ -207,6 +211,10 @@ const Dashboard = () => {
                     causes={userState.causes}
                     profileImg={userState.profileImg}
                     bannerImg={userState.bannerImg}
+                    website={userState.website}
+                    address={userState.address}
+                    orgName={userState.orgName}
+                    phone={userState.phoneNumber}
                   />
                 </Grid>
               </TabPanel>
