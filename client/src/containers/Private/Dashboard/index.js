@@ -26,53 +26,54 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
 import {
-	UPDATE_USER,
-	USER_LOADING,
-	//What about USER_LOADED?
+  UPDATE_USER,
+  USER_LOADING,
+  //What about USER_LOADED?
 } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
 
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
 };
 
 const Dashboard = () => {
-	const [userState, userDispatch] = useUserContext();
+  
+  const [userState, userDispatch] = useUserContext();
 
-	useEffect(() => {
-		async function fetchUserInfo() {
-			console.log(userState.posts.length === 0);
-			try {
-				const userInfo = await api.getUser(userState._id);
+  useEffect(() => {
+    async function fetchUserInfo() {
+      console.log(userState);
+      try {
+        const userInfo = await api.getUser(userState._id);
 
-				// console.log(userInfo.data);
+        console.log(userInfo.data);
 
-				await userDispatch({ type: USER_LOADING });
+        await userDispatch({ type: USER_LOADING });
 
-				await userDispatch({
-					type: UPDATE_USER,
-					payload: {
-						...userInfo.data,
-						loading: false,
-					},
-				});
-			} catch (err) {
-				console.log(err);
-			}
-		}
+        await userDispatch({
+          type: UPDATE_USER,
+          payload: {
+            ...userInfo.data,
+            loading: false,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-		fetchUserInfo();
-	}, []);
+    fetchUserInfo();
+  }, []);
 
-	const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0);
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
 	const { width } = useWindowDimensions();
 	return (

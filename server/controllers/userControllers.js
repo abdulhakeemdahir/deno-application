@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const { Organization } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
 
 const cloudinary = require("../../utils/cloudinary");
@@ -110,7 +111,7 @@ module.exports = {
   updateUser: async (req, res) => {
     console.log(req.params.id);
     try {
-      const { password, profileImg } = req.body;
+      const { password, profileImg, role } = req.body;
       const updateUser = req.body;
 
       if (password) {
@@ -124,19 +125,24 @@ module.exports = {
         });
         updateUser.profileImg = result.public_id.toString();
       }
-      console.log(updateUser);
+      const id = { _id: req.params.id };
+      const set = { $set: updateUser };
+      const validator = { new: true, runValidators: true };
 
-      const foundUser = await User.findOneAndUpdate(
-        {
-          _id: req.params.id
-        },
-        {
-          $set: updateUser
-        },
-        { new: true, runValidators: true }
-      );
-      console.log("here", foundUser);
-      res.status(200).json(foundUser.firstName);
+      if (role === "Organization") {
+        const foundUser = await Organization.findOneAndUpdate(
+          id,
+          set,
+          validator
+        );
+
+        console.log("Hey this is it" + foundUser)
+        return res.status(200).json(foundUser.firstName);
+      }
+
+      const foundUser = await User.findOneAndUpdate(id, set, validator);
+
+      return res.status(200).json(foundUser.firstName);
     } catch (err) {
       console.log(err);
       res.status(422).json(err);
