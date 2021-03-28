@@ -55,6 +55,7 @@ export default function UpdatePost(props) {
 	};
 
 	const handleSubmit = async (event) => {
+
 		event.preventDefault();
 		const updateUser = {};
 
@@ -67,9 +68,9 @@ export default function UpdatePost(props) {
 
 		//*Associated with cloudinary
 		if (previewSource) {
-		updateUser.profileImg = previewSource;
+		updateUser.imageUrl = previewSource;
 		}
-		updatePost(updateUser);
+		await updatePost(updateUser);
 
 		props.onClose();
 	};
@@ -89,13 +90,19 @@ export default function UpdatePost(props) {
 
   	//*update post by sending post id and update object
 	const updatePost = async (update) => {
+		console.log(update);
 		const post = await api.updatePost(props.id, update);
 		console.log(post);
 	};
 
 	return (
     <Grid className="cardPost">
-      <form className={classes.root} noValidate autoComplete="off">
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <div>
           <Grid container>
             <TextField
@@ -130,7 +137,11 @@ export default function UpdatePost(props) {
             />
           </Grid>
         </div>
-        <Button size="small" className={classes.styleMain}>
+        <Button
+          size="small"
+          className={classes.styleMain}
+          onClick={handleSubmit}
+        >
           <ChatBubbleOutlineIcon /> Update
         </Button>
       </form>
