@@ -1,32 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import "./style.css";
 
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-//import Box from "@material-ui/core/Box";
 
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
-
-//import NGO from "../../../images/ngo.png";
-
 import Gradient from "../../../components/Gradient";
 import Causes from "../../../components/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-// import Splash from "../../components/Splash2";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
-import {
-	UPDATE_USER,
-	USER_LOADING,
-	//What about USER_LOADED?
-} from "../../../utils/actions/actions";
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
@@ -34,51 +24,47 @@ import { NavLink } from "react-router-dom";
 import Post from "../../../components/Post";
 
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 
 const Dashboard = () => {
-	const [userState, userDispatch] = useUserContext();
+  const [userState, userDispatch] = useUserContext();
 
-	useEffect(() => {
-		async function fetchUserInfo() {
-			console.log(userState);
-			try {
-				const userInfo = await api.getUser(userState._id);
+  useEffect(() => {
+    async function fetchUserInfo() {
+      try {
+        const userInfo = await api.getUser(userState._id);
 
-				console.log(userInfo.data);
+        await userDispatch({ type: USER_LOADING });
 
-				await userDispatch({ type: USER_LOADING });
+        await userDispatch({
+          type: UPDATE_USER,
+          payload: {
+            ...userInfo.data,
+            loading: false
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-				await userDispatch({
-					type: UPDATE_USER,
-					payload: {
-						...userInfo.data,
-						loading: false,
-					},
-				});
-			} catch (err) {
-				console.log(err);
-			}
-		}
+    fetchUserInfo();
+  }, []);
 
-		fetchUserInfo();
-	}, []);
+  const [value, setValue] = React.useState(0);
 
-	const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-
-	const { width } = useWindowDimensions();
-	return (
+  const { width } = useWindowDimensions();
+  return (
     <div className="Main">
       <CssBaseline>
         <Nav />
-
         <Grid
           container
           direction="row"
@@ -125,7 +111,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    userState.posts.map((card) => (
+                    userState.posts.map(card => (
                       <News
                         key={card._id}
                         id={card._id}
@@ -145,7 +131,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    userState.causes.map((card) => (
+                    userState.causes.map(card => (
                       <Causes
                         key={card._id}
                         id={card._id}
@@ -177,7 +163,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    userState.posts.map((card) => (
+                    userState.posts.map(card => (
                       <News
                         key={card._id}
                         id={card._id}
@@ -223,7 +209,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    userState.causes.map((card) => (
+                    userState.causes.map(card => (
                       <Causes
                         key={card._id}
                         id={card._id}

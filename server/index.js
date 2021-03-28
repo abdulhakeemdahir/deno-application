@@ -56,11 +56,9 @@ io.on("connection", socket => {
       : User.findOneAndUpdate(username, { socketId: socket.id });
     user.socketId = socket.id;
     socket.username = user.username;
-    console.log(socket.id);
   });
 
   socket.on("chatroom", async userId => {
-    console.log(socket.rooms);
     const conversations = await Conversation.find({
       participants: userId
     })
@@ -249,6 +247,85 @@ io.on("connection", socket => {
       io.emit("update-post", posts);
       return;
     }
+  });
+
+  socket.on("send-comment-dashboard", async id => {
+    const roomToLeave = Object.keys(socket.rooms)[1];
+
+    if (roomToLeave) {
+      socket.leave(roomToLeave);
+    }
+
+    socket.join(id);
+
+    const user = await User.findOne({ _id: id })
+      .select(
+        "firstName lastname username email role profileImg bannerImg following followers posts bio causes"
+      )
+      .populate([
+        {
+          path: "following",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "followers",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "posts",
+          model: "Post",
+          options: { sort: { date: -1 } },
+          populate: [
+            {
+              path: "author",
+              select: "firstName",
+              model: "User"
+            },
+            {
+              path: "likes",
+              select: "firstName",
+              model: "User"
+            },
+            {
+              path: "hashtags",
+              model: "Hashtag"
+            },
+            {
+              path: "comments",
+              model: "Comment",
+              options: { sort: { date: -1 } },
+              populate: [
+                {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: "causes",
+          model: "Cause",
+          options: { sort: { date: -1 } },
+          populate: [
+            {
+              path: "author",
+              select: "firstName",
+              model: "User"
+            },
+            {
+              path: "likes",
+              select: "firstName",
+              model: "User"
+            }
+          ]
+        }
+      ]);
+
+    io.emit("update-dashboard", user);
   });
 
   socket.on("disconnect", () => {
