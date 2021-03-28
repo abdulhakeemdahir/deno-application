@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { User, Conversation, Message, Post, Comment } = require("./models");
+const { User, Conversation, Message, Post } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -56,11 +56,9 @@ io.on("connection", socket => {
       : User.findOneAndUpdate(username, { socketId: socket.id });
     user.socketId = socket.id;
     socket.username = user.username;
-    console.log(socket.id);
   });
 
   socket.on("chatroom", async userId => {
-    console.log(socket.rooms);
     const conversations = await Conversation.find({
       participants: userId
     })
@@ -122,18 +120,6 @@ io.on("connection", socket => {
     ]);
 
     socket.emit("get-convo", conversation);
-  });
-
-  socket.on("join:dashboard", async name => {
-    const roomToLeave = Object.keys(socket.rooms)[1];
-
-    if (roomToLeave) {
-      socket.leave(roomToLeave);
-    }
-
-    console.log("Join Dashboard:", name);
-
-    socket.join(name);
   });
 
   socket.on("create:room", async ({ name, participants }) => {
@@ -264,7 +250,14 @@ io.on("connection", socket => {
   });
 
   socket.on("send-comment-dashboard", async id => {
-    console.log(id);
+    const roomToLeave = Object.keys(socket.rooms)[1];
+
+    if (roomToLeave) {
+      socket.leave(roomToLeave);
+    }
+
+    socket.join(id);
+
     const user = await User.findOne({ _id: id })
       .select(
         "firstName lastname username email role profileImg bannerImg following followers posts bio causes"

@@ -21,7 +21,9 @@ import Fade from "@material-ui/core/Fade";
 import { Edit } from "@material-ui/icons";
 
 import "./style.css";
+
 import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
+
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
@@ -31,7 +33,6 @@ import {
   ADD_GUESS_USER,
   USER_GUESS_LOADING
 } from "../../../utils/actions/actions";
-import { useParams } from "react-router-dom";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
 const useStyles = makeStyles(theme => ({
@@ -73,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function News(props) {
+const News = props => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -88,7 +89,6 @@ export default function News(props) {
   const socket = useSocket();
 
   const handleChange = function(event) {
-    console.log("you are here");
     const { name, value } = event.target;
     setCommentState({
       ...commentState,
@@ -140,9 +140,9 @@ export default function News(props) {
     } catch (err) {}
   };
 
-  useEffect(() => {
-    socket.emit("join:dashboard", "dashboard");
-  }, []);
+  // useEffect(() => {
+  //   socket.emit("join:dashboard", "dashboard");
+  // }, []);
 
   useEffect(() => {
     const updateDashboard = async user => {
@@ -181,6 +181,7 @@ export default function News(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Grid item className='card' xs={12}>
@@ -305,4 +306,6 @@ export default function News(props) {
       </Grid>
     </>
   );
-}
+};
+
+export default News;

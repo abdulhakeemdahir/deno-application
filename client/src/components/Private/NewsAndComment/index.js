@@ -161,6 +161,8 @@ const NewsAndComment = props => {
     return () => socket.off("update-post");
   }, []);
 
+  console.log(props.authorId);
+
   return (
     <>
       <Grid item className='card' xs={12}>
@@ -184,7 +186,15 @@ const NewsAndComment = props => {
         </Grid>
         <Typography variant='body2' color='textSecondary' component='p'>
           <span className='authorStyle'> Author:</span>
-          <Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
+          <Link
+            to={
+              props.authorId === userState._id
+                ? "dashboard"
+                : `/dashboard/${props.authorId}`
+            }
+          >
+            {props.author}
+          </Link>
         </Typography>
         <Divider />
         <Grid container direction='row' spacing={1}>
