@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Typography,
@@ -66,7 +66,7 @@ const Chatroom = () => {
     return () => socket.off("get-convos");
   }, []);
 
-  const scrollToBottom = divClass =>
+  const scrollTo = divClass =>
     document.querySelector(divClass).scrollIntoView({ behavior: "smooth" });
 
   const handleChange = (event, newValue) => {
@@ -109,11 +109,11 @@ const Chatroom = () => {
           loading: false
         }
       });
+
+      scrollTo(".convoStart");
     };
 
     socket.on("get-newConvo", updateSidebar);
-
-    scrollToBottom(".messagesEnd");
 
     return () => socket.off("get-newConvo");
   });
@@ -132,11 +132,11 @@ const Chatroom = () => {
           }
         }
       });
+
+      scrollTo(".messagesEnd");
     };
 
     socket.on("update-chat", updateChat);
-
-    scrollToBottom(".messagesEnd");
 
     return () => socket.off("update-chat");
   }, []);
@@ -187,7 +187,7 @@ const Chatroom = () => {
                 <Tab label='Convos' {...a11yProps(0)} />
                 <Tab label='Messenger' {...a11yProps(1)} />
               </Tabs>
-              <TabPanel value={value} index={0}>
+              <TabPanel value={value} index={0} style={{ width: "100%" }}>
                 <Grid item xs={12}>
                   <Sidebar
                     toggleChat={toggleChat}

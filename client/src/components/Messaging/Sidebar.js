@@ -23,7 +23,7 @@ const Sidebar = ({ convos, toggleChat, createConvo }) => {
   }, []);
 
   return (
-    <sidebar className={`${classes.chatSidebar}`}>
+    <sidebar className={classes.chatSidebar}>
       <Autocomplete
         fullWidth
         id='create-message'
@@ -45,6 +45,8 @@ const Sidebar = ({ convos, toggleChat, createConvo }) => {
           );
         }}
         onChange={(event, value) => {
+          if (!value) return;
+
           const payload = {
             username: value.username,
             _id: value._id
@@ -53,7 +55,8 @@ const Sidebar = ({ convos, toggleChat, createConvo }) => {
           createConvo(payload);
         }}
       />
-      <List>
+      <List className={classes.fullConvoList}>
+        <div className='convoStart'></div>
         {convos?.length ? (
           convos.map(convo => {
             return (

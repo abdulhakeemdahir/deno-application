@@ -1,10 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 
 const sidebarStyles = makeStyles(theme => ({
-  chatSidebar: {
+  fullConvoList: {
     alignItems: "start",
     position: "relative",
-    height: "60vh",
+    height: "60vh !important",
     overflowY: "scroll",
     clear: "both",
     "&::-webkit-scrollbar": {
@@ -18,6 +18,11 @@ const sidebarStyles = makeStyles(theme => ({
     height: "fit-content"
   },
 
+  convoStart: {
+    float: "left",
+    clear: "both"
+  },
+
   convoLists: {
     margin: "0 !important",
     padding: "0 .2em !important",
@@ -28,7 +33,9 @@ const sidebarStyles = makeStyles(theme => ({
   convoItems: {
     margin: ".2em !important",
     padding: ".2em !important",
-    width: "100%"
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis"
   }
 }));
 

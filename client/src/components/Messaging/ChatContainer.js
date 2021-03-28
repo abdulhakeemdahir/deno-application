@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   FormControl,
@@ -72,10 +72,7 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
           ) : (
             <Typography>Say Hello! 👋</Typography>
           )}
-          <div
-            style={{ float: "left", clear: "both" }}
-            className='messagesEnd'
-          ></div>
+          <div className='messagesEnd'></div>
         </List>
       </Grid>
       <Grid className={classes.textContainer} item>
