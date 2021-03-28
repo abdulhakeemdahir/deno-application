@@ -104,8 +104,6 @@ export default function News(props) {
 
 			const { data } = await api.createComments(comment);
 
-			console.log(data);
-
 			await api.updateObjectID(id, { comments: data._id });
 
 			const userInfo = await api.getUser(userState._id);

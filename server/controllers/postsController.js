@@ -40,19 +40,19 @@ module.exports = {
   update: async (req, res) => {
     const { imageUrl } = req.body;
     const upDatePost = req.body;
-
-    if (imageUrl) {
-      const result = await cloudinary.uploader.upload_large(profileImg, {
-        // eslint-disable-next-line camelcase
-        upload_preset: "dev_setup"
-      });
-      upDatePost.imageUrl = result.public_id;
-    }
     try {
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        upDatePost.imageUrl = result.public_id;
+      }
+
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
         {
-          upDatePost
+          $set: upDatePost
         },
         { new: true, runValidators: true }
       );
@@ -63,7 +63,6 @@ module.exports = {
     }
   },
   updateObjectID: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
@@ -126,7 +125,6 @@ module.exports = {
     }
   },
   removeliked: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,

@@ -15,6 +15,8 @@ import {
 	ADD_POST,
 	CAUSE_LOADING,
 	POST_LOADING,
+	UPDATE_USER,
+	USER_LOADING,
 } from "../../utils/actions/actions";
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
@@ -58,6 +60,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Post() {
+	const [userState, userDispatch] = useUserContext();
 	const [, causeDispatch] = useCauseContext();
 	const [, postDispatch] = usePostContext();
 	//*Associated with cloudinary
@@ -103,7 +106,20 @@ export default function Post() {
 		});
 	};
 
-	
+	const updateUserStates = async () => {
+    
+    const userInfo = await api.getUser(userState._id);
+
+    await userDispatch({ type: USER_LOADING });
+
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false,
+      },
+    });
+  };
 
 	const handleChange = function(event) {
 		const { name, value } = event.target;
@@ -113,18 +129,8 @@ export default function Post() {
 		});
 	};
 
-	const [userState] = useUserContext();
-
 	const handleSubmit = async event => {
 		event.preventDefault();
-
-		if (
-			createPost.type === "" ||
-			createPost.title === "" ||
-			createPost.content === ""
-		) {
-			return;
-		}
 		try {
 			const post = {
 				...createPost,
@@ -142,9 +148,12 @@ export default function Post() {
 				post.hashtags = createHashtags.data._id;
 			}
 
-      console.log(post)
 
-			if (createPost.type === "Post") {
+			if (userState.role === "Personal") {
+				setCreatePost({
+					...createPost,
+					type:"Post"
+				})
 				const { data } = await API.createPost(post);
 				if (post.hashtags) {
 					await API.updateHashtag(post.hashtags, {
@@ -169,7 +178,7 @@ export default function Post() {
 
 				await addCause();
 			}
-
+			await updateUserStates();
 			clearState();
 
 		} catch (err) {
@@ -242,7 +251,10 @@ export default function Post() {
 				noValidate
 				autoComplete='off'
 				onSubmit={handleSubmit}
-			>
+			>	
+				{userState.role === "Personal" ? (
+							null
+						) : (
 				<FormControl variant='outlined'>
 					<InputLabel id='post'>Post Type</InputLabel>
 					<Select
@@ -252,16 +264,10 @@ export default function Post() {
 						name='type'
 						onChange={handleChange}
 					>
-						{userState.role === "Personal" ? (
-							<MenuItem value={"Post"}>Post</MenuItem>
-						) : (
-							<>
-								<MenuItem value={"Post"}>Post</MenuItem>
-								<MenuItem value={"Cause"}>Cause</MenuItem>
-							</>
-						)}
+						<MenuItem value={"Post"}>Post</MenuItem>
+						<MenuItem value={"Cause"}>Cause</MenuItem>
 					</Select>
-				</FormControl>
+				</FormControl>)}
 				<div>
 					<Grid container>
 						<TextField
