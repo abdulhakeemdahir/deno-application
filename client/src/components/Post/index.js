@@ -19,6 +19,7 @@ import {
 import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
+import api from "../../utils/api.js";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -117,22 +118,23 @@ export default function Post() {
 	const handleSubmit = async event => {
 		event.preventDefault();
 
-		if (
-			createPost.type === "" ||
-			createPost.title === "" ||
-			createPost.content === ""
-		) {
-			return;
-		}
-		try {
-			const post = {
-				...createPost,
-				author: userState._id,
-			};
-			//the only line we need it to add
-			if (previewSource) {
-				post.imageUrl = previewSource;
-			}
+
+    //*Associated with cloudinary
+    if (!previewSource) return;
+    uploadImage(previewSource);
+    
+    if (createPost.type === "" || createPost.title === "" || createPost.content === "") {
+      return;
+    }
+    try {
+      const post = {
+        ...createPost,
+        author: userState._id,
+      };
+	  //the only line we need it to add
+	if (previewSource) {
+		post.imageUrl = previewSource;
+	}
 
 			const hashtags = await findHashtags(createPost.content);
 
@@ -181,13 +183,19 @@ export default function Post() {
 		previewFile(file);
 	};
 
-	const previewFile = file => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			setPreviewSource(reader.result);
-		};
-	};
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+//*Associated with cloudinary
+const uploadImage = async (base64EncodedImage) => {
+  const updateUser = await api.updateUser(userState._id, { profileImg: base64EncodedImage });
+  console.log(updateUser);
+};
+
 
 	// Form validation for inputs to be more than 6 characters
 	const validate = event => {

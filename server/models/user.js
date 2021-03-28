@@ -105,18 +105,11 @@ const organizationSchema = new Schema({
     match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g
   },
   website: mongoose.SchemaTypes.Url,
+
   address: {
-    street: {
-      type: String,
-      aptNo: {
-        type: String,
-        required: false
-      }
-    },
-    city: String,
-    state: String,
-    zipCode: Number,
-    country: String
+    type: String,
+    required: false,
+    trim: true
   },
   authenticated: {
     type: Boolean,
