@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
+import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
@@ -32,6 +32,7 @@ import {
 
 import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
+import { NavLink } from "react-router-dom";
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -89,6 +90,10 @@ const Analytics = () => {
 				>
 					{width > 600 ? (
 						<>
+							<Breadcrumbs style={{ position: "absolute" }}>
+								<NavLink to='newsfeed'>Home</NavLink>
+								<Typography color='textSecondary'>Analytics</Typography>
+							</Breadcrumbs>
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>
