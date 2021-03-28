@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core";
 import "./style.css";
@@ -8,7 +8,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import Nav from "../../../components/Navigation";
-import NGO from "../../../images/ngo.png";
 
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
@@ -31,7 +30,6 @@ import {
 } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
-import AddContent from "../../../components/Forms/AddContent";
 import { NavLink } from "react-router-dom";
 
 TabPanel.propTypes = {
