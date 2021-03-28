@@ -113,7 +113,10 @@ const Newsfeed = () => {
     fetchAllPostsAndCauses();
 
     if (!socket) return;
+  }, []);
 
+  useEffect(() => {
+    if (state.socket.id === userState.socketId) return;
     socket.emit("join:server", state.userAuth.user.username);
   }, []);
 

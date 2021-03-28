@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-const { User, Conversation, Message, Post } = require("./models");
+const { User, Conversation, Message, Post, Comment } = require("./models");
 const PORT = process.env.PORT || 3001;
 const mongodb = require("./config/options")("mongodb");
 
@@ -122,6 +122,18 @@ io.on("connection", socket => {
     ]);
 
     socket.emit("get-convo", conversation);
+  });
+
+  socket.on("join:dashboard", async name => {
+    const roomToLeave = Object.keys(socket.rooms)[1];
+
+    if (roomToLeave) {
+      socket.leave(roomToLeave);
+    }
+
+    console.log("Join Dashboard:", name);
+
+    socket.join(name);
   });
 
   socket.on("create:room", async ({ name, participants }) => {
@@ -249,6 +261,78 @@ io.on("connection", socket => {
       io.emit("update-post", posts);
       return;
     }
+  });
+
+  socket.on("send-comment-dashboard", async id => {
+    console.log(id);
+    const user = await User.findOne({ _id: id })
+      .select(
+        "firstName lastname username email role profileImg bannerImg following followers posts bio causes"
+      )
+      .populate([
+        {
+          path: "following",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "followers",
+          select: "firstName",
+          model: "User"
+        },
+        {
+          path: "posts",
+          model: "Post",
+          options: { sort: { date: -1 } },
+          populate: [
+            {
+              path: "author",
+              select: "firstName",
+              model: "User"
+            },
+            {
+              path: "likes",
+              select: "firstName",
+              model: "User"
+            },
+            {
+              path: "hashtags",
+              model: "Hashtag"
+            },
+            {
+              path: "comments",
+              model: "Comment",
+              options: { sort: { date: -1 } },
+              populate: [
+                {
+                  path: "user",
+                  select: "firstName",
+                  model: "User"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: "causes",
+          model: "Cause",
+          options: { sort: { date: -1 } },
+          populate: [
+            {
+              path: "author",
+              select: "firstName",
+              model: "User"
+            },
+            {
+              path: "likes",
+              select: "firstName",
+              model: "User"
+            }
+          ]
+        }
+      ]);
+
+    io.emit("update-dashboard", user);
   });
 
   socket.on("disconnect", () => {

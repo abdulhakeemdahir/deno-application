@@ -62,7 +62,7 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
                     <ListItem className={Object.values(messageDeco)[1]}>
                       <p>{message.content}</p>
                     </ListItem>
-                    <ListItem>
+                    <ListItem style={{ fontSize: ".7rem" }}>
                       {message.sender?.username} - {message.createdAt}
                     </ListItem>
                   </List>

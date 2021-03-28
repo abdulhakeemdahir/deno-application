@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
-	Typography,
-	Grid,
-	CardMedia,
-	Divider,
-	CardContent,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	TextField,
-	Button,
-	Dialog,
+  Typography,
+  Grid,
+  CardMedia,
+  Divider,
+  CardContent,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+  Button,
+  Dialog
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -25,95 +25,99 @@ import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
-import { UPDATE_USER, USER_LOADING, ADD_GUESS_USER,
-  USER_GUESS_LOADING, } from "../../../utils/actions/actions";
-  import { useParams } from "react-router-dom";
+import {
+  UPDATE_USER,
+  USER_LOADING,
+  ADD_GUESS_USER,
+  USER_GUESS_LOADING
+} from "../../../utils/actions/actions";
+import { useParams } from "react-router-dom";
+import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		width: "100%",
-	},
-	heading: {
-		fontSize: theme.typography.pxToRem(15),
-		fontWeight: theme.typography.fontWeightBold,
-		color: "#e57373",
-	},
-	shadow: {
-		boxShadow: "none",
-		// background: "#f7f7f7",
-		borderRadius: "0px !important",
-		width: "100%",
-	},
-	commentStyle: {
-		backgroundColor: "#e57373",
-		color: "white",
-		borderRadius: "50px",
-	},
-	gridStyle: {
-		borderBottom: "1px dashed #e7e7e7",
-		paddingBottom: "2px",
-	},
-	selectEmpty: {
-		// marginTop: theme.spacing(2),
-	},
-	styleMain: {
-		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-		color: "#ffffff",
-		padding: "15px",
-		// marginTop: "10px",
-		borderRadius: "0px",
-	},
-	inputMargin: {
-		// margin: "5px",
-	},
+  root: {
+    width: "100%"
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightBold,
+    color: "#e57373"
+  },
+  shadow: {
+    boxShadow: "none",
+    // background: "#f7f7f7",
+    borderRadius: "0px !important",
+    width: "100%"
+  },
+  commentStyle: {
+    backgroundColor: "#e57373",
+    color: "white",
+    borderRadius: "50px"
+  },
+  gridStyle: {
+    borderBottom: "1px dashed #e7e7e7",
+    paddingBottom: "2px"
+  },
+  selectEmpty: {
+    // marginTop: theme.spacing(2),
+  },
+  styleMain: {
+    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+    color: "#ffffff",
+    padding: "15px",
+    // marginTop: "10px",
+    borderRadius: "0px"
+  },
+  inputMargin: {
+    // margin: "5px",
+  }
 }));
 
 export default function News(props) {
-	const classes = useStyles();
-	const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
-	const [userState, userDispatch] = useUserContext();
+  const [userState, userDispatch] = useUserContext();
 
   const [guessState, guessDispatch] = useGuessContext();
 
-	const [commentState, setCommentState] = useState({
-    content: "",
+  const [commentState, setCommentState] = useState({
+    content: ""
   });
+
+  const socket = useSocket();
 
   const handleChange = function(event) {
     console.log("you are here");
     const { name, value } = event.target;
     setCommentState({
       ...commentState,
-      [name]: value,
+      [name]: value
     });
   };
 
-  const handleSubmit = async (id) => {
+  const handleSubmit = async id => {
     try {
-      console.log("you are here")
       const comment = {
         ...commentState,
         user: userState._id,
-        post: id,
+        post: id
       };
 
       const { data } = await api.createComments(comment);
 
-      console.log(data);
-
       await api.updateObjectID(id, { comments: data._id });
 
       const userInfo = await api.getUser(userState._id);
-      
+
       await userDispatch({ type: USER_LOADING });
 
       await userDispatch({
         type: UPDATE_USER,
         payload: {
           ...userInfo.data,
-          loading: false,
-        },
+          loading: false
+        }
       });
 
       if (guessState._id) {
@@ -125,44 +129,82 @@ export default function News(props) {
           type: ADD_GUESS_USER,
           payload: {
             ...guessInfo.data,
-            loading: false,
-          },
+            loading: false
+          }
         });
+
+        socket.emit("send-comment-dashboard", guessState._id);
+      } else {
+        socket.emit("send-comment-dashboard", userState._id);
       }
     } catch (err) {}
   };
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+  useEffect(() => {
+    socket.emit("join:dashboard", "dashboard");
+  }, []);
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-	return (
+  useEffect(() => {
+    const updateDashboard = async user => {
+      if (user._id === userState._id) {
+        await userDispatch({ type: USER_LOADING });
+
+        await userDispatch({
+          type: UPDATE_USER,
+          payload: {
+            ...user,
+            loading: false
+          }
+        });
+      } else {
+        await guessDispatch({ type: USER_GUESS_LOADING });
+
+        await guessDispatch({
+          type: ADD_GUESS_USER,
+          payload: {
+            ...user,
+            loading: false
+          }
+        });
+      }
+    };
+
+    socket.on("update-dashboard", updateDashboard);
+
+    return () => socket.off("update-dashboard");
+  }, []);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  return (
     <>
-      <Grid item className="card" xs={12}>
-        <Grid container className="headerContainer">
+      <Grid item className='card' xs={12}>
+        <Grid container className='headerContainer'>
           <Grid item xs={9} sm={10}>
-            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={3} sm={2}>
             {props.check ? null : (
-              <Button className="editButton" onClick={handleOpen}>
+              <Button className='editButton' onClick={handleOpen}>
                 <Edit /> Edit
               </Button>
             )}
             <Dialog
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
+              aria-labelledby='transition-modal-title'
+              aria-describedby='transition-modal-description'
               open={open}
               onClose={handleClose}
               closeAfterTransition
               BackdropComponent={Backdrop}
               BackdropProps={{
-                timeout: 500,
+                timeout: 500
               }}
             >
               <Fade in={open}>
@@ -171,11 +213,11 @@ export default function News(props) {
             </Dialog>
           </Grid>
         </Grid>
-        <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span> {props.author}
+        <Typography variant='body2' color='textSecondary' component='p'>
+          <span className='authorStyle'> Author:</span> {props.author}
         </Typography>
         <Divider />
-        <Grid container direction="row" spacing={1}>
+        <Grid container direction='row' spacing={1}>
           <Grid item xs={12} sm={4}>
             <CardMedia
               className={"media"}
@@ -184,7 +226,7 @@ export default function News(props) {
           </Grid>
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
               {
@@ -199,13 +241,13 @@ export default function News(props) {
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name="content"
+              name='content'
               value={commentState.content}
               onChange={handleChange}
               id={props.id}
-              label="Post a Comment"
-              variant="filled"
-              size="small"
+              label='Post a Comment'
+              variant='filled'
+              size='small'
               multiline
               rowsMax={4}
               fullWidth
@@ -213,7 +255,7 @@ export default function News(props) {
           </Grid>
           <Grid item xs={12} sm={4}>
             <Button
-              size="small"
+              size='small'
               id={props.id}
               className={classes.styleMain}
               fullWidth
@@ -225,31 +267,31 @@ export default function News(props) {
           <Accordion className={classes.shadow}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+              aria-controls='panel1a-content'
+              id='panel1a-header'
             >
               <Typography className={classes.heading}>
                 Read {props.comments.length} Comments
               </Typography>
             </AccordionSummary>
-            <Grid className="cardComment">
-              {props.comments.map((card) => (
+            <Grid className='cardComment'>
+              {props.comments.map(card => (
                 <AccordionDetails>
                   <Grid container xs={12} className={classes.gridStyle}>
                     <Grid item xs={4}>
                       <Typography
-                        variant="body"
-                        color="textSecondary"
-                        component="p"
+                        variant='body'
+                        color='textSecondary'
+                        component='p'
                       >
                         {card.user.firstName}
                       </Typography>
                     </Grid>
                     <Grid item xs={8}>
                       <Typography
-                        variant="body"
-                        color="textSecondary"
-                        component="p"
+                        variant='body'
+                        color='textSecondary'
+                        component='p'
                       >
                         {card.content}
                       </Typography>
