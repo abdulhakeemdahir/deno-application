@@ -66,10 +66,8 @@ const Chatroom = () => {
     return () => socket.off("get-convos");
   }, []);
 
-  const scrollToBottom = () =>
-    document
-      .querySelector(".messagesEnd")
-      .scrollIntoView({ behavior: "smooth" });
+  const scrollToBottom = divClass =>
+    document.querySelector(divClass).scrollIntoView({ behavior: "smooth" });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -115,7 +113,7 @@ const Chatroom = () => {
 
     socket.on("get-newConvo", updateSidebar);
 
-    scrollToBottom();
+    scrollToBottom(".messagesEnd");
 
     return () => socket.off("get-newConvo");
   });
@@ -138,7 +136,7 @@ const Chatroom = () => {
 
     socket.on("update-chat", updateChat);
 
-    scrollToBottom();
+    scrollToBottom(".messagesEnd");
 
     return () => socket.off("update-chat");
   }, []);

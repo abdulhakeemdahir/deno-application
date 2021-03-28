@@ -43,7 +43,7 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
   };
 
   return (
-    <>
+    <main>
       <Grid container className={classes.chatContainer}>
         <List className={classes.bubbleContainer}>
           {chat?.messages?.length ? (
@@ -102,7 +102,7 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
           </FormControl>
         </FormGroup>
       </Grid>
-    </>
+    </main>
   );
 };
 

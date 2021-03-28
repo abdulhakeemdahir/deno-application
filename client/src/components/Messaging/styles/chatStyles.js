@@ -11,8 +11,10 @@ const chatStyles = makeStyles(theme => ({
     position: "relative",
     height: "60vh",
     overflowY: "scroll",
-    clear: "both"
-    // boxShadow: "0px 1px 1px #de1dde"
+    clear: "both",
+    "&::-webkit-scrollbar": {
+      width: "0"
+    }
   },
 
   bubbleContainer: {

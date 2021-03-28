@@ -1,28 +1,18 @@
 import { useEffect, useState } from "react";
 import {
   Button,
-  Grid,
+  Grid as sidebar,
   List,
   ListItem,
-  makeStyles,
   TextField,
   Typography
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import api from "../../utils/api";
-
-const useStyles = makeStyles(theme => ({
-  sidebar: {
-    position: "relative",
-    height: "60vh",
-    overflowY: "scroll",
-    clear: "both"
-    // boxShadow: "0px 1px 1px #de1dde"
-  }
-}));
+import sidebarStyles from "./styles/sidebarStyles";
 
 const Sidebar = ({ convos, toggleChat, createConvo }) => {
-  const classes = useStyles();
+  const classes = sidebarStyles();
 
   const [users, setUsers] = useState([]);
 
@@ -33,13 +23,13 @@ const Sidebar = ({ convos, toggleChat, createConvo }) => {
   }, []);
 
   return (
-    <Grid container className={`chat-sidebar ${classes.sidebar}`}>
+    <sidebar className={`${classes.chatSidebar}`}>
       <Autocomplete
         fullWidth
         id='create-message'
         options={users ? users : ""}
         getOptionLabel={option => option.username}
-        style={{ marginTop: "1em", textAlign: "left" }}
+        className={classes.autoComplete}
         renderInput={params => (
           <TextField
             {...params}
@@ -63,38 +53,36 @@ const Sidebar = ({ convos, toggleChat, createConvo }) => {
           createConvo(payload);
         }}
       />
-      <Grid item>
-        <List>
-          {convos?.length ? (
-            convos.map(convo => {
-              return (
-                <Button
-                  onClick={() => toggleChat(convo.name)}
-                  style={{ borderBottom: "solid 1px grey" }}
-                  fullWidth
-                >
-                  <List>
-                    <ListItem>
-                      {convo?.participants[0]?.username},{" "}
-                      {convo?.participants[1]?.username}
-                    </ListItem>
-                    <ListItem>
-                      {convo.messages?.length ? (
-                        convo.messages[convo.messages?.length - 1].content
-                      ) : (
-                        <div>Start convo...</div>
-                      )}
-                    </ListItem>
-                  </List>
-                </Button>
-              );
-            })
-          ) : (
-            <Typography>You're DM's are empty 😢</Typography>
-          )}
-        </List>
-      </Grid>
-    </Grid>
+      <List>
+        {convos?.length ? (
+          convos.map(convo => {
+            return (
+              <Button
+                onClick={() => toggleChat(convo.name)}
+                style={{ borderBottom: "solid 1px grey" }}
+                fullWidth
+              >
+                <List className={classes.convoLists} style={{ width: "100%" }}>
+                  <ListItem className={classes.convoItems}>
+                    {convo?.participants[0]?.username},{" "}
+                    {convo?.participants[1]?.username}
+                  </ListItem>
+                  <ListItem className={classes.convoItems}>
+                    {convo.messages?.length ? (
+                      convo.messages[convo.messages?.length - 1].content
+                    ) : (
+                      <div>Start convo...</div>
+                    )}
+                  </ListItem>
+                </List>
+              </Button>
+            );
+          })
+        ) : (
+          <Typography>You're DM's are empty 😢</Typography>
+        )}
+      </List>
+    </sidebar>
   );
 };
 
