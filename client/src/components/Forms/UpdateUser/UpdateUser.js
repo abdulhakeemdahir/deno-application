@@ -76,7 +76,7 @@ export default function UpdateUser(props) {
 		if (previewSource) {
 			updateUser.profileImg = previewSource;
 		}
-		upDateUser(updateUser);
+		await upDateUser(updateUser);
 
     const userInfo = await api.getUser(userState._id);
 

@@ -33,60 +33,74 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function UpdatePost(props) {
-  const classes = useStyles();
-  const [userState, userDispatch] = useUserContext();
-  //*Associated with cloudinary
-  const [fileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  const [stateUpdate, setStateUpdate] = useState({
-    title: "",
-    content: "",
-  });
-  const handleChange = function(event) {
-    const { name, value } = event.target;
-    setStateUpdate({
-      ...stateUpdate,
-      [name]: value,
-    });
+	const classes = useStyles();
+
+	const [userState, userDispatch] = useUserContext();
+	//*Associated with cloudinary
+	const [fileInputState] = useState("");
+	const [previewSource, setPreviewSource] = useState("");
+	const [stateUpdate, setStateUpdate] = useState({
+			title: "",
+			content: "",
+	});
+
+	const handleChange = function(event) {
+		const { name, value } = event.target;
+		setStateUpdate({
+		...stateUpdate,
+		[name]: value,
+		});
+	};
+
+	const handleSubmit = async (event) => {
+
+		event.preventDefault();
+		const updateUser = {};
+
+		if (stateUpdate.title !== "") {
+			updateUser.title = stateUpdate.title;
+		}
+		if (stateUpdate.content !== "") {
+			updateUser.content = stateUpdate.content;
+		}
+
+		//*Associated with cloudinary
+		if (previewSource) {
+		updateUser.imageUrl = previewSource;
+		}
+		await updatePost(updateUser);
+
+		props.onClose();
+	};
+	//read file that is been uploaded
+	const handleFileInputChange = (e) => {
+		const file = e.target.files[0];
+		previewFile(file);
   };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const updateUser = {};
-    if (stateUpdate.title !== "") {
-      updateUser.title = stateUpdate.title;
-    }
-    if (stateUpdate.content !== "") {
-      updateUser.content = stateUpdate.content;
-    }
-    //*Associated with cloudinary
-    if (previewSource) {
-      updateUser.imageUrl = previewSource;
-    }
-    await updatePost(updateUser);
-    props.onClose();
-  };
-  //read file that is been uploaded
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
-  };
-  //sets the file to preview state
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
-  //*update post by sending post id and update object
-  const updatePost = async (update) => {
-    console.log(update);
-    const post = await api.updatePost(props.id, update);
-    console.log(post);
-  };
-  return (
+	  //sets the file to preview state
+	const previewFile = (file) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+		setPreviewSource(reader.result);
+		};
+	};
+
+  	//*update post by sending post id and update object
+	const updatePost = async (update) => {
+		console.log(update);
+		const post = await api.updatePost(props.id, update);
+		console.log(post);
+	};
+
+	return (
     <Grid className="cardPost">
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <div>
           <Grid container>
             <TextField
@@ -121,7 +135,11 @@ export default function UpdatePost(props) {
             />
           </Grid>
         </div>
-        <Button size="small" className={classes.styleMain} onClick={handleSubmit}>
+        <Button
+          size="small"
+          className={classes.styleMain}
+          onClick={handleSubmit}
+        >
           <ChatBubbleOutlineIcon /> Update
         </Button>
       </form>
