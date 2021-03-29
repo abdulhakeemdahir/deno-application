@@ -11,7 +11,7 @@ import {
   TextField,
   Button
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import useNewsStyles from "./useNCStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
@@ -24,46 +24,8 @@ import { Link } from "react-router-dom";
 import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%"
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightBold,
-    color: "#E57373"
-  },
-  shadow: {
-    boxShadow: "none",
-    // background: "#F7F7F7",
-    borderRadius: "0px !important",
-    width: "100%"
-  },
-  commentStyle: {
-    backgroundColor: "#E57373",
-    color: "white",
-    borderRadius: "50px"
-  },
-  gridStyle: {
-    borderBottom: "1px dashed #E7E7E7",
-    paddingBottom: "2px"
-  },
-  selectEmpty: {
-    // marginTop: theme.spacing(2),
-  },
-  styleMain: {
-    background: "linear-gradient(-135deg,#1DE9B6,#1DC4E9)",
-    color: "#FFFFFF",
-    padding: "15px",
-    // marginTop: "10px",
-    borderRadius: "0px"
-  },
-  inputMargin: {
-    // margin: "5px",
-  }
-}));
 const NewsAndComment = props => {
-  const classes = useStyles();
+  const classes = useNewsStyles();
 
   const [, postDispatch] = usePostContext();
 
@@ -163,15 +125,15 @@ const NewsAndComment = props => {
 
   return (
     <>
-      <Grid item className='card' xs={12}>
-        <Grid container className='headerContainer'>
+      <Grid item className="card" xs={12}>
+        <Grid container className="headerContainer">
           <Grid item xs={9} sm={11}>
-            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={3} sm={1}>
-            <Button className='editButton' onClick={() => handleLike(props.id)}>
+            <Button className="editButton" onClick={() => handleLike(props.id)}>
               <>
                 {props.liked.find(l => l._id === userState._id) ? (
                   <Favorite />
@@ -182,8 +144,8 @@ const NewsAndComment = props => {
             </Button>
           </Grid>
         </Grid>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          <span className='authorStyle'> Author:</span>
+        <Typography variant="body2" color="textSecondary" component="p">
+          <span className="authorStyle"> Author:</span>
           <Link
             to={
               props.authorId === userState._id
@@ -195,7 +157,7 @@ const NewsAndComment = props => {
           </Link>
         </Typography>
         <Divider />
-        <Grid container direction='row' spacing={1}>
+        <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={4}>
             <CardMedia
               className={"media"}
@@ -204,21 +166,9 @@ const NewsAndComment = props => {
           </Grid>
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant='body' color='textSecondary' component='p'>
+              <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
-
-              {
-                //props.hashTag != false ? (
-                //<>
-                //   {props.hashTag[0].hashtag.map((tag) => (
-                //     <Link to={props.hashTag[0]._id} className="hashTagStyle">
-                //       #{tag}
-                //     </Link>
-                //   ))}
-                //</>
-                //) : null
-              }
             </CardContent>
             <Divider />
           </Grid>
@@ -226,13 +176,13 @@ const NewsAndComment = props => {
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name='content'
+              name="content"
               value={commentState.content}
               onChange={handleChange}
               id={props.id}
-              label='Post a Comment'
-              variant='filled'
-              size='small'
+              label="Post a Comment"
+              variant="filled"
+              size="small"
               multiline
               rowsMax={4}
               fullWidth
@@ -240,7 +190,7 @@ const NewsAndComment = props => {
           </Grid>
           <Grid item xs={12} sm={4} id={props.id}>
             <Button
-              size='small'
+              size="small"
               id={props.id}
               className={classes.styleMain}
               fullWidth
@@ -253,31 +203,31 @@ const NewsAndComment = props => {
             <Accordion className={classes.shadow}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-                aria-controls='panel1a-content'
-                id='panel1a-header'
+                aria-controls="panel1a-content"
+                id="panel1a-header"
               >
                 <Typography className={classes.heading}>
                   Read {props.comments.length} Comments
                 </Typography>
               </AccordionSummary>
-              <Grid className='cardComment'>
+              <Grid className="cardComment">
                 {props.comments.map(card => (
                   <AccordionDetails>
                     <Grid container xs={12} className={classes.gridStyle}>
                       <Grid item xs={4}>
                         <Typography
-                          variant='body'
-                          color='textSecondary'
-                          component='p'
+                          variant="body"
+                          color="textSecondary"
+                          component="p"
                         >
                           {card.user.username}
                         </Typography>
                       </Grid>
                       <Grid item xs={8}>
                         <Typography
-                          variant='body'
-                          color='textSecondary'
-                          component='p'
+                          variant="body"
+                          color="textSecondary"
+                          component="p"
                         >
                           {card.content}
                         </Typography>

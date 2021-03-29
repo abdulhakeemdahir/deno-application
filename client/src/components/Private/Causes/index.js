@@ -1,18 +1,17 @@
 import React from "react";
 import {
-	Typography,
-	Grid,
-	Divider,
-	CardContent,
-	Button,
-	Dialog,
-	ButtonGroup,
-  CardMedia,
+  Typography,
+  Grid,
+  Divider,
+  CardContent,
+  Button,
+  Dialog,
+  ButtonGroup,
+  CardMedia
 } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Edit, ThumbUpAlt } from "@material-ui/icons";
-//import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
 import UpdateCause from "../../Forms/UpdateCause/UpdateCause";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
@@ -21,23 +20,23 @@ import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
 import Donate from "../../Forms/Donate/Donate.js";
 
-export default function Causes(props) {
-	const [open, setOpen] = React.useState(false);
+const Causes = props => {
+  const [open, setOpen] = React.useState(false);
   const [userState, userDispatch] = useUserContext();
 
   useAuthTokenStore();
 
   const isAuth = useIsAuthenticated();
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-	const handleFollow = async (id) => {
+  const handleFollow = async id => {
     if (userState.role === "Organization") {
       //TODO error message
       console.log("you are an organization");
@@ -53,7 +52,7 @@ export default function Causes(props) {
     }
 
     await api.updateUserObjectID(userState._id, {
-      causes: id,
+      causes: id
     });
     const userInfo = await api.getUser(userState._id);
 
@@ -63,12 +62,12 @@ export default function Causes(props) {
       type: UPDATE_USER,
       payload: {
         ...userInfo.data,
-        loading: false,
-      },
+        loading: false
+      }
     });
   };
 
-	return (
+  return (
     <Grid item className="card">
       <Grid container className="headerContainer">
         <Grid item xs={9}>
@@ -90,7 +89,7 @@ export default function Causes(props) {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
-              timeout: 500,
+              timeout: 500
             }}
           >
             <Fade in={open}>
@@ -152,4 +151,6 @@ export default function Causes(props) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Causes;

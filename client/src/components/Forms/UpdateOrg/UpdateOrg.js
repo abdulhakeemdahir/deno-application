@@ -1,43 +1,14 @@
 import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
+import updateFormStyles from "../useStyles/formStyles";
 
-const useStyles = makeStyles(theme => ({
-	paper: {
-		background:
-			"linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-		borderRadius: "0px",
-		boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
-		padding: "20px",
-	},
-	mgstyle: {
-		marginTop: "5px",
-		marginBottom: "5px",
-	},
-	styleMain: {
-		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-		color: "#ffffff",
-		padding: "15px",
-	},
-	formControl: {
-		margin: theme.spacing(1),
-		minWidth: 120,
-	},
-	selectEmpty: {
-		marginTop: theme.spacing(2),
-	},
-
-	styleIcon: {
-		background: "#3f4d67",
-	},
-}));
-export default function UpdateOrg(props) {
-	const [userState, userDispatch] = useUserContext();
-	const [stateSignUp, setStateSignUp] = useState({
+const UpdateOrg = props => {
+  const [userState, userDispatch] = useUserContext();
+  const [stateSignUp, setStateSignUp] = useState({
     firstName: "",
     lastname: "",
     phoneNumber: "",
@@ -48,25 +19,24 @@ export default function UpdateOrg(props) {
     email: "",
     password: "",
     username: "",
-    orgName: "",
+    orgName: ""
   });
 
-	const handleChange = function(event) {
-		const { name, value } = event.target;
-		setStateSignUp({
-			...stateSignUp,
-			[name]: value,
-		});
-	};
+  const handleChange = function(event) {
+    const { name, value } = event.target;
+    setStateSignUp({
+      ...stateSignUp,
+      [name]: value
+    });
+  };
 
-	const handleSubmit = async event => {
-		event.preventDefault();
+  const handleSubmit = async event => {
+    event.preventDefault();
 
-		
-    const updateUser = {role: userState.role};
-		if (stateSignUp.orgName !== "") {
-			updateUser.orgName = stateSignUp.orgName;
-		}
+    const updateUser = { role: userState.role };
+    if (stateSignUp.orgName !== "") {
+      updateUser.orgName = stateSignUp.orgName;
+    }
     if (stateSignUp.firstName !== "") {
       updateUser.firstName = stateSignUp.firstName;
     }
@@ -101,7 +71,6 @@ export default function UpdateOrg(props) {
       updateUser.orgName = stateSignUp.orgName;
     }
 
-
     updateOrg(updateUser);
 
     const userInfo = await api.getUser(userState._id);
@@ -112,39 +81,39 @@ export default function UpdateOrg(props) {
       type: UPDATE_USER,
       payload: {
         ...userInfo.data,
-        loading: false,
-      },
+        loading: false
+      }
     });
 
     props.onClose();
   };
   //*Associated with cloudinary
-  const updateOrg = async (update) => {
+  const updateOrg = async update => {
     console.log(update);
     const updateUser = await api.updateUser(userState._id, update);
     console.log(updateUser);
   };
 
-	const classes = useStyles();
+  const classes = updateFormStyles();
 
-	//*Associated with cloudinary
-	const [fileInputState, ] = useState("");
-	const [previewSource, setPreviewSource] = useState("");
+  //*Associated with cloudinary
+  const [fileInputState] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
 
-	const handleFileInputChange = e => {
-		const file = e.target.files[0];
-		previewFile(file);
-	};
+  const handleFileInputChange = e => {
+    const file = e.target.files[0];
+    previewFile(file);
+  };
 
-	const previewFile = file => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			setPreviewSource(reader.result);
-		};
-	};
+  const previewFile = file => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
 
-	return (
+  return (
     <Grid
       container
       direction="column"
@@ -256,4 +225,6 @@ export default function UpdateOrg(props) {
       )}
     </Grid>
   );
-}
+};
+
+export default UpdateOrg;

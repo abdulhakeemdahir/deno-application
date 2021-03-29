@@ -1,63 +1,23 @@
 import React from "react";
 
 import {
-	Typography,
-	Grid,
-	CardMedia,
-	Divider,
-	CardContent,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
+  Typography,
+  Grid,
+  CardMedia,
+  Divider,
+  CardContent,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import useNewsStyles from "./useNewsStyles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import "./style.css";
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		width: "100%",
-	},
-	heading: {
-		fontSize: theme.typography.pxToRem(15),
-		fontWeight: theme.typography.fontWeightBold,
-		color: "#e57373",
-	},
-	shadow: {
-		boxShadow: "none",
-		// background: "#f7f7f7",
-		borderRadius: "0px !important",
-		width: "100%",
-	},
-	commentStyle: {
-		backgroundColor: "#e57373",
-		color: "white",
-		borderRadius: "50px",
-	},
-	gridStyle: {
-		borderBottom: "1px dashed #e7e7e7",
-		paddingBottom: "2px",
-	},
-	selectEmpty: {
-		// marginTop: theme.spacing(2),
-	},
-	styleMain: {
-		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-		color: "#ffffff",
-		padding: "15px",
-		// marginTop: "10px",
-		borderRadius: "0px",
-	},
-	inputMargin: {
-		// margin: "5px",
-	},
-}));
-
-export default function News(props) {
-	const classes = useStyles();
-	return (
+const News = props => {
+  const classes = useNewsStyles();
+  return (
     <>
       <Grid item className="card" xs={12}>
         <Grid container className="headerContainer">
@@ -102,7 +62,7 @@ export default function News(props) {
               </Typography>
             </AccordionSummary>
             <Grid className="cardComment">
-              {props.comments.map((card) => (
+              {props.comments.map(card => (
                 <AccordionDetails>
                   <Grid container xs={12} className={classes.gridStyle}>
                     <Grid item xs={4}>
@@ -132,4 +92,6 @@ export default function News(props) {
       </Grid>
     </>
   );
-}
+};
+
+export default News;

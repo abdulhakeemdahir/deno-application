@@ -13,7 +13,7 @@ import {
   Button,
   Dialog
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import useNewsStyles from "./useNewsStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -35,47 +35,8 @@ import {
 } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%"
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightBold,
-    color: "#e57373"
-  },
-  shadow: {
-    boxShadow: "none",
-    // background: "#f7f7f7",
-    borderRadius: "0px !important",
-    width: "100%"
-  },
-  commentStyle: {
-    backgroundColor: "#e57373",
-    color: "white",
-    borderRadius: "50px"
-  },
-  gridStyle: {
-    borderBottom: "1px dashed #e7e7e7",
-    paddingBottom: "2px"
-  },
-  selectEmpty: {
-    // marginTop: theme.spacing(2),
-  },
-  styleMain: {
-    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-    color: "#ffffff",
-    padding: "15px",
-    // marginTop: "10px",
-    borderRadius: "0px"
-  },
-  inputMargin: {
-    // margin: "5px",
-  }
-}));
-
 const News = props => {
-  const classes = useStyles();
+  const classes = useNewsStyles();
   const [open, setOpen] = useState(false);
 
   const [userState, userDispatch] = useUserContext();

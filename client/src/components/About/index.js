@@ -1,16 +1,15 @@
 import React from "react";
 import { Image } from "cloudinary-react";
 import {
-	Typography,
-	Grid,
-	CardMedia,
-	Divider,
-	CardContent,
-	Button,
-	ButtonGroup,
-	Dialog,
+  Typography,
+  Grid,
+  CardMedia,
+  Divider,
+  CardContent,
+  Button,
+  ButtonGroup,
+  Dialog
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Edit } from "@material-ui/icons";
@@ -20,28 +19,21 @@ import "./style.css";
 import UpdateUser from "../Forms/UpdateUser/UpdateUser";
 import UpdateOrg from "../Forms/UpdateOrg/UpdateOrg";
 import { NavLink } from "react-router-dom";
+import aboutStyles from "./aboutStyles";
 
-const useStyles = makeStyles(theme => ({
-	modal: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		borderRadius: "0px !important",
-	},
-}));
+const About = props => {
+  const classes = aboutStyles();
+  const [open, setOpen] = React.useState(false);
 
-export default function About(props) {
-	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-	return (
+  return (
     <Grid item className="card">
       <Grid container className="headerContainer">
         <Grid item xs={9}>
@@ -64,7 +56,7 @@ export default function About(props) {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
-              timeout: 500,
+              timeout: 500
             }}
           >
             <Fade in={open}>
@@ -174,4 +166,6 @@ export default function About(props) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default About;

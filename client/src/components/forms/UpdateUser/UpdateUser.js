@@ -1,82 +1,49 @@
 import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
+import updateFormStyles from "../useStyles/formStyles";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    background: "linear-gradient( 90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 0% )",
-    borderRadius: "0px",
-    boxShadow: "0 3.42857px 23px rgb(0 0 0 / 10%)",
-    padding: "20px",
-  },
-  mgstyle: {
-    marginTop: "5px",
-    marginBottom: "5px",
-  },
-  styleMain: {
-    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-    color: "#ffffff",
-    padding: "15px",
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-
-  styleIcon: {
-    background: "#3f4d67",
-  },
-  imgStyle: {
-		width: "100%",
-		marginTop: "10px",
-		marginBottom: "5px",
-	},
-}));
-export default function UpdateUser(props) {
-	const [userState, userDispatch] = useUserContext();
-	//*Associated with cloudinary
-	const [fileInputState] = useState("");
-	const [previewSource, setPreviewSource] = useState("");
-	const [stateUpdate, setStateUpdate] = useState({
+const UpdateUser = props => {
+  const [userState, userDispatch] = useUserContext();
+  //*Associated with cloudinary
+  const [fileInputState] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
+  const [stateUpdate, setStateUpdate] = useState({
     firstName: "",
     lastname: "",
-    bio: "",
+    bio: ""
   });
 
   const handleChange = function(event) {
     const { name, value } = event.target;
     setStateUpdate({
       ...stateUpdate,
-      [name]: value,
+      [name]: value
     });
   };
 
-	const handleSubmit = async event => {
-		event.preventDefault();
-		const updateUser = {};
+  const handleSubmit = async event => {
+    event.preventDefault();
+    const updateUser = {};
 
-		if (stateUpdate.firstName !== "") {
-			updateUser.firstName = stateUpdate.firstName;
-		}
-		if (stateUpdate.lastname !== "") {
-			updateUser.lastname = stateUpdate.lastname;
-		}
+    if (stateUpdate.firstName !== "") {
+      updateUser.firstName = stateUpdate.firstName;
+    }
+    if (stateUpdate.lastname !== "") {
+      updateUser.lastname = stateUpdate.lastname;
+    }
     if (stateUpdate.bio !== "") {
       updateUser.bio = stateUpdate.bio;
     }
 
-		//*Associated with cloudinary
-		if (previewSource) {
-			updateUser.profileImg = previewSource;
-		}
-		await upDateUser(updateUser);
+    //*Associated with cloudinary
+    if (previewSource) {
+      updateUser.profileImg = previewSource;
+    }
+    await upDateUser(updateUser);
 
     const userInfo = await api.getUser(userState._id);
 
@@ -86,27 +53,27 @@ export default function UpdateUser(props) {
       type: UPDATE_USER,
       payload: {
         ...userInfo.data,
-        loading: false,
-      },
+        loading: false
+      }
     });
 
     props.onClose();
   };
 
   //*Associated with cloudinary
-  const upDateUser = async (update) => {
+  const upDateUser = async update => {
     const updateUser = await api.updateUser(userState._id, update);
     console.log(updateUser);
   };
 
-  const classes = useStyles();
+  const classes = updateFormStyles();
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = e => {
     const file = e.target.files[0];
     previewFile(file);
   };
 
-  const previewFile = (file) => {
+  const previewFile = file => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -170,12 +137,20 @@ export default function UpdateUser(props) {
           fullWidth
           className={classes.mgstyle}
         />
-        <Button type="submit" size="large" className={classes.styleMain} fullWidth>
+        <Button
+          type="submit"
+          size="large"
+          className={classes.styleMain}
+          fullWidth
+        >
           Update
         </Button>
       </form>
-      {previewSource && 
-      <img src={previewSource} alt="chosen" className={classes.imgStyle} />}
+      {previewSource && (
+        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
+      )}
     </Grid>
   );
-}
+};
+
+export default UpdateUser;

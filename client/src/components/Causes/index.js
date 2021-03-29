@@ -1,18 +1,16 @@
 import React from "react";
 import {
-	Typography,
-	Grid,
-	Divider,
-	CardContent,
-	CardMedia,
-	Button,
-	ButtonGroup,
-	Dialog,
-	Fade,
-	Backdrop,
-	TextField,
+  Typography,
+  Grid,
+  Divider,
+  CardContent,
+  CardMedia,
+  Button,
+  ButtonGroup,
+  Dialog,
+  Fade,
+  Backdrop
 } from "@material-ui/core";
-//import CreditCardIcon from "@material-ui/icons/CreditCard";
 import "./style.css";
 import { ThumbUpAlt } from "@material-ui/icons";
 import api from "../../utils/api";
@@ -23,54 +21,55 @@ import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
 import Donate from "../Forms/Donate/Donate";
 import { Link } from "react-router-dom";
 
-export default function Causes(props) {
-	const [userState, userDispatch] = useUserContext();
-	const handleFollow = async id => {
-		if (userState.role === "Organization") {
-			//TODO error message
-			console.log("you are an organization");
-			return;
-		}
+const Causes = props => {
+  const [userState, userDispatch] = useUserContext();
 
-		const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
+  const handleFollow = async id => {
+    if (userState.role === "Organization") {
+      //TODO error message
+      console.log("you are an organization");
+      return;
+    }
 
-		if (checkIfLiked.data) {
-			//TODO error message you like this already
-			console.log("sorry");
-			return;
-		}
+    const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
 
-		await api.updateUserObjectID(userState._id, {
-		causes: id,
-		});
-		const userInfo = await api.getUser(userState._id);
+    if (checkIfLiked.data) {
+      //TODO error message you like this already
+      console.log("sorry");
+      return;
+    }
 
-		await userDispatch({ type: USER_LOADING });
+    await api.updateUserObjectID(userState._id, {
+      causes: id
+    });
+    const userInfo = await api.getUser(userState._id);
 
-		await userDispatch({
-			type: UPDATE_USER,
-			payload: {
-				...userInfo.data,
-				loading: false,
-			},
-		});
-	};
+    await userDispatch({ type: USER_LOADING });
 
-	useAuthTokenStore();
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false
+      }
+    });
+  };
 
-	const isAuth = useIsAuthenticated();
+  useAuthTokenStore();
 
-	const [open, setOpen] = React.useState(false);
+  const isAuth = useIsAuthenticated();
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+  const [open, setOpen] = React.useState(false);
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-	return (
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
     <Grid item className="card">
       <Grid container className="headerContainer">
         <Grid item xs={9}>
@@ -80,13 +79,16 @@ export default function Causes(props) {
         </Grid>
       </Grid>
       <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Org:</span>
-          <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
-        </Typography>
+        <span className="authorStyle"> Org:</span>
+        <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
+      </Typography>
       <Divider />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
-          <CardMedia className={"media"} image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`} />
+          <CardMedia
+            className={"media"}
+            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+          />
         </Grid>
         <Divider />
         <Grid item xs={12}>
@@ -126,15 +128,17 @@ export default function Causes(props) {
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
-            timeout: 500,
+            timeout: 500
           }}
           fullWidth
         >
           <Fade in={open}>
-            <Donate onClose={handleClose} cause={props.id}/>
+            <Donate onClose={handleClose} cause={props.id} />
           </Fade>
         </Dialog>
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Causes;
