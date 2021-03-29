@@ -24,7 +24,8 @@ const useFooterStyles = makeStyles({
     zIndex: "1",
     color: "#ed4b82 !important",
     textAlign: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    flexFlow: "wrap"
   }
 });
 
