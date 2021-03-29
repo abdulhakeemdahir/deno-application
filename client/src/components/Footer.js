@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 		color: "#ed4b82 !important",
 		textAlign: "center",
 		justifyContent: "center",
+		flexWrap: "wrap",
 	},
 });
 export default function Footer() {
