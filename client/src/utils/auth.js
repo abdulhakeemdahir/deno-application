@@ -4,21 +4,23 @@ import jwt_decode from "jwt-decode";
 import api from "./api";
 import { useStoreContext } from "./GlobalStates/AuthStore";
 import { LOGIN_USER, LOGOUT_USER } from "./GlobalStates/AuthStore/actions";
+import { useUserContext } from "./GlobalStates/UserContext";
+import { UPDATE_USER, USER_LOADING } from "./actions/actions";
 
-const setAuthToken = (token) => {
+const setAuthToken = token => {
   storeAuthToken(token);
   applyAuthToken(token);
 
   return token ? jwt_decode(token) : undefined;
 };
 
-const storeAuthToken = (token) => {
+const storeAuthToken = token => {
   token
     ? localStorage.setItem("jwtToken", token)
     : localStorage.removeItem("jwtToken");
 };
 
-const applyAuthToken = (token) => {
+const applyAuthToken = token => {
   token
     ? // Apply authorization token to every request if logged in
       api.setHeader("Authorization", token)
@@ -85,8 +87,8 @@ export const useAuthTokenStore = () => {
 export const useIsAuthenticated = () => {
   const [
     {
-      userAuth: { token },
-    },
+      userAuth: { token }
+    }
   ] = useStoreContext();
 
   return token && token.exp > Date.now() / 1000;
@@ -95,8 +97,8 @@ export const useIsAuthenticated = () => {
 export const useAuthenticatedUser = () => {
   const [
     {
-      userAuth: { user },
-    },
+      userAuth: { user }
+    }
   ] = useStoreContext();
 
   return user;
@@ -105,9 +107,9 @@ export const useAuthenticatedUser = () => {
 export const useLogin = () => {
   const [, dispatch] = useStoreContext();
 
-  return async (credentials) => {
+  return async credentials => {
     const {
-      data: { token: tokenString, user },
+      data: { token: tokenString, user }
     } = await api.login(credentials);
 
     const token = setAuthToken(tokenString);
@@ -120,9 +122,43 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const [, dispatch] = useStoreContext();
+  const [, userDispatch] = useUserContext();
 
-  return () => {
+  return async () => {
     setAuthToken(false);
+    userDispatch({
+      type: USER_LOADING,
+      payload: {
+        loading: true
+      }
+    });
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        _id: 0,
+        //from user.js in models
+        firstName: "",
+        lastname: "",
+        username: "",
+        email: "",
+        password: "",
+        bio: "",
+        uuid: "",
+        role: "",
+        verified: false,
+        following: [],
+        followers: [],
+        posts: [],
+        causes: [],
+        profileImg: "",
+        bannerImg: "",
+        orgName: "",
+        phoneNumber: "",
+        website: "",
+        address: "",
+        loading: false
+      }
+    });
     dispatch({ type: LOGOUT_USER });
   };
 };
