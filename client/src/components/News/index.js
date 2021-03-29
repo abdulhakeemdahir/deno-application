@@ -14,6 +14,7 @@ import useNewsStyles from "./useNewsStyles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
+import { Link } from "react-router-dom";
 
 // Create the component function and export for use
 const News = props => {
@@ -33,7 +34,10 @@ const News = props => {
           </Grid>
         </Grid>
         <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span> {props.author}
+          <span className="authorStyle"> Author:</span>
+          <Link to={ `/dashboard/${props.authorId}`}>
+            {props.author}
+          </Link>
         </Typography>
         <Divider />
         <Grid container direction="row" spacing={1}>
@@ -67,7 +71,7 @@ const News = props => {
               </Typography>
             </AccordionSummary>
             <Grid className="cardComment">
-              {props.comments.map(card => (
+              {props.comments.map((card) => (
                 <AccordionDetails>
                   <Grid container xs={12} className={classes.gridStyle}>
                     <Grid item xs={4}>

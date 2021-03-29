@@ -19,6 +19,7 @@ import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
 import Donate from "../Forms/Donate";
+import { Link } from "react-router-dom";
 
 //Create the component function and export for use
 const Causes = props => {
@@ -76,9 +77,20 @@ const Causes = props => {
         </Grid>
       </Grid>
       <Divider />
+      <Typography variant="body2" color="textSecondary" component="p">
+        <span className="authorStyle"> Org:</span>
+        <Link
+          to={`/dashboard/${props.causeId}`}
+        >
+          {props.author}
+        </Link>
+      </Typography>
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
-          <CardMedia className={"media"} image={props.image} />
+          <CardMedia
+            className={"media"}
+            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+          />
         </Grid>
         <Divider />
         <Grid item xs={12}>
@@ -118,7 +130,7 @@ const Causes = props => {
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
-            timeout: 500
+            timeout: 500,
           }}
           fullWidth
         >

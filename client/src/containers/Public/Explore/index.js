@@ -157,7 +157,7 @@ const Explore = () => {
 												key={card._id}
 												id={card._id}
 												title={card.title}
-												author={card.author.firstName}
+												author={card.author.username}
 												link={card.url}
 												image={card.imageUrl}
 												post={card.content}
@@ -171,18 +171,18 @@ const Explore = () => {
 									<Typography variant='subtitle2'>CAUSES</Typography>
 									{causeState.causes.map(card => {
 										return (
-											<Causes
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-												comments={card.comments}
-											/>
-										);
+                      <Causes
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                      />
+                    );
 									})}
 								</Grid>
 							</Grid>
@@ -202,18 +202,18 @@ const Explore = () => {
 								<Grid item xs={12}>
 									{postState.posts.map(card => {
 										return (
-											<News
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-												comments={card.comments}
-											/>
-										);
+                      <News
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.username}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                        comments={card.comments}
+                      />
+                    );
 									})}
 								</Grid>
 							</TabPanel>
@@ -233,17 +233,18 @@ const Explore = () => {
 								<Grid item xs={12}>
 									{causeState.causes.map(card => {
 										return (
-											<Causes
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-											/>
-										);
+                      <Causes
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                      />
+                    );
 									})}
 								</Grid>
 							</TabPanel>
