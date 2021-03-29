@@ -1,10 +1,10 @@
-// Import all relevant packages and components
 import { makeStyles } from "@material-ui/core/styles";
-import Image from "../images/splash.jpg";
+// import Image from "../images/splash2.jpg";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// Create a useStyles Material UI component for styling
+
 const useStyles = makeStyles({
   gradientStyle: {
+    backgroundColor: "rgb(0, 212, 255)",
     bottom: "0px",
     position: "fixed",
     height: "100%",
@@ -19,7 +19,7 @@ const Splash = () => {
   return (
     <CssBaseline>
       <div className={classes.gradientStyle}>
-        <img src={Image} alt="forest" className={classes.gradientStyle} />
+        <img src={Image} alt="forest" />
       </div>
     </CssBaseline>
   );
