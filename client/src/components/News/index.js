@@ -1,5 +1,5 @@
+// Import all relevant packages and components
 import React from "react";
-
 import {
 	Typography,
 	Grid,
@@ -11,11 +11,11 @@ import {
 	AccordionDetails,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import "./style.css";
-
+import { Link } from "react-router-dom";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	shadow: {
 		boxShadow: "none",
-		// background: "#f7f7f7",
 		borderRadius: "0px !important",
 		width: "100%",
 	},
@@ -40,23 +39,21 @@ const useStyles = makeStyles(theme => ({
 		borderBottom: "1px dashed #e7e7e7",
 		paddingBottom: "2px",
 	},
-	selectEmpty: {
-		// marginTop: theme.spacing(2),
-	},
+	selectEmpty: {},
 	styleMain: {
 		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
 		color: "#ffffff",
 		padding: "15px",
-		// marginTop: "10px",
 		borderRadius: "0px",
 	},
-	inputMargin: {
-		// margin: "5px",
-	},
 }));
-
+// Create the component function and export for use
 export default function News(props) {
+	// Call the styles function
 	const classes = useStyles();
+	// Destructure State and Dispatch from Context
+	const [userState] = useUserContext();
+	// Create the JSX for the component
 	return (
 		<>
 			<Grid item className='card' xs={12}>
@@ -73,7 +70,10 @@ export default function News(props) {
 				<Divider />
 				<Grid container direction='row' spacing={1}>
 					<Grid item xs={12} sm={4}>
-						<CardMedia className={"media"} image={props.image} />
+						<CardMedia
+							className={"media"}
+							image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+						/>
 					</Grid>
 					<Grid item xs={12} sm={8}>
 						<CardContent>
@@ -108,7 +108,7 @@ export default function News(props) {
 												color='textSecondary'
 												component='p'
 											>
-												{card.user.firstName}
+												{card.user.username}
 											</Typography>
 										</Grid>
 										<Grid item xs={8}>

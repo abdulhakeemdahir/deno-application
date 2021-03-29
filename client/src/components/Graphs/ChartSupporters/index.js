@@ -1,17 +1,22 @@
+// Import all relevant packages and components
 import React from "react";
 import { Line } from "react-chartjs-2";
-
-import { Typography, Grid, Divider, CardContent } from "@material-ui/core";
-
+import { Typography, Grid, Divider } from "@material-ui/core";
 import "./style.css";
-
+// Create the component function and export for use
 export default function ChartSupporters(props) {
+	// Create the JSX for the component
 	return (
 		<>
 			<Grid item className='card' xs={12}>
 				<Grid container className='headerContainer'>
 					<Grid item xs={9} sm={10}>
-						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+						<Typography
+							variant='subtitle1'
+							style={{
+								fontWeight: "bold",
+							}}
+						>
 							{props.title}
 						</Typography>
 					</Grid>

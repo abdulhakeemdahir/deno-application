@@ -1,108 +1,74 @@
+// Import all relevant packages and components
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
-
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
 import Nav from "../../components/Navigation/index";
-// import defaultPic from "../../images/dp.png";
 import Dolphin from "../../images/dolphin.jpeg";
 import NGO from "../../images/ngo.png";
-
 import Gradient from "../../components/Gradient";
 import About from "../../components/About";
 import Footer from "../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../utils";
-// import Splash from "../../components/Splash2";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import {
+	ADD_GUESS_USER,
 	GET_USER_INFO,
+	USER_GUESS_LOADING,
 	USER_LOADING,
-	//What about USER_LOADED?
 } from "../../utils/actions/actions";
 import API from "../../utils/api";
 import SingleNews from "../../components/SingleNews";
-
+import { useHistory, useParams } from "react-router";
+import { useGuessContext } from "../../utils/GlobalStates/GuessContext";
+// Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-
-// const useStyles = makeStyles(theme => ({}));
-
+// Create the component function and export for use
 const SinglePost = () => {
-	const [userState, userDispatch] = useUserContext();
-
-	//Read
-	const getUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const userInfo = await API.getUser(id);
-		userDispatch({
-			type: GET_USER_INFO,
-			payload: {
-				...userInfo,
-				loading: false,
-			},
-		});
-	};
-
+	// Destructure guessState and guessDispatch from Context
+	const [guessState, guessDispatch] = useGuessContext();
+	// Create the set and setState from useState
+	const [singleState, SingleStateDispatch] = useState({});
+	// Get ID from useParams
+	const { id } = useParams();
+	// Call useHistory function
+	const history = useHistory();
+	// Get all user Data
 	useEffect(() => {
-		getUserInfo();
+		async function fetchUserInfo() {
+			const singlePost = await API.findUserPosts(id);
+			if (!userInfo) {
+				history.push("/404");
+			}
+			const userInfo = await API.getUser(userInfo.author._id);
+			await guessDispatch({
+				type: USER_GUESS_LOADING,
+			});
+			await guessDispatch({
+				type: ADD_GUESS_USER,
+				payload: {
+					...userInfo.data,
+					loading: false,
+				},
+			});
+		}
+		fetchUserInfo();
 	}, []);
-
-	const [aboutState] = useState([
-		{
-			title: "Elephant Helpers",
-			name: "Abdul",
-			url: "#",
-			thumbnail: NGO,
-			bio:
-				"We need to save the Elephant! They are the humans of the Savanah! Plus, they were in the Lion King!",
-			followers: "5000",
-			website: "google.com",
-			address: "123 45th St, Seattle, WA 98188",
-			phone: "206--677-9090",
-			email: "elephant@gmail.com",
-		},
-	]);
-	const [newsState] = useState([
-		{
-			title: "Dolphins Preservation",
-			author: "Abdul",
-			url: "#",
-			thumbnail: Dolphin,
-			post:
-				"We need to save the dolphins! They are the humans of the Oceans! Plus, they were on Baywatch!",
-			hashTag: "Save the Dolphins",
-			comments: [
-				{
-					author: "Jake",
-					post: "This is a test comment",
-				},
-				{
-					author: "Bobby",
-					post: "This is a test comment",
-				},
-				{
-					author: "Drake",
-					post: "This is a test comment",
-				},
-			],
-		},
-	]);
-
-	// const classes = useStyles();
+	// Create the set and setState from useState
 	const [value, setValue] = React.useState(0);
-
+	// Create the handleChange function
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	// Call the Window Width Function
 	const { width } = useWindowDimensions();
+	// Create the JSX for the component
 	return (
 		<div className='Main'>
 			<CssBaseline>
@@ -121,7 +87,7 @@ const SinglePost = () => {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>
-									{aboutState.map(card => (
+									{/* {aboutState.map(card => (
 										<About
 											title={card.title}
 											name={card.name}
@@ -134,11 +100,11 @@ const SinglePost = () => {
 											phone={card.phone}
 											email={card.email}
 										/>
-									))}
+									))} */}
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									{newsState.map(card => (
+									{/* {newsState.map(card => (
 										<SingleNews
 											title={card.title}
 											author={card.author}
@@ -148,7 +114,7 @@ const SinglePost = () => {
 											hashTag={card.hashTag}
 											comments={card.comments}
 										/>
-									))}
+									))} */}
 								</Grid>
 							</Grid>
 						</>
@@ -164,7 +130,7 @@ const SinglePost = () => {
 							</Tabs>
 							<TabPanel value={value} index={0}>
 								<Grid item xs={12}>
-									{newsState.map(card => (
+									{/* {newsState.map(card => (
 										<SingleNews
 											title={card.title}
 											author={card.author}
@@ -174,12 +140,12 @@ const SinglePost = () => {
 											hashTag={card.hashTag}
 											comments={card.comments}
 										/>
-									))}
+									))} */}
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={1}>
 								<Grid item xs={12}>
-									{aboutState.map(card => (
+									{/* {aboutState.map(card => (
 										<About
 											title={card.title}
 											name={card.name}
@@ -192,7 +158,7 @@ const SinglePost = () => {
 											phone={card.phone}
 											email={card.email}
 										/>
-									))}
+									))} */}
 								</Grid>
 							</TabPanel>
 						</>

@@ -1,4 +1,5 @@
 const { User } = require("../models");
+//const { Organization } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
 
 const cloudinary = require("../../utils/cloudinary");
@@ -16,17 +17,17 @@ module.exports = {
     try {
       const user = await User.findById(req.params.id)
         .select(
-          "firstName lastname username email role profileImg bannerImg following followers posts bio causes"
+          "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName"
         )
         .populate([
           {
             path: "following",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
             path: "followers",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
@@ -36,12 +37,12 @@ module.exports = {
             populate: [
               {
                 path: "author",
-                select: "firstName",
+                select: "firstName username",
                 model: "User"
               },
               {
                 path: "likes",
-                select: "firstName",
+                select: "username",
                 model: "User"
               },
               {
@@ -55,7 +56,7 @@ module.exports = {
                 populate: [
                   {
                     path: "user",
-                    select: "firstName",
+                    select: "username",
                     model: "User"
                   }
                 ]
@@ -69,12 +70,12 @@ module.exports = {
             populate: [
               {
                 path: "author",
-                select: "firstName",
+                select: "username",
                 model: "User"
               },
               {
                 path: "likes",
-                select: "firstName",
+                select: "username",
                 model: "User"
               }
             ]
@@ -110,82 +111,47 @@ module.exports = {
   updateUser: async (req, res) => {
     console.log(req.params.id);
     try {
-      const {
-        // firstName,
-        // email,
-        password,
-        // username,
-        // lastname,
-        // posts,
-        // causes,
-        profileImg
-        // bannerImg,
-        // bio,
-        // orgName,
-        // phoneNumber,
-        // address,
-        // website
-      } = req.body;
-      const updateUser = {};
-      // if (firstName) {
-      //   updateUser.firstName = firstName;
-      // }
-      // if (email) {
-      //   updateUser.email = email;
-      // }
-      // if (bio) {
-      //   updateUser.bio = bio;
-      // }
+      const { password, profileImg } = req.body;
+      const updateUser = req.body;
+
       if (password) {
         updateUser.password = await createPassword(password);
       }
-      // if (username) {
-      //   updateUser.username = username;
-      // }
-      // if (lastname) {
-      //   updateUser.lastname = lastname;
-      // }
-      // if (posts) {
-      //   updateUser.posts = posts;
-      // }
-      // if (causes) {
-      //   updateUser.causes = causes;
-      // }
+
       if (profileImg) {
         const result = await cloudinary.uploader.upload_large(profileImg, {
           // eslint-disable-next-line camelcase
           upload_preset: "dev_setup"
         });
-        updateUser.profileImg = result.public_id;
+        updateUser.profileImg = result.public_id.toString();
       }
-      // if (bannerImg) {
-      //   updateUser.bannerImg = bannerImg;
-      // }
-      // if (orgName) {
-      //   updateUser.orgName = orgName;
-      // }
-      // if (phoneNumber) {
-      //   updateUser.phoneNumber = phoneNumber;
-      // }
-      // if (website) {
-      //   updateUser.website = website;
-      // }
-      // if (address) {
-      //   updateUser.address = address;
-      // }
-      console.log(updateUser);
-      const foundUser = await User.findByIdAndUpdate(
+      const id = { _id: req.params.id };
+      const set = { $set: updateUser };
+      const validator = { new: true, runValidators: true };
+
+      const foundUser = await User.findOneAndUpdate(id, set, validator);
+
+      return res.status(200).json(foundUser.firstName);
+    } catch (err) {
+      console.log(err);
+      res.status(422).json(err);
+    }
+  },
+  updateUserObjectID: async (req, res) => {
+    console.log(req.body);
+    console.log(req.params.id);
+    try {
+      const postModel = await User.findByIdAndUpdate(
         req.params.id,
         {
-          updateUser
+          $push: req.body
         },
 
         { new: true, runValidators: true }
       );
-      console.log(foundUser);
-      res.status(200).json(foundUser);
+      console.log(postModel);
+      res.status(200).json(postModel);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },

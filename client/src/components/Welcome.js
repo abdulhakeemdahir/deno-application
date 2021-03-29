@@ -1,15 +1,9 @@
-import {
-	Typography,
-	Grid,
-	Button,
-	ButtonGroup,
-	ListItem,
-} from "@material-ui/core";
+// Import all relevant packages and components
+import { Typography, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-
 import Logo from "../images/logo@2x.png";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	paper: {
 		background:
@@ -48,12 +42,21 @@ const useStyles = makeStyles({
 		textDecoration: "none !important",
 	},
 });
+// Create the component function and export for use
 export default function Welcome() {
+	// Call the styles function
 	const classes = useStyles();
-
+	// Create the JSX for the component
 	return (
 		<Grid item align='center'>
-			<img src={Logo} alt='logo' style={{ height: "50px", width: "auto" }} />
+			<img
+				src={Logo}
+				alt='logo'
+				style={{
+					height: "50px",
+					width: "auto",
+				}}
+			/>
 			<Typography variant='h3' color='primary' style={{ fontWeight: "100" }}>
 				Welcome to Dono
 			</Typography>

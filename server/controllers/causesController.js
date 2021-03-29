@@ -1,5 +1,6 @@
 const { Cause } = require("../models");
 const { User } = require("../models");
+const cloudinary = require("../../utils/cloudinary");
 
 module.exports = {
   getAllCause: async (req, res) => {
@@ -10,7 +11,7 @@ module.exports = {
         .populate([
           {
             path: "author",
-            select: "firstName",
+            select: "username orgName",
             model: "User"
           },
           {
@@ -43,6 +44,7 @@ module.exports = {
           path: "likes",
           populate: {
             path: "user",
+            select: "firstName",
             model: "User"
           }
         })
@@ -54,12 +56,20 @@ module.exports = {
   },
   create: async ({ body }, res) => {
     const { title, content, imageUrl, author } = body;
-
+    console.log(title, content, imageUrl, author);
     try {
+      let img = "";
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        img = result.public_id;
+      }
       const causeModel = await Cause.create({
         title,
         content,
-        imageUrl,
+        imageUrl: img,
         author
       });
       res.status(201).json(causeModel);
@@ -68,13 +78,27 @@ module.exports = {
     }
   },
   update: async (req, res) => {
+    const { imageUrl } = req.body;
+    const upDateCause = req.body;
     try {
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        upDateCause.imageUrl = result.public_id;
+      }
+      console.log(upDateCause);
       const causeModel = await Cause.findByIdAndUpdate(
-        { username: req.params.username },
-        req.body
+        req.params.id,
+        {
+          $set: upDateCause
+        },
+        { new: true, runValidators: true }
       );
       res.status(200).json(causeModel);
     } catch (err) {
+      console.log(err);
       res.status(422).json(err);
     }
   },

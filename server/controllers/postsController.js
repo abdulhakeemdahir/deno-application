@@ -1,10 +1,37 @@
 const { Post } = require("../models");
 // const { populate } = require("../models/cause");
 
+const cloudinary = require("../../utils/cloudinary");
+
 module.exports = {
   findUserPosts: async (req, res) => {
     try {
-      const postModel = await Post.findById(req.query).sort({ date: -1 });
+      const postModel = await Post.findById(req.params.id).populate([
+        {
+          path: "author",
+          select: "username",
+          model: "User"
+        },
+        {
+          path: "hashtags",
+          model: "Hashtag"
+        },
+        {
+          path: "likes",
+          select: "username",
+          model: "User"
+        },
+        {
+          path: "comments",
+          model: "Comment",
+          options: { sort: { date: -1 } },
+          populate: {
+            path: "user",
+            select: "username",
+            model: "User"
+          }
+        }
+      ]);
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -13,21 +40,19 @@ module.exports = {
   create: async ({ body }, res) => {
     const { title, content, imageUrl, author, hashtags } = body;
     try {
-      //*CLOUD BEG
-      //Create post body with form data and cloudinary secure_url and public_id
-      const value = {
-        body,
-        image: result.secure_url,
-        // eslint-disable-next-line camelcase
-        cloudinary_id: result.public_id
-      };
-      const model = await db.Post.create(value);
-      res.json(model);
-      //*CLOUD END
+      let img = "";
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        img = result.public_id;
+      }
+
       const postModel = await Post.create({
         title,
         content,
-        imageUrl,
+        imageUrl: img,
         author,
         hashtags
       });
@@ -38,12 +63,22 @@ module.exports = {
     }
   },
   update: async (req, res) => {
-    const body = req.body;
+    const { imageUrl } = req.body;
+    const upDatePost = req.body;
     try {
+      if (imageUrl) {
+        const result = await cloudinary.uploader.upload_large(imageUrl, {
+          // eslint-disable-next-line camelcase
+          upload_preset: "dev_setup"
+        });
+        upDatePost.imageUrl = result.public_id;
+      }
+
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
-        { body },
-
+        {
+          $set: upDatePost
+        },
         { new: true, runValidators: true }
       );
 
@@ -53,7 +88,6 @@ module.exports = {
     }
   },
   updateObjectID: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,
@@ -85,7 +119,7 @@ module.exports = {
         .populate([
           {
             path: "author",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
@@ -94,7 +128,7 @@ module.exports = {
           },
           {
             path: "likes",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
@@ -103,7 +137,7 @@ module.exports = {
             options: { sort: { date: -1 } },
             populate: {
               path: "user",
-              select: "firstName",
+              select: "username",
               model: "User"
             }
           }
@@ -116,7 +150,6 @@ module.exports = {
     }
   },
   removeliked: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await Post.findByIdAndUpdate(
         req.params.id,

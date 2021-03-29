@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useState } from "react";
 import {
 	Typography,
@@ -8,16 +9,13 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
-
 import FormOrgDetails1 from "./OrgInfo/FormOrgDetails1.js";
 import FormOrgDetails2 from "./OrgInfo/FormOrgDetails2.js";
 import FormOrgConfirm from "./OrgInfo/FormOrgConfirm.js";
 import { ThumbUp } from "@material-ui/icons";
 import { useHistory } from "react-router";
-
 import api from "../../utils/api";
-//import { useHistory } from "react-router";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
@@ -47,24 +45,27 @@ const useStyles = makeStyles(theme => ({
 		background: "#3f4d67",
 	},
 }));
+// Create the component function and export for use
 export default function SignUpOrg() {
+	// Create the set and setState from useState
 	const [stateForm, setStateForm] = useState({
 		step: 1,
 	});
-
+	// Create the nextStep function
 	const nextStep = () => {
 		const { step } = stateForm;
 		setStateForm({
 			step: step + 1,
 		});
 	};
+	// Create the previousStep function
 	const previousStep = () => {
 		const { step } = stateForm;
 		setStateForm({
 			step: step - 1,
 		});
 	};
-
+	// Create the set and setState from useState
 	const [stateSignUp, setStateSignUp] = useState({
 		email: "",
 		emailError: "",
@@ -76,14 +77,13 @@ export default function SignUpOrg() {
 		firstNameError: "",
 		lastname: "",
 		lastnameError: "",
-		orgname: "",
+		orgName: "",
 		orgnameError: "",
 		response: "",
 		role: "Organization",
 		bio: "",
 		thumbnail: "",
 	});
-
 	// Validate e-mail
 	const validateEmail = () => {
 		let isError = false;
@@ -106,7 +106,6 @@ export default function SignUpOrg() {
 			});
 		}
 	};
-
 	//Validate password to make sure it has 1 letter 1 name and minimum 8 characters
 	const validatePassword = () => {
 		let isError = false;
@@ -130,18 +129,15 @@ export default function SignUpOrg() {
 			});
 		}
 	};
-
 	// Form validation for inputs to be more than 6 characters
 	const validate = event => {
 		const { name, value } = event.target;
-		console.log(name);
 		let isError = false;
 		const errors = {};
 		if (value.length < 1) {
 			isError = true;
 			errors[`${name}Error`] = "Input cannot be empty";
 		}
-		console.log(value.length);
 		if (isError) {
 			setStateSignUp({
 				...stateSignUp,
@@ -155,10 +151,9 @@ export default function SignUpOrg() {
 				...errors,
 			});
 		}
-
 		return isError;
 	};
-
+	// Create the handleChange function
 	const handleChange = function(event) {
 		const { name, value } = event.target;
 		setStateSignUp({
@@ -166,9 +161,9 @@ export default function SignUpOrg() {
 			[name]: value,
 		});
 	};
-
+	// Call useHistory
 	const history = useHistory();
-
+	// Create the handleSubmit function
 	const handleSubmit = async () => {
 		//event.preventDefault();
 		try {
@@ -187,7 +182,7 @@ export default function SignUpOrg() {
 			if (err.response && err.response.data) console.log(err.response.data);
 		}
 	};
-
+	// Call the styles function
 	const classes = useStyles();
 	const { step } = stateForm;
 	const {
@@ -224,7 +219,7 @@ export default function SignUpOrg() {
 		usernameError,
 		passwordError,
 	};
-
+	// Create a Switch Case for the different JSX components
 	switch (step) {
 		case 1:
 			return (

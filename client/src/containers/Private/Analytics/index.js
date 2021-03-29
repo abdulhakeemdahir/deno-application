@@ -1,15 +1,11 @@
-import React, { useState } from "react";
-import { Typography, Grid, CssBaseline } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
+// Import all relevant packages and components
+import React, { useEffect } from "react";
+import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 import "./style.css";
-
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
 import Nav from "../../../components/Navigation";
-import NGO from "../../../images/ngo.png";
-
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
@@ -19,36 +15,59 @@ import ChartFollowAndSupport from "../../../components/Graphs/ChartFollowAndSupp
 import ChartCausesCreated from "../../../components/Graphs/ChartCausesCreated";
 import ChartCausesSupported from "../../../components/Graphs/ChartCausesSupported";
 import About from "../../../components/About";
-
+import { Image } from "cloudinary-react";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import {
+	UPDATE_USER,
+	USER_LOADING,
+	//What about USER_LOADED?
+} from "../../../utils/actions/actions";
+import api from "../../../utils/api";
+import { NavLink } from "react-router-dom";
+// Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-
+// Create the component function and export for use
 const Analytics = () => {
-	const [aboutState] = useState([
-		{
-			title: "Elephant Helpers",
-			name: "Abdul",
-			url: "#",
-			thumbnail: NGO,
-			bio:
-				"We need to save the Elephant! They are the humans of the Savanah! Plus, they were in the Lion King!",
-			followers: "5000",
-			website: "google.com",
-			address: "123 45th St, Seattle, WA 98188",
-			phone: "206--677-9090",
-			email: "elephant@gmail.com",
-		},
-	]);
-	const [value, setValue] = React.useState(0);
+	// Destructure State and Dispatch from Context
+	const [userState, userDispatch] = useUserContext();
+	// Get user Data
+	useEffect(() => {
+		async function fetchUserInfo() {
+			console.log(userState.posts.length === 0);
+			try {
+				const userInfo = await api.getUser(userState._id);
 
+				// console.log(userInfo.data);
+
+				await userDispatch({ type: USER_LOADING });
+
+				await userDispatch({
+					type: UPDATE_USER,
+					payload: {
+						...userInfo.data,
+						loading: false,
+					},
+				});
+			} catch (err) {
+				console.log(err);
+			}
+		}
+
+		fetchUserInfo();
+	}, []);
+	// Create the set and setState from useState
+	const [value, setValue] = React.useState(0);
+	// Create the handleChange function
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	// Call the Window Width function
 	const { width } = useWindowDimensions();
+	// Create the JSX for the component
 	return (
 		<div className='Main'>
 			<CssBaseline>
@@ -64,23 +83,31 @@ const Analytics = () => {
 				>
 					{width > 600 ? (
 						<>
+							<Breadcrumbs style={{ position: "absolute" }}>
+								<NavLink to='newsfeed'>Home</NavLink>
+								<Typography color='textSecondary'>Analytics</Typography>
+							</Breadcrumbs>
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>ABOUT</Typography>
-									{aboutState.map(card => (
-										<About
-											title={card.title}
-											name={card.name}
-											link={card.url}
-											image={card.thumbnail}
-											bio={card.bio}
-											followers={card.followers}
-											website={card.website}
-											address={card.address}
-											phone={card.phone}
-											email={card.email}
-										/>
-									))}
+
+									<About
+										key={userState._id}
+										id={userState._id}
+										bio={userState.bio}
+										firstName={userState.firstName}
+										lastname={userState.lastname}
+										username={userState.username}
+										email={userState.email}
+										role={userState.role}
+										verified={userState.verified}
+										following={userState.following.length}
+										followers={userState.followers.length}
+										posts={userState.posts}
+										causes={userState.causes}
+										profileImg={userState.profileImg}
+										bannerImg={userState.bannerImg}
+									/>
 								</Grid>
 								<Grid item xs={12} sm={6} className='card-container'>
 									<Typography variant='subtitle2'>ENGAGEMENT</Typography>
@@ -115,20 +142,23 @@ const Analytics = () => {
 							</TabPanel>
 							<TabPanel value={value} index={1}>
 								<Grid container xs={12}>
-									{aboutState.map(card => (
-										<About
-											title={card.title}
-											name={card.name}
-											link={card.url}
-											image={card.thumbnail}
-											bio={card.bio}
-											followers={card.followers}
-											website={card.website}
-											address={card.address}
-											phone={card.phone}
-											email={card.email}
-										/>
-									))}
+									<About
+										key={userState._id}
+										id={userState._id}
+										bio={userState.bio}
+										firstName={userState.firstName}
+										lastname={userState.lastname}
+										username={userState.username}
+										email={userState.email}
+										role={userState.role}
+										verified={userState.verified}
+										following={userState.following.length}
+										followers={userState.followers.length}
+										posts={userState.posts}
+										causes={userState.causes}
+										profileImg={userState.profileImg}
+										bannerImg={userState.bannerImg}
+									/>
 								</Grid>
 							</TabPanel>
 							<TabPanel value={value} index={2}>

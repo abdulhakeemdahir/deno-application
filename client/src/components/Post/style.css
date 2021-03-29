@@ -21,3 +21,8 @@
 .MuiFilledInput-root {
 	background-color: rgba(29, 196, 233, 0.1) !important;
 }
+
+.postBackground {
+	background-color: rgba(29, 196, 233, 0.1) !important;
+	margin: 10px 0px !important;
+}

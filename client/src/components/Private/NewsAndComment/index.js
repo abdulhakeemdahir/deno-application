@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useEffect, useState } from "react";
 import {
 	Typography,
@@ -15,7 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
-import { CompassCalibrationOutlined, Favorite } from "@material-ui/icons";
+import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
@@ -23,7 +24,7 @@ import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
 import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -35,7 +36,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	shadow: {
 		boxShadow: "none",
-		// background: "#F7F7F7",
 		borderRadius: "0px !important",
 		width: "100%",
 	},
@@ -48,35 +48,29 @@ const useStyles = makeStyles(theme => ({
 		borderBottom: "1px dashed #E7E7E7",
 		paddingBottom: "2px",
 	},
-	selectEmpty: {
-		// marginTop: theme.spacing(2),
-	},
+	selectEmpty: {},
 	styleMain: {
 		background: "linear-gradient(-135deg,#1DE9B6,#1DC4E9)",
 		color: "#FFFFFF",
 		padding: "15px",
-		// marginTop: "10px",
 		borderRadius: "0px",
 	},
-	inputMargin: {
-		// margin: "5px",
-	},
 }));
-export default function NewsAndComment(props) {
+// Create the component function and export for use
+const NewsAndComment = props => {
+	// Call the styles function
 	const classes = useStyles();
-
+	// Destructure State and Dispatch from Context
 	const [, postDispatch] = usePostContext();
-
+	// Destructure State and Dispatch from Context
 	const [userState] = useUserContext();
-
-	const [, setOpen] = useState(false);
-
+	// Create the set and setState from useState
 	const [commentState, setCommentState] = useState({
 		content: "",
 	});
-
+	// Call useSocket function
 	const socket = useSocket();
-
+	// Create the handleChange function
 	const handleChange = function(event) {
 		const { name, value } = event.target;
 		setCommentState({
@@ -84,7 +78,7 @@ export default function NewsAndComment(props) {
 			[name]: value,
 		});
 	};
-
+	// Create the handleSubmit function
 	const handleSubmit = async id => {
 		try {
 			const comment = {
@@ -92,15 +86,14 @@ export default function NewsAndComment(props) {
 				user: userState._id,
 				post: id,
 			};
-
 			const { data } = await api.createComments(comment);
-
-			await api.updateObjectID(id, { comments: data._id });
-
+			await api.updateObjectID(id, {
+				comments: data._id,
+			});
 			const postInfo = await api.getAllPost();
-
-			await postDispatch({ type: POST_LOADING });
-
+			await postDispatch({
+				type: POST_LOADING,
+			});
 			await postDispatch({
 				type: ADD_POST,
 				payload: {
@@ -108,44 +101,34 @@ export default function NewsAndComment(props) {
 					loading: false,
 				},
 			});
-
 			const payload = { isPost: true };
 
 			socket.emit("send-message", payload);
 			clearState();
 		} catch (err) {}
 	};
-
+	// Create the clearState function
 	const clearState = () => {
 		setCommentState({
 			content: "",
 		});
 		return;
 	};
-
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const [like, setLike] = React.useState(false);
-
+	// Create the handleLike function
 	const handleLike = async id => {
 		const found = props.liked.find(l => l._id === userState._id);
 		console.log(found);
 		if (found) {
-			await api.removeliked(id, { likes: userState._id });
+			await api.removeliked(id, {
+				likes: userState._id,
+			});
 		} else {
-			await api.updateObjectID(id, { likes: userState._id });
-			//   return true
+			await api.updateObjectID(id, {
+				likes: userState._id,
+			});
 		}
-
 		const postInfo = await api.getAllPost();
-
 		await postDispatch({ type: POST_LOADING });
-
 		await postDispatch({
 			type: ADD_POST,
 			payload: {
@@ -154,11 +137,11 @@ export default function NewsAndComment(props) {
 			},
 		});
 	};
-
 	useEffect(() => {
 		const updatePosts = async posts => {
-			console.log(posts);
-			await postDispatch({ type: POST_LOADING });
+			await postDispatch({
+				type: POST_LOADING,
+			});
 
 			await postDispatch({
 				type: ADD_POST,
@@ -168,12 +151,10 @@ export default function NewsAndComment(props) {
 				},
 			});
 		};
-
 		socket.on("update-post", updatePosts);
-
 		return () => socket.off("update-post");
 	}, []);
-
+	// Create the JSX for the component
 	return (
 		<>
 			<Grid item className='card' xs={12}>
@@ -186,7 +167,7 @@ export default function NewsAndComment(props) {
 					<Grid item xs={3} sm={1}>
 						<Button className='editButton' onClick={() => handleLike(props.id)}>
 							<>
-								{props.liked.find(l => l._id === userState._id) && !like ? (
+								{props.liked.find(l => l._id === userState._id) ? (
 									<Favorite />
 								) : (
 									<FavoriteBorderIcon />
@@ -197,12 +178,23 @@ export default function NewsAndComment(props) {
 				</Grid>
 				<Typography variant='body2' color='textSecondary' component='p'>
 					<span className='authorStyle'> Author:</span>
-					<Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
+					<Link
+						to={
+							props.authorId === userState._id
+								? "dashboard"
+								: `/dashboard/${props.authorId}`
+						}
+					>
+						{props.author}
+					</Link>
 				</Typography>
 				<Divider />
 				<Grid container direction='row' spacing={1}>
 					<Grid item xs={12} sm={4}>
-						<CardMedia className={"media"} image={props.image} />
+						<CardMedia
+							className={"media"}
+							image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+						/>
 					</Grid>
 					<Grid item xs={12} sm={8}>
 						<CardContent>
@@ -294,4 +286,6 @@ export default function NewsAndComment(props) {
 			</Grid>
 		</>
 	);
-}
+};
+
+export default NewsAndComment;
