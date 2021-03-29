@@ -83,6 +83,7 @@ const Newsfeed = () => {
 			});
 			await trendingDispatch({ type: TREND_LOADING });
 			const hashInfo = await API.getHashtagAll();
+			console.log(hashInfo)
 			await trendingDispatch({
 				type: ADD_TREND,
 				payload: {
@@ -91,6 +92,7 @@ const Newsfeed = () => {
 				},
 			});
 		}
+		console.log(trendingStates)
 		fetchAllPostsAndCauses();
 
 		if (!socket) return;

@@ -12,8 +12,10 @@ import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import {
   ADD_CAUSE,
   ADD_POST,
+  ADD_TREND,
   CAUSE_LOADING,
   POST_LOADING,
+  TREND_LOADING,
   UPDATE_USER,
   USER_LOADING
 } from "../../utils/actions/actions";
@@ -21,12 +23,14 @@ import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
 import api from "../../utils/api.js";
+import { useTrendingContext } from "../../utils/GlobalStates/TrendingContext";
 
 // Create the component function and export for use
 const Post = () => {
   // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
   const [, causeDispatch] = useCauseContext();
+  const [, trendingDispatch] = useTrendingContext();
   const [, postDispatch] = usePostContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -52,6 +56,15 @@ const Post = () => {
         posts: postInfo.data,
         loading: false
       }
+    });
+    await trendingDispatch({ type: TREND_LOADING });
+    const hashInfo = await api.getHashtagAll();
+    await trendingDispatch({
+      type: ADD_TREND,
+      payload: {
+        hashtag: hashInfo.data,
+        loading: false,
+      },
     });
   };
   //Create cause
