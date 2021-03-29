@@ -20,6 +20,7 @@ import api from "../../../utils/api";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
 import Donate from "../../Forms/Donate";
+import { Link } from "react-router-dom";
 // Create the component function and export for use
 const Causes = props => {
   // Create the set and setState from useState
@@ -88,7 +89,7 @@ const Causes = props => {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
-              timeout: 500
+              timeout: 500,
             }}
           >
             <Fade in={open}>
@@ -106,10 +107,17 @@ const Causes = props => {
         </Grid>
       </Grid>
       <Divider />
+      <Typography variant="body2" color="textSecondary" component="p">
+        <span className="authorStyle"> Org:</span>
+        <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
+      </Typography>
       <Grid container direction="row" spacing={1}>
-        {/* <Grid item xs={12} sm={4}>
-					<CardMedia className={"media"} image={props.image} />
-				</Grid> */}
+        <Grid item xs={12}>
+          <CardMedia
+            className={"media"}
+            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+          />
+        </Grid>
         <Grid item xs={12} sm={12}>
           <CardContent>
             <Typography variant="body2" color="textSecondary">

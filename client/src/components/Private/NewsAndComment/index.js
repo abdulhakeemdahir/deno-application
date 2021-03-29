@@ -85,7 +85,6 @@ const NewsAndComment = props => {
   // Create the handleLike function
   const handleLike = async id => {
     const found = props.liked.find(l => l._id === userState._id);
-    console.log(found);
     if (found) {
       await api.removeliked(id, {
         likes: userState._id
@@ -135,7 +134,7 @@ const NewsAndComment = props => {
           <Grid item xs={3} sm={1}>
             <Button className="editButton" onClick={() => handleLike(props.id)}>
               <>
-                {props.liked.find(l => l._id === userState._id) ? (
+                {props.liked.find((l) => l._id === userState._id) ? (
                   <Favorite />
                 ) : (
                   <FavoriteBorderIcon />
@@ -149,7 +148,7 @@ const NewsAndComment = props => {
           <Link
             to={
               props.authorId === userState._id
-                ? "dashboard"
+                ? "/dashboard"
                 : `/dashboard/${props.authorId}`
             }
           >
@@ -223,7 +222,7 @@ const NewsAndComment = props => {
                 </Typography>
               </AccordionSummary>
               <Grid className="cardComment">
-                {props.comments.map(card => (
+                {props.comments.map((card) => (
                   <AccordionDetails>
                     <Grid container xs={12} className={classes.gridStyle}>
                       <Grid item xs={4}>
@@ -232,7 +231,7 @@ const NewsAndComment = props => {
                           color="textSecondary"
                           component="p"
                         >
-                          {card.user.firstName}
+                          {card.user.username}
                         </Typography>
                       </Grid>
                       <Grid item xs={8}>

@@ -192,7 +192,7 @@ export default function SignUpOrg() {
 		email,
 		username,
 		password,
-		orgname,
+		orgName,
 		bio,
 		thumbnail,
 		orgnameError,
@@ -203,22 +203,22 @@ export default function SignUpOrg() {
 		passwordError,
 	} = stateSignUp;
 	const values = {
-		firstName,
-		lastname,
-		role,
-		email,
-		username,
-		password,
-		orgname,
-		bio,
-		thumbnail,
-		orgnameError,
-		firstNameError,
-		lastnameError,
-		emailError,
-		usernameError,
-		passwordError,
-	};
+    firstName,
+    lastname,
+    role,
+    email,
+    username,
+    password,
+    orgName,
+    bio,
+    thumbnail,
+    orgnameError,
+    firstNameError,
+    lastnameError,
+    emailError,
+    usernameError,
+    passwordError,
+  };
 	// Create a Switch Case for the different JSX components
 	switch (step) {
 		case 1:
