@@ -113,7 +113,7 @@ const PublicDash = () => {
                       key={card._id}
                       id={card._id}
                       title={card.title}
-                      author={card.author.firstName}
+                      author={card.author.username}
                       link={card.url}
                       image={card.imageUrl}
                       post={card.content}
@@ -159,7 +159,7 @@ const PublicDash = () => {
                       key={card._id}
                       id={card._id}
                       title={card.title}
-                      author={card.author.firstName}
+                      author={card.author.username}
                       link={card.url}
                       image={card.imageUrl}
                       post={card.content}

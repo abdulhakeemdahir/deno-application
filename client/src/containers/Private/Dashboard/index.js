@@ -45,6 +45,7 @@ const Dashboard = () => {
 				console.log(err);
 			}
 		}
+    console.log(userState);
 		fetchUserInfo();
 	}, []);
 	// Create the set and setState from useState
@@ -123,7 +124,7 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xs={12} sm={3} className="card-container">
                   <Typography variant="subtitle2">CAUSES</Typography>
-                  {userState.posts.length === 0 ? (
+                  {userState.causes.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
                     userState.causes.map((card) => (

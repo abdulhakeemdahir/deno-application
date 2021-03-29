@@ -29,9 +29,10 @@ module.exports = {
       role: role,
       email: email
     };
-
+    console.log("Line 32 ???????????", userObject);
     if (orgName) {
       userObject.orgName = orgName;
+      console.log("Line 35 ???????????", userObject);
     }
     if (phoneNumber) {
       updateUser.phoneNumber = phoneNumber;

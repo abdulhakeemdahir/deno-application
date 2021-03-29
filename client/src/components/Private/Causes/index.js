@@ -1,14 +1,14 @@
 // Import all relevant packages and components
 import React from "react";
 import {
-	Typography,
-	Grid,
-	Divider,
-	CardContent,
-	Button,
-	Dialog,
-	ButtonGroup,
-	CardMedia,
+  Typography,
+  Grid,
+  Divider,
+  CardContent,
+  Button,
+  Dialog,
+  ButtonGroup,
+  CardMedia
 } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -19,54 +19,55 @@ import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
-import Donate from "../../Forms/Donate/Donate.js";
+import Donate from "../../Forms/Donate";
+import { Link } from "react-router-dom";
 // Create the component function and export for use
-export default function Causes(props) {
-	// Create the set and setState from useState
-	const [open, setOpen] = React.useState(false);
-	// Destructure State and Dispatch from Context
-	const [userState, userDispatch] = useUserContext();
-	// Call useAuth function
-	useAuthTokenStore();
-	const isAuth = useIsAuthenticated();
-	// Create the handleOpen function
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	// Create the handleClose function
-	const handleClose = () => {
-		setOpen(false);
-	};
-	// Create the handleFollow function
-	const handleFollow = async id => {
-		if (userState.role === "Organization") {
-			//TODO error message
-			console.log("you are an organization");
-			return;
-		}
-		const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
-		if (checkIfLiked.data) {
-			//TODO error message you like this already
-			console.log("sorry");
-			return;
-		}
-		await api.updateUserObjectID(userState._id, {
-			causes: id,
-		});
-		const userInfo = await api.getUser(userState._id);
-		await userDispatch({
-			type: USER_LOADING,
-		});
-		await userDispatch({
-			type: UPDATE_USER,
-			payload: {
-				...userInfo.data,
-				loading: false,
-			},
-		});
-	};
-	// Create the JSX for the component
-	return (
+const Causes = props => {
+  // Create the set and setState from useState
+  const [open, setOpen] = React.useState(false);
+  // Destructure State and Dispatch from Context
+  const [userState, userDispatch] = useUserContext();
+  // Call useAuth function
+  useAuthTokenStore();
+  const isAuth = useIsAuthenticated();
+  // Create the handleOpen function
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  // Create the handleClose function
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // Create the handleFollow function
+  const handleFollow = async id => {
+    if (userState.role === "Organization") {
+      //TODO error message
+      console.log("you are an organization");
+      return;
+    }
+    const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
+    if (checkIfLiked.data) {
+      //TODO error message you like this already
+      console.log("sorry");
+      return;
+    }
+    await api.updateUserObjectID(userState._id, {
+      causes: id
+    });
+    const userInfo = await api.getUser(userState._id);
+    await userDispatch({
+      type: USER_LOADING
+    });
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false
+      }
+    });
+  };
+  // Create the JSX for the component
+  return (
     <Grid item className="card">
       <Grid container className="headerContainer">
         <Grid item xs={9}>
@@ -105,10 +106,11 @@ export default function Causes(props) {
           </Dialog>
         </Grid>
       </Grid>
-      <Typography variant="body2" color="textSecondary" component="p">
-        <span className="authorStyle"> Author:</span> {props.author}
-      </Typography>
       <Divider />
+      <Typography variant="body2" color="textSecondary" component="p">
+        <span className="authorStyle"> Org:</span>
+        <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
+      </Typography>
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
           <CardMedia
@@ -148,4 +150,6 @@ export default function Causes(props) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Causes;

@@ -1,16 +1,16 @@
 //Import all relevant packages and components
-import React from "react";
+import React, { useState } from "react";
 import {
-	Typography,
-	Grid,
-	Divider,
-	CardContent,
-	CardMedia,
-	Button,
-	ButtonGroup,
-	Dialog,
-	Fade,
-	Backdrop,
+  Typography,
+  Grid,
+  Divider,
+  CardContent,
+  CardMedia,
+  Button,
+  ButtonGroup,
+  Dialog,
+  Fade,
+  Backdrop
 } from "@material-ui/core";
 import "./style.css";
 import { ThumbUpAlt } from "@material-ui/icons";
@@ -18,59 +18,56 @@ import api from "../../utils/api";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
-import Donate from "../Forms/Donate/Donate";
+import Donate from "../Forms/Donate";
+import { Link } from "react-router-dom";
+
 //Create the component function and export for use
-export default function Causes(props) {
-	// Destructure State and Dispatch from Context
-	const [userState, userDispatch] = useUserContext();
-	const handleFollow = async id => {
-		if (userState.role === "Organization") {
-			//TODO error message
-			console.log("you are an organization");
-			return;
-		}
+const Causes = props => {
+  // Destructure State and Dispatch from Context
+  const [userState, userDispatch] = useUserContext();
 
-		const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
+  const handleFollow = async id => {
+    if (userState.role === "Organization") {
+      //TODO error message
+      console.log("you are an organization");
+      return;
+    }
 
-		if (checkIfLiked.data) {
-			//TODO error message you like this already
-			console.log("sorry");
-			return;
-		}
+    const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
 
-		await api.updateUserObjectID(userState._id, {
-			causes: id,
-		});
-		const userInfo = await api.getUser(userState._id);
+    await api.updateUserObjectID(userState._id, {
+      causes: id
+    });
+    const userInfo = await api.getUser(userState._id);
 
-		await userDispatch({
-			type: USER_LOADING,
-		});
+    await userDispatch({
+      type: USER_LOADING
+    });
 
-		await userDispatch({
-			type: UPDATE_USER,
-			payload: {
-				...userInfo.data,
-				loading: false,
-			},
-		});
-	};
-	// Call Authentication Store
-	useAuthTokenStore();
-	// Get User Authentication
-	const isAuth = useIsAuthenticated();
-	// Create the Dialog state
-	const [open, setOpen] = React.useState(false);
-	// Create the handleOpen function for the Dialog Component
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	// Create the handleClose function for the Dialog Component
-	const handleClose = () => {
-		setOpen(false);
-	};
-	//Create the JSX for the component
-	return (
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false
+      }
+    });
+  };
+  // Call Authentication Store
+  useAuthTokenStore();
+  // Get User Authentication
+  const isAuth = useIsAuthenticated();
+  // Create the Dialog state
+  const [open, setOpen] = useState(false);
+  // Create the handleOpen function for the Dialog Component
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  // Create the handleClose function for the Dialog Component
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //Create the JSX for the component
+  return (
     <Grid item className="card">
       <Grid container className="headerContainer">
         <Grid item xs={9}>
@@ -78,12 +75,16 @@ export default function Causes(props) {
             {props.title}
           </Typography>
         </Grid>
-        <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span> {props.author}
-        </Typography>
-        <Divider />
       </Grid>
       <Divider />
+      <Typography variant="body2" color="textSecondary" component="p">
+        <span className="authorStyle"> Org:</span>
+        <Link
+          to={`/dashboard/${props.causeId}`}
+        >
+          {props.author}
+        </Link>
+      </Typography>
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
           <CardMedia
@@ -140,4 +141,6 @@ export default function Causes(props) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Causes;
