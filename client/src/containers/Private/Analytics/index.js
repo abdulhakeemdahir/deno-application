@@ -1,14 +1,11 @@
+// Import all relevant packages and components
 import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
-
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
 import Nav from "../../../components/Navigation";
-
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
@@ -18,29 +15,26 @@ import ChartFollowAndSupport from "../../../components/Graphs/ChartFollowAndSupp
 import ChartCausesCreated from "../../../components/Graphs/ChartCausesCreated";
 import ChartCausesSupported from "../../../components/Graphs/ChartCausesSupported";
 import About from "../../../components/About";
-
 import { Image } from "cloudinary-react";
-
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-
 import {
 	UPDATE_USER,
 	USER_LOADING,
 	//What about USER_LOADED?
 } from "../../../utils/actions/actions";
-
 import api from "../../../utils/api";
 import { NavLink } from "react-router-dom";
-
+// Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-
+// Create the component function and export for use
 const Analytics = () => {
+	// Destructure State and Dispatch from Context
 	const [userState, userDispatch] = useUserContext();
-
+	// Get user Data
 	useEffect(() => {
 		async function fetchUserInfo() {
 			console.log(userState.posts.length === 0);
@@ -65,14 +59,15 @@ const Analytics = () => {
 
 		fetchUserInfo();
 	}, []);
-
+	// Create the set and setState from useState
 	const [value, setValue] = React.useState(0);
-
+	// Create the handleChange function
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	// Call the Window Width function
 	const { width } = useWindowDimensions();
+	// Create the JSX for the component
 	return (
 		<div className='Main'>
 			<CssBaseline>
