@@ -71,66 +71,73 @@ export default function Causes(props) {
 	};
 	//Create the JSX for the component
 	return (
-		<Grid item className="card">
-			<Grid container className="headerContainer">
-				<Grid item xs={9}>
-					<Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-						{props.title}
-					</Typography>
-				</Grid>
-			</Grid>
-			<Divider />
-			<Grid container direction="row" spacing={1}>
-				<Grid item xs={12}>
-					<CardMedia className={"media"} image={props.image} />
-				</Grid>
-				<Divider />
-				<Grid item xs={12}>
-					<CardContent>
-						<Typography variant="body2" color="textSecondary">
-							{props.post}
-						</Typography>
-					</CardContent>
-				</Grid>
-				{isAuth ? (
-					<ButtonGroup justify="center" fullWidth>
-						<Button
-							size="large"
-							className="styleButton"
-							onClick={handleOpen}
-							fullWidth
-							id={props.id}
-						>
-							<i class="fab fa-paypal"></i>
-							Support
-						</Button>
-						<Button
-							size="large"
-							className="followButton"
-							onClick={() => handleFollow(props.id)}
-							fullWidth
-						>
-							<ThumbUpAlt /> Follow
-						</Button>
-					</ButtonGroup>
-				) : null}
-				<Dialog
-					aria-labelledby="transition-modal-title"
-					aria-describedby="transition-modal-description"
-					open={open}
-					onClose={handleClose}
-					closeAfterTransition
-					BackdropComponent={Backdrop}
-					BackdropProps={{
-						timeout: 500,
-					}}
-					fullWidth
-				>
-					<Fade in={open}>
-						<Donate onClose={handleClose} cause={props.id}/>
-					</Fade>
-				</Dialog>
-			</Grid>
-		</Grid>
-	);
+    <Grid item className="card">
+      <Grid container className="headerContainer">
+        <Grid item xs={9}>
+          <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            {props.title}
+          </Typography>
+        </Grid>
+        <Typography variant="body2" color="textSecondary" component="p">
+          <span className="authorStyle"> Author:</span> {props.author}
+        </Typography>
+        <Divider />
+      </Grid>
+      <Divider />
+      <Grid container direction="row" spacing={1}>
+        <Grid item xs={12}>
+          <CardMedia
+            className={"media"}
+            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+          />
+        </Grid>
+        <Divider />
+        <Grid item xs={12}>
+          <CardContent>
+            <Typography variant="body2" color="textSecondary">
+              {props.post}
+            </Typography>
+          </CardContent>
+        </Grid>
+        {isAuth ? (
+          <ButtonGroup justify="center" fullWidth>
+            <Button
+              size="large"
+              className="styleButton"
+              onClick={handleOpen}
+              fullWidth
+              id={props.id}
+            >
+              <i class="fab fa-paypal"></i>
+              Support
+            </Button>
+            <Button
+              size="large"
+              className="followButton"
+              onClick={() => handleFollow(props.id)}
+              fullWidth
+            >
+              <ThumbUpAlt /> Follow
+            </Button>
+          </ButtonGroup>
+        ) : null}
+        <Dialog
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          fullWidth
+        >
+          <Fade in={open}>
+            <Donate onClose={handleClose} cause={props.id} />
+          </Fade>
+        </Dialog>
+      </Grid>
+    </Grid>
+  );
 }
