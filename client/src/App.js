@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Landing from "./containers/Public/Landing";
@@ -9,7 +10,6 @@ import { CauseProvider } from "./utils/GlobalStates/CauseContext";
 import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { useAuthTokenStore } from "./utils/auth.js";
 import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
-// import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Chatroom from "./containers/Private/Chatroom";
 import SinglePost from "./containers/SinglePost";
@@ -19,8 +19,7 @@ import { TrendingProvider } from "./utils/GlobalStates/TrendingContext";
 import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import { GuessProvider } from "./utils/GlobalStates/GuessContext";
 import PublicDash from "./containers/Public/PublicDash";
-//import GuestRoute from "./components/GuestRoute.js"
-
+// Create a useStyles Material UI component for styling
 const theme = createMuiTheme({
 	palette: {
 		primary: {
@@ -29,15 +28,16 @@ const theme = createMuiTheme({
 		secondary: { main: "#d500f9" },
 		default: {
 			main: "#454545",
-			// second: "#899fd4"
 		},
 	},
 });
+// Create the component function and export for use
 function App() {
+	// Connect Socket
 	useSocketConnection();
-
+	// Connect Authentication
 	useAuthTokenStore();
-
+	// Create the JSX for the component
 	return (
 		<Router>
 			<MuiThemeProvider theme={theme}>

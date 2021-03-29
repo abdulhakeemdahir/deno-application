@@ -1,8 +1,8 @@
+// Import all relevant packages and components
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import { Button, ButtonGroup, List, ListItem } from "@material-ui/core";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
@@ -37,17 +37,17 @@ const useStyles = makeStyles(theme => ({
 		background: "#3f4d67",
 	},
 }));
-
+// Create the component function and export for use
 export default function FormUserConfirm(props) {
-	const continueOne = async (e) => {
-
+	// Create the continueOne function
+	const continueOne = async e => {
 		e.preventDefault();
 
 		await props.handleSubmit();
-		
+
 		props.nextStep();
-		
 	};
+	// Create the previousOne function
 	const previousOne = e => {
 		e.preventDefault();
 		props.previousStep();
@@ -65,8 +65,9 @@ export default function FormUserConfirm(props) {
 			thumbnail,
 		},
 	} = props;
+	// Call the styles function
 	const classes = useStyles();
-
+	// Create the JSX for the component
 	return (
 		<>
 			<List>

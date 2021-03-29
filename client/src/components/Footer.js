@@ -1,17 +1,15 @@
+// Import all relevant packages and components
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Typography, Grid, ListItem, Container } from "@material-ui/core";
 import { LinkedIn } from "@material-ui/icons";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	footerStyle: {
-		// bottom: "20px",
 		position: "relative",
-		// height: "45vh",
 		width: "100%",
 		zIndex: "1",
 		color: "#008394 !important",
-		// padding: "10px",
 		textAlign: "center",
 		justifyContent: "center",
 	},
@@ -28,10 +26,14 @@ const useStyles = makeStyles({
 		color: "#ed4b82 !important",
 		textAlign: "center",
 		justifyContent: "center",
+		flexWrap: "wrap",
 	},
 });
+// Create the component function and export for use
 export default function Footer() {
+	// Call the styles function
 	const classes = useStyles();
+	// Create the JSX for the component
 	return (
 		<CssBaseline>
 			<Grid justify='center' className={classes.bottomPadding}>

@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// Import all relevant packages and components
 import { Grid, Button, TextField } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -22,7 +22,7 @@ import { usePostContext } from "../../utils/GlobalStates/PostContext";
 import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
 import api from "../../utils/api.js";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	root: {
 		"& > *": {
@@ -58,29 +58,30 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: "5px",
 	},
 }));
-
+// Create the component function and export for use
 export default function Post() {
+	// Destructure State and Dispatch from Context
 	const [userState, userDispatch] = useUserContext();
 	const [, causeDispatch] = useCauseContext();
 	const [, postDispatch] = usePostContext();
 	//*Associated with cloudinary
-	const [fileInputState, ] = useState("");
+	const [fileInputState] = useState("");
 	const [previewSource, setPreviewSource] = useState("");
+	// Call the styles function
 	const classes = useStyles();
-  const [createPost, setCreatePost] = useState({
-      type: "",
-      title: "",
-      titleError: "",
-      content: "",
-      contentError: "",
-      imageUrl: "",
-    });
+	// Create the set and setState from useState
+	const [createPost, setCreatePost] = useState({
+		type: "",
+		title: "",
+		titleError: "",
+		content: "",
+		contentError: "",
+		imageUrl: "",
+	});
 	//*Create Post
 	const addPost = async () => {
 		await postDispatch({ type: POST_LOADING });
-
 		const postInfo = await API.getAllPost();
-
 		await postDispatch({
 			type: ADD_POST,
 			payload: {
@@ -94,9 +95,7 @@ export default function Post() {
 		await causeDispatch({
 			type: CAUSE_LOADING,
 		});
-
 		const causes = await API.getAllCauses();
-
 		await causeDispatch({
 			type: ADD_CAUSE,
 			payload: {
@@ -105,22 +104,19 @@ export default function Post() {
 			},
 		});
 	};
-
+	// Update user
 	const updateUserStates = async () => {
-    
-    const userInfo = await api.getUser(userState._id);
-
-    await userDispatch({ type: USER_LOADING });
-
-    await userDispatch({
-      type: UPDATE_USER,
-      payload: {
-        ...userInfo.data,
-        loading: false,
-      },
-    });
-  };
-
+		const userInfo = await api.getUser(userState._id);
+		await userDispatch({ type: USER_LOADING });
+		await userDispatch({
+			type: UPDATE_USER,
+			payload: {
+				...userInfo.data,
+				loading: false,
+			},
+		});
+	};
+	// Create the handleChange function
 	const handleChange = function(event) {
 		const { name, value } = event.target;
 		setCreatePost({
@@ -128,7 +124,7 @@ export default function Post() {
 			[name]: value,
 		});
 	};
-
+	// Create the handleSubmit function
 	const handleSubmit = async event => {
 		event.preventDefault();
 		try {
@@ -140,77 +136,64 @@ export default function Post() {
 			if (previewSource) {
 				post.imageUrl = previewSource;
 			}
-
 			const hashtags = await findHashtags(createPost.content);
-
 			if (hashtags.length) {
 				const createHashtags = await API.createHashtag({ hashtag: hashtags });
 				post.hashtags = createHashtags.data._id;
 			}
-
-
 			if (userState.role === "Personal" || createPost.type === "Post") {
 				setCreatePost({
 					...createPost,
-					type:"Post"
-				})
+					type: "Post",
+				});
 				const { data } = await API.createPost(post);
 				if (post.hashtags) {
 					await API.updateHashtag(post.hashtags, {
 						posts: data._id,
 					});
 				}
-
 				await API.updateUserObjectID(post.author, {
 					posts: data._id,
 				});
-
 				await addPost();
-			
 			} else {
 				const { data } = await API.createCause(post);
-
 				if (post.hashtags) {
 					await API.updateHashtag(post.hashtags, {
 						causes: data._id,
 					});
 				}
-        await API.updateUserObjectID(post.author, {
-          causes: data._id,
-        });
+				await API.updateUserObjectID(post.author, {
+					causes: data._id,
+				});
 
 				await API.updateUserObjectID(post.author, {
 					causes: data._id,
 				});
-				
 				await addCause();
 			}
 			await updateUserStates();
 			clearState();
-
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	};
+	// Create the clearState function
 	const clearState = () => {
-    setCreatePost({
-      type: "",
-      title: "",
-      titleError: "",
-      content: "",
-      contentError: "",
-      imageUrl: "",
-    });
-    setPreviewSource("")
-
+		setCreatePost({
+			type: "",
+			title: "",
+			titleError: "",
+			content: "",
+			contentError: "",
+			imageUrl: "",
+		});
+		setPreviewSource("");
 		return;
 	};
-
+	// Create the handleFileInputChange function
 	const handleFileInputChange = e => {
 		const file = e.target.files[0];
 		previewFile(file);
 	};
-
 	const previewFile = file => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
@@ -218,7 +201,6 @@ export default function Post() {
 			setPreviewSource(reader.result);
 		};
 	};
-
 	// Form validation for inputs to be more than 6 characters
 	const validate = event => {
 		const { name, value } = event.target;
@@ -229,29 +211,27 @@ export default function Post() {
 			isError = true;
 			errors[`${name}Error`] = "Input cannot be empty";
 		}
-    console.log(errors);
+		console.log(errors);
 		console.log(value.length);
 		if (isError) {
 			setCreatePost({
-        ...createPost,
-        ...errors,
-      });
+				...createPost,
+				...errors,
+			});
 		}
 		if (value.length >= 1) {
 			errors[`${name}Error`] = "";
-      console.log(errors);
+			console.log(errors);
 
 			setCreatePost({
-        ...createPost,
-        ...errors,
-      });
-      console.log(createPost);
+				...createPost,
+				...errors,
+			});
+			console.log(createPost);
 		}
-
 		return isError;
 	};
-
-
+	// Create the JSX for the component
 	return (
 		<Grid className='cardPost'>
 			<form
@@ -259,23 +239,22 @@ export default function Post() {
 				noValidate
 				autoComplete='off'
 				onSubmit={handleSubmit}
-			>	
-				{userState.role === "Personal" ? (
-							null
-						) : (
-				<FormControl variant='outlined'>
-					<InputLabel id='post'>Post Type</InputLabel>
-					<Select
-						labelId='post'
-						id='post'
-						label='post type'
-						name='type'
-						onChange={handleChange}
-					>
-						<MenuItem value={"Post"}>Post</MenuItem>
-						<MenuItem value={"Cause"}>Cause</MenuItem>
-					</Select>
-				</FormControl>)}
+			>
+				{userState.role === "Personal" ? null : (
+					<FormControl variant='outlined'>
+						<InputLabel id='post'>Post Type</InputLabel>
+						<Select
+							labelId='post'
+							id='post'
+							label='post type'
+							name='type'
+							onChange={handleChange}
+						>
+							<MenuItem value={"Post"}>Post</MenuItem>
+							<MenuItem value={"Cause"}>Cause</MenuItem>
+						</Select>
+					</FormControl>
+				)}
 				<div>
 					<Grid container>
 						<TextField
