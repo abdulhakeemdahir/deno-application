@@ -86,7 +86,7 @@ export default function Causes(props) {
       <Divider />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
-          <CardMedia className={"media"} image={props.image} />
+          <CardMedia className={"media"} image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`} />
         </Grid>
         <Divider />
         <Grid item xs={12}>

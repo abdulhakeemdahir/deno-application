@@ -108,79 +108,79 @@ const Explore = () => {
 
 	const { width } = useWindowDimensions();
 	return (
-		<div className='Main'>
-			<CssBaseline>
-				<Dialog
-					aria-labelledby='transition-modal-title'
-					aria-describedby='transition-modal-description'
-					open={open}
-					onClose={handleClose}
-					closeAfterTransition
-					BackdropComponent={Backdrop}
-					BackdropProps={{
-						timeout: 500,
-					}}
-				>
-					<Fade in={open}>
-						<SiteInfo />
-					</Fade>
-					<Button
-						size='large'
-						className='analyticsButton'
-						fullWidth
-						onClick={handleClose}
-					>
-						<Close />
-						Close Modal
-					</Button>
-				</Dialog>
-				<Nav />
-				<Grid
-					container
-					direction='row'
-					justify='center'
-					className={"container"}
-					xs={12}
-					lg={10}
-					xl={8}
-				>
-					{width > 600 ? (
-						<>
-							<Grid container spacing={2}>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>TRENDING</Typography>
-									{trendingStates.hashtag.map((card, index) => (
-										<Trending
-											hashTag={card.hashtag}
-											post={card.posts}
-											link={card._id}
-											key={index}
-										/>
-									))}
-								</Grid>
-								<Grid item xs={12} sm={6} className='card-container'>
-									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									{postState.posts.map(card => {
-										return (
-											<News
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.username}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-												comments={card.comments}
-											/>
-										);
-									})}
-								</Grid>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>CAUSES</Typography>
-									{postState.posts.map(card => {
-										return (
-											<Causes
+    <div className="Main">
+      <CssBaseline>
+        <Dialog
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <SiteInfo />
+          </Fade>
+          <Button
+            size="large"
+            className="analyticsButton"
+            fullWidth
+            onClick={handleClose}
+          >
+            <Close />
+            Close Modal
+          </Button>
+        </Dialog>
+        <Nav />
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          className={"container"}
+          xs={12}
+          lg={10}
+          xl={8}
+        >
+          {width > 600 ? (
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">TRENDING</Typography>
+                  {trendingStates.hashtag.map((card, index) => (
+                    <Trending
+                      hashTag={card.hashtag}
+                      post={card.posts}
+                      link={card._id}
+                      key={index}
+                    />
+                  ))}
+                </Grid>
+                <Grid item xs={12} sm={6} className="card-container">
+                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                  {postState.posts.map((card) => {
+                    return (
+                      <News
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.username}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                        comments={card.comments}
+                      />
+                    );
+                  })}
+                </Grid>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">CAUSES</Typography>
+                  {causeState.causes.map((card) => {
+                    return (
+                      <Causes
                         key={card._id}
                         id={card._id}
                         title={card.title}
@@ -190,60 +190,60 @@ const Explore = () => {
                         image={card.imageUrl}
                         post={card.content}
                         hashTag={card.hashtag}
-											/>
-										);
-									})}
-								</Grid>
-							</Grid>
-						</>
-					) : (
-						<>
-							<Tabs
-								value={value}
-								onChange={handleChange}
-								aria-label='simple tabs example'
-							>
-								<Tab label='News' {...a11yProps(0)} />
-								<Tab label='Trending' {...a11yProps(1)} />
-								<Tab label='Causes' {...a11yProps(2)} />
-							</Tabs>
-							<TabPanel value={value} index={0}>
-								<Grid item xs={12}>
-									{postState.posts.map(card => {
-										return (
-											<News
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.username}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-												comments={card.comments}
-											/>
-										);
-									})}
-								</Grid>
-							</TabPanel>
-							<TabPanel value={value} index={1}>
-								<Grid item xs={12}>
-									{trendingStates.hashtag.map((card, index) => (
-										<Trending
-											hashTag={card.hashtag}
-											post={card.posts}
-											link={card._id}
-											key={index}
-										/>
-									))}
-								</Grid>
-							</TabPanel>
-							<TabPanel value={value} index={2}>
-								<Grid item xs={12}>
-									{causeState.causes.map(card => {
-										return (
-											<Causes
-												key={card._id}
+                      />
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="simple tabs example"
+              >
+                <Tab label="News" {...a11yProps(0)} />
+                <Tab label="Trending" {...a11yProps(1)} />
+                <Tab label="Causes" {...a11yProps(2)} />
+              </Tabs>
+              <TabPanel value={value} index={0}>
+                <Grid item xs={12}>
+                  {postState.posts.map((card) => {
+                    return (
+                      <News
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.username}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                        comments={card.comments}
+                      />
+                    );
+                  })}
+                </Grid>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <Grid item xs={12}>
+                  {trendingStates.hashtag.map((card, index) => (
+                    <Trending
+                      hashTag={card.hashtag}
+                      post={card.posts}
+                      link={card._id}
+                      key={index}
+                    />
+                  ))}
+                </Grid>
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <Grid item xs={12}>
+                  {causeState.causes.map((card) => {
+                    return (
+                      <Causes
+                        key={card._id}
                         id={card._id}
                         title={card.title}
                         author={card.author.orgName}
@@ -252,19 +252,19 @@ const Explore = () => {
                         image={card.imageUrl}
                         post={card.content}
                         hashTag={card.hashtag}
-											/>
-										);
-									})}
-								</Grid>
-							</TabPanel>
-						</>
-					)}
-				</Grid>
-				<Gradient />
-				{/* <Splash /> */}
-				<Footer />
-			</CssBaseline>
-		</div>
-	);
+                      />
+                    );
+                  })}
+                </Grid>
+              </TabPanel>
+            </>
+          )}
+        </Grid>
+        <Gradient />
+        {/* <Splash /> */}
+        <Footer />
+      </CssBaseline>
+    </div>
+  );
 };
 export default Explore;

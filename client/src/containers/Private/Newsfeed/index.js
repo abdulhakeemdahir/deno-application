@@ -50,36 +50,20 @@ const Newsfeed = () => {
   const [state] = useStoreContext();
 
   useEffect(() => {
-    async function fetchUserInfo() {
-      console.log(userState);
-      try {
-        const userInfo = await api.getUser(userState._id);
-
-        console.log(userInfo.data);
-
-        await userDispatch({ type: USER_LOADING });
-
-        await userDispatch({
-          type: UPDATE_USER,
-          payload: {
-            ...userInfo.data,
-            loading: false
-          }
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    fetchUserInfo();
-  }, []);
-
-  useEffect(() => {
     async function fetchAllPostsAndCauses() {
+			const userInfo = await api.getUser(userState._id);
+      await userDispatch({ type: USER_LOADING });
+      await userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false,
+        },
+      });
+
       await causeDispatch({ type: CAUSE_LOADING });
-
       const causes = await API.getAllCauses();
-
+			console.log(causes.data);
       await causeDispatch({
         type: ADD_CAUSE,
         payload: {
@@ -89,9 +73,8 @@ const Newsfeed = () => {
       });
 
       const postInfo = await API.getAllPost();
-
+			
       await postDispatch({ type: POST_LOADING });
-
       await postDispatch({
         type: ADD_POST,
         payload: {

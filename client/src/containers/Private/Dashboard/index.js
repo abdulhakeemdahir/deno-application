@@ -9,7 +9,7 @@ import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Causes";
+import Causes from "../../../components/Private/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 
@@ -111,7 +111,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    userState.posts.map(card => (
+                    userState.posts.map((card) => (
                       <News
                         key={card._id}
                         id={card._id}
@@ -131,7 +131,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    userState.causes.map(card => (
+                    userState.causes.map((card) => (
                       <Causes
                         key={card._id}
                         id={card._id}
@@ -142,6 +142,7 @@ const Dashboard = () => {
                         image={card.imageUrl}
                         post={card.content}
                         hashTag={card.hashtag}
+                        role={userState.role}
                       />
                     ))
                   )}
@@ -164,7 +165,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    userState.posts.map(card => (
+                    userState.posts.map((card) => (
                       <News
                         key={card._id}
                         id={card._id}
@@ -210,7 +211,7 @@ const Dashboard = () => {
                   {userState.posts.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    userState.causes.map(card => (
+                    userState.causes.map((card) => (
                       <Causes
                         key={card._id}
                         id={card._id}

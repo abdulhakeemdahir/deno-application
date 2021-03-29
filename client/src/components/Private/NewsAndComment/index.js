@@ -161,8 +161,6 @@ const NewsAndComment = props => {
     return () => socket.off("update-post");
   }, []);
 
-  console.log(props.authorId);
-
   return (
     <>
       <Grid item className='card' xs={12}>
@@ -272,7 +270,7 @@ const NewsAndComment = props => {
                           color='textSecondary'
                           component='p'
                         >
-                          {card.user.firstName}
+                          {card.user.username}
                         </Typography>
                       </Grid>
                       <Grid item xs={8}>

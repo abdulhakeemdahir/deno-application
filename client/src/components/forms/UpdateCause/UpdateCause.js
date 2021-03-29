@@ -66,6 +66,7 @@ export default function UpdateCause(props) {
     if (previewSource) {
       updateUser.imageUrl = previewSource;
     }
+    
     await updateCause(updateUser);
     props.onClose();
   };
@@ -84,6 +85,7 @@ export default function UpdateCause(props) {
   };
   //*update post by sending post id and update object
   const updateCause = async (update) => {
+    console.log(update);
     const post = await api.updateCause(props.id, update);
     console.log(post);
   };

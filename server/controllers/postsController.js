@@ -9,7 +9,7 @@ module.exports = {
       const postModel = await Post.findById(req.params.id).populate([
         {
           path: "author",
-          select: "firstName",
+          select: "username",
           model: "User"
         },
         {
@@ -18,7 +18,7 @@ module.exports = {
         },
         {
           path: "likes",
-          select: "firstName",
+          select: "username",
           model: "User"
         },
         {
@@ -27,7 +27,7 @@ module.exports = {
           options: { sort: { date: -1 } },
           populate: {
             path: "user",
-            select: "firstName",
+            select: "username",
             model: "User"
           }
         }
@@ -119,7 +119,7 @@ module.exports = {
         .populate([
           {
             path: "author",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
@@ -128,7 +128,7 @@ module.exports = {
           },
           {
             path: "likes",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
@@ -137,7 +137,7 @@ module.exports = {
             options: { sort: { date: -1 } },
             populate: {
               path: "user",
-              select: "firstName",
+              select: "username",
               model: "User"
             }
           }
