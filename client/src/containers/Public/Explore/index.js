@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useEffect } from "react";
 import {
 	Typography,
@@ -8,7 +9,6 @@ import {
 	Backdrop,
 	Button,
 } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
@@ -21,10 +21,8 @@ import Trending from "../../../components/Trending";
 import Causes from "../../../components/Causes";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-// import Splash from "../../../components/Splash";
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { usePostContext } from "../../../utils/GlobalStates/PostContext";
-
 import {
 	CAUSE_LOADING,
 	POST_LOADING,
@@ -33,27 +31,28 @@ import {
 	ADD_TREND,
 	TREND_LOADING,
 } from "../../../utils/actions/actions.js";
-
 import API from "../../../utils/api";
 import { Close } from "@material-ui/icons";
 import { useTrendingContext } from "../../../utils/GlobalStates/TrendingContext";
-
+// Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-
+// Create the component function and export for use
 const Explore = () => {
+	// Destructure causeState and causeDispatch from Context
 	const [causeState, causeDispatch] = useCauseContext();
+	// Destructure postState and postDispatch from Context
 	const [postState, postDispatch] = usePostContext();
+	// Destructure trendingState and trendingDispatch from Context
 	const [trendingStates, trendingDispatch] = useTrendingContext();
-
+	// Get all user Data
 	useEffect(() => {
 		async function fetchAllPostsAndCauses() {
 			await causeDispatch({ type: CAUSE_LOADING });
 			const causes = await API.getAllCauses();
-
 			await causeDispatch({
 				type: ADD_CAUSE,
 				payload: {
@@ -61,10 +60,8 @@ const Explore = () => {
 					loading: false,
 				},
 			});
-
 			await postDispatch({ type: POST_LOADING });
 			const postInfo = await API.getAllPost();
-
 			await postDispatch({
 				type: ADD_POST,
 				payload: {
@@ -72,10 +69,8 @@ const Explore = () => {
 					loading: false,
 				},
 			});
-
 			await trendingDispatch({ type: TREND_LOADING });
 			const hashInfo = await API.getHashtagAll();
-
 			await trendingDispatch({
 				type: ADD_TREND,
 				payload: {
@@ -87,20 +82,22 @@ const Explore = () => {
 
 		fetchAllPostsAndCauses();
 	}, []);
-
+	// Create the set and setState from useState
 	const [value, setValue] = React.useState(0);
+	// Create the handleChange function
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
+	// Create the set and setState from useState
 	const [open, setOpen] = React.useState(true);
-
+	// Create the handleClose function
 	const handleClose = () => {
 		setOpen(false);
 		console.log(open);
 	};
-
+	// Call the Window Width function
 	const { width } = useWindowDimensions();
+	// Create the JSX for the component
 	return (
 		<div className='Main'>
 			<CssBaseline>

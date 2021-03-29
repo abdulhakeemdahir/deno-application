@@ -1,13 +1,13 @@
+// Import all relevant packages and components
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Gradient from "../../../components/Gradient";
 import React from "react";
 import { ErrorOutline } from "@material-ui/icons";
 import Nav from "../../../components/Navigation";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	centerPosition: {
-		// padding: "20px",
 		textAlign: "center",
 	},
 	centerContainer: {
@@ -17,10 +17,11 @@ const useStyles = makeStyles({
 		transform: "translate(-50%, -50%)",
 	},
 });
-
+// Create the component function and export for use
 const ErrorPage = () => {
+	// Call the styles function
 	const classes = useStyles();
-
+	// Create the JSX for the component
 	return (
 		<div className='ErrorPage'>
 			<Nav />

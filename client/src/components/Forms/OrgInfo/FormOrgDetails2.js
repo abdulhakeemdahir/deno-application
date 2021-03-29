@@ -1,8 +1,8 @@
+// Import all relevant packages and components
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import { TextField, Button, ButtonGroup } from "@material-ui/core";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
@@ -37,32 +37,24 @@ const useStyles = makeStyles(theme => ({
 		background: "#3f4d67",
 	},
 }));
-
+// Create the component function and export for use
 export default function FormOrgDetails2(props) {
+	// Create the continueOne function
 	const continueOne = e => {
 		e.preventDefault();
 		props.nextStep();
 	};
+	// Create the previousOne function
 	const previousOne = e => {
 		e.preventDefault();
 		props.previousStep();
 	};
-
 	const { values, handleChange, validate, validatePassword } = props;
+	// Call the styles function
 	const classes = useStyles();
-
+	// Create the JSX for the component
 	return (
 		<>
-			{/* <TextField
-				name='role'
-				value={values.role}
-				onChange={handleChange}
-				variant='outlined'
-				label='Role'
-				placeholder='Enter Role'
-				fullWidth
-				className={classes.mgstyle}
-			/> */}
 			<TextField
 				error={values.usernameError}
 				helperText={values.usernameError}

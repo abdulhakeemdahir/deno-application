@@ -1,9 +1,9 @@
-// import React, { useState, useEffect } from "react";
+// Import all relevant packages and components
 import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { makeStyles } from "@material-ui/core";
 import "./style.css";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	root: {
 		"& > *": {
@@ -30,10 +30,11 @@ const useStyles = makeStyles(theme => ({
 		margin: "5px",
 	},
 }));
-
+// Create the component function and export for use
 export default function UpdateCause() {
+	// Call the styles function
 	const classes = useStyles();
-
+	// Create the JSX for the component
 	return (
 		<Grid className='cardPost'>
 			<form className={classes.root} noValidate autoComplete='off'>

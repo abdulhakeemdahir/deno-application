@@ -1,7 +1,8 @@
+// Import all relevant packages and components
 import { makeStyles } from "@material-ui/core/styles";
 import Image from "../images/splash.jpg";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	gradientStyle: {
 		bottom: "0px",
@@ -12,8 +13,11 @@ const useStyles = makeStyles({
 		zIndex: "-101",
 	},
 });
+// Create the component function and export for use
 export default function Splash() {
+	// Call the styles function
 	const classes = useStyles();
+	// Create the JSX for the component
 	return (
 		<CssBaseline>
 			<div className={classes.gradientStyle}>

@@ -1,5 +1,5 @@
+// Import all relevant packages and components
 import React from "react";
-
 import {
 	Typography,
 	Grid,
@@ -8,9 +8,8 @@ import {
 	CardContent,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
 import "./style.css";
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -22,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	shadow: {
 		boxShadow: "none",
-		// background: "#f7f7f7",
 		borderRadius: "0px !important",
 		width: "100%",
 	},
@@ -35,30 +33,29 @@ const useStyles = makeStyles(theme => ({
 		borderBottom: "1px dashed #e7e7e7",
 		paddingBottom: "2px",
 	},
-	selectEmpty: {
-		// marginTop: theme.spacing(2),
-	},
 	styleMain: {
 		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
 		color: "#ffffff",
 		padding: "15px",
-		// marginTop: "10px",
 		borderRadius: "0px",
 	},
-	inputMargin: {
-		// margin: "5px",
-	},
 }));
-
+// Create the component function and export for use
 export default function SingleNews(props) {
+	// Call the styles function
 	const classes = useStyles();
-
+	// Create the JSX for the component
 	return (
 		<Grid container>
 			<Grid item className='card' xs={12}>
 				<Grid container className='headerContainer'>
 					<Grid item xs={9} sm={10}>
-						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+						<Typography
+							variant='subtitle1'
+							style={{
+								fontWeight: "bold",
+							}}
+						>
 							{props.title}
 						</Typography>
 					</Grid>

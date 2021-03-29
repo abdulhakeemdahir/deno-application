@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React from "react";
 import {
 	Typography,
@@ -12,9 +13,9 @@ import Newsfeed from "../../images/newsfeed@2x.jpg";
 import Direct from "../../images/direct@2x.jpg";
 import Verified from "../../images/verified@2x.jpg";
 import Gamified from "../../images/gamified@2x.jpg";
-
+// Create the component function and export for use
 export default function SiteInfo(props) {
-	console.log(props.onClose);
+	// Create the JSX for the component
 	return (
 		<Container className='card'>
 			<Grid container xs={12}>
@@ -35,7 +36,12 @@ export default function SiteInfo(props) {
 					</Grid>
 					<Grid item xs={12}>
 						<CardContent>
-							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+							<Typography
+								variant='subtitle1'
+								style={{
+									fontWeight: "bold",
+								}}
+							>
 								Newsfeed Full of Good:
 							</Typography>
 							<Divider />
@@ -53,7 +59,12 @@ export default function SiteInfo(props) {
 								<CardMedia image={Direct} className='logo' />
 							</Grid>
 
-							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+							<Typography
+								variant='subtitle1'
+								style={{
+									fontWeight: "bold",
+								}}
+							>
 								Direct Cause Support:
 							</Typography>
 							<Divider />
@@ -68,7 +79,12 @@ export default function SiteInfo(props) {
 								<CardMedia image={Verified} className='logo' />
 							</Grid>
 
-							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+							<Typography
+								variant='subtitle1'
+								style={{
+									fontWeight: "bold",
+								}}
+							>
 								Verified and Certified:
 							</Typography>
 							<Divider />
@@ -83,7 +99,12 @@ export default function SiteInfo(props) {
 								<CardMedia image={Gamified} className='logo' />
 							</Grid>
 
-							<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
+							<Typography
+								variant='subtitle1'
+								style={{
+									fontWeight: "bold",
+								}}
+							>
 								Gamified Giving:
 							</Typography>
 							<Divider />

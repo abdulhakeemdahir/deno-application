@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Gradient from "../../../components/Gradient";
@@ -11,35 +12,23 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Splash from "../../../components/Splash";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { TabPanel, a11yProps } from "../../utils";
-import {
-	GET_USER_INFO,
-	REMOVE_USER,
-	UPDATE_USER,
-	USER_LOADING,
-	//What about USER_LOADED?
-} from "../../../utils/actions/actions";
-
-import API from "../../../utils/api";
-
+// Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-
+// Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
-		// backgroundColor: theme.palette.background.paper,
 	},
 	tabpanel: {
 		marginLeft: "auto",
 		marginRight: "auto",
 	},
 	centerPosition: {
-		// padding: "20px",
 		textAlign: "center",
 	},
 	centerContainer: {
@@ -60,55 +49,17 @@ const useStyles = makeStyles({
 		margin: "10px",
 	},
 });
-
+// Create the component function and export for use
 const Landing = () => {
-	const [userState, userDispatch] = useUserContext();
-
-	//Read
-	const getUserInfo = async id => {
-		userDispatch({ type: USER_LOADING });
-		const userInfo = await API.getUser(id);
-		userDispatch({
-			type: GET_USER_INFO,
-			payload: {
-				...userInfo,
-			},
-		});
-	};
-
-	//Update
-	const updateUser = async (id, data) => {
-		userDispatch({ type: USER_LOADING });
-		await API.getUser(id, data);
-		userDispatch({
-			type: UPDATE_USER,
-			payload: {
-				...data,
-			},
-		});
-	};
-
-	//Delete user
-	const removeUser = async id => {
-		userDispatch({ type: USER_LOADING });
-		await API.deleteUser(id);
-		userDispatch({
-			type: REMOVE_USER,
-			payload: {
-				users: userState.users.filter(user => {
-					return user._id !== id;
-				}),
-				loading: false,
-			},
-		});
-	};
-
+	// Call the styles function
 	const classes = useStyles();
+	// Create the set and setState from useState
 	const [value, setValue] = React.useState(0);
-
+	// Create the handleChange function
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+	// Create the JSX for the component
 	return (
 		<div className='landing'>
 			<Grid
