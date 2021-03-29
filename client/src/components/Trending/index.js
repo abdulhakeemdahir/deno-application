@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import { Typography } from "@material-ui/core";
 import "./style.css";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";

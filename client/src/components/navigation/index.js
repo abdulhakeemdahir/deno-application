@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useState, useRef } from "react";
 import {
   AppBar,
@@ -18,6 +19,7 @@ import {
 } from "../../utils/auth";
 import { useHistory } from "react-router-dom";
 
+// Create the component function and export for use
 const Nav = () => {
   const navLinks = [
     { title: `landing`, path: `/` },
@@ -25,27 +27,25 @@ const Nav = () => {
     { title: `newsfeed`, path: `/newsfeed` },
     { title: `dashboard`, path: `/dashboard` }
   ];
-
+  // Create the set and setState from useState
   const [search, searchState] = useState("");
-
+  // Call the styles function
   const classes = useNavStyles();
-
+  // Call the logout function
   const logout = useLogout();
-
+  // Call the useHistory function
   const history = useHistory();
-
+  // Call the login function
   const login = () => {
     history.push("/");
   };
 
   const searchBarRef = useRef();
-
   const handleInputChange = event => searchBarRef.current.value;
-
+  // Call the useAuth function
   useAuthTokenStore();
-
   const isAuth = useIsAuthenticated();
-
+  // Create the JSX for the component
   return (
     <CssBaseline>
       <AppBar position="static" className={classes.appBar}>

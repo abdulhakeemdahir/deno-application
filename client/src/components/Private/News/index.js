@@ -1,5 +1,5 @@
+// Import all relevant packages and components
 import React, { useEffect, useState } from "react";
-
 import {
   Typography,
   Grid,
@@ -19,11 +19,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Edit } from "@material-ui/icons";
-
 import "./style.css";
-
 import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
-
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
@@ -35,27 +32,30 @@ import {
 } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 
+// Create the component function and export for use
 const News = props => {
+  // Call the styles function
   const classes = useNewsStyles();
+  // Create the set and setState from useState
   const [open, setOpen] = useState(false);
-
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
-
+  // Destructure State and Dispatch from Context
   const [guessState, guessDispatch] = useGuessContext();
-
+  // Create the set and setState from useState
   const [commentState, setCommentState] = useState({
     content: ""
   });
-
+  // Call useSocket
   const socket = useSocket();
-
+  // Create the clearState function
   const clearState = () => {
     setCommentState({
       content: ""
     });
     return;
   };
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setCommentState({
@@ -63,7 +63,7 @@ const News = props => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async id => {
     try {
       const comment = {
@@ -71,15 +71,12 @@ const News = props => {
         user: userState._id,
         post: id
       };
-
       const { data } = await api.createComments(comment);
-
-      await api.updateObjectID(id, { comments: data._id });
-
+      await api.updateObjectID(id, {
+        comments: data._id
+      });
       const userInfo = await api.getUser(userState._id);
-
       await userDispatch({ type: USER_LOADING });
-
       await userDispatch({
         type: UPDATE_USER,
         payload: {
@@ -87,7 +84,6 @@ const News = props => {
           loading: false
         }
       });
-
       if (guessState._id) {
         const guessInfo = await api.getUser(guessState._id);
 
@@ -100,7 +96,6 @@ const News = props => {
             loading: false
           }
         });
-
         socket.emit("send-comment-dashboard", guessState._id);
       } else {
         socket.emit("send-comment-dashboard", userState._id);
@@ -133,20 +128,18 @@ const News = props => {
         });
       }
     };
-
     socket.on("update-dashboard", updateDashboard);
-
     return () => socket.off("update-dashboard");
   }, []);
-
+  // Create the handleOpen function
   const handleOpen = () => {
     setOpen(true);
   };
-
+  // Create the handleClose function
   const handleClose = () => {
     setOpen(false);
   };
-
+  // Create the JSX for the component
   return (
     <>
       <Grid item className="card" xs={12}>

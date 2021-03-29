@@ -1,10 +1,12 @@
+// Import all relevant packages and components
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import { Button, ButtonGroup, List, ListItem } from "@material-ui/core";
 import updateFormStyles from "../useStyles/formStyles";
 
+// Create the component function and export for use
 const FormUserConfirm = props => {
+  // Create the continueOne function
   const continueOne = async e => {
     e.preventDefault();
 
@@ -12,25 +14,18 @@ const FormUserConfirm = props => {
 
     props.nextStep();
   };
+  // Create the previousOne function
   const previousOne = e => {
     e.preventDefault();
     props.previousStep();
   };
 
   const {
-    values: {
-      firstName,
-      lastname,
-      role,
-      email,
-      username,
-      password,
-      bio,
-      thumbnail
-    }
+    values: { firstName, lastname, role, email, bio, thumbnail }
   } = props;
+  // Call the styles function
   const classes = updateFormStyles();
-
+  // Create the JSX for the component
   return (
     <>
       <List>

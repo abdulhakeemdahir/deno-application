@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
@@ -6,7 +7,9 @@ import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
 import updateFormStyles from "../useStyles/formStyles";
 
+// Create the component function and export for use
 const UpdateUser = props => {
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -16,7 +19,7 @@ const UpdateUser = props => {
     lastname: "",
     bio: ""
   });
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setStateUpdate({
@@ -24,7 +27,7 @@ const UpdateUser = props => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async event => {
     event.preventDefault();
     const updateUser = {};
@@ -38,7 +41,6 @@ const UpdateUser = props => {
     if (stateUpdate.bio !== "") {
       updateUser.bio = stateUpdate.bio;
     }
-
     //*Associated with cloudinary
     if (previewSource) {
       updateUser.profileImg = previewSource;
@@ -47,7 +49,9 @@ const UpdateUser = props => {
 
     const userInfo = await api.getUser(userState._id);
 
-    await userDispatch({ type: USER_LOADING });
+    await userDispatch({
+      type: USER_LOADING
+    });
 
     await userDispatch({
       type: UPDATE_USER,
@@ -65,14 +69,13 @@ const UpdateUser = props => {
     const updateUser = await api.updateUser(userState._id, update);
     console.log(updateUser);
   };
-
+  // Call the styles function
   const classes = updateFormStyles();
-
+  // Create the handleFileInputChange function
   const handleFileInputChange = e => {
     const file = e.target.files[0];
     previewFile(file);
   };
-
   const previewFile = file => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

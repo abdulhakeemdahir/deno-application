@@ -1,5 +1,5 @@
+// Import all relevant packages and components
 import React from "react";
-
 import {
   Typography,
   Grid,
@@ -12,11 +12,16 @@ import {
 } from "@material-ui/core";
 import useNewsStyles from "./useNewsStyles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import "./style.css";
+import { useUserContext } from "../../utils/GlobalStates/UserContext";
 
+// Create the component function and export for use
 const News = props => {
+  // Call the styles function
   const classes = useNewsStyles();
+  // Destructure State and Dispatch from Context
+  const [userState] = useUserContext();
+  // Create the JSX for the component
   return (
     <>
       <Grid item className="card" xs={12}>

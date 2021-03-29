@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// Import all relevant packages and components
 import { Grid, Button, TextField } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -22,14 +22,18 @@ import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
 import api from "../../utils/api.js";
 
+// Create the component function and export for use
 const Post = () => {
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
   const [, causeDispatch] = useCauseContext();
   const [, postDispatch] = usePostContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
+  // Call the styles function
   const classes = usePostStyles();
+  // Create the set and setState from useState
   const [createPost, setCreatePost] = useState({
     type: "",
     title: "",
@@ -41,9 +45,7 @@ const Post = () => {
   //*Create Post
   const addPost = async () => {
     await postDispatch({ type: POST_LOADING });
-
     const postInfo = await api.getAllPost();
-
     await postDispatch({
       type: ADD_POST,
       payload: {
@@ -57,9 +59,7 @@ const Post = () => {
     await causeDispatch({
       type: CAUSE_LOADING
     });
-
     const causes = await api.getAllCauses();
-
     await causeDispatch({
       type: ADD_CAUSE,
       payload: {
@@ -68,12 +68,10 @@ const Post = () => {
       }
     });
   };
-
+  // Update user
   const updateUserStates = async () => {
     const userInfo = await api.getUser(userState._id);
-
     await userDispatch({ type: USER_LOADING });
-
     await userDispatch({
       type: UPDATE_USER,
       payload: {
@@ -82,7 +80,7 @@ const Post = () => {
       }
     });
   };
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setCreatePost({
@@ -90,7 +88,7 @@ const Post = () => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async event => {
     event.preventDefault();
     try {
@@ -102,14 +100,11 @@ const Post = () => {
       if (previewSource) {
         post.imageUrl = previewSource;
       }
-
       const hashtags = await findHashtags(createPost.content);
-
       if (hashtags.length) {
         const createHashtags = await api.createHashtag({ hashtag: hashtags });
         post.hashtags = createHashtags.data._id;
       }
-
       if (userState.role === "Personal" || createPost.type === "Post") {
         setCreatePost({
           ...createPost,
@@ -121,36 +116,28 @@ const Post = () => {
             posts: data._id
           });
         }
-
         await api.updateUserObjectID(post.author, {
           posts: data._id
         });
-
         await addPost();
       } else {
         const { data } = await api.createCause(post);
-
         if (post.hashtags) {
           await api.updateHashtag(post.hashtags, {
             causes: data._id
           });
         }
-        await api.updateUserObjectID(post.author, {
-          causes: data._id
-        });
 
         await api.updateUserObjectID(post.author, {
           causes: data._id
         });
-
         await addCause();
       }
       await updateUserStates();
       clearState();
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
+  // Create the clearState function
   const clearState = () => {
     setCreatePost({
       type: "",
@@ -161,15 +148,13 @@ const Post = () => {
       imageUrl: ""
     });
     setPreviewSource("");
-
     return;
   };
-
+  // Create the handleFileInputChange function
   const handleFileInputChange = e => {
     const file = e.target.files[0];
     previewFile(file);
   };
-
   const previewFile = file => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -177,7 +162,6 @@ const Post = () => {
       setPreviewSource(reader.result);
     };
   };
-
   // Form validation for inputs to be more than 6 characters
   const validate = event => {
     const { name, value } = event.target;
@@ -206,10 +190,9 @@ const Post = () => {
       });
       console.log(createPost);
     }
-
     return isError;
   };
-
+  // Create the JSX for the component
   return (
     <Grid className="cardPost">
       <form

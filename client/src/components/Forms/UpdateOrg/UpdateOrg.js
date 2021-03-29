@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
@@ -5,9 +6,11 @@ import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
 import updateFormStyles from "../useStyles/formStyles";
-
+// Create the component function and export for use
 const UpdateOrg = props => {
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
+  // Create the set and setState from useState
   const [stateSignUp, setStateSignUp] = useState({
     firstName: "",
     lastname: "",
@@ -21,7 +24,7 @@ const UpdateOrg = props => {
     username: "",
     orgName: ""
   });
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setStateSignUp({
@@ -29,11 +32,13 @@ const UpdateOrg = props => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const updateUser = { role: userState.role };
+    const updateUser = {
+      role: userState.role
+    };
     if (stateSignUp.orgName !== "") {
       updateUser.orgName = stateSignUp.orgName;
     }
@@ -75,7 +80,9 @@ const UpdateOrg = props => {
 
     const userInfo = await api.getUser(userState._id);
 
-    await userDispatch({ type: USER_LOADING });
+    await userDispatch({
+      type: USER_LOADING
+    });
 
     await userDispatch({
       type: UPDATE_USER,
@@ -93,13 +100,12 @@ const UpdateOrg = props => {
     const updateUser = await api.updateUser(userState._id, update);
     console.log(updateUser);
   };
-
+  // Call the styles function
   const classes = updateFormStyles();
-
   //*Associated with cloudinary
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
-
+  // Create the handleFileInputChange function
   const handleFileInputChange = e => {
     const file = e.target.files[0];
     previewFile(file);
@@ -112,7 +118,7 @@ const UpdateOrg = props => {
       setPreviewSource(reader.result);
     };
   };
-
+  // Create the JSX for the component
   return (
     <Grid
       container

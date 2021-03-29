@@ -1,3 +1,4 @@
+//Import all relevant packages and components
 import React from "react";
 import { Image } from "cloudinary-react";
 import {
@@ -19,20 +20,23 @@ import "./style.css";
 import UpdateUser from "../Forms/UpdateUser/UpdateUser";
 import UpdateOrg from "../Forms/UpdateOrg/UpdateOrg";
 import { NavLink } from "react-router-dom";
+// Create a useStyles Material UI component for styling
 import aboutStyles from "./aboutStyles";
 
 const About = props => {
+  //Call the styles function
   const classes = aboutStyles();
+  //Create the Dialog state
   const [open, setOpen] = React.useState(false);
-
+  // Create the handleOpen function for the Dialog Component
   const handleOpen = () => {
     setOpen(true);
   };
-
+  // Create the handleClose function for the Dialog Component
   const handleClose = () => {
     setOpen(false);
   };
-
+  //Create the JSX for the component
   return (
     <Grid item className="card">
       <Grid container className="headerContainer">
@@ -90,7 +94,9 @@ const About = props => {
           <CardContent>
             <Typography
               variant="body2"
-              style={{ fontWeight: "bold" }}
+              style={{
+                fontWeight: "bold"
+              }}
               color="textSecondary"
             >
               {props.orgName}

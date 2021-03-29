@@ -1,16 +1,20 @@
+// Import all relevant packages and components
 import React from "react";
 import formStyles from "../useStyles/formStyles";
 import { TextField, Button } from "@material-ui/core";
 
+// Create the component function and export for use
 const FormOrgDetails1 = props => {
+  // Create the continueOne function
   const continueOne = e => {
     e.preventDefault();
     props.nextStep();
   };
 
   const { values, handleChange, validate, validateEmail } = props;
+  // Call the styles function
   const classes = formStyles();
-
+  // Create the JSX for the component
   return (
     <>
       <TextField

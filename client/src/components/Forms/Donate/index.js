@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// Import all relevant packages and components
 import { Grid, Button, TextField, Typography } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
@@ -6,13 +6,16 @@ import { useState } from "react";
 import api from "../../../utils/api";
 import donateStyles from "./donateStyles";
 
+// Create the component function and export for use
 const Donate = props => {
+  // Call the styles function
   const classes = donateStyles();
+  // Create the set and setState from useState
   const [donateState, setDonateState] = useState({
     amount: "",
     title: props.title
   });
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setDonateState({
@@ -20,7 +23,7 @@ const Donate = props => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async event => {
     event.preventDefault();
     //Todo please add a nice styling for validation numbers
@@ -29,10 +32,8 @@ const Donate = props => {
       return;
     }
     const pay = await api.donate(donateState);
-
-    console.log(donateState);
   };
-
+  // Create the JSX for the component
   return (
     <Grid className="cardPost">
       <form

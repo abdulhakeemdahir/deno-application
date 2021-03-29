@@ -1,5 +1,5 @@
+// Import all relevant packages and components
 import React from "react";
-
 import {
   Typography,
   Grid,
@@ -7,19 +7,25 @@ import {
   Divider,
   CardContent
 } from "@material-ui/core";
-
-import "./style.css";
 import useSingleStyles from "./useSingleStyles";
+import "./style.css";
 
+// Create the component function and export for use
 const SingleNews = props => {
+  // Call the styles function
   const classes = useSingleStyles();
-
+  // Create the JSX for the component
   return (
     <Grid container>
       <Grid item className="card" xs={12}>
         <Grid container className="headerContainer">
           <Grid item xs={9} sm={10}>
-            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            <Typography
+              variant="subtitle1"
+              style={{
+                fontWeight: "bold"
+              }}
+            >
               {props.title}
             </Typography>
           </Grid>

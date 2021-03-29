@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React from "react";
 import {
   Typography,
@@ -19,45 +20,43 @@ import api from "../../../utils/api";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
 import Donate from "../../Forms/Donate/Donate.js";
-
+// Create the component function and export for use
 const Causes = props => {
+  // Create the set and setState from useState
   const [open, setOpen] = React.useState(false);
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
-
+  // Call useAuth function
   useAuthTokenStore();
-
   const isAuth = useIsAuthenticated();
-
+  // Create the handleOpen function
   const handleOpen = () => {
     setOpen(true);
   };
-
+  // Create the handleClose function
   const handleClose = () => {
     setOpen(false);
   };
-
+  // Create the handleFollow function
   const handleFollow = async id => {
     if (userState.role === "Organization") {
       //TODO error message
       console.log("you are an organization");
       return;
     }
-
     const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
-
     if (checkIfLiked.data) {
       //TODO error message you like this already
       console.log("sorry");
       return;
     }
-
     await api.updateUserObjectID(userState._id, {
       causes: id
     });
     const userInfo = await api.getUser(userState._id);
-
-    await userDispatch({ type: USER_LOADING });
-
+    await userDispatch({
+      type: USER_LOADING
+    });
     await userDispatch({
       type: UPDATE_USER,
       payload: {
@@ -66,7 +65,7 @@ const Causes = props => {
       }
     });
   };
-
+  // Create the JSX for the component
   return (
     <Grid item className="card">
       <Grid container className="headerContainer">
@@ -94,11 +93,7 @@ const Causes = props => {
           >
             <Fade in={open}>
               {props.check ? null : props.role === "Organization" ? (
-                <UpdateCause
-                  className={"cardPost"}
-                  onClose={handleClose}
-                  id={props.id}
-                />
+                <UpdateCause className={"cardPost"} />
               ) : (
                 <Donate
                   onClose={handleClose}
@@ -112,13 +107,9 @@ const Causes = props => {
       </Grid>
       <Divider />
       <Grid container direction="row" spacing={1}>
-        <Grid item xs={12}>
-          <CardMedia
-            className={"media"}
-            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
-          />
-        </Grid>
-        <Divider />
+        {/* <Grid item xs={12} sm={4}>
+					<CardMedia className={"media"} image={props.image} />
+				</Grid> */}
         <Grid item xs={12} sm={12}>
           <CardContent>
             <Typography variant="body2" color="textSecondary">

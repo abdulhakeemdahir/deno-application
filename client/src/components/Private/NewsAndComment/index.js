@@ -1,3 +1,4 @@
+// Import all relevant packages and components
 import React, { useEffect, useState } from "react";
 import {
   Typography,
@@ -23,20 +24,21 @@ import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
 import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-
+// Create the component function and export for use
 const NewsAndComment = props => {
+  // Call the styles function
   const classes = useNewsStyles();
-
+  // Destructure State and Dispatch from Context
   const [, postDispatch] = usePostContext();
-
+  // Destructure State and Dispatch from Context
   const [userState] = useUserContext();
-
+  // Create the set and setState from useState
   const [commentState, setCommentState] = useState({
     content: ""
   });
-
+  // Call useSocket function
   const socket = useSocket();
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setCommentState({
@@ -44,7 +46,7 @@ const NewsAndComment = props => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async id => {
     try {
       const comment = {
@@ -52,15 +54,14 @@ const NewsAndComment = props => {
         user: userState._id,
         post: id
       };
-
       const { data } = await api.createComments(comment);
-
-      await api.updateObjectID(id, { comments: data._id });
-
+      await api.updateObjectID(id, {
+        comments: data._id
+      });
       const postInfo = await api.getAllPost();
-
-      await postDispatch({ type: POST_LOADING });
-
+      await postDispatch({
+        type: POST_LOADING
+      });
       await postDispatch({
         type: ADD_POST,
         payload: {
@@ -68,34 +69,34 @@ const NewsAndComment = props => {
           loading: false
         }
       });
-
       const payload = { isPost: true };
 
       socket.emit("send-message", payload);
       clearState();
     } catch (err) {}
   };
-
+  // Create the clearState function
   const clearState = () => {
     setCommentState({
       content: ""
     });
     return;
   };
-
+  // Create the handleLike function
   const handleLike = async id => {
     const found = props.liked.find(l => l._id === userState._id);
     console.log(found);
     if (found) {
-      await api.removeliked(id, { likes: userState._id });
+      await api.removeliked(id, {
+        likes: userState._id
+      });
     } else {
-      await api.updateObjectID(id, { likes: userState._id });
+      await api.updateObjectID(id, {
+        likes: userState._id
+      });
     }
-
     const postInfo = await api.getAllPost();
-
     await postDispatch({ type: POST_LOADING });
-
     await postDispatch({
       type: ADD_POST,
       payload: {
@@ -104,10 +105,11 @@ const NewsAndComment = props => {
       }
     });
   };
-
   useEffect(() => {
     const updatePosts = async posts => {
-      await postDispatch({ type: POST_LOADING });
+      await postDispatch({
+        type: POST_LOADING
+      });
 
       await postDispatch({
         type: ADD_POST,
@@ -117,12 +119,10 @@ const NewsAndComment = props => {
         }
       });
     };
-
     socket.on("update-post", updatePosts);
-
     return () => socket.off("update-post");
   }, []);
-
+  // Create the JSX for the component
   return (
     <>
       <Grid item className="card" xs={12}>
@@ -169,6 +169,18 @@ const NewsAndComment = props => {
               <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
+
+              {
+                //props.hashTag != false ? (
+                //<>
+                //   {props.hashTag[0].hashtag.map((tag) => (
+                //     <Link to={props.hashTag[0]._id} className="hashTagStyle">
+                //       #{tag}
+                //     </Link>
+                //   ))}
+                //</>
+                //) : null
+              }
             </CardContent>
             <Divider />
           </Grid>
@@ -220,7 +232,7 @@ const NewsAndComment = props => {
                           color="textSecondary"
                           component="p"
                         >
-                          {card.user.username}
+                          {card.user.firstName}
                         </Typography>
                       </Grid>
                       <Grid item xs={8}>

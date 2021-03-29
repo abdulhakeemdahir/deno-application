@@ -1,7 +1,8 @@
-// import React, { useState, useEffect } from "react";
+// Import all relevant packages and components
 import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
+// Create a useStyles Material UI component for styling
 import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { useState } from "react";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
@@ -9,6 +10,7 @@ import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
 
 const UpdateCause = props => {
+  // Call the styles function
   const classes = useUpdateStyles();
   const [userState, userDispatch] = useUserContext();
 
@@ -26,7 +28,6 @@ const UpdateCause = props => {
       [name]: value
     });
   };
-
   const handleSubmit = async event => {
     event.preventDefault();
     const updateUser = {};
@@ -44,13 +45,11 @@ const UpdateCause = props => {
     await updateCause(updateUser);
     props.onClose();
   };
-
   //read file that is been uploaded
   const handleFileInputChange = e => {
     const file = e.target.files[0];
     previewFile(file);
   };
-
   //sets the file to preview state
   const previewFile = file => {
     const reader = new FileReader();
@@ -59,14 +58,13 @@ const UpdateCause = props => {
       setPreviewSource(reader.result);
     };
   };
-
   //*update post by sending post id and update object
   const updateCause = async update => {
     console.log(update);
     const post = await api.updateCause(props.id, update);
     console.log(post);
   };
-
+  // Create the JSX for the component
   return (
     <Grid className="cardPost">
       <form className={classes.root} noValidate autoComplete="off">
@@ -78,6 +76,14 @@ const UpdateCause = props => {
               name="title"
               value={stateUpdate.title}
               onChange={handleChange}
+              multiline
+              rowsMax={4}
+              className={classes.inputMargin}
+              size="small"
+            />
+            <TextField
+              id="imageUrl"
+              label=" Edit Image Url"
               multiline
               rowsMax={4}
               className={classes.inputMargin}

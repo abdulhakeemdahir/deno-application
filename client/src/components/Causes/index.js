@@ -1,4 +1,5 @@
-import React from "react";
+//Import all relevant packages and components
+import React, { useState } from "react";
 import {
   Typography,
   Grid,
@@ -16,12 +17,12 @@ import { ThumbUpAlt } from "@material-ui/icons";
 import api from "../../utils/api";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
-
 import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
-import Donate from "../Forms/Donate/Donate";
-import { Link } from "react-router-dom";
+import Donate from "../Forms/Donate";
 
+//Create the component function and export for use
 const Causes = props => {
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
 
   const handleFollow = async id => {
@@ -33,18 +34,14 @@ const Causes = props => {
 
     const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
 
-    if (checkIfLiked.data) {
-      //TODO error message you like this already
-      console.log("sorry");
-      return;
-    }
-
     await api.updateUserObjectID(userState._id, {
       causes: id
     });
     const userInfo = await api.getUser(userState._id);
 
-    await userDispatch({ type: USER_LOADING });
+    await userDispatch({
+      type: USER_LOADING
+    });
 
     await userDispatch({
       type: UPDATE_USER,
@@ -54,21 +51,21 @@ const Causes = props => {
       }
     });
   };
-
+  // Call Authentication Store
   useAuthTokenStore();
-
+  // Get User Authentication
   const isAuth = useIsAuthenticated();
-
-  const [open, setOpen] = React.useState(false);
-
+  // Create the Dialog state
+  const [open, setOpen] = useState(false);
+  // Create the handleOpen function for the Dialog Component
   const handleOpen = () => {
     setOpen(true);
   };
-
+  // Create the handleClose function for the Dialog Component
   const handleClose = () => {
     setOpen(false);
   };
-
+  //Create the JSX for the component
   return (
     <Grid item className="card">
       <Grid container className="headerContainer">
@@ -78,17 +75,10 @@ const Causes = props => {
           </Typography>
         </Grid>
       </Grid>
-      <Typography variant="body2" color="textSecondary" component="p">
-        <span className="authorStyle"> Org:</span>
-        <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
-      </Typography>
       <Divider />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
-          <CardMedia
-            className={"media"}
-            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
-          />
+          <CardMedia className={"media"} image={props.image} />
         </Grid>
         <Divider />
         <Grid item xs={12}>

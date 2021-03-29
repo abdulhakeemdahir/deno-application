@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// Import all relevant packages and components
 import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
@@ -7,9 +7,11 @@ import { useState } from "react";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
 
+// Create the component function and export for use
 const UpdatePost = props => {
+  // Call the styles function
   const classes = useUpdateStyles();
-
+  // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -18,7 +20,7 @@ const UpdatePost = props => {
     title: "",
     content: ""
   });
-
+  // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
     setStateUpdate({
@@ -26,7 +28,7 @@ const UpdatePost = props => {
       [name]: value
     });
   };
-
+  // Create the handleSubmit function
   const handleSubmit = async event => {
     event.preventDefault();
     const updateUser = {};
@@ -37,7 +39,6 @@ const UpdatePost = props => {
     if (stateUpdate.content !== "") {
       updateUser.content = stateUpdate.content;
     }
-
     //*Associated with cloudinary
     if (previewSource) {
       updateUser.imageUrl = previewSource;
@@ -59,14 +60,13 @@ const UpdatePost = props => {
       setPreviewSource(reader.result);
     };
   };
-
   //*update post by sending post id and update object
   const updatePost = async update => {
     console.log(update);
     const post = await api.updatePost(props.id, update);
     console.log(post);
   };
-
+  // Create the JSX for the component
   return (
     <Grid className="cardPost">
       <form
