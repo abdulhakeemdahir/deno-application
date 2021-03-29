@@ -1,6 +1,6 @@
 import { Typography, Grid, Button } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import Logo from "../images/logo@2x.png";
+import Logo from "../../images/logo@2x.png";
 import useWelcomeStyles from "./useWelcomeStyles";
 
 const Welcome = () => {

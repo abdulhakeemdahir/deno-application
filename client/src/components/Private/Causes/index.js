@@ -19,7 +19,7 @@ import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
-import Donate from "../../Forms/Donate/Donate.js";
+import Donate from "../../Forms/Donate";
 // Create the component function and export for use
 const Causes = props => {
   // Create the set and setState from useState
