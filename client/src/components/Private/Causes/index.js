@@ -7,6 +7,7 @@ import {
 	Button,
 	Dialog,
 	ButtonGroup,
+  CardMedia,
 } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -94,9 +95,17 @@ export default function Causes(props) {
           >
             <Fade in={open}>
               {props.check ? null : props.role === "Organization" ? (
-                <UpdateCause className={"cardPost"} />
+                <UpdateCause
+                  className={"cardPost"}
+                  onClose={handleClose}
+                  id={props.id}
+                />
               ) : (
-                <Donate onClose={handleClose} cause={props.id} title={props.title}/>
+                <Donate
+                  onClose={handleClose}
+                  cause={props.id}
+                  title={props.title}
+                />
               )}
             </Fade>
           </Dialog>
@@ -104,9 +113,13 @@ export default function Causes(props) {
       </Grid>
       <Divider />
       <Grid container direction="row" spacing={1}>
-        {/* <Grid item xs={12} sm={4}>
-					<CardMedia className={"media"} image={props.image} />
-				</Grid> */}
+        <Grid item xs={12}>
+          <CardMedia
+            className={"media"}
+            image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+          />
+        </Grid>
+        <Divider />
         <Grid item xs={12} sm={12}>
           <CardContent>
             <Typography variant="body2" color="textSecondary">

@@ -1,32 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core";
 import "./style.css";
 
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-//import Box from "@material-ui/core/Box";
 
 import Nav from "../../../components/Navigation";
 import News from "../../../components/Private/News";
-
-//import NGO from "../../../images/ngo.png";
-
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Causes";
+import Causes from "../../../components/Private/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-// import Splash from "../../components/Splash2";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 
-import {
-	UPDATE_USER,
-	USER_LOADING,
-	//What about USER_LOADED?
-} from "../../../utils/actions/actions";
+import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
 
 import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
@@ -34,26 +24,47 @@ import { NavLink } from "react-router-dom";
 import Post from "../../../components/Post";
 
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 
 const Dashboard = () => {
-	const [userState, ] = useUserContext();
+  const [userState, userDispatch] = useUserContext();
 
-	const [value, setValue] = React.useState(0);
+  useEffect(() => {
+    async function fetchUserInfo() {
+      try {
+        const userInfo = await api.getUser(userState._id);
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
+        await userDispatch({ type: USER_LOADING });
 
-	const { width } = useWindowDimensions();
-	return (
+        await userDispatch({
+          type: UPDATE_USER,
+          payload: {
+            ...userInfo.data,
+            loading: false
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchUserInfo();
+  }, []);
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const { width } = useWindowDimensions();
+  return (
     <div className="Main">
       <CssBaseline>
         <Nav />
-
         <Grid
           container
           direction="row"
@@ -105,7 +116,7 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.username}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
@@ -125,11 +136,13 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
                         hashTag={card.hashtag}
+                        role={userState.role}
                       />
                     ))
                   )}
@@ -157,7 +170,7 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.username}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
@@ -203,7 +216,8 @@ const Dashboard = () => {
                         key={card._id}
                         id={card._id}
                         title={card.title}
-                        author={card.author.firstName}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
