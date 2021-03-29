@@ -40,32 +40,7 @@ TabPanel.propTypes = {
 };
 
 const Dashboard = () => {
-	const [userState, userDispatch] = useUserContext();
-
-	useEffect(() => {
-		async function fetchUserInfo() {
-			console.log(userState);
-			try {
-				const userInfo = await api.getUser(userState._id);
-
-				console.log(userInfo.data);
-
-				await userDispatch({ type: USER_LOADING });
-
-				await userDispatch({
-					type: UPDATE_USER,
-					payload: {
-						...userInfo.data,
-						loading: false,
-					},
-				});
-			} catch (err) {
-				console.log(err);
-			}
-		}
-
-		fetchUserInfo();
-	}, []);
+	const [userState, ] = useUserContext();
 
 	const [value, setValue] = React.useState(0);
 

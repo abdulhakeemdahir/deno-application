@@ -10,7 +10,7 @@ module.exports = {
         .populate([
           {
             path: "author",
-            select: "firstName",
+            select: "username orgName",
             model: "User"
           },
           {

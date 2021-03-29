@@ -44,16 +44,15 @@ const Newsfeed = () => {
 	const [causeState, causeDispatch] = useCauseContext();
 	const [postState, postDispatch] = usePostContext();
 	const [trendingStates, trendingDispatch] = useTrendingContext();
-	const [userState] = useUserContext();
+	const [userState, userDispatch] = useUserContext();
 	const socket = useSocket();
 	const [state] = useStoreContext();
 
 	useEffect(() => {
 		async function fetchAllPostsAndCauses() {
+
 			await causeDispatch({ type: CAUSE_LOADING });
-
 			const causes = await API.getAllCauses();
-
 			await causeDispatch({
 				type: ADD_CAUSE,
 				payload: {
@@ -63,9 +62,7 @@ const Newsfeed = () => {
 			});
 
 			const postInfo = await API.getAllPost();
-
 			await postDispatch({ type: POST_LOADING });
-
 			await postDispatch({
 				type: ADD_POST,
 				payload: {
@@ -83,6 +80,17 @@ const Newsfeed = () => {
 					loading: false,
 				},
 			});
+
+			const userInfo = await API.getUser(userState._id);
+      await userDispatch({ type: USER_LOADING });
+      await userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false,
+        },
+      });
+			console.log(userState)
 		}
 		fetchAllPostsAndCauses();
 
