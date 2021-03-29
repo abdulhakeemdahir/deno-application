@@ -70,7 +70,7 @@ module.exports = {
             populate: [
               {
                 path: "author",
-                select: "username",
+                select: "username orgName",
                 model: "User"
               },
               {

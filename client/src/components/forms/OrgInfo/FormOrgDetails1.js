@@ -47,8 +47,8 @@ const FormOrgDetails1 = props => {
         error={values.orgnameError}
         helperText={values.orgnameError}
         onBlur={validate}
-        name="orgname"
-        value={values.orgname}
+        name="orgName"
+        value={values.orgName}
         onChange={handleChange}
         variant="outlined"
         label="Organization Name"

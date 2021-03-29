@@ -172,8 +172,7 @@ const Post = () => {
       isError = true;
       errors[`${name}Error`] = "Input cannot be empty";
     }
-    console.log(errors);
-    console.log(value.length);
+
     if (isError) {
       setCreatePost({
         ...createPost,
@@ -182,13 +181,10 @@ const Post = () => {
     }
     if (value.length >= 1) {
       errors[`${name}Error`] = "";
-      console.log(errors);
-
       setCreatePost({
         ...createPost,
         ...errors
       });
-      console.log(createPost);
     }
     return isError;
   };

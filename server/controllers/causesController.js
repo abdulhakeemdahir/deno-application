@@ -44,7 +44,7 @@ module.exports = {
           path: "likes",
           populate: {
             path: "user",
-            select: "firstName",
+            select: "username orgName",
             model: "User"
           }
         })
@@ -56,7 +56,6 @@ module.exports = {
   },
   create: async ({ body }, res) => {
     const { title, content, imageUrl, author } = body;
-    console.log(title, content, imageUrl, author);
     try {
       let img = "";
       if (imageUrl) {
