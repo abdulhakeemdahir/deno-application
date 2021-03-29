@@ -8,6 +8,7 @@ import {
 	Button,
 	Dialog,
 	ButtonGroup,
+	CardMedia,
 } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";

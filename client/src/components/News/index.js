@@ -65,16 +65,7 @@ export default function News(props) {
 					</Grid>
 				</Grid>
 				<Typography variant='body2' color='textSecondary' component='p'>
-					<span className='authorStyle'> Author:</span>
-					<Link
-						to={
-							props.authorId === userState._id
-								? "/dashboard/:id"
-								: `/dashboard/:id${props.authorId}`
-						}
-					>
-						{props.author}
-					</Link>
+					<span className='authorStyle'> Author:</span> {props.author}
 				</Typography>
 				<Divider />
 				<Grid container direction='row' spacing={1}>
@@ -117,7 +108,7 @@ export default function News(props) {
 												color='textSecondary'
 												component='p'
 											>
-												{card.user.firstName}
+												{card.user.username}
 											</Typography>
 										</Grid>
 										<Grid item xs={8}>

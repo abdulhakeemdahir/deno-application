@@ -22,12 +22,12 @@ module.exports = {
         .populate([
           {
             path: "following",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
             path: "followers",
-            select: "firstName",
+            select: "username",
             model: "User"
           },
           {
@@ -37,12 +37,12 @@ module.exports = {
             populate: [
               {
                 path: "author",
-                select: "firstName",
+                select: "firstName username",
                 model: "User"
               },
               {
                 path: "likes",
-                select: "firstName",
+                select: "username",
                 model: "User"
               },
               {
@@ -56,7 +56,7 @@ module.exports = {
                 populate: [
                   {
                     path: "user",
-                    select: "firstName",
+                    select: "username",
                     model: "User"
                   }
                 ]
@@ -70,12 +70,12 @@ module.exports = {
             populate: [
               {
                 path: "author",
-                select: "firstName",
+                select: "username",
                 model: "User"
               },
               {
                 path: "likes",
-                select: "firstName",
+                select: "username",
                 model: "User"
               }
             ]

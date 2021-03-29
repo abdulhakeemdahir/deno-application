@@ -102,6 +102,11 @@ export default function UpdateOrg(props) {
 		if (stateSignUp.username !== "") {
 			updateUser.username = stateSignUp.username;
 		}
+		if (stateSignUp.orgName !== "") {
+			updateUser.orgName = stateSignUp.orgName;
+		}
+
+		updateOrg(updateUser);
 
 		updateOrg(updateUser);
 

@@ -279,7 +279,7 @@ const News = props => {
 												color='textSecondary'
 												component='p'
 											>
-												{card.user.firstName}
+												{card.user.username}
 											</Typography>
 										</Grid>
 										<Grid item xs={8}>

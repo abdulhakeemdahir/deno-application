@@ -6,7 +6,6 @@ import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
-// Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	paper: {
 		background:
@@ -105,7 +104,6 @@ export default function UpdateUser(props) {
 		const file = e.target.files[0];
 		previewFile(file);
 	};
-
 	const previewFile = file => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
@@ -113,7 +111,7 @@ export default function UpdateUser(props) {
 			setPreviewSource(reader.result);
 		};
 	};
-	// Create the JSX for the component
+
 	return (
 		<Grid
 			container
@@ -180,7 +178,7 @@ export default function UpdateUser(props) {
 				</Button>
 			</form>
 			{previewSource && (
-				<img src={previewSource} alt='chosen' style={{ width: "75%" }} />
+				<img src={previewSource} alt='chosen' className={classes.imgStyle} />
 			)}
 		</Grid>
 	);
