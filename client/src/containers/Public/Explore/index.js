@@ -43,7 +43,7 @@ TabPanel.propTypes = {
 	index: PropTypes.any.isRequired,
 	value: PropTypes.any.isRequired,
 };
-// const useStyles = makeStyles(theme => ({}));
+
 const Explore = () => {
 	const [causeState, causeDispatch] = useCauseContext();
 	const [postState, postDispatch] = usePostContext();
@@ -94,12 +94,6 @@ const Explore = () => {
 	};
 
 	const [open, setOpen] = React.useState(true);
-
-	// const handleOpen = () => {
-	// 	setOpen(true);
-	// };
-
-	// handleOpen();
 
 	const handleClose = () => {
 		setOpen(false);
@@ -178,7 +172,7 @@ const Explore = () => {
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
-									{postState.posts.map(card => {
+									{causeState.causes.map(card => {
 										return (
 											<Causes
 												key={card._id}
@@ -189,7 +183,6 @@ const Explore = () => {
 												image={card.imageUrl}
 												post={card.content}
 												hashTag={card.hashtag}
-												comments={card.comments}
 											/>
 										);
 									})}
