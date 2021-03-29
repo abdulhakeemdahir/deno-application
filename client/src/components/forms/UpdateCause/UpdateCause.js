@@ -109,6 +109,14 @@ export default function UpdateCause(props) {
 							size='small'
 						/>
 						<TextField
+							id='imageUrl'
+							label=' Edit Image Url'
+							multiline
+							rowsMax={4}
+							className={classes.inputMargin}
+							size='small'
+						/>
+						<TextField
 							id='post'
 							label='Edit Cause'
 							name='content'

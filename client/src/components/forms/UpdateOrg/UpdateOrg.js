@@ -108,8 +108,6 @@ export default function UpdateOrg(props) {
 
 		updateOrg(updateUser);
 
-		updateOrg(updateUser);
-
 		const userInfo = await api.getUser(userState._id);
 
 		await userDispatch({

@@ -163,9 +163,6 @@ export default function Post() {
 						causes: data._id,
 					});
 				}
-				await API.updateUserObjectID(post.author, {
-					causes: data._id,
-				});
 
 				await API.updateUserObjectID(post.author, {
 					causes: data._id,

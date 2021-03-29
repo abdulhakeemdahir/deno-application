@@ -180,6 +180,7 @@ const Explore = () => {
 												image={card.imageUrl}
 												post={card.content}
 												hashTag={card.hashtag}
+												comments={card.comments}
 											/>
 										);
 									})}

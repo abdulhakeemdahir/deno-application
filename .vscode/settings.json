@@ -3,8 +3,10 @@
     "astralgnome",
     "camelcase",
     "cloudinary",
+    "destructure",
     "heroku",
     "labelledby",
+    "newsfeed",
     "postbuild",
     "signin",
     "tabpanel"
