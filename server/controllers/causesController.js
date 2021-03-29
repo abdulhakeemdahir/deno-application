@@ -44,7 +44,7 @@ module.exports = {
           path: "likes",
           populate: {
             path: "user",
-            select: "firstName",
+            select: "username orgName",
             model: "User"
           }
         })

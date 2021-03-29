@@ -54,7 +54,7 @@ module.exports = {
           footer: "PLease try again"
         });
       }
-
+      console.log("Line 57 ???????????", userObject);
       await User.create(userObject);
 
       // const key = crypto();
