@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
   Button,
   FormControl,
@@ -9,94 +9,15 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import chatStyles from "./styles/chatStyles";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
 
-const useStyles = makeStyles(theme => ({
-  styleMain: {
-    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-    color: "#ffffff",
-    padding: "15px"
-  },
-  chatContainer: {
-    position: "relative",
-    height: "60vh",
-    overflowY: "scroll",
-    clear: "both"
-    // boxShadow: "0px 1px 1px #de1dde"
-  },
-  p: {
-    maxWidth: 255,
-    wordWrap: "break-word",
-    marginBottom: 12,
-    lineHeight: 24,
-    position: "relative",
-    padding: "10px 20px",
-    borderRadius: 25,
-
-    "&:before": {
-      content: '"',
-      position: "absolute",
-      bottom: 0,
-      height: 25
-    },
-    "&:after": {
-      content: '"',
-      position: "absolute",
-      bottom: 0,
-      height: 25
-    }
-  },
-
-  fromMe: {
-    color: "white",
-    background: "#0B93F6",
-    alignSelf: "flex-end",
-
-    "&:before": {
-      right: "-7px",
-      width: 20,
-      backgroundColor: "#0B93F6",
-      borderBottomLeftRadius: "16px 14px"
-    },
-
-    "&:after": {
-      right: "-26px",
-      width: 26,
-      backgroundColor: "white",
-      borderBottomLeftRadius: 10
-    }
-  },
-
-  fromThem: {
-    background: "#E5E5EA",
-    color: "black",
-    alignSelf: "flex-start",
-
-    "&:before": {
-      left: "-7px",
-      width: 20,
-      backgroundColor: "#E5E5EA",
-      borderBottomRightRadius: 16
-    },
-
-    "&:after": {
-      left: "-26px",
-      width: 26,
-      backgroundColor: "white",
-      borderBottomRightRadius: 10
-    }
-  }
-}));
-
 const ChatContainer = ({ chat, sendMessage, userId }) => {
-  const classes = useStyles();
+  const classes = chatStyles();
 
   const [content, setContent] = useState("");
 
   const [userState] = useUserContext();
-
-  const textRef = useRef();
 
   const sendMessageToServer = () => {
     const filterPart = chat.participants.filter(
@@ -122,23 +43,26 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
   };
 
   return (
-    <>
+    <main>
       <Grid container className={classes.chatContainer}>
-        <List>
+        <List className={classes.bubbleContainer}>
           {chat?.messages?.length ? (
             chat.messages?.map(message => {
               let messageDeco =
-                message.sender.username !== userState.username
-                  ? classes.fromThem
-                  : classes.fromMe;
+                message.sender.username === userState.username
+                  ? { fromMe: classes.fromMe, bubbleMe: classes.bubbleMe }
+                  : {
+                      fromThem: classes.fromThem,
+                      bubbleThem: classes.bubbleThem
+                    };
 
               return (
-                <ListItem>
-                  <List>
-                    <ListItem>
-                      <p className={messageDeco}>{message.content}</p>
+                <ListItem className={Object.values(messageDeco)[0]}>
+                  <List style={{ maxWidth: "40ch" }}>
+                    <ListItem className={Object.values(messageDeco)[1]}>
+                      <p>{message.content}</p>
                     </ListItem>
-                    <ListItem>
+                    <ListItem style={{ fontSize: ".7rem" }}>
                       {message.sender?.username} - {message.createdAt}
                     </ListItem>
                   </List>
@@ -148,6 +72,7 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
           ) : (
             <Typography>Say Hello! 👋</Typography>
           )}
+          <div className='messagesEnd'></div>
         </List>
       </Grid>
       <Grid className={classes.textContainer} item>
@@ -174,7 +99,7 @@ const ChatContainer = ({ chat, sendMessage, userId }) => {
           </FormControl>
         </FormGroup>
       </Grid>
-    </>
+    </main>
   );
 };
 

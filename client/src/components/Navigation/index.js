@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef } from "react";
 import {
   AppBar,
   Toolbar,
@@ -103,13 +103,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Nav() {
+const Nav = () => {
   const navLinks = [
     { title: `landing`, path: `/` },
     { title: `explore`, path: `/explore` },
     { title: `newsfeed`, path: `/newsfeed` },
     { title: `dashboard`, path: `/dashboard` }
   ];
+
+  const [search, searchState] = useState("");
 
   const classes = useStyles();
 
@@ -121,9 +123,14 @@ export default function Nav() {
     history.push("/");
   };
 
+  const searchBarRef = useRef();
+
+  const handleInputChange = event => searchBarRef.current.value;
+
   useAuthTokenStore();
 
   const isAuth = useIsAuthenticated();
+
   return (
     <CssBaseline>
       <AppBar position='static' className={classes.appBar}>
@@ -152,6 +159,8 @@ export default function Nav() {
                   input: classes.inputInput
                 }}
                 inputProps={{ "aria-label": "search" }}
+                ref={searchBarRef}
+                onChange={handleInputChange}
                 fullWidth
               />
             </div>
@@ -165,4 +174,6 @@ export default function Nav() {
       </AppBar>
     </CssBaseline>
   );
-}
+};
+
+export default Nav;
