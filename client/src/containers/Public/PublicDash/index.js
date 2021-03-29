@@ -66,162 +66,162 @@ const PublicDash = () => {
 	const { width } = useWindowDimensions();
 	// Create the JSX for the component
 	return (
-		<div className='Main'>
-			<CssBaseline>
-				<Nav />
-				<Grid
-					container
-					direction='row'
-					justify='center'
-					className={"container"}
-					xs={12}
-					lg={10}
-					xl={8}
-				>
-					{width > 600 ? (
-						<>
-							<Grid container spacing={2}>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>ABOUT</Typography>
-									<About
-										key={guessState._id}
-										id={guessState._id}
-										bio={guessState.bio}
-										firstName={guessState.firstName}
-										lastname={guessState.lastname}
-										username={guessState.username}
-										email={guessState.email}
-										role={guessState.role}
-										verified={guessState.verified}
-										following={guessState.following.length}
-										followers={guessState.followers.length}
-										posts={guessState.posts}
-										causes={guessState.causes}
-										profileImg={guessState.profileImg}
-										bannerImg={guessState.bannerImg}
-										orgName={guessState.orgName}
-										phoneNumber={guessState.phoneNumber}
-										website={guessState.website}
-										address={guessState.address}
-										check={id}
-									/>
-								</Grid>
-								<Grid item xs={12} sm={6} className='card-container'>
-									<Typography variant='subtitle2'>NEWS FEED</Typography>
-									{guessState.posts.map(card => (
-										<News
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											comments={card.comments}
-											check={id}
-										/>
-									))}
-								</Grid>
-								<Grid item xs={12} sm={3} className='card-container'>
-									<Typography variant='subtitle2'>CAUSES</Typography>
-									{guessState.causes.map(card => (
-										<Causes
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											check={id}
-										/>
-									))}
-								</Grid>
-							</Grid>
-						</>
-					) : (
-						<>
-							<Tabs
-								value={value}
-								onChange={handleChange}
-								aria-label='simple tabs example'
-							>
-								<Tab label='News' {...a11yProps(0)} />
-								<Tab label='About' {...a11yProps(1)} />
-								<Tab label='Causes' {...a11yProps(2)} />
-							</Tabs>
-							<TabPanel value={value} index={0}>
-								<Grid item xs={12}>
-									{guessState.posts.map(card => (
-										<News
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											comments={card.comments}
-											check={id}
-										/>
-									))}
-								</Grid>
-							</TabPanel>
-							<TabPanel value={value} index={1}>
-								<Grid item xs={12}>
-									<About
-										key={guessState._id}
-										id={guessState._id}
-										bio={guessState.bio}
-										firstName={guessState.firstName}
-										lastname={guessState.lastname}
-										username={guessState.username}
-										email={guessState.email}
-										role={guessState.role}
-										verified={guessState.verified}
-										following={guessState.following.length}
-										followers={guessState.followers.length}
-										posts={guessState.posts}
-										causes={guessState.causes}
-										profileImg={guessState.profileImg}
-										bannerImg={guessState.bannerImg}
-										orgName={guessState.orgName}
-										phoneNumber={guessState.phoneNumber}
-										website={guessState.website}
-										address={guessState.address}
-										check={id}
-									/>
-								</Grid>
-							</TabPanel>
-							<TabPanel value={value} index={2}>
-								<Grid item xs={12}>
-									{guessState.causes.map(card => (
-										<Causes
-											key={card._id}
-											id={card._id}
-											title={card.title}
-											author={card.author.firstName}
-											link={card.url}
-											image={card.imageUrl}
-											post={card.content}
-											hashTag={card.hashtag}
-											check={id}
-										/>
-									))}
-								</Grid>
-							</TabPanel>
-						</>
-					)}
-				</Grid>
-				<Gradient />
-				{/* <Splash /> */}
-				<Footer />
-			</CssBaseline>
-		</div>
-	);
+    <div className="Main">
+      <CssBaseline>
+        <Nav />
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          className={"container"}
+          xs={12}
+          lg={10}
+          xl={8}
+        >
+          {width > 600 ? (
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">ABOUT</Typography>
+                  <About
+                    key={guessState._id}
+                    id={guessState._id}
+                    bio={guessState.bio}
+                    firstName={guessState.firstName}
+                    lastname={guessState.lastname}
+                    username={guessState.username}
+                    email={guessState.email}
+                    role={guessState.role}
+                    verified={guessState.verified}
+                    following={guessState.following.length}
+                    followers={guessState.followers.length}
+                    posts={guessState.posts}
+                    causes={guessState.causes}
+                    profileImg={guessState.profileImg}
+                    bannerImg={guessState.bannerImg}
+                    orgName={guessState.orgName}
+                    phoneNumber={guessState.phoneNumber}
+                    website={guessState.website}
+                    address={guessState.address}
+                    check={id}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} className="card-container">
+                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                  {guessState.posts.map((card) => (
+                    <News
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      author={card.author.username}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtag}
+                      comments={card.comments}
+                      check={id}
+                    />
+                  ))}
+                </Grid>
+                <Grid item xs={12} sm={3} className="card-container">
+                  <Typography variant="subtitle2">CAUSES</Typography>
+                  {guessState.causes.map((card) => (
+                    <Causes
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      author={card.author.orgName}
+                      causeId={card.author._id}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtag}
+                    />
+                  ))}
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="simple tabs example"
+              >
+                <Tab label="News" {...a11yProps(0)} />
+                <Tab label="About" {...a11yProps(1)} />
+                <Tab label="Causes" {...a11yProps(2)} />
+              </Tabs>
+              <TabPanel value={value} index={0}>
+                <Grid item xs={12}>
+                  {guessState.posts.map((card) => (
+                    <News
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      author={card.author.username}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtag}
+                      comments={card.comments}
+                      check={id}
+                    />
+                  ))}
+                </Grid>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <Grid item xs={12}>
+                  <About
+                    key={guessState._id}
+                    id={guessState._id}
+                    bio={guessState.bio}
+                    firstName={guessState.firstName}
+                    lastname={guessState.lastname}
+                    username={guessState.username}
+                    email={guessState.email}
+                    role={guessState.role}
+                    verified={guessState.verified}
+                    following={guessState.following.length}
+                    followers={guessState.followers.length}
+                    posts={guessState.posts}
+                    causes={guessState.causes}
+                    profileImg={guessState.profileImg}
+                    bannerImg={guessState.bannerImg}
+                    orgName={guessState.orgName}
+                    phoneNumber={guessState.phoneNumber}
+                    website={guessState.website}
+                    address={guessState.address}
+                    check={id}
+                  />
+                </Grid>
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                <Grid item xs={12}>
+                  {guessState.causes.map((card) => (
+                    <Causes
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      author={card.author.orgName}
+                      causeId={card.author._id}
+                      link={card.url}
+                      image={card.imageUrl}
+                      post={card.content}
+                      hashTag={card.hashtag}
+                    />
+                  ))}
+                </Grid>
+              </TabPanel>
+            </>
+          )}
+        </Grid>
+        <Gradient />
+        {/* <Splash /> */}
+        <Footer />
+      </CssBaseline>
+    </div>
+  );
 };
 
 export default PublicDash;

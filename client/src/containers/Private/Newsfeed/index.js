@@ -50,31 +50,19 @@ const Newsfeed = () => {
 	const socket = useSocket();
 	// Destructure State and Dispatch from Context
 	const [state] = useStoreContext();
-	// Get user Data
-	useEffect(() => {
-		async function fetchUserInfo() {
-			console.log(userState);
-			try {
-				const userInfo = await api.getUser(userState._id);
-				console.log(userInfo.data);
-				await userDispatch({ type: USER_LOADING });
-				await userDispatch({
-					type: UPDATE_USER,
-					payload: {
-						...userInfo.data,
-						loading: false,
-					},
-				});
-			} catch (err) {
-				console.log(err);
-			}
-		}
 
-		fetchUserInfo();
-	}, []);
 	// Get post Data
 	useEffect(() => {
 		async function fetchAllPostsAndCauses() {
+			const userInfo = await api.getUser(userState._id);
+      await userDispatch({ type: USER_LOADING });
+      await userDispatch({
+        type: UPDATE_USER,
+        payload: {
+          ...userInfo.data,
+          loading: false,
+        },
+      });
 			await causeDispatch({ type: CAUSE_LOADING });
 			const causes = await API.getAllCauses();
 			await causeDispatch({
@@ -153,37 +141,39 @@ const Newsfeed = () => {
 									<Post className='card' />
 									{postState.posts?.map(card => {
 										return (
-											<News
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												authorId={card.author._id}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtags}
-												comments={card.comments}
-												liked={card.likes}
-											/>
-										);
+                      <News
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.username}
+                        authorId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtags}
+                        comments={card.comments}
+                        liked={card.likes}
+                      />
+                    );
 									})}
 								</Grid>
 								<Grid item xs={12} sm={3} className='card-container'>
 									<Typography variant='subtitle2'>CAUSES</Typography>
 									{causeState.causes.map(card => {
 										return (
-											<Causes
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-											/>
-										);
+                      <Causes
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                        role={userState.role}
+                      />
+                    );
 									})}
 								</Grid>
 							</Grid>
@@ -208,7 +198,7 @@ const Newsfeed = () => {
 												key={card._id}
 												id={card._id}
 												title={card.title}
-												author={card.author.firstName}
+												author={card.author.username}
 												link={card.url}
 												image={card.imageUrl}
 												post={card.content}
@@ -235,17 +225,19 @@ const Newsfeed = () => {
 								<Grid item xs={12}>
 									{causeState.causes.map(card => {
 										return (
-											<Causes
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-											/>
-										);
+                      <Causes
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
+                        role={userState.role}
+                      />
+                    );
 									})}
 								</Grid>
 							</TabPanel>
