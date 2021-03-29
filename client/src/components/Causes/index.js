@@ -21,6 +21,7 @@ import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
 
 import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
 import Donate from "../Forms/Donate/Donate";
+import { Link } from "react-router-dom";
 
 export default function Causes(props) {
 	const [userState, userDispatch] = useUserContext();
@@ -78,6 +79,10 @@ export default function Causes(props) {
           </Typography>
         </Grid>
       </Grid>
+      <Typography variant="body2" color="textSecondary" component="p">
+          <span className="authorStyle"> Org:</span>
+          <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
+        </Typography>
       <Divider />
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>

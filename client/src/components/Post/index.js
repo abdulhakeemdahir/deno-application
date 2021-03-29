@@ -175,6 +175,9 @@ export default function Post() {
 						causes: data._id,
 					});
 				}
+        await API.updateUserObjectID(post.author, {
+          causes: data._id,
+        });
 
 				await API.updateUserObjectID(post.author, {
 					causes: data._id,
@@ -247,6 +250,7 @@ export default function Post() {
 
 		return isError;
 	};
+
 
 	return (
 		<Grid className='cardPost'>

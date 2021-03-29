@@ -6,34 +6,32 @@ import "./style.css";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useState } from "react";
 import api from "../../../utils/api";
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		"& > *": {
-			marginTop: theme.spacing(1),
-			marginBottom: theme.spacing(0),
-			width: "100%",
-		},
-	},
-	formControl: {
-		margin: theme.spacing(1),
-		minWidth: 120,
-	},
-	selectEmpty: {
-		marginTop: theme.spacing(2),
-	},
-	styleMain: {
-		background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
-		color: "#ffffff",
-		padding: "15px",
-		marginTop: "10px",
-		borderRadius: "0px",
-	},
-	inputMargin: {
-		margin: "5px",
-	},
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(0),
+      width: "100%",
+    },
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  styleMain: {
+    background: "linear-gradient(-135deg,#1de9b6,#1dc4e9)",
+    color: "#ffffff",
+    padding: "15px",
+    marginTop: "10px",
+    borderRadius: "0px",
+  },
+  inputMargin: {
+    margin: "5px",
+  },
 }));
-
 export default function UpdatePost(props) {
 	const classes = useStyles();
 
@@ -78,7 +76,7 @@ export default function UpdatePost(props) {
 	const handleFileInputChange = (e) => {
 		const file = e.target.files[0];
 		previewFile(file);
-  	};
+  };
 	  //sets the file to preview state
 	const previewFile = (file) => {
 		const reader = new FileReader();
@@ -145,9 +143,7 @@ export default function UpdatePost(props) {
           <ChatBubbleOutlineIcon /> Update
         </Button>
       </form>
-      {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
-      )}
+      {previewSource && <img src={previewSource} alt="chosen" className={classes.imgStyle} />}
     </Grid>
   );
 }

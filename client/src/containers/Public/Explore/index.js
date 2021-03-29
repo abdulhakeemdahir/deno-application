@@ -166,7 +166,7 @@ const Explore = () => {
 												key={card._id}
 												id={card._id}
 												title={card.title}
-												author={card.author.firstName}
+												author={card.author.username}
 												link={card.url}
 												image={card.imageUrl}
 												post={card.content}
@@ -181,15 +181,15 @@ const Explore = () => {
 									{postState.posts.map(card => {
 										return (
 											<Causes
-												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
-												comments={card.comments}
+                        key={card._id}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
 											/>
 										);
 									})}
@@ -215,7 +215,7 @@ const Explore = () => {
 												key={card._id}
 												id={card._id}
 												title={card.title}
-												author={card.author.firstName}
+												author={card.author.username}
 												link={card.url}
 												image={card.imageUrl}
 												post={card.content}
@@ -244,13 +244,14 @@ const Explore = () => {
 										return (
 											<Causes
 												key={card._id}
-												id={card._id}
-												title={card.title}
-												author={card.author.firstName}
-												link={card.url}
-												image={card.imageUrl}
-												post={card.content}
-												hashTag={card.hashtag}
+                        id={card._id}
+                        title={card.title}
+                        author={card.author.orgName}
+                        causeId={card.author._id}
+                        link={card.url}
+                        image={card.imageUrl}
+                        post={card.content}
+                        hashTag={card.hashtag}
 											/>
 										);
 									})}
