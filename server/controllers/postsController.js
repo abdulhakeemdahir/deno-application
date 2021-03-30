@@ -1,4 +1,4 @@
-const { Post } = require("../models");
+const { Post, User } = require("../models");
 // const { populate } = require("../models/cause");
 
 const cloudinary = require("../../utils/cloudinary");
@@ -106,9 +106,18 @@ module.exports = {
   },
   remove: async (req, res) => {
     try {
-      const postModel = await Post.findByIdAndDelete({ _id: req.params.id });
+      await Post.findByIdAndDelete({ _id: req.params.id });
+
+      await User.findByIdAndUpdate(
+        req.body.userId,
+        {
+          $pull: { posts: req.params.id }
+        },
+
+        { new: true, runValidators: true }
+      );
       //const deleteModel = await postModel.remove();
-      res.status(200).json(postModel);
+      res.status(200).json("deleted post");
     } catch (err) {
       res.status(422).json(err);
     }
