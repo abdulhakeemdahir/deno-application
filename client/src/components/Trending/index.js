@@ -8,11 +8,12 @@ const Trending = props => {
   const history = useHistory()
   const handleClick=(id)=>{
     history.push(`/post/${id}`);
+    //onClick={() => handleClick(props.post)}
   }
   return (
     <>
       {props.hashTag.map((tag, index) => (
-        <div className="cardTrending" onClick={() => handleClick(props.post)}>
+        <div className="cardTrending" >
           <Typography variant="body3" className="textStyle">
             <TrendingUpIcon className="iconStyle" /> {tag}{" "}
           </Typography>
