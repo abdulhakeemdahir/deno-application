@@ -31,6 +31,7 @@ import {
   USER_GUESS_LOADING
 } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { Link } from "react-router-dom";
 
 // Create the component function and export for use
 const News = props => {
@@ -163,7 +164,7 @@ const News = props => {
               closeAfterTransition
               BackdropComponent={Backdrop}
               BackdropProps={{
-                timeout: 500
+                timeout: 500,
               }}
             >
               <Fade in={open}>
@@ -238,7 +239,7 @@ const News = props => {
               </Typography>
             </AccordionSummary>
             <Grid className="cardComment">
-              {props.comments.map(card => (
+              {props.comments.map((card) => (
                 <AccordionDetails>
                   <Grid container xs={12} className={classes.gridStyle}>
                     <Grid item xs={4}>
@@ -247,7 +248,15 @@ const News = props => {
                         color="textSecondary"
                         component="p"
                       >
-                        {card.user.username}
+                        <Link
+                          to={
+                            card.user._id === userState._id
+                              ? "/dashboard"
+                              : `/dashboard/${card.user._id}`
+                          }
+                        >
+                          {card.user.username}
+                        </Link>
                       </Typography>
                     </Grid>
                     <Grid item xs={8}>
