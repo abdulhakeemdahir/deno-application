@@ -9,7 +9,8 @@ module.exports = {
       const postModel = await Post.findById(req.params.id).populate([
         {
           path: "author",
-          select: "username",
+          select:
+            "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName",
           model: "User"
         },
         {

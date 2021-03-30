@@ -107,24 +107,24 @@ const News = props => {
   useEffect(() => {
     const updateDashboard = async user => {
       if (user._id === userState._id) {
+        const userInfo = await api.getUser(userState._id);
         await userDispatch({ type: USER_LOADING });
-
         await userDispatch({
           type: UPDATE_USER,
           payload: {
-            ...user,
-            loading: false
-          }
+            ...userInfo.data,
+            loading: false,
+          },
         });
       } else {
+        const guessInfo = await api.getUser(guessState._id);
         await guessDispatch({ type: USER_GUESS_LOADING });
-
         await guessDispatch({
           type: ADD_GUESS_USER,
           payload: {
-            ...user,
-            loading: false
-          }
+            ...guessInfo.data,
+            loading: false,
+          },
         });
       }
     };
