@@ -39,6 +39,7 @@ const PublicDash = () => {
 	// Get all user Data
 	useEffect(() => {
 		async function fetchUserInfo() {
+
 			const userInfo = await API.getUser(id);
 			if (!userInfo) {
 				history.push("/404");
@@ -56,6 +57,7 @@ const PublicDash = () => {
 		}
 		fetchUserInfo();
 	}, []);
+
 	// Create the set and setState from useState
 	const [value, setValue] = React.useState(0);
 	// Create the handleChange function
