@@ -35,9 +35,7 @@ const News = props => {
         </Grid>
         <Typography variant="body2" color="textSecondary" component="p">
           <span className="authorStyle"> Author:</span>
-          <Link to={ `/dashboard/${props.authorId}`}>
-            {props.author}
-          </Link>
+          <Link to={`/dashboard/${props.authorId}`}>{props.author}</Link>
         </Typography>
         <Divider />
         <Grid container direction="row" spacing={1}>
@@ -80,7 +78,15 @@ const News = props => {
                         color="textSecondary"
                         component="p"
                       >
-                        {card.user.username}
+                        <Link
+                          to={
+                            card.user._id === userState._id
+                              ? "/dashboard"
+                              : `/dashboard/${card.user._id}`
+                          }
+                        >
+                          {card.user.username}
+                        </Link>
                       </Typography>
                     </Grid>
                     <Grid item xs={8}>

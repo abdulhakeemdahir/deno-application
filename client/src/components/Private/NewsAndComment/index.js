@@ -58,6 +58,9 @@ const NewsAndComment = props => {
       await api.updateObjectID(id, {
         comments: data._id
       });
+      
+
+      
       const postInfo = await api.getAllPost();
       await postDispatch({
         type: POST_LOADING
@@ -104,8 +107,10 @@ const NewsAndComment = props => {
       }
     });
   };
+
   useEffect(() => {
     const updatePosts = async posts => {
+      const postInfo = await api.getAllPost();
       await postDispatch({
         type: POST_LOADING
       });
@@ -113,9 +118,9 @@ const NewsAndComment = props => {
       await postDispatch({
         type: ADD_POST,
         payload: {
-          posts,
-          loading: false
-        }
+          posts: postInfo.data,
+          loading: false,
+        },
       });
     };
     socket.on("update-post", updatePosts);
@@ -231,7 +236,15 @@ const NewsAndComment = props => {
                           color="textSecondary"
                           component="p"
                         >
-                          {card.user.username}
+                          <Link
+                            to={
+                              card.user._id === userState._id
+                                ? "/dashboard"
+                                : `/dashboard/${card.user._id}`
+                            }
+                          >
+                            {card.user.username}
+                          </Link>
                         </Typography>
                       </Grid>
                       <Grid item xs={8}>

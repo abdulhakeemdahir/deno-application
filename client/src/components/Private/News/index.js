@@ -31,6 +31,7 @@ import {
 	USER_GUESS_LOADING,
 } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { Link } from "react-router-dom";
 
 // Create the component function and export for use
 const News = props => {
@@ -107,22 +108,22 @@ const News = props => {
 	useEffect(() => {
 		const updateDashboard = async user => {
 			if (user._id === userState._id) {
+				const userInfo = await api.getUser(userState._id);
 				await userDispatch({ type: USER_LOADING });
-
 				await userDispatch({
 					type: UPDATE_USER,
 					payload: {
-						...user,
+						...userInfo.data,
 						loading: false,
 					},
 				});
 			} else {
+				const guessInfo = await api.getUser(guessState._id);
 				await guessDispatch({ type: USER_GUESS_LOADING });
-
 				await guessDispatch({
 					type: ADD_GUESS_USER,
 					payload: {
-						...user,
+						...guessInfo.data,
 						loading: false,
 					},
 				});
@@ -252,7 +253,15 @@ const News = props => {
 												color='textSecondary'
 												component='p'
 											>
-												{card.user.username}
+												<Link
+													to={
+														card.user._id === userState._id
+															? "/dashboard"
+															: `/dashboard/${card.user._id}`
+													}
+												>
+													{card.user.username}
+												</Link>
 											</Typography>
 										</Grid>
 										<Grid item xs={8}>
