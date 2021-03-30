@@ -129,8 +129,8 @@ class API {
   removeliked(id, data) {
     return this.axios.put(`/api/posts/remove/like/${id}`, data);
   }
-  removePost(id) {
-    return this.axios.delete(`/api/posts/${id}`);
+  removePost(id, data) {
+    return this.axios.delete(`/api/posts/${id}`, data);
   }
 
   //-----------------------comment api-------------------------//

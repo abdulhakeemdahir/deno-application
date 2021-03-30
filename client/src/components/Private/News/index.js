@@ -132,7 +132,25 @@ const News = props => {
 		socket.on("update-dashboard", updateDashboard);
 		return () => socket.off("update-dashboard");
 	}, []);
-	// Create the handleOpen function
+
+	const handleRemove = async (idPost, authorId) =>{
+		if (authorId !== userState._id) {
+			return
+    }
+		const {data}=await api.removePost(idPost, { posts: authorId });
+		console.log(data)
+
+		const userInfo = await api.getUser(userState._id);
+    await userDispatch({ type: USER_LOADING });
+    await userDispatch({
+      type: UPDATE_USER,
+      payload: {
+        ...userInfo.data,
+        loading: false,
+      },
+    });
+	}
+ 	// Create the handleOpen function
 	const handleOpen = () => {
 		setOpen(true);
 	};
@@ -142,146 +160,149 @@ const News = props => {
 	};
 	// Create the JSX for the component
 	return (
-		<>
-			<Grid item className='card' xs={12}>
-				<Grid container className='headerContainer'>
-					<Grid item xs={7} sm={8}>
-						<Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
-							{props.title}
-						</Typography>
-					</Grid>
-					<Grid item xs={5} sm={4}>
-						{props.check ? null : (
-							<>
-								<Button className='editButton' onClick={handleOpen}>
-									<Edit /> Edit
-								</Button>
-								<Button className='editButton'>
-									<Delete /> Delete
-								</Button>
-							</>
-						)}
-						<Dialog
-							aria-labelledby='transition-modal-title'
-							aria-describedby='transition-modal-description'
-							open={open}
-							onClose={handleClose}
-							closeAfterTransition
-							BackdropComponent={Backdrop}
-							BackdropProps={{
-								timeout: 500,
-							}}
-						>
-							<Fade in={open}>
-								<UpdatePost
-									className={"cardPost"}
-									id={props.id}
-									onClose={handleClose}
-								/>
-							</Fade>
-						</Dialog>
-					</Grid>
-				</Grid>
-				<Typography variant='body2' color='textSecondary' component='p'>
-					<span className='authorStyle'> Author:</span> {props.author}
-				</Typography>
-				<Divider />
-				<Grid container direction='row' spacing={1}>
-					<Grid item xs={12} sm={4}>
-						<CardMedia
-							className={"media"}
-							image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={8}>
-						<CardContent>
-							<Typography variant='body' color='textSecondary' component='p'>
-								{props.post}
-							</Typography>
-							{
-								// <a href={props.link} className="hashTagStyle">
-								//   #{props.hashTag}
-								// </a>
-							}
-						</CardContent>
-						<Divider />
-					</Grid>
-				</Grid>
-				<Grid container xs={12} spacing={1}>
-					<Grid item xs={12} sm={8}>
-						<TextField
-							name='content'
-							value={commentState.content}
-							onChange={handleChange}
-							id={props.id}
-							label='Post a Comment'
-							variant='filled'
-							size='small'
-							multiline
-							rowsMax={4}
-							fullWidth
-						/>
-					</Grid>
-					<Grid item xs={12} sm={4}>
-						<Button
-							size='small'
-							id={props.id}
-							className={classes.styleMain}
-							fullWidth
-							onClick={() => handleSubmit(props.id)}
-						>
-							<ChatBubbleOutlineIcon id={props.id} /> Comment
-						</Button>
-					</Grid>
-					<Accordion className={classes.shadow}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-							aria-controls='panel1a-content'
-							id='panel1a-header'
-						>
-							<Typography className={classes.heading}>
-								Read {props.comments.length} Comments
-							</Typography>
-						</AccordionSummary>
-						<Grid className='cardComment'>
-							{props.comments.map(card => (
-								<AccordionDetails>
-									<Grid container xs={12} className={classes.gridStyle}>
-										<Grid item xs={4}>
-											<Typography
-												variant='body'
-												color='textSecondary'
-												component='p'
-											>
-												<Link
-													to={
-														card.user._id === userState._id
-															? "/dashboard"
-															: `/dashboard/${card.user._id}`
-													}
-												>
-													{card.user.username}
-												</Link>
-											</Typography>
-										</Grid>
-										<Grid item xs={8}>
-											<Typography
-												variant='body'
-												color='textSecondary'
-												component='p'
-											>
-												{card.content}
-											</Typography>
-										</Grid>
-									</Grid>
-								</AccordionDetails>
-							))}
-						</Grid>
-					</Accordion>
-				</Grid>
-			</Grid>
-		</>
-	);
+    <>
+      <Grid item className="card" xs={12}>
+        <Grid container className="headerContainer">
+          <Grid item xs={7} sm={8}>
+            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+              {props.title}
+            </Typography>
+          </Grid>
+          <Grid item xs={5} sm={4}>
+            {props.check ? null : (
+              <>
+                <Button className="editButton" onClick={handleOpen}>
+                  <Edit /> Edit
+                </Button>
+                <Button
+                  className="editButton"
+                  onClick={() => handleRemove(props.id, props.authorId)}
+                >
+                  <Delete /> Delete
+                </Button>
+              </>
+            )}
+            <Dialog
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open}>
+                <UpdatePost
+                  className={"cardPost"}
+                  id={props.id}
+                  onClose={handleClose}
+                />
+              </Fade>
+            </Dialog>
+          </Grid>
+        </Grid>
+        <Typography variant="body2" color="textSecondary" component="p">
+          <span className="authorStyle"> Author:</span> {props.author}
+        </Typography>
+        <Divider />
+        <Grid container direction="row" spacing={1}>
+          <Grid item xs={12} sm={4}>
+            <CardMedia
+              className={"media"}
+              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+            />
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <CardContent>
+              <Typography variant="body" color="textSecondary" component="p">
+                {props.post}
+              </Typography>
+              {
+                // <a href={props.link} className="hashTagStyle">
+                //   #{props.hashTag}
+                // </a>
+              }
+            </CardContent>
+            <Divider />
+          </Grid>
+        </Grid>
+        <Grid container xs={12} spacing={1}>
+          <Grid item xs={12} sm={8}>
+            <TextField
+              name="content"
+              value={commentState.content}
+              onChange={handleChange}
+              id={props.id}
+              label="Post a Comment"
+              variant="filled"
+              size="small"
+              multiline
+              rowsMax={4}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button
+              size="small"
+              id={props.id}
+              className={classes.styleMain}
+              fullWidth
+              onClick={() => handleSubmit(props.id)}
+            >
+              <ChatBubbleOutlineIcon id={props.id} /> Comment
+            </Button>
+          </Grid>
+          <Accordion className={classes.shadow}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>
+                Read {props.comments.length} Comments
+              </Typography>
+            </AccordionSummary>
+            <Grid className="cardComment">
+              {props.comments.map((card) => (
+                <AccordionDetails>
+                  <Grid container xs={12} className={classes.gridStyle}>
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="body"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        <Link
+                          to={
+                            card.user._id === userState._id
+                              ? "/dashboard"
+                              : `/dashboard/${card.user._id}`
+                          }
+                        >
+                          {card.user.username}
+                        </Link>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography
+                        variant="body"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {card.content}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              ))}
+            </Grid>
+          </Accordion>
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
 export default News;

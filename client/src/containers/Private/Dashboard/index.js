@@ -113,6 +113,7 @@ const Dashboard = () => {
                         id={card._id}
                         title={card.title}
                         author={card.author.username}
+                        authorId={card.author._id}
                         link={card.url}
                         image={card.imageUrl}
                         post={card.content}
