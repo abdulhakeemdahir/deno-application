@@ -7,4 +7,6 @@ router.route("/success").get(donationsController.success);
 
 router.route("/cancel").get(donationsController.cancel);
 
+router.route("/create-token").post(donationsController.createToken);
+
 module.exports = router;

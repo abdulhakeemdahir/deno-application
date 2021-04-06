@@ -18,20 +18,20 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
 import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
-import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { Link } from "react-router-dom";
-import { ADD_POST, POST_LOADING } from "../../../utils/actions/actions";
+import {
+  LOADING,
+  UPDATE,
+} from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create the component function and export for use
 const NewsAndComment = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Destructure State and Dispatch from Context
-  const [, postDispatch] = usePostContext();
-  // Destructure State and Dispatch from Context
-  const [userState] = useUserContext();
+  const [globalState, globalDispatch] = useGlobalContext();
   // Create the set and setState from useState
   const [commentState, setCommentState] = useState({
     content: ""
@@ -51,27 +51,16 @@ const NewsAndComment = props => {
     try {
       const comment = {
         ...commentState,
-        user: userState._id,
+        user: globalState.user._id,
         post: id
       };
       const { data } = await api.createComments(comment);
       await api.updateObjectID(id, {
         comments: data._id
       });
-      
-
-      
+    
       const postInfo = await api.getAllPost();
-      await postDispatch({
-        type: POST_LOADING
-      });
-      await postDispatch({
-        type: ADD_POST,
-        payload: {
-          posts: postInfo.data,
-          loading: false
-        }
-      });
+      dispatch(UPDATE, { posts: postInfo.data, loading: false });
       const payload = { isPost: true };
 
       socket.emit("send-message", payload);
@@ -87,45 +76,41 @@ const NewsAndComment = props => {
   };
   // Create the handleLike function
   const handleLike = async id => {
-    const found = props.liked.find(l => l._id === userState._id);
+    const found = props.liked.find(l => l._id === globalState.user._id);
     if (found) {
       await api.removeliked(id, {
-        likes: userState._id
+        likes: globalState.user._id
       });
     } else {
       await api.updateObjectID(id, {
-        likes: userState._id
+        likes: globalState.user._id
       });
     }
     const postInfo = await api.getAllPost();
-    await postDispatch({ type: POST_LOADING });
-    await postDispatch({
-      type: ADD_POST,
-      payload: {
-        posts: postInfo.data,
-        loading: false
-      }
-    });
+    dispatch(UPDATE, { posts: postInfo.data, loading: false });
   };
 
   useEffect(() => {
     const updatePosts = async posts => {
       const postInfo = await api.getAllPost();
-      await postDispatch({
-        type: POST_LOADING
-      });
-
-      await postDispatch({
-        type: ADD_POST,
-        payload: {
-          posts: postInfo.data,
-          loading: false,
-        },
-      });
+      dispatch(UPDATE, { posts: postInfo.data, loading: false });
     };
     socket.on("update-post", updatePosts);
     return () => socket.off("update-post");
   }, []);
+
+  const dispatch = async (action, payload) =>{
+    await globalDispatch({
+      type: LOADING,
+    });
+
+    await globalDispatch({
+      type: action,
+      payload: {
+        ...payload
+      },
+    });
+  }
   // Create the JSX for the component
   return (
     <>
@@ -139,7 +124,7 @@ const NewsAndComment = props => {
           <Grid item xs={3} sm={1}>
             <Button className="editButton" onClick={() => handleLike(props.id)}>
               <>
-                {props.liked.find((l) => l._id === userState._id) ? (
+                {props.liked.find((l) => l._id === globalState.user._id) ? (
                   <Favorite />
                 ) : (
                   <FavoriteBorderIcon />
@@ -152,7 +137,7 @@ const NewsAndComment = props => {
           <span className="authorStyle"> Author:</span>
           <Link
             to={
-              props.authorId === userState._id
+              props.authorId === globalState.user._id
                 ? "/dashboard"
                 : `/dashboard/${props.authorId}`
             }
@@ -238,7 +223,7 @@ const NewsAndComment = props => {
                         >
                           <Link
                             to={
-                              card.user._id === userState._id
+                              card.user._id === globalState.user._id
                                 ? "/dashboard"
                                 : `/dashboard/${card.user._id}`
                             }

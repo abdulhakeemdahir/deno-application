@@ -71,6 +71,9 @@ class API {
   updateUserObjectID(id, data) {
     return this.axios.put(`/api/users/update/references/${id}`, data);
   }
+  removeUserObjectID(id, data) {
+    return this.axios.put(`/api/users/remove/references/${id}`, data);
+  }
   deleteUser(_id) {
     return this.axios.delete(`/api/users/${_id}`);
   }

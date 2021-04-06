@@ -25,7 +25,7 @@ module.exports = {
         {
           path: "comments",
           model: "Comment",
-          options: { sort: { date: -1 } },
+          options: { sort: { createdAt: -1 } },
           populate: {
             path: "user",
             select: "username",
@@ -59,7 +59,6 @@ module.exports = {
       });
       res.status(201).json(postModel);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },
@@ -155,7 +154,6 @@ module.exports = {
         .exec();
       res.status(200).json(allPost);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },

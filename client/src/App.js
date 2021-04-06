@@ -6,6 +6,7 @@ import Explore from "./containers/Public/Explore";
 import Newsfeed from "./containers/Private/Newsfeed";
 import Dashboard from "./containers/Private/Dashboard";
 import { UserProvider } from "./utils/GlobalStates/UserContext";
+import { GlobalProvider } from "./utils/GlobalStates/GlobalState";
 import { CauseProvider } from "./utils/GlobalStates/CauseContext";
 import { PostProvider } from "./utils/GlobalStates/PostContext";
 import { useAuthTokenStore } from "./utils/auth.js";
@@ -39,59 +40,69 @@ function App() {
 	useAuthTokenStore();
 	// Create the JSX for the component
 	return (
-		<Router>
-			<MuiThemeProvider theme={theme}>
-				<div className='App'>
-					<UserProvider>
-						<GuessProvider>
-							<CauseProvider>
-								<TrendingProvider>
-									<PostProvider>
-										<ConvoProvider>
-											<Switch>
-												<PrivateRoute
-													exact
-													path='/newsfeed'
-													redirectTo='/'
-													component={Newsfeed}
-												/>
+    <Router>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <GlobalProvider>
+            <UserProvider>
+              <GuessProvider>
+                <CauseProvider>
+                  <TrendingProvider>
+                    <PostProvider>
+                      <ConvoProvider>
+                        <Switch>
+                          <PrivateRoute
+                            exact
+                            path="/newsfeed"
+                            redirectTo="/"
+                            component={Newsfeed}
+                          />
 
-												<PrivateRoute
-													exact
-													path='/dashboard'
-													redirectTo='/'
-													component={Dashboard}
-												/>
-												<PrivateRoute
-													exact
-													path='/chatroom'
-													redirectTo='/'
-													component={Chatroom}
-												/>
-												<PrivateRoute
-													exact
-													path='/dashboard/:id'
-													redirectTo='/'
-													component={PublicDash}
-												/>
+                          <PrivateRoute
+                            exact
+                            path="/dashboard"
+                            redirectTo="/"
+                            component={Dashboard}
+                          />
+                          <PrivateRoute
+                            exact
+                            path="/chatroom"
+                            redirectTo="/"
+                            component={Chatroom}
+                          />
+                          <PrivateRoute
+                            exact
+                            path="/dashboard/:id"
+                            redirectTo="/"
+                            component={PublicDash}
+                          />
 
-												<Route path='/explore' exact component={Explore} />
-												<Route path='/post/:id' exact component={SinglePost} />
-												<Route path='/analytics' exact component={Analytics} />
-												<Route path='/404' exact component={ErrorPage} />
+                          <Route path="/explore" exact component={Explore} />
+                          <Route
+                            path="/post/:id"
+                            exact
+                            component={SinglePost}
+                          />
+                          <Route
+                            path="/analytics"
+                            exact
+                            component={Analytics}
+                          />
+                          <Route path="/404" exact component={ErrorPage} />
 
-												<Route path='/' exact component={Landing} />
-											</Switch>
-										</ConvoProvider>
-									</PostProvider>
-								</TrendingProvider>
-							</CauseProvider>
-						</GuessProvider>
-					</UserProvider>
-				</div>
-			</MuiThemeProvider>
-		</Router>
-	);
+                          <Route path="/" exact component={Landing} />
+                        </Switch>
+                      </ConvoProvider>
+                    </PostProvider>
+                  </TrendingProvider>
+                </CauseProvider>
+              </GuessProvider>
+            </UserProvider>
+          </GlobalProvider>
+        </div>
+      </MuiThemeProvider>
+    </Router>
+  );
 }
 
 export default App;

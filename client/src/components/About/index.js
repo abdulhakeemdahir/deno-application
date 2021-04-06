@@ -1,6 +1,5 @@
 //Import all relevant packages and components
 import React from "react";
-import { Image } from "cloudinary-react";
 import {
   Typography,
   Grid,
@@ -22,6 +21,7 @@ import UpdateOrg from "../Forms/UpdateOrg/UpdateOrg";
 import { NavLink } from "react-router-dom";
 // Create a useStyles Material UI component for styling
 import aboutStyles from "./aboutStyles";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 
 const About = props => {
   //Call the styles function
@@ -29,6 +29,7 @@ const About = props => {
   //Create the Dialog state
   const [open, setOpen] = React.useState(false);
   // Create the handleOpen function for the Dialog Component
+  const [globalState] = useGlobalContext();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -60,7 +61,7 @@ const About = props => {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
-              timeout: 500
+              timeout: 500,
             }}
           >
             <Fade in={open}>
@@ -80,22 +81,24 @@ const About = props => {
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12} sm={12}>
           <ButtonGroup fullWidth>
-            {props.role === "Organization" && props.user ? (
+            {props.role === "Organization" ? (
               <Button size="large" className="aboutButton" fullWidth>
                 <i class="fab fa-paypal"></i>
                 <span> Support</span>
               </Button>
             ) : null}
-            <Button size="large" className="followButton" fullWidth>
-              <ThumbUpAltIcon /> Follow
-            </Button>
+            {props.id === globalState.user._id ? null : (
+              <Button size="large" className="followButton" fullWidth>
+                <ThumbUpAltIcon /> Follow
+              </Button>
+            )}
           </ButtonGroup>
 
           <CardContent>
             <Typography
               variant="body2"
               style={{
-                fontWeight: "bold"
+                fontWeight: "bold",
               }}
               color="textSecondary"
             >

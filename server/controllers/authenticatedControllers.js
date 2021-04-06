@@ -29,10 +29,9 @@ module.exports = {
       role: role,
       email: email
     };
-    console.log("Line 32 ???????????", userObject);
+
     if (orgName) {
       userObject.orgName = orgName;
-      console.log("Line 35 ???????????", userObject);
     }
     if (phoneNumber) {
       updateUser.phoneNumber = phoneNumber;
@@ -55,7 +54,6 @@ module.exports = {
           footer: "PLease try again"
         });
       }
-      console.log("Line 57 ???????????", userObject);
       await User.create(userObject);
 
       // const key = crypto();
@@ -83,17 +81,16 @@ module.exports = {
       const user = await User.findOne({
         $or: [{ username: username }, { email: username }]
       }).select("username email firstName lastname password");
-
       // If user is not found then send back error message
       if (!user) {
-        return res.json("Username, Email or password is invalid.");
+        return res.json({ default: "Username, Email or password is invalid." });
       }
 
       //check password
       const isMatch = await comparePassword(password, user.password);
       // If password doesn't match then error message
       if (!isMatch) {
-        return res.json("Email or password is invalid.");
+        return res.json({ default: "Username, Email or password is invalid." });
       }
       //if all password matches then issue a token for the user
       const createToken = await jwt.issueToken(user);
@@ -101,7 +98,9 @@ module.exports = {
       //return sign token
       return res.status(200).json(createToken);
     } catch (err) {
-      console.log(err);
+      return res
+        .status(400)
+        .json({ default: "Username, Email or password is invalid." });
     }
   },
   authenticated: async (req, res) => {
