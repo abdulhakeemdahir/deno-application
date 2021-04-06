@@ -13,15 +13,15 @@ import {
 import useNewsStyles from "./useNewsStyles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
-import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
 const News = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Destructure State and Dispatch from Context
-  const [userState] = useUserContext();
+  const [globalState] = useGlobalContext();
   // Create the JSX for the component
   return (
     <>
@@ -80,7 +80,7 @@ const News = props => {
                       >
                         <Link
                           to={
-                            card.user._id === userState._id
+                            card.user._id === globalState.user._id
                               ? "/dashboard"
                               : `/dashboard/${card.user._id}`
                           }

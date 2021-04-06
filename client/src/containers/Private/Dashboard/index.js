@@ -1,5 +1,5 @@
 // Import all relevant packages and components
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
@@ -12,12 +12,10 @@ import Causes from "../../../components/Private/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions";
-import api from "../../../utils/api";
 import AddContent from "../../../components/Forms/AddContent";
 import { NavLink } from "react-router-dom";
 import Post from "../../../components/Post";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -27,27 +25,8 @@ TabPanel.propTypes = {
 // Create the component function and export for use
 const Dashboard = () => {
 	// Destructure State and Dispatch from Context
-	const [userState, userDispatch] = useUserContext();
-	// Get user Data
-	useEffect(() => {
-		async function fetchUserInfo() {
-			try {
-				const userInfo = await api.getUser(userState._id);
-				await userDispatch({ type: USER_LOADING });
-				await userDispatch({
-					type: UPDATE_USER,
-					payload: {
-						...userInfo.data,
-						loading: false,
-					},
-				});
-			} catch (err) {
-				console.log(err);
-			}
-		}
-    console.log(userState);
-		fetchUserInfo();
-	}, []);
+  const [globalState, ] = useGlobalContext();
+	
 	// Create the set and setState from useState
 	const [value, setValue] = React.useState(0);
 	// Create the handleChange function
@@ -80,34 +59,34 @@ const Dashboard = () => {
                 <Grid item xs={12} sm={3} className="card-container">
                   <Typography variant="subtitle2">ABOUT</Typography>
                   <About
-                    key={userState._id}
-                    id={userState._id}
-                    bio={userState.bio}
-                    firstName={userState.firstName}
-                    lastname={userState.lastname}
-                    username={userState.username}
-                    email={userState.email}
-                    role={userState.role}
-                    verified={userState.verified}
-                    following={userState.following.length}
-                    followers={userState.followers.length}
-                    posts={userState.posts}
-                    causes={userState.causes}
-                    profileImg={userState.profileImg}
-                    bannerImg={userState.bannerImg}
-                    website={userState.website}
-                    address={userState.address}
-                    orgName={userState.orgName}
-                    phone={userState.phoneNumber}
+                    key={globalState.user._id}
+                    id={globalState.user._id}
+                    bio={globalState.user.bio}
+                    firstName={globalState.user.firstName}
+                    lastname={globalState.user.lastname}
+                    username={globalState.user.username}
+                    email={globalState.user.email}
+                    role={globalState.user.role}
+                    verified={globalState.user.verified}
+                    following={globalState.user.following.length}
+                    followers={globalState.user.followers.length}
+                    posts={globalState.user.posts}
+                    causes={globalState.user.causes}
+                    profileImg={globalState.user.profileImg}
+                    bannerImg={globalState.user.bannerImg}
+                    website={globalState.user.website}
+                    address={globalState.user.address}
+                    orgName={globalState.user.orgName}
+                    phone={globalState.user.phoneNumber}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} className="card-container">
                   <Typography variant="subtitle2">NEWS FEED</Typography>
                   <Post className="card" />
-                  {userState.posts.length === 0 ? (
+                  {globalState.user.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    userState.posts.map((card) => (
+                    globalState.user.posts.map((card) => (
                       <News
                         key={card._id}
                         id={card._id}
@@ -125,10 +104,10 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xs={12} sm={3} className="card-container">
                   <Typography variant="subtitle2">CAUSES</Typography>
-                  {userState.causes.length === 0 ? (
+                  {globalState.user.causes.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    userState.causes.map((card) => (
+                    globalState.user.causes.map((card) => (
                       <Causes
                         key={card._id}
                         id={card._id}
@@ -139,7 +118,7 @@ const Dashboard = () => {
                         image={card.imageUrl}
                         post={card.content}
                         hashTag={card.hashtag}
-                        role={userState.role}
+                        role={globalState.user.role}
                       />
                     ))
                   )}
@@ -159,10 +138,10 @@ const Dashboard = () => {
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  {userState.posts.length === 0 ? (
+                  {globalState.user.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    userState.posts.map((card) => (
+                    globalState.user.posts.map((card) => (
                       <News
                         key={card._id}
                         id={card._id}
@@ -181,34 +160,34 @@ const Dashboard = () => {
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
                   <About
-                    key={userState._id}
-                    id={userState._id}
-                    bio={userState.bio}
-                    firstName={userState.firstName}
-                    lastname={userState.lastname}
-                    username={userState.username}
-                    email={userState.email}
-                    role={userState.role}
-                    verified={userState.verified}
-                    following={userState.following.length}
-                    followers={userState.followers.length}
-                    posts={userState.posts}
-                    causes={userState.causes}
-                    profileImg={userState.profileImg}
-                    bannerImg={userState.bannerImg}
-                    website={userState.website}
-                    address={userState.address}
-                    orgName={userState.orgName}
-                    phone={userState.phoneNumber}
+                    key={globalState.user._id}
+                    id={globalState.user._id}
+                    bio={globalState.user.bio}
+                    firstName={globalState.user.firstName}
+                    lastname={globalState.user.lastname}
+                    username={globalState.user.username}
+                    email={globalState.user.email}
+                    role={globalState.user.role}
+                    verified={globalState.user.verified}
+                    following={globalState.user.following.length}
+                    followers={globalState.user.followers.length}
+                    posts={globalState.user.posts}
+                    causes={globalState.user.causes}
+                    profileImg={globalState.user.profileImg}
+                    bannerImg={globalState.user.bannerImg}
+                    website={globalState.user.website}
+                    address={globalState.user.address}
+                    orgName={globalState.user.orgName}
+                    phone={globalState.user.phoneNumber}
                   />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {userState.posts.length === 0 ? (
+                  {globalState.user.posts.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    userState.causes.map((card) => (
+                    globalState.user.causes.map((card) => (
                       <Causes
                         key={card._id}
                         id={card._id}
@@ -219,7 +198,7 @@ const Dashboard = () => {
                         image={card.imageUrl}
                         post={card.content}
                         hashTag={card.hashtag}
-                        role={userState.role}
+                        role={globalState.user.role}
                       />
                     ))
                   )}

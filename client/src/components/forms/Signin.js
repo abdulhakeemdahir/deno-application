@@ -6,8 +6,10 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { useLogin } from "../../utils/auth";
 import { useUserContext } from "../../utils/GlobalStates/UserContext";
-import { GET_USER_INFO, USER_LOADING } from "../../utils/actions/actions";
+import { ADD, LOADING } from "../../utils/actions/actions";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 import api from "../../utils/api";
+
 // Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	paper: {
@@ -58,6 +60,7 @@ export default function Signin() {
 		emailError: "",
 		username: "",
 		usernameError: "",
+		errorLogin: "",
 	});
 	// Call useHistory
 	const history = useHistory();
@@ -72,21 +75,24 @@ export default function Signin() {
 		});
 	};
 	// Destructure State and Dispatch from Context
-	const [, userDispatch] = useUserContext();
+	const [, globalDispatch] = useGlobalContext();
 	// Create the handleSubmit function
 	const handleSubmit = async event => {
 		event.preventDefault();
 		// console.log(event)
 		try {
-			const { _id } = await login(stateSignIn);
-			// User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
-			await userDispatch({
-				type: USER_LOADING,
+			const res = await login(stateSignIn);
+
+			await validateLogin(res);
+			//User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
+			const userInfo = await api.getUser(res._id);
+			await globalDispatch({
+				type: LOADING,
 			});
-			await userDispatch({
-				type: GET_USER_INFO,
+			await globalDispatch({
+				type: ADD,
 				payload: {
-					_id,
+					user: userInfo.data,
 					loading: false,
 				},
 			});
@@ -102,9 +108,9 @@ export default function Signin() {
 	const validateLogin = response => {
 		let isError = false;
 		const errors = {};
-		if (response) {
-			errors[`usernameError`] = "Username/Password is Wrong";
-			errors[`passwordError`] = "Username/Password is Wrong";
+		if (!response) {
+			errors[`usernameError`] = "Username or Password is invalid";
+			errors[`passwordError`] = "Username or Password is invalid";
 			setStateSignIn({
 				...stateSignIn,
 				...errors,
@@ -115,7 +121,6 @@ export default function Signin() {
 	// Form validation for inputs to be more than 6 characters
 	const validate = event => {
 		const { name, value } = event.target;
-		console.log(event.target);
 		let isError = false;
 		const errors = {};
 		if (value.length < 1) {

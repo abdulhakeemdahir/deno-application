@@ -15,6 +15,8 @@ router.route("/liked/:id/:causeId").get(userController.findIfUserLikesCause);
 
 router.route("/update/references/:id").put(userController.updateUserObjectID);
 
+router.route("/remove/references/:id").put(userController.removeUserObjectID);
+
 // api/user/update/password/:id
 router.route("/update/password/:id").put(userController.updatePassword);
 

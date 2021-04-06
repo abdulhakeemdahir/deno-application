@@ -18,7 +18,6 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      console.log(req.body);
       const createComment = await Comment.create(req.body);
 
       res.status(201).json(createComment);

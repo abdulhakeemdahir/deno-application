@@ -7,7 +7,6 @@ module.exports = {
 
       res.status(200).json(hashtagModel);
     } catch (err) {
-      console.log("hit inside controllers hashtag", err);
       res.status(422).json(err);
     }
   },
@@ -40,7 +39,6 @@ module.exports = {
       const hashtagModel = await Hashtag.create(req.body);
       res.status(201).json(hashtagModel);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },

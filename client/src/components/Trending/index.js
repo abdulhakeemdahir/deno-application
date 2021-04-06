@@ -13,7 +13,7 @@ const Trending = props => {
   return (
     <>
       {props.hashTag.map((tag, index) => (
-        <div className="cardTrending" >
+        <div className="cardTrending" onClick={()=>handleClick(props.post)}>
           <Typography variant="body3" className="textStyle">
             <TrendingUpIcon className="iconStyle" /> {tag}{" "}
           </Typography>
