@@ -16,7 +16,7 @@ import useNewsStyles from "./useNCStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./style.css";
-import { Favorite } from "@material-ui/icons";
+import { Delete, Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import api from "../../../utils/api";
 import { Link } from "react-router-dom";
@@ -99,6 +99,14 @@ const NewsAndComment = props => {
     return () => socket.off("update-post");
   }, []);
 
+  const handleRemove = async (commentId, postId) =>{
+          
+          await api.removeComments(commentId, postId);
+          
+          const postInfo = await api.getAllPost();
+          dispatch(UPDATE, { posts: postInfo.data, loading: false });
+  }
+
   const dispatch = async (action, payload) =>{
     await globalDispatch({
       type: LOADING,
@@ -111,6 +119,8 @@ const NewsAndComment = props => {
       },
     });
   }
+
+  
   // Create the JSX for the component
   return (
     <>
@@ -232,7 +242,7 @@ const NewsAndComment = props => {
                           </Link>
                         </Typography>
                       </Grid>
-                      <Grid item xs={8}>
+                      <Grid item xs={7}>
                         <Typography
                           variant="body"
                           color="textSecondary"
@@ -241,6 +251,18 @@ const NewsAndComment = props => {
                           {card.content}
                         </Typography>
                       </Grid>
+
+                      {card.user._id === globalState.user._id ||
+                      globalState.user.username === props.author ? (
+                        <Grid item xs={1}>
+                          <Button
+                            className="editButton"
+                            onClick={() => handleRemove(card._id, card.post)}
+                          >
+                            <Delete />
+                          </Button>
+                        </Grid>
+                      ) : null}
                     </Grid>
                   </AccordionDetails>
                 ))}

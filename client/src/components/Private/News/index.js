@@ -110,12 +110,20 @@ const News = props => {
 		if (authorId !== globalState.user._id) {
 			return
     }
-		const {data}=await api.removePost(idPost, { posts: authorId });
-		console.log(data)
+
+		await api.removePost(idPost, authorId);
 
 		const userInfo = await api.getUser(globalState.user._id);
     dispatch(UPDATE, { user: userInfo.data, loading: false });
 	}
+
+  const handleRemoveComment = async (commentId, postId) => {
+    
+    await api.removeComments(commentId, postId);
+
+    const userInfo = await api.getUser(globalState.user._id);
+    dispatch(UPDATE, { user: userInfo.data, loading: false });
+  };
 
   const dispatch = async (action, payload) => {
     await globalDispatch({
@@ -264,7 +272,7 @@ const News = props => {
                         </Link>
                       </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={7}>
                       <Typography
                         variant="body"
                         color="textSecondary"
@@ -273,6 +281,19 @@ const News = props => {
                         {card.content}
                       </Typography>
                     </Grid>
+                    {card.user._id === globalState.user._id ||
+                    globalState.user.username === props.author ? (
+                      <Grid item xs={1}>
+                        <Button
+                          className="editButton"
+                          onClick={() =>
+                            handleRemoveComment(card._id, card.post)
+                          }
+                        >
+                          <Delete />
+                        </Button>
+                      </Grid>
+                    ) : null}
                   </Grid>
                 </AccordionDetails>
               ))}

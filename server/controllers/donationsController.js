@@ -34,8 +34,6 @@ module.exports = {
     res.redirect("/");
   },
   createToken: async (req, res) => {
-    console.log(client);
-    console.log(clientId);
     try {
       const {
         data: { access_token, token_type }
@@ -68,8 +66,52 @@ module.exports = {
         message: "Check Paypal Docs"
       });
     }
+  },
+  createReferral: async (req, res) => {
+    console.log(req.body.token);
+    try {
+      const { data } = await axios({
+        url: "https://api-m.sandbox.paypal.com/v2/customer/partner-referrals",
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          // eslint-disable-next-line prettier/prettier
+          Authorization:
+            `Bearer ${req.body.token}`
+        },
+        data: {
+          tracking_id: "1234567lhfdghdfg89DONO",
+          operations: [
+            {
+              operation: "API_INTEGRATION",
+              api_integration_preference: {
+                rest_api_integration: {
+                  integration_method: "PAYPAL",
+                  integration_type: "THIRD_PARTY",
+                  third_party_details: {
+                    features: ["PAYMENT", "REFUND"]
+                  }
+                }
+              }
+            }
+          ],
+          products: ["EXPRESS_CHECKOUT"],
+          legal_consents: [
+            {
+              type: "SHARE_DATA_CONSENT",
+              granted: true
+            }
+          ]
+        }
+      });
+      console.log(data);
+      res.status(200).send(data);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).send({
+        status: "failed",
+        message: "Check Paypal Docs"
+      });
+    }
   }
-  // createPayment: async (req, res)=>{
-
-  // }
 };
