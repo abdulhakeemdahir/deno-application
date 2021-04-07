@@ -3,9 +3,11 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { UPDATE, ADD, LOADING } from "../../../utils/actions/actions";
 
 // Create the component function and export for use
 const UpdatePost = props => {
@@ -13,6 +15,7 @@ const UpdatePost = props => {
   const classes = useUpdateStyles();
   // Destructure State and Dispatch from Context
   const [userState, userDispatch] = useUserContext();
+  const [globalState, globalDispatch] = useGlobalContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
@@ -62,10 +65,38 @@ const UpdatePost = props => {
   };
   //*update post by sending post id and update object
   const updatePost = async update => {
-    console.log(update);
-    const post = await api.updatePost(props.id, update);
-    console.log(post);
+ 
+    await api.updatePost(props.id, update);
+
+    const { data } = await api.getUser(globalState.user._id);
+    dispatch(UPDATE, { user: data, loading: false });
+
   };
+
+  useEffect(() => {
+    async function fetchUserInfo() {
+      const {data} = await api.findUserPosts(props.id);
+      dispatch(ADD, { singlePosts: data, loading: false });
+
+      setStateUpdate({
+        title: data.title,
+        content: data.content,
+      });
+    }
+    fetchUserInfo();
+  }, []);
+
+  const dispatch = async (action, payload) => {
+    await globalDispatch({ type: LOADING });
+    await globalDispatch({
+      type: action,
+      payload: {
+        ...payload,
+      },
+    });
+    return;
+  };
+
   // Create the JSX for the component
   return (
     <Grid className="cardPost">

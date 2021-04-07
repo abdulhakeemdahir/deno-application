@@ -9,4 +9,6 @@ router.route("/cancel").get(donationsController.cancel);
 
 router.route("/create-token").post(donationsController.createToken);
 
+router.route("/create-referral").post(donationsController.createReferral);
+
 module.exports = router;
