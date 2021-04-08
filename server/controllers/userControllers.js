@@ -152,6 +152,23 @@ module.exports = {
       res.status(422).json(err);
     }
   },
+  removeUserObjectID: async (req, res) => {
+    console.log(req.body);
+    try {
+      const postModel = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: req.body
+        },
+
+        { new: true, runValidators: true }
+      );
+      console.log(postModel);
+      res.status(200).json(postModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
   deleteUser: async (req, res) => {
     try {
       const deletedUser = await User.findByIdAndRemove({ _id: req.params.id });

@@ -25,13 +25,16 @@ import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
 import {
-	UPDATE_USER,
-	USER_LOADING,
-	ADD_GUESS_USER,
-	USER_GUESS_LOADING,
+  UPDATE_USER,
+  USER_LOADING,
+  ADD_GUESS_USER,
+  USER_GUESS_LOADING,
+  LOADING,
+  UPDATE,
 } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
 const News = props => {
@@ -40,9 +43,7 @@ const News = props => {
 	// Create the set and setState from useState
 	const [open, setOpen] = useState(false);
 	// Destructure State and Dispatch from Context
-	const [userState, userDispatch] = useUserContext();
-	// Destructure State and Dispatch from Context
-	const [guessState, guessDispatch] = useGuessContext();
+  const [globalState, globalDispatch] = useGlobalContext();
 	// Create the set and setState from useState
 	const [commentState, setCommentState] = useState({
 		content: "",
@@ -69,37 +70,23 @@ const News = props => {
 		try {
 			const comment = {
 				...commentState,
-				user: userState._id,
+				user: globalState.user._id,
 				post: id,
 			};
 			const { data } = await api.createComments(comment);
 			await api.updateObjectID(id, {
 				comments: data._id,
 			});
-			const userInfo = await api.getUser(userState._id);
-			await userDispatch({ type: USER_LOADING });
-			await userDispatch({
-				type: UPDATE_USER,
-				payload: {
-					...userInfo.data,
-					loading: false,
-				},
-			});
-			if (guessState._id) {
-				const guessInfo = await api.getUser(guessState._id);
+			const userInfo = await api.getUser(globalState.user._id);
+			dispatch(UPDATE, { user: userInfo.data, loading: false });
 
-				await guessDispatch({ type: USER_GUESS_LOADING });
+			if (globalState.guessUser._id) {
+				const guessInfo = await api.getUser(globalState.guessUser._id);
+        dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
 
-				await guessDispatch({
-					type: ADD_GUESS_USER,
-					payload: {
-						...guessInfo.data,
-						loading: false,
-					},
-				});
-				socket.emit("send-comment-dashboard", guessState._id);
+				socket.emit("send-comment-dashboard", globalState.guessUser._id);
 			} else {
-				socket.emit("send-comment-dashboard", userState._id);
+				socket.emit("send-comment-dashboard", globalState.user._id);
 			}
 			clearState();
 		} catch (err) {}
@@ -107,26 +94,12 @@ const News = props => {
 
 	useEffect(() => {
 		const updateDashboard = async user => {
-			if (user._id === userState._id) {
-				const userInfo = await api.getUser(userState._id);
-				await userDispatch({ type: USER_LOADING });
-				await userDispatch({
-					type: UPDATE_USER,
-					payload: {
-						...userInfo.data,
-						loading: false,
-					},
-				});
+			if (user._id === globalState.user._id) {
+				const userInfo = await api.getUser(globalState.user._id);
+				dispatch(UPDATE, { user: userInfo.data, loading: false });
 			} else {
-				const guessInfo = await api.getUser(guessState._id);
-				await guessDispatch({ type: USER_GUESS_LOADING });
-				await guessDispatch({
-					type: ADD_GUESS_USER,
-					payload: {
-						...guessInfo.data,
-						loading: false,
-					},
-				});
+				const guessInfo = await api.getUser(globalState.guessUser._id);
+				dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
 			}
 		};
 		socket.on("update-dashboard", updateDashboard);
@@ -134,22 +107,36 @@ const News = props => {
 	}, []);
 
 	const handleRemove = async (idPost, authorId) =>{
-		if (authorId !== userState._id) {
+		if (authorId !== globalState.user._id) {
 			return
     }
-		const {data}=await api.removePost(idPost, { posts: authorId });
-		console.log(data)
 
-		const userInfo = await api.getUser(userState._id);
-    await userDispatch({ type: USER_LOADING });
-    await userDispatch({
-      type: UPDATE_USER,
+		await api.removePost(idPost, authorId);
+
+		const userInfo = await api.getUser(globalState.user._id);
+    dispatch(UPDATE, { user: userInfo.data, loading: false });
+	}
+
+  const handleRemoveComment = async (commentId, postId) => {
+    
+    await api.removeComments(commentId, postId);
+
+    const userInfo = await api.getUser(globalState.user._id);
+    dispatch(UPDATE, { user: userInfo.data, loading: false });
+  };
+
+  const dispatch = async (action, payload) => {
+    await globalDispatch({
+      type: LOADING,
+    });
+
+    await globalDispatch({
+      type: action,
       payload: {
-        ...userInfo.data,
-        loading: false,
+        ...payload,
       },
     });
-	}
+  };
  	// Create the handleOpen function
 	const handleOpen = () => {
 		setOpen(true);
@@ -276,7 +263,7 @@ const News = props => {
                       >
                         <Link
                           to={
-                            card.user._id === userState._id
+                            card.user._id === globalState.user._id
                               ? "/dashboard"
                               : `/dashboard/${card.user._id}`
                           }
@@ -285,7 +272,7 @@ const News = props => {
                         </Link>
                       </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={7}>
                       <Typography
                         variant="body"
                         color="textSecondary"
@@ -294,6 +281,19 @@ const News = props => {
                         {card.content}
                       </Typography>
                     </Grid>
+                    {card.user._id === globalState.user._id ||
+                    globalState.user.username === props.author ? (
+                      <Grid item xs={1}>
+                        <Button
+                          className="editButton"
+                          onClick={() =>
+                            handleRemoveComment(card._id, card.post)
+                          }
+                        >
+                          <Delete />
+                        </Button>
+                      </Grid>
+                    ) : null}
                   </Grid>
                 </AccordionDetails>
               ))}

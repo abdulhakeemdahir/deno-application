@@ -8,30 +8,19 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import usePostStyles from "./usePostStyles";
 import "./style.css";
 import { useState } from "react";
-import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import {
-  ADD_CAUSE,
-  ADD_POST,
-  ADD_TREND,
-  CAUSE_LOADING,
-  POST_LOADING,
-  TREND_LOADING,
-  UPDATE_USER,
-  USER_LOADING
+  LOADING,
+  UPDATE
 } from "../../utils/actions/actions";
-import { usePostContext } from "../../utils/GlobalStates/PostContext";
-import { useCauseContext } from "../../utils/GlobalStates/CauseContext";
 import findHashtags from "find-hashtags";
 import api from "../../utils/api.js";
-import { useTrendingContext } from "../../utils/GlobalStates/TrendingContext";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
 const Post = () => {
   // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
-  const [, causeDispatch] = useCauseContext();
-  const [, trendingDispatch] = useTrendingContext();
-  const [, postDispatch] = usePostContext();
+  const [globalState, globalDispatch] = useGlobalContext();
+
   //*Associated with cloudinary
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
@@ -46,53 +35,7 @@ const Post = () => {
     contentError: "",
     imageUrl: ""
   });
-  //*Create Post
-  const addPost = async () => {
-    await postDispatch({ type: POST_LOADING });
-    const postInfo = await api.getAllPost();
-    await postDispatch({
-      type: ADD_POST,
-      payload: {
-        posts: postInfo.data,
-        loading: false
-      }
-    });
-    await trendingDispatch({ type: TREND_LOADING });
-    const hashInfo = await api.getHashtagAll();
-    await trendingDispatch({
-      type: ADD_TREND,
-      payload: {
-        hashtag: hashInfo.data,
-        loading: false,
-      },
-    });
-  };
-  //Create cause
-  const addCause = async () => {
-    await causeDispatch({
-      type: CAUSE_LOADING
-    });
-    const causes = await api.getAllCauses();
-    await causeDispatch({
-      type: ADD_CAUSE,
-      payload: {
-        causes: causes.data,
-        loading: false
-      }
-    });
-  };
-  // Update user
-  const updateUserStates = async () => {
-    const userInfo = await api.getUser(userState._id);
-    await userDispatch({ type: USER_LOADING });
-    await userDispatch({
-      type: UPDATE_USER,
-      payload: {
-        ...userInfo.data,
-        loading: false
-      }
-    });
-  };
+
   // Create the handleChange function
   const handleChange = function(event) {
     const { name, value } = event.target;
@@ -107,9 +50,9 @@ const Post = () => {
     try {
       const post = {
         ...createPost,
-        author: userState._id
+        author: globalState.user._id
       };
-      //the only line we need it to add
+      //check is there is an image
       if (previewSource) {
         post.imageUrl = previewSource;
       }
@@ -118,7 +61,7 @@ const Post = () => {
         const createHashtags = await api.createHashtag({ hashtag: hashtags });
         post.hashtags = createHashtags.data._id;
       }
-      if (userState.role === "Personal" || createPost.type === "Post") {
+      if (globalState.user.role === "Personal" || createPost.type === "Post") {
         setCreatePost({
           ...createPost,
           type: "Post"
@@ -132,7 +75,14 @@ const Post = () => {
         await api.updateUserObjectID(post.author, {
           posts: data._id
         });
-        await addPost();
+
+        const postInfo = await api.getAllPost();
+        dispatch(UPDATE, { posts: postInfo.data, loading: false });
+
+        const hashInfo = await api.getHashtagAll();
+        dispatch(UPDATE, { hashtag: hashInfo.data, loading: false });
+
+
       } else {
         const { data } = await api.createCause(post);
         if (post.hashtags) {
@@ -144,9 +94,13 @@ const Post = () => {
         await api.updateUserObjectID(post.author, {
           causes: data._id
         });
-        await addCause();
+        const causes = await api.getAllCauses();
+        dispatch(UPDATE, { causes: causes.data, loading: false });
       }
-      await updateUserStates();
+
+      const userInfo = await api.getUser(globalState.user._id);
+      dispatch(UPDATE, { user: userInfo.data, loading: false });
+
       clearState();
     } catch (err) {}
   };
@@ -175,6 +129,19 @@ const Post = () => {
       setPreviewSource(reader.result);
     };
   };
+
+  const dispatch = async (action, payload) => {
+    await globalDispatch({ type: LOADING });
+    await globalDispatch({
+      type: action,
+      payload: {
+        ...payload,
+      },
+    });
+    return;
+  };
+
+
   // Form validation for inputs to be more than 6 characters
   const validate = event => {
     const { name, value } = event.target;
@@ -210,7 +177,7 @@ const Post = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        {userState.role === "Personal" ? null : (
+        {globalState.user.role === "Personal" ? null : (
           <FormControl variant="outlined">
             <InputLabel id="post">Post Type</InputLabel>
             <Select

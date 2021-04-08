@@ -13,13 +13,13 @@ import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import {
-	ADD_GUESS_USER,
-	USER_GUESS_LOADING,
+  LOADING,
+  UPDATE,
 } from "../../../utils/actions/actions";
 import API from "../../../utils/api";
 import { useHistory, useParams } from "react-router";
-import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create TabPanel
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -28,8 +28,8 @@ TabPanel.propTypes = {
 };
 // Create the component function and export for use
 const PublicDash = () => {
-	// Destructure guessState and guessDispatch from Context
-	const [guessState, guessDispatch] = useGuessContext();
+	// Destructure globalState.guessUser and guessDispatch from Context
+	const [globalState, globalDispatch] = useGlobalContext();
 	// Call useSocket function
 	const socket = useSocket();
 	// Get id from useParams
@@ -44,16 +44,13 @@ const PublicDash = () => {
 			if (!userInfo) {
 				history.push("/404");
 			}
-			await guessDispatch({
-				type: USER_GUESS_LOADING,
-			});
-			await guessDispatch({
-				type: ADD_GUESS_USER,
-				payload: {
-					...userInfo.data,
-					loading: false,
-				},
-			});
+			await globalDispatch({ type: LOADING });
+      await globalDispatch({
+        type: UPDATE,
+        payload: {
+          guessUser: userInfo.data,
+        },
+      });
 		}
 		fetchUserInfo();
 	}, []);
@@ -86,31 +83,31 @@ const PublicDash = () => {
                 <Grid item xs={12} sm={3} className="card-container">
                   <Typography variant="subtitle2">ABOUT</Typography>
                   <About
-                    key={guessState._id}
-                    id={guessState._id}
-                    bio={guessState.bio}
-                    firstName={guessState.firstName}
-                    lastname={guessState.lastname}
-                    username={guessState.username}
-                    email={guessState.email}
-                    role={guessState.role}
-                    verified={guessState.verified}
-                    following={guessState.following.length}
-                    followers={guessState.followers.length}
-                    posts={guessState.posts}
-                    causes={guessState.causes}
-                    profileImg={guessState.profileImg}
-                    bannerImg={guessState.bannerImg}
-                    orgName={guessState.orgName}
-                    phoneNumber={guessState.phoneNumber}
-                    website={guessState.website}
-                    address={guessState.address}
+                    key={globalState.guessUser._id}
+                    id={globalState.guessUser._id}
+                    bio={globalState.guessUser.bio}
+                    firstName={globalState.guessUser.firstName}
+                    lastname={globalState.guessUser.lastname}
+                    username={globalState.guessUser.username}
+                    email={globalState.guessUser.email}
+                    role={globalState.guessUser.role}
+                    verified={globalState.guessUser.verified}
+                    following={globalState.guessUser.following.length}
+                    followers={globalState.guessUser.followers.length}
+                    posts={globalState.guessUser.posts}
+                    causes={globalState.guessUser.causes}
+                    profileImg={globalState.guessUser.profileImg}
+                    bannerImg={globalState.guessUser.bannerImg}
+                    orgName={globalState.guessUser.orgName}
+                    phoneNumber={globalState.guessUser.phoneNumber}
+                    website={globalState.guessUser.website}
+                    address={globalState.guessUser.address}
                     check={id}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} className="card-container">
                   <Typography variant="subtitle2">NEWS FEED</Typography>
-                  {guessState.posts.map((card) => (
+                  {globalState.guessUser.posts.map((card) => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -127,7 +124,7 @@ const PublicDash = () => {
                 </Grid>
                 <Grid item xs={12} sm={3} className="card-container">
                   <Typography variant="subtitle2">CAUSES</Typography>
-                  {guessState.causes.map((card) => (
+                  {globalState.guessUser.causes.map((card) => (
                     <Causes
                       key={card._id}
                       id={card._id}
@@ -156,7 +153,7 @@ const PublicDash = () => {
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  {guessState.posts.map((card) => (
+                  {globalState.guessUser.posts.map((card) => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -175,32 +172,32 @@ const PublicDash = () => {
               <TabPanel value={value} index={1}>
                 <Grid item xs={12}>
                   <About
-                    key={guessState._id}
-                    id={guessState._id}
-                    bio={guessState.bio}
-                    firstName={guessState.firstName}
-                    lastname={guessState.lastname}
-                    username={guessState.username}
-                    email={guessState.email}
-                    role={guessState.role}
-                    verified={guessState.verified}
-                    following={guessState.following.length}
-                    followers={guessState.followers.length}
-                    posts={guessState.posts}
-                    causes={guessState.causes}
-                    profileImg={guessState.profileImg}
-                    bannerImg={guessState.bannerImg}
-                    orgName={guessState.orgName}
-                    phoneNumber={guessState.phoneNumber}
-                    website={guessState.website}
-                    address={guessState.address}
+                    key={globalState.guessUser._id}
+                    id={globalState.guessUser._id}
+                    bio={globalState.guessUser.bio}
+                    firstName={globalState.guessUser.firstName}
+                    lastname={globalState.guessUser.lastname}
+                    username={globalState.guessUser.username}
+                    email={globalState.guessUser.email}
+                    role={globalState.guessUser.role}
+                    verified={globalState.guessUser.verified}
+                    following={globalState.guessUser.following.length}
+                    followers={globalState.guessUser.followers.length}
+                    posts={globalState.guessUser.posts}
+                    causes={globalState.guessUser.causes}
+                    profileImg={globalState.guessUser.profileImg}
+                    bannerImg={globalState.guessUser.bannerImg}
+                    orgName={globalState.guessUser.orgName}
+                    phoneNumber={globalState.guessUser.phoneNumber}
+                    website={globalState.guessUser.website}
+                    address={globalState.guessUser.address}
                     check={id}
                   />
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {guessState.causes.map((card) => (
+                  {globalState.guessUser.causes.map((card) => (
                     <Causes
                       key={card._id}
                       id={card._id}

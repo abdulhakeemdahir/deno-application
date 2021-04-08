@@ -25,7 +25,7 @@ module.exports = {
         {
           path: "comments",
           model: "Comment",
-          options: { sort: { date: -1 } },
+          options: { sort: { createdAt: -1 } },
           populate: {
             path: "user",
             select: "username",
@@ -59,7 +59,6 @@ module.exports = {
       });
       res.status(201).json(postModel);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },
@@ -107,9 +106,9 @@ module.exports = {
   remove: async (req, res) => {
     try {
       await Post.findByIdAndDelete({ _id: req.params.id });
-
+      console.log("hello body", req.params.userId);
       await User.findByIdAndUpdate(
-        req.body.userId,
+        req.params.userId,
         {
           $pull: { posts: req.params.id }
         },
@@ -144,7 +143,7 @@ module.exports = {
           {
             path: "comments",
             model: "Comment",
-            options: { sort: { date: -1 } },
+            options: { sort: { createdAt: -1 } },
             populate: {
               path: "user",
               select: "username",
@@ -155,7 +154,6 @@ module.exports = {
         .exec();
       res.status(200).json(allPost);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },

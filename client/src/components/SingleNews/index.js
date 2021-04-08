@@ -5,15 +5,22 @@ import {
   Grid,
   CardMedia,
   Divider,
-  CardContent
+  CardContent,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
 import useSingleStyles from "./useSingleStyles";
 import "./style.css";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
 const SingleNews = props => {
   // Call the styles function
   const classes = useSingleStyles();
+  const [globalState] = useGlobalContext();
   // Create the JSX for the component
   return (
     <Grid container>
@@ -23,7 +30,7 @@ const SingleNews = props => {
             <Typography
               variant="subtitle1"
               style={{
-                fontWeight: "bold"
+                fontWeight: "bold",
               }}
             >
               {props.title}
@@ -36,7 +43,10 @@ const SingleNews = props => {
         <Divider />
         <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={4}>
-            <CardMedia className={"media"} image={props.image} />
+            <CardMedia
+              className={"media"}
+              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+            />
           </Grid>
           <Grid item xs={12} sm={8}>
             <CardContent>
@@ -51,29 +61,52 @@ const SingleNews = props => {
           </Grid>
         </Grid>
         <Grid container xs={12} spacing={1}>
-          <Typography className={classes.heading}>
-            <br />
-            There are {props.comments.length} Comments
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container className="cardPost">
-        {props.comments.map(card => (
-          <>
-            <Grid container xs={12} className={classes.gridStyle}>
-              <Grid item xs={4}>
-                <Typography variant="body" color="textSecondary" component="p">
-                  {card.author}
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body" color="textSecondary" component="p">
-                  {card.post}
-                </Typography>
-              </Grid>
+          <Accordion className={classes.shadow}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>
+                Read {props.comments.length} Comments
+              </Typography>
+            </AccordionSummary>
+            <Grid className="cardComment">
+              {props.comments.map((card) => (
+                <AccordionDetails>
+                  <Grid container xs={12} className={classes.gridStyle}>
+                    <Grid item xs={4}>
+                      <Typography
+                        variant="body"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        <Link
+                          to={
+                            card.user._id === globalState.user._id
+                              ? "/dashboard"
+                              : `/dashboard/${card.user._id}`
+                          }
+                        >
+                          {card.user.username}
+                        </Link>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography
+                        variant="body"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {card.content}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              ))}
             </Grid>
-          </>
-        ))}
+          </Accordion>
+        </Grid>
       </Grid>
     </Grid>
   );
