@@ -19,6 +19,8 @@ import {
   useLogout
 } from "../../utils/auth";
 import { useHistory } from "react-router-dom";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+import { Link } from "react-router-dom";
 
 // Create the component function and export for use
 const Nav = () => {
@@ -28,7 +30,7 @@ const Nav = () => {
     { title: `newsfeed`, path: `/newsfeed` },
     { title: `dashboard`, path: `/dashboard` }
   ];
-  // Create the set and setState from useState
+  // search and setSearch from useState
   const [search, setSearch] = useState("");
   // Call the styles function
   const classes = useNavStyles();
@@ -40,6 +42,8 @@ const Nav = () => {
   const login = () => {
     history.push("/");
   };
+
+  const [globalState] = useGlobalContext();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -65,32 +69,36 @@ const Nav = () => {
               edge="start"
               color="inherit"
               aria-label="AccountCircle"
-              to="/"
+              to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}
             >
-              <img
-                src={Logo}
-                alt="logo"
-                style={{ height: "40px", width: "auto" }}
-              />{" "}
+              <Link to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}>
+                <img
+                  src={Logo}
+                  alt="logo"
+                  style={{ height: "40px", width: "auto" }}
+                />{" "}
+              </Link>
             </IconButton>
-            <div className={classes.search}>
-              <form onSubmit={handleSubmit}>
-                <Button type="submit" className={classes.searchIcon}>
-                  <SearchIcon />
-                </Button>
-                <Input
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                  onChange={e => setSearch(e.target.value)}
-                  value={search}
-                  fullWidth
-                />
-              </form>
-            </div>
+            {globalState?.user._id !== 0 && (
+              <div className={classes.search}>
+                <form onSubmit={handleSubmit}>
+                  <Button type="submit" className={classes.searchIcon}>
+                    <SearchIcon />
+                  </Button>
+                  <Input
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                    onChange={e => setSearch(e.target.value)}
+                    value={search}
+                    fullWidth
+                  />
+                </form>
+              </div>
+            )}
             <div className={classes.grow} />
             <NavDrawer navLinks={navLinks} />
           </Container>

@@ -6,30 +6,28 @@ const { Provider } = GlobalContext;
 
 const GlobalProvider = ({ value = [], ...props }) => {
   const [globalState, globalDispatch] = useReducer(reducer, {
-    user:{
-    _id: 0,
-
-    //from user.js in models
-    firstName: "",
-    lastname: "",
-    username: "",
-    email: "",
-    password: "",
-    bio: "",
-    uuid: "",
-    role: "",
-    verified: false,
-    following: [],
-    followers: [],
-    posts: [],
-    causes: [],
-    profileImg: "",
-    bannerImg: "",
-    orgName: "",
-    phoneNumber: "",
-    website: "",
-    address: "",
-  },
+    user: {
+      _id: 0,
+      firstName: "",
+      lastname: "",
+      username: "",
+      email: "",
+      password: "",
+      bio: "",
+      uuid: "",
+      role: "",
+      verified: false,
+      following: [],
+      followers: [],
+      posts: [],
+      causes: [],
+      profileImg: "",
+      bannerImg: "",
+      orgName: "",
+      phoneNumber: "",
+      website: "",
+      address: ""
+    },
     causes: [
       {
         _id: 0,
@@ -43,8 +41,8 @@ const GlobalProvider = ({ value = [], ...props }) => {
         likes: [],
 
         //from hashtag.js in models
-        hashtags: [],
-      },
+        hashtags: []
+      }
     ],
     posts: [
       {
@@ -58,48 +56,47 @@ const GlobalProvider = ({ value = [], ...props }) => {
         imageUrl: "",
         likes: [],
         hashtag: "",
-        comments: [],
-      },
+        comments: []
+      }
     ],
-    singlePosts: 
-      {
-        _id: 0,
+    singlePosts: {
+      _id: 0,
 
-        //from post.js in models
-        title: "",
-        author: {},
-        content: "",
-        date: "",
-        imageUrl: "",
-        likes: [],
-        hashtag: "",
-        comments: [],
-      },
-    guessUser:{
-    _id: 0,
+      //from post.js in models
+      title: "",
+      author: {},
+      content: "",
+      date: "",
+      imageUrl: "",
+      likes: [],
+      hashtag: "",
+      comments: []
+    },
+    guessUser: {
+      _id: 0,
 
-    //from user.js in models
-    firstName: "",
-    lastname: "",
-    username: "",
-    email: "",
-    password: "",
-    bio: "",
-    uuid: "",
-    role: "",
-    verified: false,
-    following: [],
-    followers: [],
-    posts: [],
-    causes: [],
-    profileImg: "",
-    bannerImg: "",
-    orgName: "",
-    phoneNumber: "",
-    website: "",
-    address: "",
-  },
-  hashtag:[]
+      //from user.js in models
+      firstName: "",
+      lastname: "",
+      username: "",
+      email: "",
+      password: "",
+      bio: "",
+      uuid: "",
+      role: "",
+      verified: false,
+      following: [],
+      followers: [],
+      posts: [],
+      causes: [],
+      profileImg: "",
+      bannerImg: "",
+      orgName: "",
+      phoneNumber: "",
+      website: "",
+      address: ""
+    },
+    hashtag: []
   });
 
   return <Provider value={[globalState, globalDispatch]} {...props} />;
@@ -109,4 +106,4 @@ const useGlobalContext = () => {
   return useContext(GlobalContext);
 };
 
-export { GlobalProvider , useGlobalContext };
+export { GlobalProvider, useGlobalContext };
