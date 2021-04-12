@@ -48,12 +48,7 @@ const Nav = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const location = {
-      pathname: "/search",
-      search
-    };
-
-    history.push(location);
+    history.push(`/search/${search}`);
   };
 
   // Call the useAuth function
