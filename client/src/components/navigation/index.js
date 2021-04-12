@@ -1,12 +1,13 @@
 // Import all relevant packages and components
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
   Container,
   IconButton,
-  InputBase,
-  CssBaseline
+  CssBaseline,
+  Input,
+  Button
 } from "@material-ui/core";
 import useNavStyles from "./useNavStyles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -28,7 +29,7 @@ const Nav = () => {
     { title: `dashboard`, path: `/dashboard` }
   ];
   // Create the set and setState from useState
-  const [search, searchState] = useState("");
+  const [search, setSearch] = useState("");
   // Call the styles function
   const classes = useNavStyles();
   // Call the logout function
@@ -40,8 +41,17 @@ const Nav = () => {
     history.push("/");
   };
 
-  const searchBarRef = useRef();
-  const handleInputChange = event => searchBarRef.current.value;
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const location = {
+      pathname: "/search",
+      search
+    };
+
+    history.push(location);
+  };
+
   // Call the useAuth function
   useAuthTokenStore();
   const isAuth = useIsAuthenticated();
@@ -64,26 +74,25 @@ const Nav = () => {
               />{" "}
             </IconButton>
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                inputProps={{ "aria-label": "search" }}
-                ref={searchBarRef}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <form onSubmit={handleSubmit}>
+                <Button type="submit" className={classes.searchIcon}>
+                  <SearchIcon />
+                </Button>
+                <Input
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={e => setSearch(e.target.value)}
+                  value={search}
+                  fullWidth
+                />
+              </form>
             </div>
             <div className={classes.grow} />
-
-            {/* <Hidden mdUp> */}
             <NavDrawer navLinks={navLinks} />
-            {/* </Hidden> */}
           </Container>
         </Toolbar>
       </AppBar>
