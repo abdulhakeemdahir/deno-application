@@ -7,7 +7,10 @@ import {
   IconButton,
   CssBaseline,
   Input,
-  Button
+  Button,
+  InputLabel,
+  NativeSelect,
+  Grid
 } from "@material-ui/core";
 import useNavStyles from "./useNavStyles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -76,8 +79,16 @@ const Nav = () => {
             </IconButton>
             {globalState?.user._id !== 0 && (
               <div className={classes.search}>
-                <form onSubmit={handleSubmit}>
-                  <Button type="submit" className={classes.searchIcon}>
+                <form
+                  className={classes.searchForm}
+                  onSubmit={handleSubmit}
+                  style={{ width: "100%" }}
+                >
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className={classes.searchIcon}
+                  >
                     <SearchIcon />
                   </Button>
                   <Input
@@ -89,8 +100,12 @@ const Nav = () => {
                     inputProps={{ "aria-label": "search" }}
                     onChange={e => setSearch(e.target.value)}
                     value={search}
-                    fullWidth
                   />
+                  {/* <InputLabel htmlFor="select">Age</InputLabel> */}
+                  <NativeSelect id="select" className={classes.searchSelect}>
+                    <option value="10">Ten</option>
+                    <option value="20">Twenty</option>
+                  </NativeSelect>
                 </form>
               </div>
             )}

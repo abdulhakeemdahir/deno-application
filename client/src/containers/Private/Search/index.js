@@ -45,13 +45,10 @@ const Search = () => {
     return;
   };
 
-  // Create the set and setState from useState
-
   // Create the handleChange function
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // Call the Window Width function
 
   // Create the JSX for the component
   return (

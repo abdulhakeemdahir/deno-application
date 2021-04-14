@@ -7,4 +7,5 @@ module.exports = {
   hashtagsController: require("./hashtagsController"),
   authenticatedControllers: require("./authenticatedControllers.js"),
   donationsController: require("./donationsController")
+  searchController: require("./searchController")
 };

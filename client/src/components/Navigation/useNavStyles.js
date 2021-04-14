@@ -1,3 +1,4 @@
+import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { fade, makeStyles } from "@material-ui/core";
 
 const useNavStyles = makeStyles(theme => ({
@@ -41,6 +42,13 @@ const useNavStyles = makeStyles(theme => ({
       width: "50%"
     }
   },
+  searchForm: {
+    display: "grid",
+    gridTemplateColumns: "1fr 3fr 1fr",
+    gridTemplateAreas: "'button input select",
+    justifyItems: "center",
+    alignItems: "center"
+  },
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -49,20 +57,28 @@ const useNavStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: `white`
+    color: `white`,
+    gridArea: "'button'"
+  },
+  searchSelect: {
+    marginLeft: 0,
+    top: ".3rem",
+    gridArea: "'select'"
   },
   inputRoot: {
-    color: "#ffffff"
+    color: "#ffffff",
+    width: "100%",
+    gridArea: "'input'"
   },
   inputInput: {
     padding: theme.spacing(2, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "70%",
-    [theme.breakpoints.up("md")]: {
-      width: "90%"
-    }
+    transition: theme.transitions.create("width")
+    // width: "70%",
+    // [theme.breakpoints.up("md")]: {
+    //   width: "90%"
+    // }
   },
   sectionDesktop: {
     display: "none",
