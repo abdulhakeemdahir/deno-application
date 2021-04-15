@@ -29,10 +29,15 @@ const Search = () => {
   // Destructure State and Dispatch from Context
   const { width } = useWindowDimensions();
   const [value, setValue] = React.useState(0);
-  let { search } = useParams();
+  let { action, search } = useParams();
 
   // Get post Data
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(action, search, "Search console");
+    API.getSearchResults(action, search).then(res => {
+      console.log(res);
+    });
+  }, []);
 
   const dispatch = async (action, payload) => {
     await globalDispatch({ type: LOADING });

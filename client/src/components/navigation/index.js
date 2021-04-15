@@ -35,6 +35,7 @@ const Nav = () => {
   ];
   // search and setSearch from useState
   const [search, setSearch] = useState("");
+  const [action, setAction] = useState("User");
   // Call the styles function
   const classes = useNavStyles();
   // Call the logout function
@@ -50,8 +51,9 @@ const Nav = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(action, search);
 
-    history.push(`/search/${search}`);
+    history.push(`/search/${action}/${search}`);
   };
 
   // Call the useAuth function
@@ -102,8 +104,12 @@ const Nav = () => {
                     value={search}
                   />
                   {/* <InputLabel htmlFor="select">Age</InputLabel> */}
-                  <NativeSelect id="select" className={classes.searchSelect}>
-                    <option value="10">Ten</option>
+                  <NativeSelect
+                    id="select"
+                    className={classes.searchSelect}
+                    onChange={e => setAction(e.target.value)}
+                  >
+                    <option value="User">User</option>
                     <option value="20">Twenty</option>
                   </NativeSelect>
                 </form>

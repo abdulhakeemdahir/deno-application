@@ -6,11 +6,16 @@ module.exports = {
     try {
       const { action, search } = req.params;
 
+      console.log(action);
+
+      console.log(search);
+
       let response;
 
       switch (action) {
         case "User":
           response = await User.find({ username: search });
+          console.log(response);
           res.status(200).json(response);
           break;
 

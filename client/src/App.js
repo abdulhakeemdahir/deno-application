@@ -79,7 +79,7 @@ function App() {
                           />
                           <PrivateRoute
                             exact
-                            path="/search/:search"
+                            path="/search/:action/:search"
                             redirectTo="/"
                             component={Search}
                           />
