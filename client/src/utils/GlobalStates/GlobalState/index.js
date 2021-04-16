@@ -96,7 +96,9 @@ const GlobalProvider = ({ value = [], ...props }) => {
       website: "",
       address: ""
     },
-    hashtag: []
+    hashtag: [],
+    search: {},
+    loading: false
   });
 
   return <Provider value={[globalState, globalDispatch]} {...props} />;
