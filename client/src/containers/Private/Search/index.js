@@ -6,13 +6,13 @@ import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import UserCard from "../../../components/Card";
+import News from "../../../components/Private/News";
 import API from "../../../utils/api";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import { LOADING, UPDATE } from "../../../utils/actions/actions.js";
 import { useParams } from "react-router-dom";
 import NProgress from "nprogress";
-import useReactPath from "../../../hooks/useReactPath";
 
 // Create TabPanel
 TabPanel.propTypes = {
@@ -95,9 +95,21 @@ const Search = () => {
           {/* If the globalState.search contains posts */}
           {!globalState.loading &&
             globalState.search.length &&
-            window.location.pathname.includes("Post") && (
-              <UserCard {...globalState?.search}></UserCard>
-            )}
+            window.location.pathname.includes("Post") &&
+            globalState.search.map(card => (
+              <News
+                key={card._id}
+                id={card._id}
+                title={card.title}
+                author={card.author.username}
+                authorId={card.author._id}
+                link={card.url}
+                image={card.imageUrl}
+                post={card.content}
+                hashTag={card.hashtag}
+                comments={card.comments}
+              />
+            ))}
         </Grid>
         <Gradient />
         <Footer />

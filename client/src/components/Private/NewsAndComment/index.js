@@ -20,10 +20,7 @@ import { Delete, Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import api from "../../../utils/api";
 import { Link } from "react-router-dom";
-import {
-  LOADING,
-  UPDATE,
-} from "../../../utils/actions/actions";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create the component function and export for use
@@ -58,7 +55,7 @@ const NewsAndComment = props => {
       await api.updateObjectID(id, {
         comments: data._id
       });
-    
+
       const postInfo = await api.getAllPost();
       dispatch(UPDATE, { posts: postInfo.data, loading: false });
       const payload = { isPost: true };
@@ -99,28 +96,26 @@ const NewsAndComment = props => {
     return () => socket.off("update-post");
   }, []);
 
-  const handleRemove = async (commentId, postId) =>{
-          
-          await api.removeComments(commentId, postId);
-          
-          const postInfo = await api.getAllPost();
-          dispatch(UPDATE, { posts: postInfo.data, loading: false });
-  }
+  const handleRemove = async (commentId, postId) => {
+    await api.removeComments(commentId, postId);
 
-  const dispatch = async (action, payload) =>{
+    const postInfo = await api.getAllPost();
+    dispatch(UPDATE, { posts: postInfo.data, loading: false });
+  };
+
+  const dispatch = async (action, payload) => {
     await globalDispatch({
-      type: LOADING,
+      type: LOADING
     });
 
     await globalDispatch({
       type: action,
       payload: {
         ...payload
-      },
+      }
     });
-  }
+  };
 
-  
   // Create the JSX for the component
   return (
     <>
@@ -134,7 +129,7 @@ const NewsAndComment = props => {
           <Grid item xs={3} sm={1}>
             <Button className="editButton" onClick={() => handleLike(props.id)}>
               <>
-                {props.liked.find((l) => l._id === globalState.user._id) ? (
+                {props.liked.find(l => l._id === globalState.user._id) ? (
                   <Favorite />
                 ) : (
                   <FavoriteBorderIcon />
@@ -143,6 +138,7 @@ const NewsAndComment = props => {
             </Button>
           </Grid>
         </Grid>
+
         <Typography variant="body2" color="textSecondary" component="p">
           <span className="authorStyle"> Author:</span>
           <Link
@@ -155,7 +151,9 @@ const NewsAndComment = props => {
             {props.author}
           </Link>
         </Typography>
+
         <Divider />
+
         <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={4}>
             <CardMedia
@@ -163,27 +161,17 @@ const NewsAndComment = props => {
               image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
             />
           </Grid>
+
           <Grid item xs={12} sm={8}>
             <CardContent>
               <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
-
-              {
-                //props.hashTag != false ? (
-                //<>
-                //   {props.hashTag[0].hashtag.map((tag) => (
-                //     <Link to={props.hashTag[0]._id} className="hashTagStyle">
-                //       #{tag}
-                //     </Link>
-                //   ))}
-                //</>
-                //) : null
-              }
             </CardContent>
             <Divider />
           </Grid>
         </Grid>
+
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
@@ -199,6 +187,7 @@ const NewsAndComment = props => {
               fullWidth
             />
           </Grid>
+
           <Grid item xs={12} sm={4} id={props.id}>
             <Button
               size="small"
@@ -210,6 +199,7 @@ const NewsAndComment = props => {
               <ChatBubbleOutlineIcon id={props.id} /> Comment
             </Button>
           </Grid>
+
           {props.comments.length >= 0 ? (
             <Accordion className={classes.shadow}>
               <AccordionSummary
@@ -221,8 +211,9 @@ const NewsAndComment = props => {
                   Read {props.comments.length} Comments
                 </Typography>
               </AccordionSummary>
+
               <Grid className="cardComment">
-                {props.comments.map((card) => (
+                {props.comments.map(card => (
                   <AccordionDetails>
                     <Grid container xs={12} className={classes.gridStyle}>
                       <Grid item xs={4}>

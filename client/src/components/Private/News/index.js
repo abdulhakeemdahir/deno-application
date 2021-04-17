@@ -1,17 +1,17 @@
 // Import all relevant packages and components
 import React, { useEffect, useState } from "react";
 import {
-	Typography,
-	Grid,
-	CardMedia,
-	Divider,
-	CardContent,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	TextField,
-	Button,
-	Dialog,
+  Typography,
+  Grid,
+  CardMedia,
+  Divider,
+  CardContent,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+  Button,
+  Dialog
 } from "@material-ui/core";
 import useNewsStyles from "./useNewsStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -21,104 +21,94 @@ import Fade from "@material-ui/core/Fade";
 import { Delete, Edit } from "@material-ui/icons";
 import "./style.css";
 import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
-import {
-  UPDATE_USER,
-  USER_LOADING,
-  ADD_GUESS_USER,
-  USER_GUESS_LOADING,
-  LOADING,
-  UPDATE,
-} from "../../../utils/actions/actions";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
 const News = props => {
-	// Call the styles function
-	const classes = useNewsStyles();
-	// Create the set and setState from useState
-	const [open, setOpen] = useState(false);
-	// Destructure State and Dispatch from Context
+  // Call the styles function
+  const classes = useNewsStyles();
+  // Create the set and setState from useState
+  const [open, setOpen] = useState(false);
+  // Destructure State and Dispatch from Context
   const [globalState, globalDispatch] = useGlobalContext();
-	// Create the set and setState from useState
-	const [commentState, setCommentState] = useState({
-		content: "",
-	});
-	// Call useSocket
-	const socket = useSocket();
-	// Create the clearState function
-	const clearState = () => {
-		setCommentState({
-			content: "",
-		});
-		return;
-	};
-	// Create the handleChange function
-	const handleChange = function(event) {
-		const { name, value } = event.target;
-		setCommentState({
-			...commentState,
-			[name]: value,
-		});
-	};
-	// Create the handleSubmit function
-	const handleSubmit = async id => {
-		try {
-			const comment = {
-				...commentState,
-				user: globalState.user._id,
-				post: id,
-			};
-			const { data } = await api.createComments(comment);
-			await api.updateObjectID(id, {
-				comments: data._id,
-			});
-			const userInfo = await api.getUser(globalState.user._id);
-			dispatch(UPDATE, { user: userInfo.data, loading: false });
+  // Create the set and setState from useState
+  const [commentState, setCommentState] = useState({
+    content: ""
+  });
+  // Call useSocket
+  const socket = useSocket();
+  // Create the clearState function
+  const clearState = () => {
+    setCommentState({
+      content: ""
+    });
+    return;
+  };
+  // Create the handleChange function
+  const handleChange = function(event) {
+    const { name, value } = event.target;
+    setCommentState({
+      ...commentState,
+      [name]: value
+    });
+  };
+  // Create the handleSubmit function
+  const handleSubmit = async id => {
+    try {
+      const comment = {
+        ...commentState,
+        user: globalState.user._id,
+        post: id
+      };
+      const { data } = await api.createComments(comment);
+      await api.updateObjectID(id, {
+        comments: data._id
+      });
+      const userInfo = await api.getUser(globalState.user._id);
+      dispatch(UPDATE, { user: userInfo.data, loading: false });
 
-			if (globalState.guessUser._id) {
-				const guessInfo = await api.getUser(globalState.guessUser._id);
+      if (globalState.guessUser._id) {
+        const guessInfo = await api.getUser(globalState.guessUser._id);
         dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
 
-				socket.emit("send-comment-dashboard", globalState.guessUser._id);
-			} else {
-				socket.emit("send-comment-dashboard", globalState.user._id);
-			}
-			clearState();
-		} catch (err) {}
-	};
+        socket.emit("send-comment-dashboard", globalState.guessUser._id);
+      } else {
+        socket.emit("send-comment-dashboard", globalState.user._id);
+      }
+      clearState();
+    } catch (err) {}
+  };
 
-	useEffect(() => {
-		const updateDashboard = async user => {
-			if (user._id === globalState.user._id) {
-				const userInfo = await api.getUser(globalState.user._id);
-				dispatch(UPDATE, { user: userInfo.data, loading: false });
-			} else {
-				const guessInfo = await api.getUser(globalState.guessUser._id);
-				dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
-			}
-		};
-		socket.on("update-dashboard", updateDashboard);
-		return () => socket.off("update-dashboard");
-	}, []);
+  useEffect(() => {
+    const updateDashboard = async user => {
+      if (user._id === globalState.user._id) {
+        const userInfo = await api.getUser(globalState.user._id);
+        dispatch(UPDATE, { user: userInfo.data, loading: false });
+      } else {
+        const guessInfo = await api.getUser(globalState.guessUser._id);
+        dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
+      }
+    };
+    socket.on("update-dashboard", updateDashboard);
+    return () => socket.off("update-dashboard");
+  }, []);
 
-	const handleRemove = async (idPost, authorId) =>{
-		if (authorId !== globalState.user._id) {
-			return
+  const handleRemove = async (idPost, authorId) => {
+    if (authorId !== globalState.user._id) {
+      return;
     }
 
-		await api.removePost(idPost, authorId);
+    await api.removePost(idPost, authorId);
 
-		const userInfo = await api.getUser(globalState.user._id);
+    const userInfo = await api.getUser(globalState.user._id);
     dispatch(UPDATE, { user: userInfo.data, loading: false });
-	}
+  };
 
   const handleRemoveComment = async (commentId, postId) => {
-    
     await api.removeComments(commentId, postId);
 
     const userInfo = await api.getUser(globalState.user._id);
@@ -127,26 +117,26 @@ const News = props => {
 
   const dispatch = async (action, payload) => {
     await globalDispatch({
-      type: LOADING,
+      type: LOADING
     });
 
     await globalDispatch({
       type: action,
       payload: {
-        ...payload,
-      },
+        ...payload
+      }
     });
   };
- 	// Create the handleOpen function
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	// Create the handleClose function
-	const handleClose = () => {
-		setOpen(false);
-	};
-	// Create the JSX for the component
-	return (
+  // Create the handleOpen function
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  // Create the handleClose function
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // Create the JSX for the component
+  return (
     <>
       <Grid item className="card" xs={12}>
         <Grid container className="headerContainer">
@@ -177,7 +167,7 @@ const News = props => {
               closeAfterTransition
               BackdropComponent={Backdrop}
               BackdropProps={{
-                timeout: 500,
+                timeout: 500
               }}
             >
               <Fade in={open}>
@@ -252,7 +242,7 @@ const News = props => {
               </Typography>
             </AccordionSummary>
             <Grid className="cardComment">
-              {props.comments.map((card) => (
+              {props.comments.map(card => (
                 <AccordionDetails>
                   <Grid container xs={12} className={classes.gridStyle}>
                     <Grid item xs={4}>
