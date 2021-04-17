@@ -31,7 +31,15 @@ const Search = () => {
   useEffect(() => {
     console.log(action, search, "Search console");
     API.getSearchResults(action, search).then(res => {
-      const payload = { search: res.data[0] };
+      if (res.data[0]?.username) {
+        const payload = { search: res.data[0] };
+        dispatch(payload);
+        return;
+      }
+
+      console.log(res.data);
+
+      const payload = { search: res.data };
       dispatch(payload);
     });
 
@@ -82,6 +90,12 @@ const Search = () => {
           {!globalState.loading &&
             Object.keys(globalState.search).length !== 0 &&
             globalState.search.username && (
+              <UserCard {...globalState?.search}></UserCard>
+            )}
+          {/* If the globalState.search contains posts */}
+          {!globalState.loading &&
+            globalState.search.length &&
+            window.location.pathname.includes("Post") && (
               <UserCard {...globalState?.search}></UserCard>
             )}
         </Grid>

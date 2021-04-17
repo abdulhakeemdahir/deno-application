@@ -103,14 +103,15 @@ const Nav = () => {
                     onChange={e => setSearch(e.target.value)}
                     value={search}
                   />
-                  {/* <InputLabel htmlFor="select">Age</InputLabel> */}
                   <NativeSelect
                     id="select"
                     className={classes.searchSelect}
                     onChange={e => setAction(e.target.value)}
                   >
                     <option value="User">User</option>
-                    <option value="20">Twenty</option>
+                    <option value="Posts">Posts</option>
+                    <option value="Causes">Causes</option>
+                    <option value="Hashtags">Hashtags</option>
                   </NativeSelect>
                 </form>
               </div>

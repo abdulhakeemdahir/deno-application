@@ -19,33 +19,34 @@ module.exports = {
           res.status(200).json(response);
           break;
 
-        case "Post":
+        case "Posts":
+          const regexeppe = new RegExp(search);
+          console.log(regexeppe);
           response = await Post.aggregate([
             {
-              $match: {
-                content: { $regex: search }
-              }
+              content: { $regex: new RegExp(search) }
             }
           ]);
+          console.log(response);
           res.status(200).json(response);
           break;
 
-        case "Cause":
+        case "Causes":
           response = await Cause.aggregate([
             {
               $match: {
-                content: { $regex: search }
+                content: { $regex: new RegExp(search, "g") }
               }
             }
           ]);
           res.status(200).json(response);
           break;
 
-        case "Hashtag":
+        case "Hashtags":
           response = await Hashtag.aggregate([
             {
               $match: {
-                hashtag: { $regex: search }
+                hashtag: { $regex: new RegExp(search, "g") }
               }
             }
           ]);
