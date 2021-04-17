@@ -20,36 +20,58 @@ module.exports = {
           break;
 
         case "Posts":
-          const regexeppe = new RegExp(search);
-          console.log(regexeppe);
-          response = await Post.aggregate([
+          const searchRegex = new RegExp(search);
+
+          response = await Post.find({
+            $or: [
+              { title: { $regex: searchRegex, $options: "i" } },
+              { content: { $regex: searchRegex, $options: "i" } }
+            ]
+          }).populate([
             {
-              content: { $regex: new RegExp(search) }
+              path: "author",
+              select:
+                "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName",
+              model: "User"
+            },
+            {
+              path: "hashtags",
+              model: "Hashtag"
+            },
+            {
+              path: "likes",
+              select: "username",
+              model: "User"
+            },
+            {
+              path: "comments",
+              model: "Comment",
+              options: { sort: { createdAt: -1 } },
+              populate: {
+                path: "user",
+                select: "username",
+                model: "User"
+              }
             }
           ]);
-          console.log(response);
+
           res.status(200).json(response);
           break;
 
         case "Causes":
-          response = await Cause.aggregate([
-            {
-              $match: {
-                content: { $regex: new RegExp(search, "g") }
-              }
-            }
-          ]);
+          response = await Cause.find({
+            $or: [
+              { title: { $regex: searchRegex, $options: "i" } },
+              { content: { $regex: searchRegex, $options: "i" } }
+            ]
+          });
           res.status(200).json(response);
           break;
 
         case "Hashtags":
-          response = await Hashtag.aggregate([
-            {
-              $match: {
-                hashtag: { $regex: new RegExp(search, "g") }
-              }
-            }
-          ]);
+          response = await Hashtag.find({
+            hashtag: { $regex: searchRegex, $options: "i" }
+          });
           res.status(200).json(response);
           break;
 
