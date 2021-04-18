@@ -8,7 +8,6 @@ import {
   CssBaseline,
   Input,
   Button,
-  InputLabel,
   NativeSelect,
   Grid
 } from "@material-ui/core";
@@ -81,18 +80,7 @@ const Nav = () => {
             </IconButton>
             {globalState?.user._id !== 0 && (
               <div className={classes.search}>
-                <form
-                  className={classes.searchForm}
-                  onSubmit={handleSubmit}
-                  style={{ width: "100%" }}
-                >
-                  <Button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className={classes.searchIcon}
-                  >
-                    <SearchIcon />
-                  </Button>
+                <form className={classes.searchForm} onSubmit={handleSubmit}>
                   <Input
                     placeholder="Search…"
                     classes={{
@@ -113,6 +101,13 @@ const Nav = () => {
                     <option value="Causes">Causes</option>
                     <option value="Hashtags">Hashtags</option>
                   </NativeSelect>
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className={classes.searchIcon}
+                  >
+                    <SearchIcon />
+                  </Button>
                 </form>
               </div>
             )}

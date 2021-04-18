@@ -1,4 +1,3 @@
-import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { fade, makeStyles } from "@material-ui/core";
 
 const useNavStyles = makeStyles(theme => ({
@@ -27,25 +26,21 @@ const useNavStyles = makeStyles(theme => ({
   },
   search: {
     position: "relative",
-    // borderRadius: theme.shape.borderRadius,
+    display: "grid",
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
-    // marginRight: theme.spacing(0),
     marginLeft: 0,
     height: "50px",
     top: ".3rem",
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      // marginLeft: theme.spacing(3),
       width: "50%"
     }
   },
   searchForm: {
-    display: "grid",
-    gridTemplateColumns: "1fr 3fr 1fr",
-    gridTemplateAreas: "'button input select",
+    display: "flex",
     justifyItems: "center",
     alignItems: "center"
   },
@@ -57,28 +52,22 @@ const useNavStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: `white`,
-    gridArea: "'button'"
+    color: `white`
   },
   searchSelect: {
     marginLeft: 0,
     top: ".3rem",
-    gridArea: "'select'"
+    color: `white`
   },
   inputRoot: {
     color: "#ffffff",
-    width: "100%",
-    gridArea: "'input'"
+    width: "100%"
   },
   inputInput: {
     padding: theme.spacing(2, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width")
-    // width: "70%",
-    // [theme.breakpoints.up("md")]: {
-    //   width: "90%"
-    // }
   },
   sectionDesktop: {
     display: "none",
