@@ -97,7 +97,7 @@ const GlobalProvider = ({ value = [], ...props }) => {
       address: ""
     },
     hashtag: [],
-    search: {},
+    search: [],
     loading: false
   });
 
