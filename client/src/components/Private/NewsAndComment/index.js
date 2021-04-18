@@ -155,12 +155,14 @@ const NewsAndComment = props => {
         <Divider />
 
         <Grid container direction="row" spacing={1}>
-          <Grid item xs={12} sm={4}>
-            <CardMedia
-              className={"media"}
-              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
-            />
-          </Grid>
+          {props.image && (
+            <Grid item xs={12} sm={4}>
+              <CardMedia
+                className={"media"}
+                image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12} sm={8}>
             <CardContent>

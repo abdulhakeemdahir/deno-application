@@ -185,22 +185,19 @@ const News = props => {
         </Typography>
         <Divider />
         <Grid container direction="row" spacing={1}>
-          <Grid item xs={12} sm={4}>
-            <CardMedia
-              className={"media"}
-              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
-            />
-          </Grid>
+          {props.image && (
+            <Grid item xs={12} sm={4}>
+              <CardMedia
+                className={"media"}
+                image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={8}>
             <CardContent>
               <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
-              {
-                // <a href={props.link} className="hashTagStyle">
-                //   #{props.hashTag}
-                // </a>
-              }
             </CardContent>
             <Divider />
           </Grid>
@@ -238,7 +235,7 @@ const News = props => {
               id="panel1a-header"
             >
               <Typography className={classes.heading}>
-                Read {props.comments.length} Comments
+                Read {props.comments?.length} Comments
               </Typography>
             </AccordionSummary>
             <Grid className="cardComment">

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import UserCard from "../../../components/Card";
-import News from "../../../components/Private/News";
+import NewsAndComments from "../../../components/Private/NewsAndComment";
 import Causes from "../../../components/Private/Causes";
 import Trending from "../../../components/Trending";
 import API from "../../../utils/api";
@@ -42,7 +42,7 @@ const Results = () => {
   };
 
   return (
-    <div>
+    <>
       {/* If the search has no results. */}
       {Object.keys(globalState.search).length === 0 && (
         <Typography>No results found. Please try again! 😃</Typography>
@@ -51,15 +51,15 @@ const Results = () => {
       {globalState.loading && <Typography>Loading...</Typography>}
       {/* If the globalState.search contains a user */}
       {!globalState.loading &&
-        Object.keys(globalState.search).length !== 0 &&
-        globalState.search.username &&
+        globalState.search.length &&
+        window.location.pathname.includes("User") &&
         globalState.search.map(user => <UserCard key={user._id} {...user} />)}
       {/* If the globalState.search contains posts */}
       {!globalState.loading &&
         globalState.search.length &&
         window.location.pathname.includes("Post") &&
         globalState.search.map(card => (
-          <News
+          <NewsAndComments
             key={card._id}
             id={card._id}
             title={card.title}
@@ -68,8 +68,9 @@ const Results = () => {
             link={card.url}
             image={card.imageUrl}
             post={card.content}
-            hashTag={card.hashtag}
+            hashTag={card.hashtags}
             comments={card.comments}
+            liked={card.likes}
           />
         ))}
       {/* If the globalState.search contains Causes */}
@@ -104,7 +105,7 @@ const Results = () => {
             key={index}
           />
         ))}
-    </div>
+    </>
   );
 };
 
