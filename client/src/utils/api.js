@@ -175,6 +175,11 @@ class API {
   donate(data) {
     return this.axios.post("api/donations/pay", data);
   }
+
+  //-----------------------search api-------------------------//
+  getSearchResults(action, search) {
+    return this.axios.get(`/api/search/${action}/${search}`);
+  }
 }
 
 //-----------------------donate api-------------------------//

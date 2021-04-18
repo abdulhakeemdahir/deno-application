@@ -1,12 +1,15 @@
 // Import all relevant packages and components
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
   Container,
   IconButton,
-  InputBase,
-  CssBaseline
+  CssBaseline,
+  Input,
+  Button,
+  NativeSelect,
+  Grid
 } from "@material-ui/core";
 import useNavStyles from "./useNavStyles";
 import SearchIcon from "@material-ui/icons/Search";
@@ -18,6 +21,8 @@ import {
   useLogout
 } from "../../utils/auth";
 import { useHistory } from "react-router-dom";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+import { Link } from "react-router-dom";
 
 // Create the component function and export for use
 const Nav = () => {
@@ -27,8 +32,9 @@ const Nav = () => {
     { title: `newsfeed`, path: `/newsfeed` },
     { title: `dashboard`, path: `/dashboard` }
   ];
-  // Create the set and setState from useState
-  const [search, searchState] = useState("");
+  // search and setSearch from useState
+  const [search, setSearch] = useState("");
+  const [action, setAction] = useState("User");
   // Call the styles function
   const classes = useNavStyles();
   // Call the logout function
@@ -40,8 +46,15 @@ const Nav = () => {
     history.push("/");
   };
 
-  const searchBarRef = useRef();
-  const handleInputChange = event => searchBarRef.current.value;
+  const [globalState] = useGlobalContext();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(action, search);
+
+    history.push(`/search/${action}/${search}`);
+  };
+
   // Call the useAuth function
   useAuthTokenStore();
   const isAuth = useIsAuthenticated();
@@ -55,35 +68,51 @@ const Nav = () => {
               edge="start"
               color="inherit"
               aria-label="AccountCircle"
-              to="/"
+              to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}
             >
-              <img
-                src={Logo}
-                alt="logo"
-                style={{ height: "40px", width: "auto" }}
-              />{" "}
+              <Link to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}>
+                <img
+                  src={Logo}
+                  alt="logo"
+                  style={{ height: "40px", width: "auto" }}
+                />{" "}
+              </Link>
             </IconButton>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+            {globalState?.user._id !== 0 && (
+              <div className={classes.search}>
+                <form className={classes.searchForm} onSubmit={handleSubmit}>
+                  <Input
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                    onChange={e => setSearch(e.target.value)}
+                    value={search}
+                  />
+                  <NativeSelect
+                    id="select"
+                    className={classes.searchSelect}
+                    onChange={e => setAction(e.target.value)}
+                  >
+                    <option value="User">User</option>
+                    <option value="Posts">Posts</option>
+                    <option value="Causes">Causes</option>
+                    <option value="Hashtags">Hashtags</option>
+                  </NativeSelect>
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className={classes.searchIcon}
+                  >
+                    <SearchIcon />
+                  </Button>
+                </form>
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                inputProps={{ "aria-label": "search" }}
-                ref={searchBarRef}
-                onChange={handleInputChange}
-                fullWidth
-              />
-            </div>
+            )}
             <div className={classes.grow} />
-
-            {/* <Hidden mdUp> */}
             <NavDrawer navLinks={navLinks} />
-            {/* </Hidden> */}
           </Container>
         </Toolbar>
       </AppBar>
