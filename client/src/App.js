@@ -13,6 +13,7 @@ import { useAuthTokenStore } from "./utils/auth.js";
 import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Chatroom from "./containers/Private/Chatroom";
+import Search from "./containers/Private/Search";
 import SinglePost from "./containers/SinglePost";
 import Analytics from "./containers/Private/Analytics";
 import ErrorPage from "./containers/Public/ErrorPage";
@@ -22,24 +23,24 @@ import { GuessProvider } from "./utils/GlobalStates/GuessContext";
 import PublicDash from "./containers/Public/PublicDash";
 // Create a useStyles Material UI component for styling
 const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: "#1dc4e9",
-		},
-		secondary: { main: "#d500f9" },
-		default: {
-			main: "#454545",
-		},
-	},
+  palette: {
+    primary: {
+      main: "#1dc4e9"
+    },
+    secondary: { main: "#d500f9" },
+    default: {
+      main: "#454545"
+    }
+  }
 });
 // Create the component function and export for use
 function App() {
-	// Connect Socket
-	useSocketConnection();
-	// Connect Authentication
-	useAuthTokenStore();
-	// Create the JSX for the component
-	return (
+  // Connect Socket
+  useSocketConnection();
+  // Connect Authentication
+  useAuthTokenStore();
+  // Create the JSX for the component
+  return (
     <Router>
       <MuiThemeProvider theme={theme}>
         <div className="App">
@@ -75,6 +76,12 @@ function App() {
                             path="/dashboard/:id"
                             redirectTo="/"
                             component={PublicDash}
+                          />
+                          <PrivateRoute
+                            exact
+                            path="/search/:action/:search"
+                            redirectTo="/"
+                            component={Search}
                           />
 
                           <Route path="/explore" exact component={Explore} />
