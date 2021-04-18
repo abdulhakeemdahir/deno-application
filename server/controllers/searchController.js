@@ -12,16 +12,22 @@ module.exports = {
 
       let response;
 
+      const searchRegex = new RegExp(search);
+
       switch (action) {
         case "User":
-          response = await User.find({ username: search });
+          response = await User.find({
+            $or: [
+              { username: { $regex: searchRegex, $options: "i" } },
+              { firstName: { $regex: searchRegex, $options: "i" } },
+              { lastname: { $regex: searchRegex, $options: "i" } }
+            ]
+          });
           console.log(response);
           res.status(200).json(response);
           break;
 
         case "Posts":
-          const searchRegex = new RegExp(search);
-
           response = await Post.find({
             $or: [
               { title: { $regex: searchRegex, $options: "i" } },
@@ -64,14 +70,82 @@ module.exports = {
               { title: { $regex: searchRegex, $options: "i" } },
               { content: { $regex: searchRegex, $options: "i" } }
             ]
-          });
+          })
+            .sort({ date: -1 })
+            .populate([
+              {
+                path: "author",
+                select: "username orgName",
+                model: "User"
+              },
+              {
+                path: "likes",
+                model: "User",
+                populate: {
+                  path: "user",
+                  model: "User"
+                }
+              }
+            ]);
+          console.log(response);
           res.status(200).json(response);
           break;
 
         case "Hashtags":
           response = await Hashtag.find({
             hashtag: { $regex: searchRegex, $options: "i" }
-          });
+          }).populate([
+            {
+              path: "posts",
+              model: "Post",
+              options: { sort: { date: -1 } },
+              populate: [
+                {
+                  path: "author",
+                  select: "firstName username",
+                  model: "User"
+                },
+                {
+                  path: "likes",
+                  select: "username",
+                  model: "User"
+                },
+                {
+                  path: "hashtags",
+                  model: "Hashtag"
+                },
+                {
+                  path: "comments",
+                  model: "Comment",
+                  options: { sort: { date: -1 } },
+                  populate: [
+                    {
+                      path: "user",
+                      select: "username",
+                      model: "User"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              path: "causes",
+              model: "Cause",
+              options: { sort: { date: -1 } },
+              populate: [
+                {
+                  path: "author",
+                  select: "username orgName",
+                  model: "User"
+                },
+                {
+                  path: "likes",
+                  select: "username",
+                  model: "User"
+                }
+              ]
+            }
+          ]);
           res.status(200).json(response);
           break;
 

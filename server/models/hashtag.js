@@ -1,19 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const hashtagSchema = new Schema({
-  hashtag: [String],
-  posts: {
-    type: Schema.Types.ObjectId,
-    ref: "Posts"
-  },
+const hashtagSchema = new Schema(
+  {
+    hashtag: [String],
+    posts: {
+      type: Schema.Types.ObjectId,
+      ref: "Post"
+    },
 
-  causes: {
-    type: Schema.Types.ObjectId,
-    ref: "Causes"
+    causes: {
+      type: Schema.Types.ObjectId,
+      ref: "Cause"
+    }
   },
-  date: { type: Date, default: Date.now }
-});
+  {
+    timestamps: true
+  }
+);
 
 const Hashtag = mongoose.model("Hashtag", hashtagSchema);
 

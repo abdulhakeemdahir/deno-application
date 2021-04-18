@@ -200,7 +200,7 @@ const NewsAndComment = props => {
             </Button>
           </Grid>
 
-          {props.comments.length >= 0 ? (
+          {props.comments.length >= 0 && (
             <Accordion className={classes.shadow}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
@@ -259,7 +259,7 @@ const NewsAndComment = props => {
                 ))}
               </Grid>
             </Accordion>
-          ) : null}
+          )}
         </Grid>
       </Grid>
     </>

@@ -7,6 +7,8 @@ import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import UserCard from "../../../components/Card";
 import News from "../../../components/Private/News";
+import Causes from "../../../components/Private/Causes";
+import Trending from "../../../components/Trending";
 import API from "../../../utils/api";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
@@ -108,6 +110,38 @@ const Search = () => {
                 post={card.content}
                 hashTag={card.hashtag}
                 comments={card.comments}
+              />
+            ))}
+          {/* If the globalState.search contains Causes */}
+          {!globalState.loading &&
+            globalState.search.length &&
+            window.location.pathname.includes("Causes") &&
+            globalState.search.map(card => {
+              return (
+                <Causes
+                  key={card._id}
+                  id={card._id}
+                  title={card.title}
+                  author={card.author.orgName}
+                  causeId={card.author._id}
+                  link={card.url}
+                  image={card.imageUrl}
+                  post={card.content}
+                  hashTag={card.hashtag}
+                  role={globalState.user.role}
+                />
+              );
+            })}
+          {/* If the globalState.search contains Hashtags */}
+          {!globalState.loading &&
+            globalState.search.length &&
+            window.location.pathname.includes("Hashtag") &&
+            globalState.search.map((card, index) => (
+              <Trending
+                hashTag={card.hashtag}
+                post={card.posts}
+                link={card._id}
+                key={index}
               />
             ))}
         </Grid>
