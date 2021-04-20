@@ -1,9 +1,4 @@
-import {
-  ADD,
-  REMOVE,
-  UPDATE,
-  LOADING,
-} from "../../actions/actions";
+import { ADD, REMOVE, UPDATE, LOADING } from "../../actions/actions";
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -11,24 +6,27 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         ...payload,
+        loading: false
       };
 
     case REMOVE:
       return {
         ...state,
         ...payload,
+        loading: false
       };
 
     case UPDATE:
       return {
         ...state,
         ...payload,
+        loading: false
       };
 
     case LOADING:
       return {
         ...state,
-        ...payload,
+        loading: true
       };
 
     default:

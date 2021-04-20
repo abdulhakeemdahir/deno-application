@@ -26,20 +26,23 @@ const useNavStyles = makeStyles(theme => ({
   },
   search: {
     position: "relative",
-    // borderRadius: theme.shape.borderRadius,
+    display: "grid",
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
-    // marginRight: theme.spacing(0),
     marginLeft: 0,
     height: "50px",
     top: ".3rem",
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      // marginLeft: theme.spacing(3),
       width: "50%"
     }
+  },
+  searchForm: {
+    display: "flex",
+    justifyItems: "center",
+    alignItems: "center"
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -51,18 +54,20 @@ const useNavStyles = makeStyles(theme => ({
     justifyContent: "center",
     color: `white`
   },
+  searchSelect: {
+    marginLeft: 0,
+    top: ".3rem",
+    color: `white`
+  },
   inputRoot: {
-    color: "#ffffff"
+    color: "#ffffff",
+    width: "100%"
   },
   inputInput: {
     padding: theme.spacing(2, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "100%"
-    }
+    transition: theme.transitions.create("width")
   },
   sectionDesktop: {
     display: "none",
