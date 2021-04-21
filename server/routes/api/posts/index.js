@@ -6,10 +6,9 @@ router
   .get(postController.getAllPost)
   .post(postController.create);
 
-router
-  .route("/:id")
-  .put(postController.update)
-  .delete(postController.remove);
+router.route("/:id").put(postController.update);
+
+router.route("/remove/:id/:userId").delete(postController.remove);
 
 router.route("/single/:id").get(postController.findUserPosts);
 

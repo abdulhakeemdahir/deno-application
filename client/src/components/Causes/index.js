@@ -13,43 +13,50 @@ import {
   Backdrop
 } from "@material-ui/core";
 import "./style.css";
-import { ThumbUpAlt } from "@material-ui/icons";
+import { ThumbUpAlt, ThumbDownAlt } from "@material-ui/icons";
 import api from "../../utils/api";
-import { useUserContext } from "../../utils/GlobalStates/UserContext";
-import { USER_LOADING, UPDATE_USER } from "../../utils/actions/actions";
+import {
+  LOADING,
+  UPDATE,
+} from "../../utils/actions/actions";
 import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
 import Donate from "../Forms/Donate";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 
 //Create the component function and export for use
 const Causes = props => {
   // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
-
+  const [globalState, globalDispatch] = useGlobalContext();
   const handleFollow = async id => {
-    if (userState.role === "Organization") {
+    if (globalState.user.role === "Organization") {
       //TODO error message
       console.log("you are an organization");
       return;
     }
+    
+     const found = globalState.user.causes.find((cause) => cause._id === id);
+    
+     if(found){
+       await api.removeUserObjectID(globalState.user._id, {
+         causes: id,
+       });
+     }else{
+      await api.updateUserObjectID(globalState.user._id, {
+        causes: id,
+      });
+     }
 
-    const checkIfLiked = await api.findIfUserLikesCause(userState._id, id);
-
-    await api.updateUserObjectID(userState._id, {
-      causes: id
+    const userInfo = await api.getUser(globalState.user._id);
+    await globalDispatch({
+      type: LOADING,
     });
-    const userInfo = await api.getUser(userState._id);
-
-    await userDispatch({
-      type: USER_LOADING
-    });
-
-    await userDispatch({
-      type: UPDATE_USER,
+    await globalDispatch({
+      type: UPDATE,
       payload: {
-        ...userInfo.data,
-        loading: false
-      }
+        user:userInfo.data,
+        loading: false,
+      },
     });
   };
   // Call Authentication Store
@@ -79,11 +86,7 @@ const Causes = props => {
       <Divider />
       <Typography variant="body2" color="textSecondary" component="p">
         <span className="authorStyle"> Org:</span>
-        <Link
-          to={`/dashboard/${props.causeId}`}
-        >
-          {props.author}
-        </Link>
+        <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
       </Typography>
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
@@ -118,7 +121,20 @@ const Causes = props => {
               onClick={() => handleFollow(props.id)}
               fullWidth
             >
-              <ThumbUpAlt /> Follow
+              {globalState.user.causes.find(
+                (cause) => cause._id === props.id
+              ) ? (
+                <ThumbDownAlt />
+              ) : (
+                <ThumbUpAlt />
+              )}
+              {globalState.user.causes.find(
+                (cause) => cause._id === props.id
+              ) ? (
+                "unfollow"
+              ) : (
+                "follow"
+              )}
             </Button>
           </ButtonGroup>
         ) : null}

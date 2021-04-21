@@ -109,7 +109,6 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    console.log(req.params.id);
     try {
       const { password, profileImg } = req.body;
       const updateUser = req.body;
@@ -138,13 +137,28 @@ module.exports = {
     }
   },
   updateUserObjectID: async (req, res) => {
-    console.log(req.body);
-    console.log(req.params.id);
     try {
       const postModel = await User.findByIdAndUpdate(
         req.params.id,
         {
           $push: req.body
+        },
+
+        { new: true, runValidators: true }
+      );
+
+      res.status(200).json(postModel);
+    } catch (err) {
+      res.status(422).json(err);
+    }
+  },
+  removeUserObjectID: async (req, res) => {
+    console.log(req.body);
+    try {
+      const postModel = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: req.body
         },
 
         { new: true, runValidators: true }

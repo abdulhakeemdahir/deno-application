@@ -87,7 +87,6 @@ module.exports = {
         });
         upDateCause.imageUrl = result.public_id;
       }
-      console.log(upDateCause);
       const causeModel = await Cause.findByIdAndUpdate(
         req.params.id,
         {
@@ -97,7 +96,6 @@ module.exports = {
       );
       res.status(200).json(causeModel);
     } catch (err) {
-      console.log(err);
       res.status(422).json(err);
     }
   },

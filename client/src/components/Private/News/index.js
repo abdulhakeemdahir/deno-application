@@ -18,19 +18,14 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Edit } from "@material-ui/icons";
+import { Delete, Edit } from "@material-ui/icons";
 import "./style.css";
 import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { useGuessContext } from "../../../utils/GlobalStates/GuessContext";
 import api from "../../../utils/api";
-import {
-  UPDATE_USER,
-  USER_LOADING,
-  ADD_GUESS_USER,
-  USER_GUESS_LOADING
-} from "../../../utils/actions/actions";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
 const News = props => {
@@ -39,9 +34,7 @@ const News = props => {
   // Create the set and setState from useState
   const [open, setOpen] = useState(false);
   // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
-  // Destructure State and Dispatch from Context
-  const [guessState, guessDispatch] = useGuessContext();
+  const [globalState, globalDispatch] = useGlobalContext();
   // Create the set and setState from useState
   const [commentState, setCommentState] = useState({
     content: ""
@@ -68,37 +61,23 @@ const News = props => {
     try {
       const comment = {
         ...commentState,
-        user: userState._id,
+        user: globalState.user._id,
         post: id
       };
       const { data } = await api.createComments(comment);
       await api.updateObjectID(id, {
         comments: data._id
       });
-      const userInfo = await api.getUser(userState._id);
-      await userDispatch({ type: USER_LOADING });
-      await userDispatch({
-        type: UPDATE_USER,
-        payload: {
-          ...userInfo.data,
-          loading: false
-        }
-      });
-      if (guessState._id) {
-        const guessInfo = await api.getUser(guessState._id);
+      const userInfo = await api.getUser(globalState.user._id);
+      dispatch(UPDATE, { user: userInfo.data, loading: false });
 
-        await guessDispatch({ type: USER_GUESS_LOADING });
+      if (globalState.guessUser._id) {
+        const guessInfo = await api.getUser(globalState.guessUser._id);
+        dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
 
-        await guessDispatch({
-          type: ADD_GUESS_USER,
-          payload: {
-            ...guessInfo.data,
-            loading: false
-          }
-        });
-        socket.emit("send-comment-dashboard", guessState._id);
+        socket.emit("send-comment-dashboard", globalState.guessUser._id);
       } else {
-        socket.emit("send-comment-dashboard", userState._id);
+        socket.emit("send-comment-dashboard", globalState.user._id);
       }
       clearState();
     } catch (err) {}
@@ -106,31 +85,48 @@ const News = props => {
 
   useEffect(() => {
     const updateDashboard = async user => {
-      if (user._id === userState._id) {
-        await userDispatch({ type: USER_LOADING });
-
-        await userDispatch({
-          type: UPDATE_USER,
-          payload: {
-            ...user,
-            loading: false
-          }
-        });
+      if (user._id === globalState.user._id) {
+        const userInfo = await api.getUser(globalState.user._id);
+        dispatch(UPDATE, { user: userInfo.data, loading: false });
       } else {
-        await guessDispatch({ type: USER_GUESS_LOADING });
-
-        await guessDispatch({
-          type: ADD_GUESS_USER,
-          payload: {
-            ...user,
-            loading: false
-          }
-        });
+        const guessInfo = await api.getUser(globalState.guessUser._id);
+        dispatch(UPDATE, { guessUser: guessInfo.data, loading: false });
       }
     };
     socket.on("update-dashboard", updateDashboard);
     return () => socket.off("update-dashboard");
   }, []);
+
+  const handleRemove = async (idPost, authorId) => {
+    if (authorId !== globalState.user._id) {
+      return;
+    }
+
+    await api.removePost(idPost, authorId);
+
+    const userInfo = await api.getUser(globalState.user._id);
+    dispatch(UPDATE, { user: userInfo.data, loading: false });
+  };
+
+  const handleRemoveComment = async (commentId, postId) => {
+    await api.removeComments(commentId, postId);
+
+    const userInfo = await api.getUser(globalState.user._id);
+    dispatch(UPDATE, { user: userInfo.data, loading: false });
+  };
+
+  const dispatch = async (action, payload) => {
+    await globalDispatch({
+      type: LOADING
+    });
+
+    await globalDispatch({
+      type: action,
+      payload: {
+        ...payload
+      }
+    });
+  };
   // Create the handleOpen function
   const handleOpen = () => {
     setOpen(true);
@@ -144,16 +140,24 @@ const News = props => {
     <>
       <Grid item className="card" xs={12}>
         <Grid container className="headerContainer">
-          <Grid item xs={9} sm={10}>
+          <Grid item xs={7} sm={8}>
             <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
-          <Grid item xs={3} sm={2}>
+          <Grid item xs={5} sm={4}>
             {props.check ? null : (
-              <Button className="editButton" onClick={handleOpen}>
-                <Edit /> Edit
-              </Button>
+              <>
+                <Button className="editButton" onClick={handleOpen}>
+                  <Edit /> Edit
+                </Button>
+                <Button
+                  className="editButton"
+                  onClick={() => handleRemove(props.id, props.authorId)}
+                >
+                  <Delete /> Delete
+                </Button>
+              </>
             )}
             <Dialog
               aria-labelledby="transition-modal-title"
@@ -181,22 +185,19 @@ const News = props => {
         </Typography>
         <Divider />
         <Grid container direction="row" spacing={1}>
-          <Grid item xs={12} sm={4}>
-            <CardMedia
-              className={"media"}
-              image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
-            />
-          </Grid>
+          {props.image && (
+            <Grid item xs={12} sm={4}>
+              <CardMedia
+                className={"media"}
+                image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={8}>
             <CardContent>
               <Typography variant="body" color="textSecondary" component="p">
                 {props.post}
               </Typography>
-              {
-                // <a href={props.link} className="hashTagStyle">
-                //   #{props.hashTag}
-                // </a>
-              }
             </CardContent>
             <Divider />
           </Grid>
@@ -234,7 +235,7 @@ const News = props => {
               id="panel1a-header"
             >
               <Typography className={classes.heading}>
-                Read {props.comments.length} Comments
+                Read {props.comments?.length} Comments
               </Typography>
             </AccordionSummary>
             <Grid className="cardComment">
@@ -247,10 +248,18 @@ const News = props => {
                         color="textSecondary"
                         component="p"
                       >
-                        {card.user.username}
+                        <Link
+                          to={
+                            card.user._id === globalState.user._id
+                              ? "/dashboard"
+                              : `/dashboard/${card.user._id}`
+                          }
+                        >
+                          {card.user.username}
+                        </Link>
                       </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={7}>
                       <Typography
                         variant="body"
                         color="textSecondary"
@@ -259,6 +268,19 @@ const News = props => {
                         {card.content}
                       </Typography>
                     </Grid>
+                    {card.user._id === globalState.user._id ||
+                    globalState.user.username === props.author ? (
+                      <Grid item xs={1}>
+                        <Button
+                          className="editButton"
+                          onClick={() =>
+                            handleRemoveComment(card._id, card.post)
+                          }
+                        >
+                          <Delete />
+                        </Button>
+                      </Grid>
+                    ) : null}
                   </Grid>
                 </AccordionDetails>
               ))}

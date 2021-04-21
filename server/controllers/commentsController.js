@@ -1,4 +1,4 @@
-const { Comment } = require("../models/");
+const { Comment, Post } = require("../models/");
 
 module.exports = {
   getComments: async (req, res) => {
@@ -18,7 +18,6 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      console.log(req.body);
       const createComment = await Comment.create(req.body);
 
       res.status(201).json(createComment);
@@ -35,8 +34,18 @@ module.exports = {
     }
   },
   remove: async (req, res) => {
+    // console.log("\x1b[31m", req.params);
     try {
-      await Comment.findByIdAndDelete(req.params._id);
+      await Comment.findByIdAndDelete(req.params.id);
+
+      await Post.findByIdAndUpdate(
+        req.params.postId,
+        {
+          $pull: { comments: req.params.id }
+        },
+
+        { new: true, runValidators: true }
+      );
       res.status(201).json("Deleted Comment");
     } catch (err) {
       res.status(422).json(err);

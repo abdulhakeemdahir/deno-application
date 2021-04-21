@@ -71,6 +71,9 @@ class API {
   updateUserObjectID(id, data) {
     return this.axios.put(`/api/users/update/references/${id}`, data);
   }
+  removeUserObjectID(id, data) {
+    return this.axios.put(`/api/users/remove/references/${id}`, data);
+  }
   deleteUser(_id) {
     return this.axios.delete(`/api/users/${_id}`);
   }
@@ -85,8 +88,8 @@ class API {
   }
 
   //-----------------------causes api-------------------------//
-  getUsersCauses(_id) {
-    return this.axios.get(`/api/causes/${_id}`);
+  getUsersCauses(id) {
+    return this.axios.get(`/api/causes/${id}`);
   }
   getAllCauses() {
     return this.axios.get(`/api/causes/`);
@@ -97,14 +100,14 @@ class API {
   createCause(data) {
     return this.axios.post(`/api/causes/`, data);
   }
-  updateCause(_id, data) {
-    return this.axios.put(`/api/causes/${_id}`, data);
+  updateCause(id, data) {
+    return this.axios.put(`/api/causes/${id}`, data);
   }
-  addLike(_id, like, data) {
-    return this.axios.put(`/api/causes/like/${like}/${_id}`, data);
+  addLike(id, like, data) {
+    return this.axios.put(`/api/causes/like/${like}/${id}`, data);
   }
-  removeCause(_id, data) {
-    return this.axios.delete(`/api/causes/${_id}`, data);
+  removeCause(id, userId) {
+    return this.axios.delete(`/api/causes/${id}/${userId}`);
   }
 
   //-----------------------post api-------------------------//
@@ -129,8 +132,8 @@ class API {
   removeliked(id, data) {
     return this.axios.put(`/api/posts/remove/like/${id}`, data);
   }
-  removePost(id) {
-    return this.axios.delete(`/api/posts/${id}`);
+  removePost(id, userId) {
+    return this.axios.delete(`/api/posts/remove/${id}/${userId}`);
   }
 
   //-----------------------comment api-------------------------//
@@ -143,8 +146,8 @@ class API {
   updateComments(_id, data) {
     return this.axios.put(`/api/comments/${_id}`, data);
   }
-  removeComments(_id) {
-    return this.axios.delete(`/api/comments/${_id}`);
+  removeComments(id, postId) {
+    return this.axios.delete(`/api/comments/remove/${id}/${postId}`);
   }
 
   //-----------------------hashtags api-------------------------//
@@ -171,6 +174,11 @@ class API {
   }
   donate(data) {
     return this.axios.post("api/donations/pay", data);
+  }
+
+  //-----------------------search api-------------------------//
+  getSearchResults(action, search) {
+    return this.axios.get(`/api/search/${action}/${search}`);
   }
 }
 

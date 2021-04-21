@@ -7,6 +7,7 @@ const users = require("./users");
 const hashtags = require("./hashtags");
 const messenger = require("./messenger");
 const donations = require("./donations");
+const search = require("./search");
 
 //user  routes
 router.use("/authenticate", authenticate);
@@ -17,5 +18,6 @@ router.use("/comments", comments);
 router.use("/hashtags", hashtags);
 router.use("/messenger", messenger);
 router.use("/donations", donations);
+router.use("/search", search);
 
 module.exports = router;
