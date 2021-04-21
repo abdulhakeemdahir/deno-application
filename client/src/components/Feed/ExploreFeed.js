@@ -67,7 +67,7 @@ const ExploreFeed = props => {
                 Read {props.comments.length} Comments
               </Typography>
             </AccordionSummary>
-            <CommentSection comments={props.comments} />
+            <CommentSection comments={props.comments} author={props.author} />
           </Accordion>
         </Grid>
       </Grid>
