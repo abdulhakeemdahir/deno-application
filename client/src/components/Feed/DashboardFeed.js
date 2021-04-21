@@ -13,22 +13,22 @@ import {
   Button,
   Dialog
 } from "@material-ui/core";
-import useNewsStyles from "./useNewsStyles";
+import useNewsStyles from "./styles/useNewsStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Delete, Edit } from "@material-ui/icons";
-import "./style.css";
-import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
-import api from "../../../utils/api";
-import { LOADING, UPDATE } from "../../../utils/actions/actions";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
+import "./styles/style.css";
+import UpdatePost from "../Forms/UpdatePost/UpdatePost";
+import api from "../../utils/api";
+import { LOADING, UPDATE } from "../../utils/actions/actions";
+import { useSocket } from "../../utils/GlobalStates/SocketProvider";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 
 // Create the component function and export for use
-const News = props => {
+const DashboardFeed = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Create the set and setState from useState
@@ -292,4 +292,4 @@ const News = props => {
   );
 };
 
-export default News;
+export default DashboardFeed;

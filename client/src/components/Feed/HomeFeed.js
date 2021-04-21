@@ -12,19 +12,20 @@ import {
   TextField,
   Button
 } from "@material-ui/core";
-import useNewsStyles from "./useNCStyles";
+import useNewsStyles from "./styles/useNCStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import "./style.css";
+import "./styles/style.css";
 import { Delete, Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import api from "../../../utils/api";
+import api from "../../utils/api";
 import { Link } from "react-router-dom";
-import { LOADING, UPDATE } from "../../../utils/actions/actions";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { LOADING, UPDATE } from "../../utils/actions/actions";
+import { useSocket } from "../../utils/GlobalStates/SocketProvider";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+
 // Create the component function and export for use
-const NewsAndComment = props => {
+const HomeFeed = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Destructure State and Dispatch from Context
@@ -268,4 +269,4 @@ const NewsAndComment = props => {
   );
 };
 
-export default NewsAndComment;
+export default HomeFeed;
