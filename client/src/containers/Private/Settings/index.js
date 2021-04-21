@@ -10,7 +10,7 @@ import {
   CssBaseline,
   IconButton,
 } from "@material-ui/core";
-// import "./style.css";
+import "./style.css";
 import PropTypes from "prop-types";
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
@@ -30,7 +30,10 @@ const SettingsPage = () => {
   // Call the Window Width function
   const { width } = useWindowDimensions();
   // Create the JSX for the component
+
   return (
+
+    
     <div className="Main">
       <CssBaseline>
         <Nav />
@@ -123,7 +126,7 @@ const SettingsPage = () => {
                   <List style={{ padding: "0px 0px 0px 0px" }} component="nav">
                     
                     <ListItem>
-                      <ListItemText style={{ marginTop: "15px", marginBottom: "15px", fontWeight: "bold" }} primary="Cogswell Cogs" />
+                      <ListItemText style={{ marginTop: "15px", marginBottom: "15px"}} primary="Cogswell Cogs" />
                       <IconButton edge="end" aria-label="edit">
                       <EditIcon />
                     </IconButton>
