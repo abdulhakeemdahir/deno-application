@@ -39,4 +39,5 @@ const Search = () => {
     </main>
   );
 };
+
 export default Search;
