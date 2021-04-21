@@ -77,7 +77,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem>
                 <HomeSharp />
-                <Typography>newsfeed</Typography>
+                <Typography style={{paddingLeft: "10px"}}>newsfeed</Typography>
               </ListItem>
             </NavLink>
             <NavLink
@@ -88,7 +88,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem>
                 <Dashboard />
-                <Typography>dashboard</Typography>
+                <Typography style={{paddingLeft: "10px"}}>dashboard</Typography>
               </ListItem>
             </NavLink>
             <NavLink
@@ -99,7 +99,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem>
                 <Chat />
-                <Typography>chat</Typography>
+                <Typography style={{paddingLeft: "10px"}}>chat</Typography>
               </ListItem>
             </NavLink>
             <NavLink
@@ -110,7 +110,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem>
                 <Equalizer />
-                <Typography>analytics</Typography>
+                <Typography style={{paddingLeft: "10px"}}>analytics</Typography>
               </ListItem>
             </NavLink>
             <NavLink
@@ -121,7 +121,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem>
                 <Settings />
-                <Typography>settings</Typography>
+                <Typography style={{paddingLeft: "10px"}}>setting</Typography>
               </ListItem>
             </NavLink>
             <NavLink
@@ -132,7 +132,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem className={classes.logoutStyle}>
                 <AccountCircle />
-                <Typography>LOGOUT</Typography>
+                <Typography style={{paddingLeft: "10px"}}>LOGOUT</Typography>
               </ListItem>
             </NavLink>
           </>
