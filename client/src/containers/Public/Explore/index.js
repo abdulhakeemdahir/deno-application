@@ -21,12 +21,9 @@ import Trending from "../../../components/Trending";
 import Causes from "../../../components/Causes";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
-import { usePostContext } from "../../../utils/GlobalStates/PostContext";
 import { UPDATE, LOADING } from "../../../utils/actions/actions.js";
 import API from "../../../utils/api";
 import { Close } from "@material-ui/icons";
-import { useTrendingContext } from "../../../utils/GlobalStates/TrendingContext";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create TabPanel
 TabPanel.propTypes = {

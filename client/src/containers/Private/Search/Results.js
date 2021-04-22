@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import UserCard from "../../../components/Card";
 import Feed from "../../../components/Feed";
-import Causes from "../../../components/Private/Causes";
+import Causes from "../../../components/Causes";
 import Trending from "../../../components/Trending";
 import API from "../../../utils/api";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
