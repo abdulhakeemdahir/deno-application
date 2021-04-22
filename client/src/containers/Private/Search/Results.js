@@ -44,21 +44,21 @@ const Results = () => {
   return (
     <>
       {/* If the search has no results. */}
-      {Object.keys(globalState.search).length === 0 && (
+      {globalState.search?.length === 0 && (
         <Typography>No results found. Please try again! 😃</Typography>
       )}
       {/* If the globalState is loading then this message will appear. */}
       {globalState.loading && <Typography>Loading...</Typography>}
       {/* If the globalState.search contains a user */}
       {!globalState.loading &&
-        globalState.search.length &&
+        globalState.search?.length &&
         window.location.pathname.includes("User") &&
-        globalState.search.map(user => <UserCard key={user._id} {...user} />)}
+        globalState.search?.map(user => <UserCard key={user._id} {...user} />)}
       {/* If the globalState.search contains posts */}
       {!globalState.loading &&
-        globalState.search.length &&
+        globalState.search?.length &&
         window.location.pathname.includes("Post") &&
-        globalState.search.map(card => (
+        globalState.search?.map(card => (
           <NewsAndComments
             key={card._id}
             id={card._id}
@@ -75,9 +75,9 @@ const Results = () => {
         ))}
       {/* If the globalState.search contains Causes */}
       {!globalState.loading &&
-        globalState.search.length &&
+        globalState.search?.length &&
         window.location.pathname.includes("Causes") &&
-        globalState.search.map(card => {
+        globalState.search?.map(card => {
           return (
             <Causes
               key={card._id}
@@ -95,9 +95,9 @@ const Results = () => {
         })}
       {/* If the globalState.search contains Hashtags */}
       {!globalState.loading &&
-        globalState.search.length &&
+        globalState.search?.length &&
         window.location.pathname.includes("Hashtag") &&
-        globalState.search.map((card, index) => (
+        globalState.search?.map((card, index) => (
           <Trending
             hashTag={card.hashtag}
             post={card.posts}
