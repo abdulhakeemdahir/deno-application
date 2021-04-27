@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import UserCard from "../../../components/Card";
-import NewsAndComments from "../../../components/Private/NewsAndComment";
-import Causes from "../../../components/Private/Causes";
+import Feed from "../../../components/Feed";
+import Causes from "../../../components/Causes";
 import Trending from "../../../components/Trending";
 import API from "../../../utils/api";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
@@ -59,7 +59,7 @@ const Results = () => {
         globalState.search?.length &&
         window.location.pathname.includes("Post") &&
         globalState.search?.map(card => (
-          <NewsAndComments
+          <Feed
             key={card._id}
             id={card._id}
             title={card.title}

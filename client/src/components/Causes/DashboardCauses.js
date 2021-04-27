@@ -14,15 +14,16 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Edit, ThumbUpAlt, ThumbDownAlt } from "@material-ui/icons";
 import "./style.css";
-import UpdateCause from "../../Forms/UpdateCause/UpdateCause";
-import api from "../../../utils/api";
-import { UPDATE, LOADING } from "../../../utils/actions/actions";
-import { useAuthTokenStore, useIsAuthenticated } from "../../../utils/auth";
-import Donate from "../../Forms/Donate";
+import UpdateCause from "../Forms/UpdateCause/UpdateCause";
+import api from "../../utils/api";
+import { UPDATE, LOADING } from "../../utils/actions/actions";
+import { useAuthTokenStore, useIsAuthenticated } from "../../utils/auth";
+import Donate from "../Forms/Donate";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+
 // Create the component function and export for use
-const Causes = props => {
+const DashboardCauses = props => {
   // Create the set and setState from useState
   const [open, setOpen] = React.useState(false);
   // Destructure State and Dispatch from Context
@@ -39,37 +40,37 @@ const Causes = props => {
     setOpen(false);
   };
   // Create the handleFollow function
-const handleFollow = async (id) => {
-  if (globalState.user.role === "Organization") {
-    //TODO error message
-    console.log("you are an organization");
-    return;
-  }
+  const handleFollow = async id => {
+    if (globalState.user.role === "Organization") {
+      //TODO error message
+      console.log("you are an organization");
+      return;
+    }
 
-  const found = globalState.user.causes.find((cause) => cause._id === id);
+    const found = globalState.user.causes.find(cause => cause._id === id);
 
-  if (found) {
-    await api.removeUserObjectID(globalState.user._id, {
-      causes: id,
+    if (found) {
+      await api.removeUserObjectID(globalState.user._id, {
+        causes: id
+      });
+    } else {
+      await api.updateUserObjectID(globalState.user._id, {
+        causes: id
+      });
+    }
+
+    const userInfo = await api.getUser(globalState.user._id);
+    await globalDispatch({
+      type: LOADING
     });
-  } else {
-    await api.updateUserObjectID(globalState.user._id, {
-      causes: id,
+    await globalDispatch({
+      type: UPDATE,
+      payload: {
+        user: userInfo.data,
+        loading: false
+      }
     });
-  }
-
-  const userInfo = await api.getUser(globalState.user._id);
-  await globalDispatch({
-    type: LOADING,
-  });
-  await globalDispatch({
-    type: UPDATE,
-    payload: {
-      user: userInfo.data,
-      loading: false,
-    },
-  });
-};
+  };
   // Create the JSX for the component
   return (
     <Grid item className="card">
@@ -93,7 +94,7 @@ const handleFollow = async (id) => {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
-              timeout: 500,
+              timeout: 500
             }}
           >
             <Fade in={open}>
@@ -147,14 +148,12 @@ const handleFollow = async (id) => {
               onClick={() => handleFollow(props.id)}
               fullWidth
             >
-              {globalState.user.causes.find(
-                (cause) => cause._id === props.id
-              ) ? (
+              {globalState.user.causes.find(cause => cause._id === props.id) ? (
                 <ThumbDownAlt />
               ) : (
                 <ThumbUpAlt />
               )}
-              {globalState.user.causes.find((cause) => cause._id === props.id)
+              {globalState.user.causes.find(cause => cause._id === props.id)
                 ? "unfollow"
                 : "follow"}
             </Button>
@@ -165,4 +164,4 @@ const handleFollow = async (id) => {
   );
 };
 
-export default Causes;
+export default DashboardCauses;
