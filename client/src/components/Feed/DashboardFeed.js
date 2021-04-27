@@ -13,22 +13,22 @@ import {
   Button,
   Dialog
 } from "@material-ui/core";
-import useNewsStyles from "./useNewsStyles";
+import useNewsStyles from "./styles/useNewsStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { Delete, Edit } from "@material-ui/icons";
-import "./style.css";
-import UpdatePost from "../../Forms/UpdatePost/UpdatePost";
-import api from "../../../utils/api";
-import { LOADING, UPDATE } from "../../../utils/actions/actions";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import "./styles/style.css";
+import UpdatePost from "../Forms/UpdatePost/UpdatePost";
+import api from "../../utils/api";
+import { LOADING, UPDATE } from "../../utils/actions/actions";
+import { useSocket } from "../../utils/GlobalStates/SocketProvider";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+import CommentSection from "./components/CommentSection";
 
 // Create the component function and export for use
-const News = props => {
+const DashboardFeed = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Create the set and setState from useState
@@ -238,53 +238,7 @@ const News = props => {
                 Read {props.comments?.length} Comments
               </Typography>
             </AccordionSummary>
-            <Grid className="cardComment">
-              {props.comments.map(card => (
-                <AccordionDetails>
-                  <Grid container xs={12} className={classes.gridStyle}>
-                    <Grid item xs={4}>
-                      <Typography
-                        variant="body"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        <Link
-                          to={
-                            card.user._id === globalState.user._id
-                              ? "/dashboard"
-                              : `/dashboard/${card.user._id}`
-                          }
-                        >
-                          {card.user.username}
-                        </Link>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography
-                        variant="body"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {card.content}
-                      </Typography>
-                    </Grid>
-                    {card.user._id === globalState.user._id ||
-                    globalState.user.username === props.author ? (
-                      <Grid item xs={1}>
-                        <Button
-                          className="editButton"
-                          onClick={() =>
-                            handleRemoveComment(card._id, card.post)
-                          }
-                        >
-                          <Delete />
-                        </Button>
-                      </Grid>
-                    ) : null}
-                  </Grid>
-                </AccordionDetails>
-              ))}
-            </Grid>
+            <CommentSection comments={props.comments} author={props.author} />
           </Accordion>
         </Grid>
       </Grid>
@@ -292,4 +246,4 @@ const News = props => {
   );
 };
 
-export default News;
+export default DashboardFeed;
