@@ -21,6 +21,8 @@ import { TrendingProvider } from "./utils/GlobalStates/TrendingContext";
 import { ConvoProvider } from "./utils/GlobalStates/ConvoContext";
 import { GuessProvider } from "./utils/GlobalStates/GuessContext";
 import PublicDash from "./containers/Public/PublicDash";
+// import { Settings } from "@material-ui/icons";
+import SettingsPage from "./containers/Private/Settings";
 // Create a useStyles Material UI component for styling
 const theme = createMuiTheme({
   palette: {
@@ -82,6 +84,12 @@ function App() {
                             path="/search/:action/:search"
                             redirectTo="/"
                             component={Search}
+                          />
+                          <PrivateRoute
+                            exact
+                            path="/settings"
+                            redirectTo="/"
+                            component={ SettingsPage }
                           />
 
                           <Route path="/explore" exact component={Explore} />

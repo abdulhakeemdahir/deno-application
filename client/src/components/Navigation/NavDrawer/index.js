@@ -13,7 +13,8 @@ import {
   Equalizer,
   Explore,
   HomeSharp,
-  Menu
+  Menu,
+  Settings
 } from "@material-ui/icons";
 import * as React from "react";
 import { useState } from "react";
@@ -110,6 +111,17 @@ const SideDrawer = ({ navLinks }) => {
               <ListItem>
                 <Equalizer />
                 <Typography>analytics</Typography>
+              </ListItem>
+            </NavLink>
+            <NavLink
+              to="/settings"
+              key="settings"
+              className={classes.linkText}
+              activeClassName={classes.activeLink}
+            >
+              <ListItem>
+                <Settings />
+                <Typography>settings</Typography>
               </ListItem>
             </NavLink>
             <NavLink

@@ -6,9 +6,9 @@ import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
-import News from "../../../components/Private/News";
+import Feed from "../../../components/Feed";
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Private/Causes";
+import Causes from "../../../components/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
@@ -18,25 +18,25 @@ import Post from "../../../components/Post";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create TabPanel
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 // Create the component function and export for use
 const Dashboard = () => {
-	// Destructure State and Dispatch from Context
-  const [globalState, ] = useGlobalContext();
-	
-	// Create the set and setState from useState
-	const [value, setValue] = React.useState(0);
-	// Create the handleChange function
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-	// Call the Window Width Function
-	const { width } = useWindowDimensions();
-	// Create the JSX for the component
-	return (
+  // Destructure State and Dispatch from Context
+  const [globalState] = useGlobalContext();
+
+  // Create the set and setState from useState
+  const [value, setValue] = React.useState(0);
+  // Create the handleChange function
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  // Call the Window Width Function
+  const { width } = useWindowDimensions();
+  // Create the JSX for the component
+  return (
     <div className="Main">
       <CssBaseline>
         <Nav />
@@ -86,8 +86,8 @@ const Dashboard = () => {
                   {globalState.user.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    globalState.user.posts.map((card) => (
-                      <News
+                    globalState.user.posts.map(card => (
+                      <Feed
                         key={card._id}
                         id={card._id}
                         title={card.title}
@@ -107,7 +107,7 @@ const Dashboard = () => {
                   {globalState.user.causes.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    globalState.user.causes.map((card) => (
+                    globalState.user.causes.map(card => (
                       <Causes
                         key={card._id}
                         id={card._id}
@@ -141,8 +141,8 @@ const Dashboard = () => {
                   {globalState.user.posts.length === 0 ? (
                     <AddContent text="Please make a Post in the Newsfeed " />
                   ) : (
-                    globalState.user.posts.map((card) => (
-                      <News
+                    globalState.user.posts.map(card => (
+                      <Feed
                         key={card._id}
                         id={card._id}
                         title={card.title}
@@ -187,7 +187,7 @@ const Dashboard = () => {
                   {globalState.user.posts.length === 0 ? (
                     <AddContent text="Please make/follow a Cause " />
                   ) : (
-                    globalState.user.causes.map((card) => (
+                    globalState.user.causes.map(card => (
                       <Causes
                         key={card._id}
                         id={card._id}
