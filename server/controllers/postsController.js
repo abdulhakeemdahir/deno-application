@@ -38,8 +38,9 @@ module.exports = {
       res.status(422).json(err);
     }
   },
-  create: async ({ body }, res) => {
-    const { title, content, imageUrl, author, hashtags } = body;
+  create: async (req, res) => {
+    console.log("\x1b[31m");
+    const { title, content, imageUrl, author, hashtags } = req.body;
     try {
       let img = "";
       if (imageUrl) {

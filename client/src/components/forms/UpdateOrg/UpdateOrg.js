@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
+
+import { UPDATE, LOADING } from "../../../utils/actions/actions.js";
 import updateFormStyles from "../useStyles/formStyles";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState/index.js";
 // Create the component function and export for use
 const UpdateOrg = props => {
   // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
+    const [globalState, globalDispatch] = useGlobalContext();
   // Create the set and setState from useState
   const [stateSignUp, setStateSignUp] = useState({
     firstName: "",
@@ -37,8 +38,8 @@ const UpdateOrg = props => {
     event.preventDefault();
 
     const updateUser = {
-      role: userState.role
-    };
+		role: globalState.user.role
+	};
     if (stateSignUp.orgName !== "") {
       updateUser.orgName = stateSignUp.orgName;
     }
@@ -76,29 +77,29 @@ const UpdateOrg = props => {
       updateUser.orgName = stateSignUp.orgName;
     }
 
-    updateOrg(updateUser);
+    await updateOrg(updateUser);
 
-    const userInfo = await api.getUser(userState._id);
+    const userInfo = await api.getUser(globalState.user._id);
 
-    await userDispatch({
-      type: USER_LOADING
-    });
+    await globalDispatch({
+		  type: LOADING
+	  });
 
-    await userDispatch({
-      type: UPDATE_USER,
+    await globalDispatch({
+      type: UPDATE,
       payload: {
-        ...userInfo.data,
+        user:{...userInfo.data},
         loading: false
       }
-    });
+	  });
 
     props.onClose();
   };
   //*Associated with cloudinary
   const updateOrg = async update => {
-    console.log(update);
-    const updateUser = await api.updateUser(userState._id, update);
-    console.log(updateUser);
+
+    await api.updateUser(globalState.user._id, update);
+
   };
   // Call the styles function
   const classes = updateFormStyles();
