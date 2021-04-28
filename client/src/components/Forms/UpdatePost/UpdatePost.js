@@ -13,8 +13,7 @@ import { UPDATE, ADD, LOADING } from "../../../utils/actions/actions";
 const UpdatePost = props => {
   // Call the styles function
   const classes = useUpdateStyles();
-  // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
+  // Destructure State and Dispatch from Context;
   const [globalState, globalDispatch] = useGlobalContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
