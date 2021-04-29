@@ -46,35 +46,8 @@ const About = props => {
             {props.title}
           </Typography>
         </Grid>
-        <Grid item xs={3}>
-          {props.check ? null : (
-            <Button className="editButton" onClick={handleOpen}>
-              <Edit /> Edit
-            </Button>
-          )}
-          <Dialog
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={open}>
-              {props.role === "Personal" ? (
-                <UpdateUser onClose={handleClose} />
-              ) : (
-                <UpdateOrg onClose={handleClose} />
-              )}
-            </Fade>
-          </Dialog>
-        </Grid>
       </Grid>
-      <CardMedia
+      <CardMedia style={{ height: "275px" }}
         className="media"
         image={`https://res.cloudinary.com/astralgnome/image/upload/${props.profileImg}`}
       />
@@ -97,15 +70,13 @@ const About = props => {
           <CardContent>
             <Typography
               variant="body2"
-              style={{
-                fontWeight: "bold",
-              }}
+              style={{ fontWeight: "bold"}}
               color="textSecondary"
             >
               {props.orgName}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {props.bio}
+              {`${props.bio} stuff`}
             </Typography>
           </CardContent>
           <Divider />

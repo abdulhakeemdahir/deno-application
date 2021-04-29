@@ -153,6 +153,7 @@ const HomeFeed = props => {
           {props.image && (
             <Grid item xs={12} sm={4}>
               <CardMedia
+                style={{ height: "190px" }}
                 className={"media"}
                 image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
               />
