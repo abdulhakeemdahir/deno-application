@@ -8,11 +8,16 @@ import { useState } from "react";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 
 const UpdateCause = props => {
+  
   // Call the styles function
   const classes = useUpdateStyles();
-  const [userState, userDispatch] = useUserContext();
+  
+  //Destructure State and Dispatch from Context
+    const [globalsState, globalDispatch] = useGlobalContext();
+    // const [userState, userDispatch] = useUserContext();
 
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -76,14 +81,6 @@ const UpdateCause = props => {
               name="title"
               value={stateUpdate.title}
               onChange={handleChange}
-              multiline
-              rowsMax={4}
-              className={classes.inputMargin}
-              size="small"
-            />
-            <TextField
-              id="imageUrl"
-              label=" Edit Image Url"
               multiline
               rowsMax={4}
               className={classes.inputMargin}
