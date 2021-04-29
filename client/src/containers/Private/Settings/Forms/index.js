@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
-import { useGlobalContext } from "../../../../../utils/GlobalStates/GlobalState/index.js";
-import { LOADING, UPDATE } from "../../../../../utils/actions/actions";
-import api from "../../../../../utils/api";
-import updateFormStyles from "../../../../../components/Forms/useStyles/formStyles.js";
+import { useGlobalContext } from "../../../../utils/GlobalStates/GlobalState/index.js";
+import { LOADING, UPDATE } from "../../../../utils/actions/actions";
+import api from "../../../../utils/api";
+import updateFormStyles from "../../../../components/Forms/useStyles/formStyles.js";
 
 // Create the component function and export for use
 const SettingsUpdateForm = ({action, onClose}) => {

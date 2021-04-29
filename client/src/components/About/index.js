@@ -47,7 +47,7 @@ const About = props => {
           </Typography>
         </Grid>
       </Grid>
-      <CardMedia
+      <CardMedia style={{ height: "275px" }}
         className="media"
         image={`https://res.cloudinary.com/astralgnome/image/upload/${props.profileImg}`}
       />
@@ -70,15 +70,13 @@ const About = props => {
           <CardContent>
             <Typography
               variant="body2"
-              style={{
-                fontWeight: "bold",
-              }}
+              style={{ fontWeight: "bold"}}
               color="textSecondary"
             >
               {props.orgName}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {props.bio}
+              {`${props.bio} stuff`}
             </Typography>
           </CardContent>
           <Divider />

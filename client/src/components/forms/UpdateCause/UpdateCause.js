@@ -16,7 +16,7 @@ const UpdateCause = props => {
   const classes = useUpdateStyles();
   
   //Destructure State and Dispatch from Context
-    const [globalsState, globalDispatch] = useGlobalContext();
+    const [globalState, globalDispatch] = useGlobalContext();
     // const [userState, userDispatch] = useUserContext();
 
   //*Associated with cloudinary

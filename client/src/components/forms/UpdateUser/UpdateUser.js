@@ -9,6 +9,7 @@ import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState/index.
 
 // Create the component function and export for use
 const UpdateUser = props => {
+  
   // Destructure State and Dispatch from Context
   const [globalState, globalDispatch] = useGlobalContext();
   //*Associated with cloudinary

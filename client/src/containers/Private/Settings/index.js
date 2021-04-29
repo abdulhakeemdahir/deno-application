@@ -16,6 +16,7 @@ import {
   Dialog,
   Backdrop,
   MenuItem,
+  Link,
 } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
@@ -29,7 +30,7 @@ import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import updateFormStyles from "../../../components/Forms/useStyles/formStyles";
 import api from "../../../utils/api";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import SettingsUpdateForm from "./Components/Forms";
+import SettingsUpdateForm from "./Forms";
 // Create TabPanel
 
 TabPanel.propTypes = {
@@ -154,7 +155,7 @@ const SettingsPage = () => {
 
                   <Divider />
 
-               {/* Profile Picture  */}
+                  {/* Profile Picture  */}
 
                   <Grid style={{ marginTop: "25px" }}>
                     <Divider />
@@ -163,34 +164,42 @@ const SettingsPage = () => {
                       <ListItem>
                         <Person />
                         <ListItemText style={{ paddingLeft: "10px" }} primary="Profile Picture" />
-                        <IconButton className="editButton"
-                        onClick={() => handleOpen("profileImg")}
-                        edge="end"
-                        aria-label="edit">
+                        <IconButton
+                          className="editButton"
+                          onClick={() => handleOpen("profileImg")}
+                          edge="end"
+                          aria-label="edit"
+                        >
                           <EditIcon />
                         </IconButton>
                       </ListItem>
                       <CardMedia
+                        style={{ height: "292px" }}
                         className="media"
                         image={`https://res.cloudinary.com/astralgnome/image/upload/${globalState.user.profileImg}`}
                       />
                     </List>
+                    <Divider />
                   </Grid>
 
-               {/* Bio  */}
+                  {/* Bio  */}
 
-                    <Divider />
                   <Grid style={{ marginTop: "25px" }}>
                     <Divider />
                     <List>
                       <ListItem style={{ marginBottom: "10px" }}>
                         <MenuBook />
-                        <ListItemText style={{ paddingLeft: "10px" }} primary={`${globalState.user.username}'s Bio`} />
+                        <ListItemText
+                          style={{ paddingLeft: "10px" }}
+                          primary={`${globalState.user.username}'s Bio`}
+                        />
 
-                        <IconButton className="editButton"
-                        onClick={() => handleOpen("bio")}
-                        edge="end"
-                        aria-label="edit">
+                        <IconButton
+                          className="editButton"
+                          onClick={() => handleOpen("bio")}
+                          edge="end"
+                          aria-label="edit"
+                        >
                           <EditIcon />
                         </IconButton>
                       </ListItem>
@@ -214,19 +223,18 @@ const SettingsPage = () => {
                   className="card-container"
                 >
                   <List style={{ padding: "0px 0px 0px 12px" }} component="nav">
-     
-
                     {/* Org Name  */}
 
                     {globalState.user.role === "Organization" && (
                       <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
                         <ListItemText primary="Org Name:" />
                         <ListItemText primary={`${globalState.user.orgName}`} />
-                        <IconButton 
-                        className="editButton"
-                        onClick={() => handleOpen("orgName")}
-                        edge="end"
-                        aria-label="edit">
+                        <IconButton
+                          className="editButton"
+                          onClick={() => handleOpen("orgName")}
+                          edge="end"
+                          aria-label="edit"
+                        >
                           <EditIcon />
                         </IconButton>
                       </ListItem>
@@ -255,8 +263,12 @@ const SettingsPage = () => {
                     <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
                       <ListItemText primary="Password:" />
                       <ListItemText primary="**********" />
-                      <IconButton className="editButton"
-                        onClick={() => handleOpen("password")} edge="end" aria-label="edit">
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("password")}
+                        edge="end"
+                        aria-label="edit"
+                      >
                         <EditIcon />
                       </IconButton>
                     </ListItem>
@@ -270,8 +282,12 @@ const SettingsPage = () => {
                         className="boldify"
                         primary={`${globalState.user.email ? globalState.user.email : "- - -"}`}
                       />
-                      <IconButton className="editButton"
-                        onClick={() => handleOpen("email")} edge="end" aria-label="edit">
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("email")}
+                        edge="end"
+                        aria-label="edit"
+                      >
                         <EditIcon />
                       </IconButton>
                     </ListItem>
@@ -286,8 +302,12 @@ const SettingsPage = () => {
                           globalState.user.phoneNumber ? globalState.user.phoneNumber : "- - -"
                         }`}
                       />
-                      <IconButton className="editButton"
-                        onClick={() => handleOpen("phoneNumber")} edge="end" aria-label="edit">
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("phoneNumber")}
+                        edge="end"
+                        aria-label="edit"
+                      >
                         <EditIcon />
                       </IconButton>
                     </ListItem>
@@ -297,11 +317,22 @@ const SettingsPage = () => {
 
                     <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
                       <ListItemText primary="Website:" />
-                      <ListItemText
-                        primary={`${globalState.user.website ? globalState.user.website : "- - -"}`}
-                      />
-                      <IconButton className="editButton"
-                        onClick={() => handleOpen("website")} edge="end" aria-label="edit">
+                      <ListItem 
+                      button
+                      style={{ justifyContent: "center", fontSize: "1.3em" }}>
+                    
+                        <Link   
+                          href={`${globalState.user.website}`}
+                          >
+                            {`${globalState.user.website ? globalState.user.website : "- - -"}`}
+                        </Link>
+                      </ListItem>
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("website")}
+                        edge="end"
+                        aria-label="edit"
+                      >
                         <EditIcon />
                       </IconButton>
                     </ListItem>
@@ -314,8 +345,12 @@ const SettingsPage = () => {
                       <ListItemText
                         primary={`${globalState.user.address ? globalState.user.address : "- - -"}`}
                       />
-                      <IconButton className="editButton"
-                        onClick={() => handleOpen("address")} edge="end" aria-label="edit">
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("address")}
+                        edge="end"
+                        aria-label="edit"
+                      >
                         <EditIcon />
                       </IconButton>
                     </ListItem>
