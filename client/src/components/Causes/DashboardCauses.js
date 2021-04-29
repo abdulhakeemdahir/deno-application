@@ -119,6 +119,7 @@ const DashboardCauses = props => {
       <Grid container direction="row" spacing={1}>
         <Grid item xs={12}>
           <CardMedia
+            style={{ height: "275px" }}
             className={"media"}
             image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
           />
