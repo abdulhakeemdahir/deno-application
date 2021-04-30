@@ -1,5 +1,5 @@
 // Import all relevant packages and components
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   List,
   ListItem,
@@ -9,14 +9,10 @@ import {
   Grid,
   CssBaseline,
   IconButton,
-  TextField,
-  Button,
   CardMedia,
   Fade,
   Dialog,
   Backdrop,
-  MenuItem,
-  Link,
 } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
