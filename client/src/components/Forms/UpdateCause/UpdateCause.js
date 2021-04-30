@@ -4,7 +4,6 @@ import "./style.css";
 // Create a useStyles Material UI component for styling
 import { useState } from "react";
 import api from "../../../utils/api";
-import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import updateFormStyles from "../useStyles/formStyles";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
