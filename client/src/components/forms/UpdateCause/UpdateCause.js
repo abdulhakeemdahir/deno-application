@@ -8,13 +8,12 @@ import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import updateFormStyles from "../useStyles/formStyles";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
-
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
 
 const UpdateCause = (props) => {
   // Call the styles function
-
+  const classes = useUpdateStyles();
   const [globalState, globalDispatch] = useGlobalContext();
 
   //*Associated with cloudinary
@@ -82,7 +81,24 @@ const UpdateCause = (props) => {
       setPreviewSource(reader.result);
     };
   };
+  //*update post by sending post id and update object
+  const updateCause = async update => {
+   await api.updateCause(props.id, update);
 
+   const { data } = await api.getUser(globalState.user._id);
+   await globalDispatch({
+		type: LOADING
+   });
+
+   await globalDispatch({
+		type: UPDATE,
+		payload: {
+			user: { ...data },
+			loading: false
+		}
+   });
+
+  };
   // Create the JSX for the component
   return (
     <Grid
