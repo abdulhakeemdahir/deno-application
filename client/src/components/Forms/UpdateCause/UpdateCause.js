@@ -3,16 +3,16 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
 // Create a useStyles Material UI component for styling
-import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { useState } from "react";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
 
 const UpdateCause = props => {
   // Call the styles function
   const classes = useUpdateStyles();
-  const [userState, userDispatch] = useUserContext();
+  const [globalState, globalDispatch] = useGlobalContext();
 
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -60,9 +60,21 @@ const UpdateCause = props => {
   };
   //*update post by sending post id and update object
   const updateCause = async update => {
-    console.log(update);
-    const post = await api.updateCause(props.id, update);
-    console.log(post);
+   await api.updateCause(props.id, update);
+
+   const { data } = await api.getUser(globalState.user._id);
+   await globalDispatch({
+		type: LOADING
+   });
+
+   await globalDispatch({
+		type: UPDATE,
+		payload: {
+			user: { ...data },
+			loading: false
+		}
+   });
+
   };
   // Create the JSX for the component
   return (

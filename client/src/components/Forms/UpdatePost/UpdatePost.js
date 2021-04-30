@@ -2,7 +2,6 @@
 import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useState, useEffect } from "react";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
