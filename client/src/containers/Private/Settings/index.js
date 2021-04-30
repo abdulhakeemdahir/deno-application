@@ -321,11 +321,11 @@ const SettingsPage = () => {
                       button
                       style={{ justifyContent: "center", fontSize: "1.3em" }}>
                     
-                        <Link   
-                          href={`${globalState.user.website}`}
+                        <a   
+                          href={`${globalState.user.website}`} target="_blank" rel="noreferrer" 
                           >
                             {`${globalState.user.website ? globalState.user.website : "- - -"}`}
-                        </Link>
+                        </a>
                       </ListItem>
                       <IconButton
                         className="editButton"

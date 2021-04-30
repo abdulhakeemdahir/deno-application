@@ -1,122 +1,142 @@
 // Import all relevant packages and components
-import { Grid, Button, TextField } from "@material-ui/core";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import { Grid, Button, TextField, Typography, Avatar } from "@material-ui/core";
 import "./style.css";
 // Create a useStyles Material UI component for styling
-import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { useState } from "react";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
-import useUpdateStyles from "../useStyles/useUpdateStyles";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
+import updateFormStyles from "../useStyles/formStyles";
+import useUpdateStyles from "../useStyles/useUpdateStyles";
+import { useUserContext } from "../../../utils/GlobalStates/UserContext";
+import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 
-const UpdateCause = props => {
+
+const UpdateCause = (props) => {
   // Call the styles function
-  const classes = useUpdateStyles();
 
-  const [userState, userDispatch] = useUserContext();
   const [globalState, globalDispatch] = useGlobalContext();
-
 
   //*Associated with cloudinary
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const [stateUpdate, setStateUpdate] = useState({
     title: "",
-    content: ""
+    content: "",
   });
   const handleChange = function(event) {
     const { name, value } = event.target;
     setStateUpdate({
       ...stateUpdate,
-      [name]: value
+      [name]: value,
     });
   };
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const updateUser = {};
+    const updateCause = {};
+
     if (stateUpdate.title !== "") {
-      updateUser.title = stateUpdate.title;
+      updateCause.title = stateUpdate.title;
     }
     if (stateUpdate.content !== "") {
-      updateUser.content = stateUpdate.content;
+      updateCause.content = stateUpdate.content;
     }
     //*Associated with cloudinary
     if (previewSource) {
-      updateUser.profileImg = previewSource;
+      updateCause.imageUrl = previewSource;
     }
-
-    await updateCause(updateUser);
+    await updateCause(updateCause);
     props.onClose();
+    const causeInfo = await api.getUsersCauses(globalState.user._id);
+
+    await globalDispatch({
+      type: LOADING,
+    });
+
+    await globalDispatch({
+      type: UPDATE,
+      payload: {
+        cause: { ...causeInfo.data },
+        loading: false,
+      },
+    });
   };
-  //read file that is been uploaded
-  const handleFileInputChange = e => {
+  //*update post by sending post id and update object
+  const updateCause = async update => {
+   console.log(update);
+   const post = await api.updateCause(props.id, update);
+   console.log(post);
+ };
+  //*Associated with cloudinary
+  // Call the styles function
+  const classes = updateFormStyles();
+  // Create the handleFileInputChange function
+  const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     previewFile(file);
   };
-  //sets the file to preview state
-  const previewFile = file => {
+  const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setPreviewSource(reader.result);
     };
   };
-  //*update post by sending post id and update object
-  const updateCause = async update => {
-    console.log(update);
-    const post = await api.updateCause(props.id, update);
-    console.log(post);
-  };
+
   // Create the JSX for the component
   return (
-    <Grid className="cardPost">
-      <form className={classes.root} noValidate autoComplete="off">
-        <div>
-          <Grid container>
-            <TextField
-              id="title"
-              label="Edit Title"
-              name="title"
-              value={stateUpdate.title}
-              onChange={handleChange}
-              multiline
-              rowsMax={4}
-              className={classes.inputMargin}
-              size="small"
-            />
-            <TextField
-              id="post"
-              label="Edit Cause"
-              name="content"
-              value={stateUpdate.content}
-              onChange={handleChange}
-              variant="filled"
-              multiline
-              rows={4}
-              fullWidth
-              size="small"
-            />
-            <TextField
-              type="file"
-              name="image"
-              onChange={handleFileInputChange}
-              value={fileInputState}
-              variant="outlined"
-            />
-          </Grid>
-        </div>
-        <Button
+    <Grid
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      className={classes.paper}
+    >
+      <Grid item align="center">
+        <Avatar className={classes.styleIcon}></Avatar>
+        <Typography variation="h6" color="default">
+          Update Cause
+        </Typography>
+      </Grid>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          id="title"
+          label="Edit Title"
+          name="title"
+          value={stateUpdate.title}
+          onChange={handleChange}
+          multiline
+          rowsMax={4}
           size="small"
-          className={classes.styleMain}
-          onClick={handleSubmit}
-        >
-          <ChatBubbleOutlineIcon /> Update
+          className={classes.mgstyle}
+        />
+        <TextField
+          id="post"
+          label="Edit Cause Description"
+          name="content"
+          value={stateUpdate.content}
+          onChange={handleChange}
+          variant="filled"
+          multiline
+          rows={4}
+          fullWidth
+          className={classes.mgstyle}
+          size="small"
+        />
+        <TextField //*Associated with cloudinary
+          type="file"
+          name="image"
+          onChange={handleFileInputChange}
+          value={fileInputState}
+          variant="outlined"
+          fullWidth
+          className={classes.mgstyle}
+        />
+        <Button type="submit" size="large" className={classes.styleMain} fullWidth>
+          Update
         </Button>
       </form>
-      {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
-      )}
+      {previewSource && <img src={previewSource} alt="chosen" className={classes.imgStyle} />}
     </Grid>
   );
 };

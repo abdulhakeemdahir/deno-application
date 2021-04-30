@@ -105,7 +105,7 @@ const UpdateUser = props => {
           value={stateUpdate.firstName}
           onChange={handleChange}
           variant="outlined"
-          label="Firstname" //*Spelling?
+          label="First Name"
           placeholder="Enter First Name"
           fullWidth
           className={classes.mgstyle}
@@ -115,7 +115,7 @@ const UpdateUser = props => {
           value={stateUpdate.lastname}
           onChange={handleChange}
           variant="outlined"
-          label="Lastname"
+          label="Last Name"
           placeholder="Enter Last Name"
           fullWidth
           className={classes.mgstyle}
