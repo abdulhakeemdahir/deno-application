@@ -19,11 +19,12 @@ const theme = createMuiTheme({
   }
 });
 // Create the component function and export for use
-function App() {
+const App = () => {
   // Connect Socket
   useSocketConnection();
   // Connect Authentication
   useAuthTokenStore();
+
   // Create the JSX for the component
   return (
     <Router>
@@ -36,6 +37,6 @@ function App() {
       </MuiThemeProvider>
     </Router>
   );
-}
+};
 
 export default App;
