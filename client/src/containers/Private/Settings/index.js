@@ -83,6 +83,12 @@ const SettingsPage = () => {
     setAction(action);
   };
 
+  const [toggleState, setToggleState] = useState(1);
+
+  const toggleButton = (index) => {
+    setToggleState(index);
+  };
+
   return (
     <div className="Main">
       <CssBaseline>
@@ -116,24 +122,38 @@ const SettingsPage = () => {
                 >
                   <Grid>
                     <List>
-                      <ListItem button>
+                      <ListItem
+                        button
+                        onClick={() => toggleButton(1)}
+                        style={
+                          toggleState === 1
+                            ? {backgroundColor: "#fbe0ff" }
+                            : {backgroundColor: "transparent" }
+                        }
+                      >
                         <Settings />
-                        <ListItemText
-                          style={{ paddingLeft: "10px" }}
-                          primary="General Account Settings"
-                        />
+                        <ListItemText 
+                        style={{ paddingLeft: "10px" }}
+                        primary="General Account Settings" />
                       </ListItem>
                     </List>
                   </Grid>
 
                   <Grid>
                     <List>
-                      <ListItem button>
+                      <ListItem
+                        button
+                        onClick={() => toggleButton(2)}
+                        style={
+                          toggleState === 2
+                            ? {backgroundColor: "#fbe0ff" }
+                            : {backgroundColor: "transparent" }
+                        }
+                      >
                         <Security />
-                        <ListItemText
-                          style={{ paddingLeft: "10px" }}
-                          primary="Security and Login"
-                        />
+                        <ListItemText 
+                        style={{ paddingLeft: "10px" }}
+                        primary="Security and Login" />
                       </ListItem>
                     </List>
                   </Grid>
@@ -142,9 +162,19 @@ const SettingsPage = () => {
 
                   <Grid>
                     <List>
-                      <ListItem button>
+                      <ListItem
+                        button
+                        onClick={() => toggleButton(3)}
+                        style={
+                          toggleState === 3
+                            ? {backgroundColor: "#fbe0ff" }
+                            : {backgroundColor: "transparent" }
+                        }
+                      >
                         <Payment />
-                        <ListItemText style={{ paddingLeft: "10px" }} primary="PayPal" />
+                        <ListItemText 
+                        style={{ paddingLeft: "10px" }}
+                        primary="PayPal" />
                       </ListItem>
                     </List>
                   </Grid>
@@ -313,14 +343,9 @@ const SettingsPage = () => {
 
                     <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
                       <ListItemText primary="Website:" />
-                      <ListItem 
-                      button
-                      style={{ justifyContent: "center", fontSize: "1.3em" }}>
-                    
-                        <a   
-                          href={`${globalState.user.website}`} target="_blank" rel="noreferrer" 
-                          >
-                            {`${globalState.user.website ? globalState.user.website : "- - -"}`}
+                      <ListItem button style={{ justifyContent: "center", fontSize: "1.3em" }}>
+                        <a href={`${globalState.user.website}`} target="_blank" rel="noreferrer">
+                          {`${globalState.user.website ? globalState.user.website : "- - -"}`}
                         </a>
                       </ListItem>
                       <IconButton
