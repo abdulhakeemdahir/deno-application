@@ -27,7 +27,9 @@ import updateFormStyles from "../../../components/Forms/useStyles/formStyles";
 import api from "../../../utils/api";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import SettingsUpdateForm from "./Forms";
-import GasComponentData from "./Components/SettingsComponentData";
+import GasComponentData from "./Components/GasComponentData";
+import SalComponentData from "./Components/SalComponentData";
+import PayComponentData from "./Components/PayComponentData";
 // Create TabPanel
 
 TabPanel.propTypes = {
@@ -241,7 +243,7 @@ const SettingsPage = () => {
                 </Grid>
 
                 <Divider orientation="vertical" />
-
+                
                 <Grid
                   style={{ marginTop: "0px", paddingTop: "0px", paddingRight: "0px" }}
                   item
@@ -249,8 +251,19 @@ const SettingsPage = () => {
                   sm={8}
                   className="card-container"
                 >
-                <GasComponentData/>
 
+                {(() => { 
+                    if (toggleState === 1) {
+                  return <GasComponentData/>
+                  
+                  } else if (toggleState === 2) {
+                  return <SalComponentData/>
+
+                  } else if (toggleState === 3){
+                  return <PayComponentData/>
+
+                  }
+                }) () }
                 </Grid>
 
                 <Dialog
