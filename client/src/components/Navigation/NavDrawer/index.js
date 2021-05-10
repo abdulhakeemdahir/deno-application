@@ -121,7 +121,7 @@ const SideDrawer = ({ navLinks }) => {
             >
               <ListItem>
                 <Settings />
-                <Typography style={{paddingLeft: "10px"}}>setting</Typography>
+                <Typography style={{paddingLeft: "10px"}}>settings</Typography>
               </ListItem>
             </NavLink>
             <NavLink

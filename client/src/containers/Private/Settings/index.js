@@ -113,7 +113,19 @@ const SettingsPage = () => {
                 </Grid>
 
                 <Grid item xs={9} sm={9} className="card-container">
-                  <Typography variant="subtitle2">GENERAL ACCOUNT SETTINGS</Typography>
+                  <Typography variant="subtitle2">
+                  {(() => { 
+                    if (toggleState === 1) {
+                  return "GENERAL ACCOUNT SETTINGS"
+                  
+                  } else if (toggleState === 2) {
+                  return "SECURITY AND LOGIN"
+
+                  } else if (toggleState === 3){
+                  return "PAYPAL"
+
+                  }
+                }) () }</Typography>
                 </Grid>
 
                 <Grid
