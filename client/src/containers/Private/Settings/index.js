@@ -105,197 +105,187 @@ const SettingsPage = () => {
           lg={10}
           xl={8}
         >
-         
-            <>
-              <Grid container spacing={2}>
-                <Grid item xs={3} sm={3} className="card-container">
-                  <Typography variant="subtitle2">SETTINGS</Typography>
-                </Grid>
-
-                <Grid item xs={9} sm={9} className="card-container">
-                  <Typography variant="subtitle2">
-                  {(() => { 
-                    if (toggleState === 1) {
-                  return "GENERAL ACCOUNT SETTINGS"
-                  
-                  } else if (toggleState === 2) {
-                  return "SECURITY AND LOGIN"
-
-                  } else if (toggleState === 3){
-                  return "PAYPAL"
-
-                  }
-                }) () }</Typography>
-                </Grid>
-
-                <Grid
-                  style={{ padding: "0px 20px 0px 0px" }}
-                  item
-                  xs={3}
-                  sm={3}
-                  className="card-container"
-                >
-                  <Grid>
-                    <List>
-                      <ListItem
-                        button
-                        onClick={() => toggleButton(1)}
-                        style={
-                          toggleState === 1
-                            ? { backgroundColor: "#fbe0ff" }
-                            : { backgroundColor: "transparent" }
-                        }
-                      >
-                        <Settings />
-                        <ListItemText
-                          style={{ paddingLeft: "10px" }}
-                          primary="General Account Settings"
-                        />
-                      </ListItem>
-                    </List>
-                  </Grid>
-
-                  <Grid>
-                    <List>
-                      <ListItem
-                        button
-                        onClick={() => toggleButton(2)}
-                        style={
-                          toggleState === 2
-                            ? { backgroundColor: "#fbe0ff" }
-                            : { backgroundColor: "transparent" }
-                        }
-                      >
-                        <Security />
-                        <ListItemText
-                          style={{ paddingLeft: "10px" }}
-                          primary="Security and Login"
-                        />
-                      </ListItem>
-                    </List>
-                  </Grid>
-
-                  <Divider />
-
-                  <Grid>
-                    <List>
-                      <ListItem
-                        button
-                        onClick={() => toggleButton(3)}
-                        style={
-                          toggleState === 3
-                            ? { backgroundColor: "#fbe0ff" }
-                            : { backgroundColor: "transparent" }
-                        }
-                      >
-                        <Payment />
-                        <ListItemText style={{ paddingLeft: "10px" }} primary="PayPal" />
-                      </ListItem>
-                    </List>
-                  </Grid>
-
-                  <Divider />
-
-                  {/* Profile Picture  */}
-
-                  <Grid style={{ marginTop: "25px" }}>
-                    <Divider />
-
-                    <List>
-                      <ListItem>
-                        <Person />
-                        <ListItemText style={{ paddingLeft: "10px" }} primary="Profile Picture" />
-                        <IconButton
-                          className="editButton"
-                          onClick={() => handleOpen("profileImg")}
-                          edge="end"
-                          aria-label="edit"
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </ListItem>
-                      <CardMedia
-                        style={{ height: "292px" }}
-                        className="media"
-                        image={`https://res.cloudinary.com/astralgnome/image/upload/${globalState.user.profileImg}`}
-                      />
-                    </List>
-                    <Divider />
-                  </Grid>
-
-                  {/* Bio  */}
-
-                  <Grid style={{ marginTop: "25px" }}>
-                    <Divider />
-                    <List>
-                      <ListItem style={{ marginBottom: "10px" }}>
-                        <MenuBook />
-                        <ListItemText
-                          style={{ paddingLeft: "10px" }}
-                          primary={`${globalState.user.username}'s Bio`}
-                        />
-
-                        <IconButton
-                          className="editButton"
-                          onClick={() => handleOpen("bio")}
-                          edge="end"
-                          aria-label="edit"
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </ListItem>
-                      <ListItemText
-                        primary={`${
-                          globalState.user.bio ? globalState.user.bio : "Stuff about you!"
-                        }`}
-                      />
-                    </List>
-                    <Divider />
-                  </Grid>
-                </Grid>
-
-                <Divider orientation="vertical" />
-                
-                <Grid
-                  style={{ marginTop: "0px", paddingTop: "0px", paddingRight: "0px" }}
-                  item
-                  xs={8}
-                  sm={8}
-                  className="card-container"
-                >
-
-                {(() => { 
-                    if (toggleState === 1) {
-                  return <GasComponentData/>
-                  
-                  } else if (toggleState === 2) {
-                  return <SalComponentData/>
-
-                  } else if (toggleState === 3){
-                  return <PayComponentData/>
-
-                  }
-                }) () }
-                </Grid>
-
-                <Dialog
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className={classes.modal}
-                  open={open}
-                  onClose={handleClose}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Fade in={open}>
-                    <SettingsUpdateForm onClose={handleClose} action={action} />
-                  </Fade>
-                </Dialog>
+          <>
+            <Grid container spacing={2}>
+              <Grid item xs={3} sm={3} className="card-container">
+                <Typography variant="subtitle2">SETTINGS</Typography>
               </Grid>
-            </>
+
+              <Grid item xs={9} sm={9} className="card-container">
+                <Typography variant="subtitle2">
+                  {(() => {
+                    if (toggleState === 1) {
+                      return "GENERAL ACCOUNT SETTINGS";
+                    } else if (toggleState === 2) {
+                      return "SECURITY AND LOGIN";
+                    } else if (toggleState === 3) {
+                      return "PAYPAL";
+                    }
+                  })()}
+                </Typography>
+              </Grid>
+
+              <Grid
+                style={{ padding: "0px 20px 0px 0px" }}
+                item
+                xs={3}
+                sm={3}
+                className="card-container"
+              >
+                <Grid>
+                  <List>
+                    <ListItem
+                      button
+                      onClick={() => toggleButton(1)}
+                      style={
+                        toggleState === 1
+                          ? { backgroundColor: "#fbe0ff" }
+                          : { backgroundColor: "transparent" }
+                      }
+                    >
+                      <Settings />
+                      <ListItemText
+                        style={{ paddingLeft: "10px" }}
+                        primary="General Account Settings"
+                      />
+                    </ListItem>
+                  </List>
+                </Grid>
+
+                <Grid>
+                  <List>
+                    <ListItem
+                      button
+                      onClick={() => toggleButton(2)}
+                      style={
+                        toggleState === 2
+                          ? { backgroundColor: "#fbe0ff" }
+                          : { backgroundColor: "transparent" }
+                      }
+                    >
+                      <Security />
+                      <ListItemText style={{ paddingLeft: "10px" }} primary="Security and Login" />
+                    </ListItem>
+                  </List>
+                </Grid>
+
+                <Divider />
+
+                <Grid>
+                  <List>
+                    <ListItem
+                      button
+                      onClick={() => toggleButton(3)}
+                      style={
+                        toggleState === 3
+                          ? { backgroundColor: "#fbe0ff" }
+                          : { backgroundColor: "transparent" }
+                      }
+                    >
+                      <Payment />
+                      <ListItemText style={{ paddingLeft: "10px" }} primary="PayPal" />
+                    </ListItem>
+                  </List>
+                </Grid>
+
+                <Divider />
+
+                {/* Profile Picture  */}
+
+                <Grid style={{ marginTop: "25px" }}>
+                  <Divider />
+
+                  <List>
+                    <ListItem>
+                      <Person />
+                      <ListItemText style={{ paddingLeft: "10px" }} primary="Profile Picture" />
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("profileImg")}
+                        edge="end"
+                        aria-label="edit"
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </ListItem>
+                    <CardMedia
+                      style={{ height: "292px" }}
+                      className="media"
+                      image={`https://res.cloudinary.com/astralgnome/image/upload/${globalState.user.profileImg}`}
+                    />
+                  </List>
+                  <Divider />
+                </Grid>
+
+                {/* Bio  */}
+
+                <Grid style={{ marginTop: "25px" }}>
+                  <Divider />
+                  <List>
+                    <ListItem style={{ marginBottom: "10px" }}>
+                      <MenuBook />
+                      <ListItemText
+                        style={{ paddingLeft: "10px" }}
+                        primary={`${globalState.user.username}'s Bio`}
+                      />
+
+                      <IconButton
+                        className="editButton"
+                        onClick={() => handleOpen("bio")}
+                        edge="end"
+                        aria-label="edit"
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </ListItem>
+                    <ListItemText
+                      primary={`${
+                        globalState.user.bio ? globalState.user.bio : "Stuff about you!"
+                      }`}
+                    />
+                  </List>
+                  <Divider />
+                </Grid>
+              </Grid>
+
+              <Divider orientation="vertical" />
+
+              <Grid
+                style={{ marginTop: "0px", paddingTop: "0px", paddingRight: "0px" }}
+                item
+                xs={8}
+                sm={8}
+                className="card-container"
+              >
+                {(() => {
+                  if (toggleState === 1) {
+                    return <GasComponentData handleOpen={handleOpen}/>;
+                  } else if (toggleState === 2) {
+                    return <SalComponentData handleOpen={handleOpen}/>;
+                  } else if (toggleState === 3) {
+                    return <PayComponentData handleOpen={handleOpen}/>;
+                  }
+                })()}
+              </Grid>
+
+              <Dialog
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+              >
+                <Fade in={open}>
+                  <SettingsUpdateForm onClose={handleClose} action={action} />
+                </Fade>
+              </Dialog>
+            </Grid>
+          </>
         </Grid>
         <Gradient />
         <Footer />

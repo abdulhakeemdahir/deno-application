@@ -74,54 +74,62 @@ const SettingsUpdateForm = ({action, onClose}) => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      className={classes.paper}
-    >
-      <Grid item align="center">
-        <Avatar className={classes.styleIcon}>
-          <CreateIcon />
-        </Avatar>
-        <Typography variation="h6" color="default">
-          Update Profile Image
-        </Typography>
-      </Grid>
-      <form autoComplete="off" onSubmit={handleSubmit}>   
-        {action !== "profileImg" ? <TextField
-          name={action}
-          value={stateUpdate[action]}
-          onChange={handleChange}
-          variant="outlined"
-          label={action}
-          placeholder={`Enter ${action}`}
-          fullWidth
-          className={classes.mgstyle}
-        /> :
-        <TextField //*Associated with cloudinary
-          type="file"
-          name="image"
-          onChange={handleFileInputChange}
-          value={fileInputState}
-          variant="outlined"
-          fullWidth
-          className={classes.mgstyle}
-        />}
-        <Button
-          type="submit"
-          size="large"
-          className={classes.styleMain}
-          fullWidth
-        >
-          Update
-        </Button>
-      </form>
-      {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
-      )}
-    </Grid>
+		<Grid
+			container
+			direction="column"
+			justify="center"
+			alignItems="center"
+			className={classes.paper}>
+			<Grid item align="center">
+				<Avatar className={classes.styleIcon}>
+					<CreateIcon />
+				</Avatar>
+				<Typography variation="h6" color="default">
+					{`UPDATE ${
+            action === "profileImg"? 
+              "PROFILE IMAGE": action === "phoneNumber"?
+                "PHONE NUMBER":action.toUpperCase()}`}
+				</Typography>
+			</Grid>
+			<form autoComplete="off" onSubmit={handleSubmit}>
+				{action !== "profileImg" ? (
+					<TextField
+						name={action}
+						value={stateUpdate[action]}
+						onChange={handleChange}
+						variant="outlined"
+						label={action}
+						placeholder={`Enter ${action}`}
+						fullWidth
+						className={classes.mgstyle}
+					/>
+				) : (
+					<TextField //*Associated with cloudinary
+						type="file"
+						name="image"
+						onChange={handleFileInputChange}
+						value={fileInputState}
+						variant="outlined"
+						fullWidth
+						className={classes.mgstyle}
+					/>
+				)}
+				<Button
+					type="submit"
+					size="large"
+					className={classes.styleMain}
+					fullWidth>
+					Update
+				</Button>
+			</form>
+			{previewSource && (
+				<img
+					src={previewSource}
+					alt="chosen"
+					className={classes.imgStyle}
+				/>
+			)}
+		</Grid>
   );
 };
 

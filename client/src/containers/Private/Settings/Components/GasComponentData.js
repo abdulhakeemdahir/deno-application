@@ -1,36 +1,11 @@
-import { Divider, Grid, IconButton, List, ListItem, ListItemText } from "@material-ui/core";
-import React, { useState } from "react";
+import { Divider, IconButton, List, ListItem, ListItemText } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { useGlobalContext } from "../../../../utils/GlobalStates/GlobalState";
-import { useWindowDimensions } from "../../../utils";
-import { useUserContext } from "../../../../utils/GlobalStates/UserContext";
 
 
-const GasComponentData = () => {
+const GasComponentData = ({handleOpen}) => {
 
-  const { width } = useWindowDimensions();
-  // Create the JSX for the component
-  const [userState, userDispatch] = useUserContext();
-  const [globalState, globalDispatch] = useGlobalContext();
-
-  const [open, setOpen] = React.useState(false);
-  const [action, setAction] = React.useState("");
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = (action) => {
-    setOpen(true);
-    setAction(action);
-  };
-
-  const [toggleState, setToggleState] = useState(1);
-
-  const toggleButton = (index) => {
-    setToggleState(index);
-  };
-
+  const [globalState, ] = useGlobalContext();
 
   return (
 
