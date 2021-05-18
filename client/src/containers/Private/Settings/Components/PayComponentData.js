@@ -11,8 +11,11 @@ const PayComponentData = ({ handleOpen }) => {
 				<ListItemText primary="****" />
 				<IconButton
 					className="editButton"
-					onClick={() => handleOpen("password")}
-					edge="end"
+
+          // I disabled the onClick for the edit button until we can add PayPal info
+					// onClick={() => handleOpen("password")}
+					
+          edge="end"
 					aria-label="edit">
 					<EditIcon />
 				</IconButton>
