@@ -2,8 +2,6 @@ import { Divider, IconButton, List, ListItem, ListItemText } from "@material-ui/
 import EditIcon from "@material-ui/icons/Edit";
 import { useGlobalContext } from "../../../../utils/GlobalStates/GlobalState";
 
-
-
 const SalComponentData = ({ handleOpen }) => {
 	const [globalState] = useGlobalContext();
 
@@ -38,6 +36,26 @@ const SalComponentData = ({ handleOpen }) => {
 				</IconButton>
 			</ListItem>
 			<Divider />
+
+      {/* Dynamic Rendering */}
+      
+			<ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
+      {globalState.posts?.map(card => {
+        return (
+				<ListItemText primary="Password:" />
+        );
+                  })}
+				<ListItemText primary="****" />
+				<IconButton
+					className="editButton"
+					onClick={() => handleOpen("password")}
+					edge="end"
+					aria-label="edit">
+					<EditIcon />
+				</IconButton>
+			</ListItem>
+			<Divider />
+
 		</List>
 	);
 };

@@ -75,6 +75,7 @@ const SettingsUpdateForm = ({action, onClose}) => {
 
   return (
 		<Grid
+      style={{paddingTop: "0px"}}
 			container
 			direction="column"
 			justify="center"
@@ -84,7 +85,7 @@ const SettingsUpdateForm = ({action, onClose}) => {
 				<Avatar className={classes.styleIcon}>
 					<CreateIcon />
 				</Avatar>
-				<Typography variation="h6" color="default">
+				<Typography style={{paddingTop: "10px"}} variation="h6" color="default">
 					{`UPDATE ${
             action === "profileImg"? 
               "PROFILE IMAGE": action === "phoneNumber"?
