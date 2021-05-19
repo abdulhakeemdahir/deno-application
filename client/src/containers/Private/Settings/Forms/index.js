@@ -39,8 +39,6 @@ const SettingsUpdateForm = ({ action, onClose }) => {
 
     const userInfo = await api.getUser(globalState.user._id);
 
-
-    
     await globalDispatch({
       type: LOADING,
     });
@@ -75,8 +73,6 @@ const SettingsUpdateForm = ({ action, onClose }) => {
     };
   };
 
-  console.log(stateUpdate)
-
   return (
     <Grid
       style={{ paddingTop: "2px" }}
@@ -106,7 +102,7 @@ const SettingsUpdateForm = ({ action, onClose }) => {
         {action !== "profileImg" ? (
           <TextField
             name={action}
-            value={action === "bio" ? globalState.user.bio : ""}
+            defaultValue={globalState.user[action]}
             onChange={handleChange}
             variant="outlined"
             fullWidth

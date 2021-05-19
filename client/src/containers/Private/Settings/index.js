@@ -32,11 +32,6 @@ import SalComponentData from "./Components/SalComponentData";
 import PayComponentData from "./Components/PayComponentData";
 // Create TabPanel
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 // Create the component function and export for use
 const SettingsPage = () => {
   // Call the Window Width function

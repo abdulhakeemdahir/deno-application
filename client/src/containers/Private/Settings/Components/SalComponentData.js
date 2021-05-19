@@ -3,61 +3,60 @@ import EditIcon from "@material-ui/icons/Edit";
 import { useGlobalContext } from "../../../../utils/GlobalStates/GlobalState";
 
 const SalComponentData = ({ handleOpen }) => {
-	const [globalState] = useGlobalContext();
+  const [globalState] = useGlobalContext();
 
-	return (
-		<List style={{ padding: "0px 0px 0px 10px" }} component="nav">
-			{/* Username  */}
+  return (
+    <List style={{ padding: "0px 0px 0px 10px" }} component="nav">
+      {/* Username  */}
 
-			<ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
-				<ListItemText primary="Username:" />
-				<ListItemText primary={`${globalState.user.username}`} />
-				<IconButton
-					className="editButton"
-					onClick={() => handleOpen("username")}
-					edge="end"
-					aria-label="edit">
-					<EditIcon />
-				</IconButton>
-			</ListItem>
-			<Divider />
+      <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
+        <ListItemText primary="Username:" />
+        <ListItemText primary={`${globalState.user.username}`} />
+        <IconButton
+          className="editButton"
+          onClick={() => handleOpen("username")}
+          edge="end"
+          aria-label="edit"
+        >
+          <EditIcon />
+        </IconButton>
+      </ListItem>
+      <Divider />
 
-			{/* Password  */}
+      {/* Password  */}
 
-			<ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
-				<ListItemText primary="Password:" />
-				<ListItemText primary="****" />
-				<IconButton
-					className="editButton"
-					onClick={() => handleOpen("password")}
-					edge="end"
-					aria-label="edit">
-					<EditIcon />
-				</IconButton>
-			</ListItem>
-			<Divider />
+      <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
+        <ListItemText primary="Password:" />
+        <ListItemText primary="****" />
+        <IconButton
+          className="editButton"
+          onClick={() => handleOpen("password")}
+          edge="end"
+          aria-label="edit"
+        >
+          <EditIcon />
+        </IconButton>
+      </ListItem>
+      <Divider />
 
       {/* Dynamic Rendering */}
-      
-			<ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
-      {globalState.posts?.map(card => {
-        return (
-				<ListItemText primary="Password:" />
-        );
-                  })}
-				<ListItemText primary="****" />
-				<IconButton
-					className="editButton"
-					onClick={() => handleOpen("password")}
-					edge="end"
-					aria-label="edit">
-					<EditIcon />
-				</IconButton>
-			</ListItem>
-			<Divider />
+      {/* Username  */}
 
-		</List>
-	);
+      <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
+        <ListItemText primary="Username:" />
+        <ListItemText primary={`${globalState.user.username}`} />
+        <IconButton
+          className="editButton"
+          onClick={() => handleOpen("username")}
+          edge="end"
+          aria-label="edit"
+        >
+          <EditIcon />
+        </IconButton>
+      </ListItem>
+      <Divider />
+    </List>
+  );
 };
 
 export default SalComponentData;
