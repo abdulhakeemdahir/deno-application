@@ -1,60 +1,24 @@
-import { Divider, IconButton, List, ListItem, ListItemText } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import { useGlobalContext } from "../../../../utils/GlobalStates/GlobalState";
+import { List } from "@material-ui/core";
+import ListItemComponent from "./ListItemComponent";
 
 const SalComponentData = ({ handleOpen }) => {
-  const [globalState] = useGlobalContext();
 
+  const keyList = [
+    "username",
+    "password"
+  ];
   return (
     <List style={{ padding: "0px 0px 0px 10px" }} component="nav">
       {/* Username  */}
 
-      <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
-        <ListItemText primary="Username:" />
-        <ListItemText primary={`${globalState.user.username}`} />
-        <IconButton
-          className="editButton"
-          onClick={() => handleOpen("username")}
-          edge="end"
-          aria-label="edit"
-        >
-          <EditIcon />
-        </IconButton>
-      </ListItem>
-      <Divider />
-
-      {/* Password  */}
-
-      <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
-        <ListItemText primary="Password:" />
-        <ListItemText primary="****" />
-        <IconButton
-          className="editButton"
-          onClick={() => handleOpen("password")}
-          edge="end"
-          aria-label="edit"
-        >
-          <EditIcon />
-        </IconButton>
-      </ListItem>
-      <Divider />
-
-      {/* Dynamic Rendering */}
-      {/* Username  */}
-
-      <ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
-        <ListItemText primary="Username:" />
-        <ListItemText primary={`${globalState.user.username}`} />
-        <IconButton
-          className="editButton"
-          onClick={() => handleOpen("username")}
-          edge="end"
-          aria-label="edit"
-        >
-          <EditIcon />
-        </IconButton>
-      </ListItem>
-      <Divider />
+      {keyList.map((item, index) => {
+        return (
+          <ListItemComponent 
+            handleOpen = {handleOpen}
+            key = {index}
+            action = {item}
+          />)
+      })}
     </List>
   );
 };

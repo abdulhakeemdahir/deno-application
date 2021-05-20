@@ -19,7 +19,7 @@ const ListItemComponent = ({ handleOpen, action }) => {
           style={{width: "5%"}}
           primary={`${capitalizeFirstLetter(action)}: `} />
         <ListItemText 
-          primary={globalState.user[action] ? globalState.user[action] : " - - - "} />
+          primary={globalState.user[action] ? globalState.user[action] : " - - - - "} />
         <IconButton
           className="editButton"
           onClick={() => handleOpen(action)}
