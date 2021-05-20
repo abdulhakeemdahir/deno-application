@@ -15,17 +15,13 @@ import {
   Backdrop,
 } from "@material-ui/core";
 import "./style.css";
-import PropTypes from "prop-types";
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
-import { TabPanel, useWindowDimensions } from "../../utils";
 import EditIcon from "@material-ui/icons/Edit";
 import { MenuBook, Payment, Person, Security, Settings } from "@material-ui/icons";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import updateFormStyles from "../../../components/Forms/useStyles/formStyles";
-import api from "../../../utils/api";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import SettingsUpdateForm from "./Forms";
 import GasComponentData from "./Components/GasComponentData";
 import SalComponentData from "./Components/SalComponentData";
@@ -35,42 +31,17 @@ import PayComponentData from "./Components/PayComponentData";
 // Create the component function and export for use
 const SettingsPage = () => {
   // Call the Window Width function
-  const { width } = useWindowDimensions();
   // Create the JSX for the component
-  const [userState, userDispatch] = useUserContext();
-  const [globalState, globalDispatch] = useGlobalContext();
+  const [globalState] = useGlobalContext();
 
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
 
   //*Associated with cloudinary
-  const [fileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  const [stateUpdate, setStateUpdate] = useState({
-    firstName: "",
-    lastname: "",
-    bio: "",
-  });
-
-  //*Associated with cloudinary
-  const upDateUser = async (update) => {
-    const updateUser = await api.settingsPage(userState._id, update);
-    console.log(updateUser);
-  };
+ 
   // Call the styles function
   const classes = updateFormStyles();
-  // Create the handleFileInputChange function
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
-  };
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
+
 
   const handleClose = () => {
     setOpen(false);
