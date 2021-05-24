@@ -8,7 +8,7 @@ const PayComponentData = ({ handleOpen }) => {
 
 			<ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
 				<ListItemText primary="PayPal:" />
-				<ListItemText primary="****" />
+				<ListItemText primary=" - - - - " />
 				<IconButton
 					className="editButton"
 

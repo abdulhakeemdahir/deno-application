@@ -11,7 +11,7 @@ const GasComponentData = ({ handleOpen }) => {
     "address"
   ];
   return (
-    <List style={{ padding: "0px 0px 0px 10px" }} component="nav">
+    <List style={{ padding: "0px 0px 0px 15px" }} component="nav">
       {keyList.map((item, index) => {
         return ( 
           <ListItemComponent 

@@ -13,6 +13,8 @@ import {
   Fade,
   Dialog,
   Backdrop,
+  useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
 import "./style.css";
 import Nav from "../../../components/Navigation";
@@ -30,18 +32,18 @@ import PayComponentData from "./Components/PayComponentData";
 
 // Create the component function and export for use
 const SettingsPage = () => {
-  // Call the Window Width function
-  // Create the JSX for the component
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const [show, setShow] = useState(true);
+
   const [globalState] = useGlobalContext();
 
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
 
-  //*Associated with cloudinary
- 
   // Call the styles function
   const classes = updateFormStyles();
-
 
   const handleClose = () => {
     setOpen(false);
@@ -72,12 +74,17 @@ const SettingsPage = () => {
           xl={8}
         >
           <>
-            <Grid container spacing={2}>
-              <Grid item xs={3} sm={3} className="card-container">
-                <Typography variant="subtitle2">SETTINGS</Typography>
-              </Grid>
+            <Grid container spacing={1}>
+              {(() => {
+                if (!matches)
+                  return (
+                    <Grid item xs={12} sm={3} className="card-container">
+                      <Typography variant="subtitle2">SETTINGS</Typography>
+                    </Grid>
+                  );
+              })()}
 
-              <Grid item xs={9} sm={9} className="card-container">
+              <Grid item xs={12} sm={8} className="card-container">
                 <Typography variant="subtitle2">
                   {(() => {
                     if (toggleState === 1) {
@@ -94,7 +101,7 @@ const SettingsPage = () => {
               <Grid
                 style={{ padding: "0px 20px 0px 0px" }}
                 item
-                xs={3}
+                xs={12}
                 sm={3}
                 className="card-container"
               >
@@ -214,22 +221,22 @@ const SettingsPage = () => {
                 </Grid>
               </Grid>
 
-              <Divider orientation="vertical" />
+              <Divider orientation={matches ? "horizontal" : "vertical"} />
 
               <Grid
                 style={{ marginTop: "0px", paddingTop: "0px", paddingRight: "0px" }}
                 item
-                xs={8}
+                xs={11}
                 sm={8}
                 className="card-container"
               >
                 {(() => {
                   if (toggleState === 1) {
-                    return <GasComponentData handleOpen={handleOpen}/>;
+                    return <GasComponentData handleOpen={handleOpen} />;
                   } else if (toggleState === 2) {
-                    return <SalComponentData handleOpen={handleOpen}/>;
+                    return <SalComponentData handleOpen={handleOpen} />;
                   } else if (toggleState === 3) {
-                    return <PayComponentData handleOpen={handleOpen}/>;
+                    return <PayComponentData handleOpen={handleOpen} />;
                   }
                 })()}
               </Grid>
