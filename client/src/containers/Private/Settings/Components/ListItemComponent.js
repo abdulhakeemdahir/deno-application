@@ -16,13 +16,15 @@ const ListItemComponent = ({ handleOpen, action }) => {
 
   return (
     <>
-      <ListItem style={{ paddingLeft: "0", paddingRight: "0", marginTop: "10px", marginBottom: "10px" }}>
+      <ListItem style={{ width: "100%", paddingLeft: "0", paddingRight: "0", marginTop: "10px", marginBottom: "10px" }}>
         <ListItemText
           style={{width: "5%"}}
           primary={`${capitalizeFirstLetter(action)}: `} />
         <ListItemText 
           primary={globalState.user[action] ? globalState.user[action] : " - - - - "} 
-          style={{width: "50%"}}/>
+          style={{width: "55%", textAlign: "center"}}
+          multiline
+          />
         <IconButton
           className="editButton"
           onClick={() => handleOpen(action)}

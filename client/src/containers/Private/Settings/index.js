@@ -28,14 +28,21 @@ import SettingsUpdateForm from "./Forms";
 import GasComponentData from "./Components/GasComponentData";
 import SalComponentData from "./Components/SalComponentData";
 import PayComponentData from "./Components/PayComponentData";
-// Create TabPanel
+import { makeStyles } from "@material-ui/styles";
+// Create TabPanel?
 
-// Create the component function and export for use
 const SettingsPage = () => {
+  // theme and matches are used to help enable phone view selective rendering
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const [show, setShow] = useState(true);
+  const useStyles = makeStyles({
+    tab: {
+      padding: "10px 0px 10px 7px"
+    },
+  });
+
+  const tabClass = useStyles();
 
   const [globalState] = useGlobalContext();
 
@@ -72,9 +79,10 @@ const SettingsPage = () => {
           xs={12}
           lg={10}
           xl={8}
+          style={{ paddingTop: "0px", marginTop: "0px" }}
         >
           <>
-            <Grid container spacing={1}>
+            <Grid container spacing={!matches ? 1 : 0}>
               {(() => {
                 if (!matches)
                   return (
@@ -85,13 +93,13 @@ const SettingsPage = () => {
               })()}
 
               <Grid item xs={12} sm={8} className="card-container">
-                <Typography variant="subtitle2">
+                <Typography variant={!matches ? "subtitle2" : ""}>
                   {(() => {
-                    if (toggleState === 1) {
+                    if (toggleState === 1 && !matches) {
                       return "GENERAL ACCOUNT SETTINGS";
-                    } else if (toggleState === 2) {
+                    } else if (toggleState === 2 && !matches) {
                       return "SECURITY AND LOGIN";
-                    } else if (toggleState === 3) {
+                    } else if (toggleState === 3 && !matches) {
                       return "PAYPAL";
                     }
                   })()}
@@ -99,7 +107,7 @@ const SettingsPage = () => {
               </Grid>
 
               <Grid
-                style={{ padding: "0px 20px 0px 0px" }}
+                style={!matches ? { paddingRight: "20px" } : { paddingRight: "0px" }}
                 item
                 xs={12}
                 sm={3}
@@ -108,6 +116,7 @@ const SettingsPage = () => {
                 <Grid>
                   <List>
                     <ListItem
+                      className={tabClass.tab}
                       button
                       onClick={() => toggleButton(1)}
                       style={
@@ -118,7 +127,7 @@ const SettingsPage = () => {
                     >
                       <Settings />
                       <ListItemText
-                        style={{ paddingLeft: "10px" }}
+                        style={{ paddingLeft: "10px"}}
                         primary="General Account Settings"
                       />
                     </ListItem>
@@ -128,6 +137,7 @@ const SettingsPage = () => {
                 <Grid>
                   <List>
                     <ListItem
+                      className={tabClass.tab}
                       button
                       onClick={() => toggleButton(2)}
                       style={
@@ -147,6 +157,7 @@ const SettingsPage = () => {
                 <Grid>
                   <List>
                     <ListItem
+                      className={tabClass.tab}
                       button
                       onClick={() => toggleButton(3)}
                       style={
@@ -171,7 +182,7 @@ const SettingsPage = () => {
                         <Divider />
 
                         <List>
-                          <ListItem>
+                          <ListItem style={{ marginBottom: "10px", padding: "0px" }}>
                             <Person />
                             <ListItemText
                               style={{ paddingLeft: "10px" }}
@@ -204,7 +215,7 @@ const SettingsPage = () => {
                       <Grid style={{ marginTop: "25px" }}>
                         <Divider />
                         <List>
-                          <ListItem style={{ marginBottom: "10px" }}>
+                          <ListItem style={{ marginBottom: "10px", padding: "0px" }}>
                             <MenuBook />
                             <ListItemText
                               style={{ paddingLeft: "10px" }}
@@ -237,7 +248,7 @@ const SettingsPage = () => {
               <Grid
                 style={{ marginTop: "0px", paddingTop: "0px", paddingRight: "0px" }}
                 item
-                xs={11}
+                xs={12}
                 sm={8}
                 className="card-container"
               >

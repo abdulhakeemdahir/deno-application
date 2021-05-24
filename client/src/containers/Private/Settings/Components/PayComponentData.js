@@ -1,12 +1,21 @@
-import { Divider, IconButton, List, ListItem, ListItemText } from "@material-ui/core";
+import { Divider, IconButton, List, ListItem, ListItemText, useMediaQuery, useTheme } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
 const PayComponentData = ({ handleOpen }) => {
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("xs"));
+
 	return (
-		<List style={{ padding: "0px 0px 0px 10px" }} component="nav">
+    <>
+    {(() => {
+      if (matches)
+        return <Divider />;
+    })()}
+    <List style={!matches ? { paddingLeft: "15px" } : {padding: "0px", margin: "0px"}} component="nav">
 			{/* PayPal  */}
 
-			<ListItem style={{ marginTop: "10px", marginBottom: "10px" }}>
+			<ListItem style={{ padding: "0px", marginTop: "10px", marginBottom: "10px" }}>
 				<ListItemText primary="PayPal:" />
 				<ListItemText primary=" - - - - " />
 				<IconButton
@@ -22,6 +31,7 @@ const PayComponentData = ({ handleOpen }) => {
 			</ListItem>
 			<Divider />
 		</List>
+    </>
 	);
 };
 
