@@ -163,62 +163,73 @@ const SettingsPage = () => {
 
                 <Divider />
 
-                {/* Profile Picture  */}
+                {/* Profile Picture */}
+                {(() => {
+                  if ((matches === true && toggleState === 1) || !matches)
+                    return (
+                      <Grid style={{ marginTop: "25px" }}>
+                        <Divider />
 
-                <Grid style={{ marginTop: "25px" }}>
-                  <Divider />
-
-                  <List>
-                    <ListItem>
-                      <Person />
-                      <ListItemText style={{ paddingLeft: "10px" }} primary="Profile Picture" />
-                      <IconButton
-                        className="editButton"
-                        onClick={() => handleOpen("profileImg")}
-                        edge="end"
-                        aria-label="edit"
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </ListItem>
-                    <CardMedia
-                      style={{ height: "292px" }}
-                      className="media"
-                      image={`https://res.cloudinary.com/astralgnome/image/upload/${globalState.user.profileImg}`}
-                    />
-                  </List>
-                  <Divider />
-                </Grid>
+                        <List>
+                          <ListItem>
+                            <Person />
+                            <ListItemText
+                              style={{ paddingLeft: "10px" }}
+                              primary="Profile Picture"
+                            />
+                            <IconButton
+                              className="editButton"
+                              onClick={() => handleOpen("profileImg")}
+                              edge="end"
+                              aria-label="edit"
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </ListItem>
+                          <CardMedia
+                            style={{ height: "292px" }}
+                            className="media"
+                            image={`https://res.cloudinary.com/astralgnome/image/upload/${globalState.user.profileImg}`}
+                          />
+                        </List>
+                        <Divider />
+                      </Grid>
+                    );
+                })()}
 
                 {/* Bio  */}
+                {(() => {
+                  if ((matches === true && toggleState === 1) || !matches)
+                    return (
+                      <Grid style={{ marginTop: "25px" }}>
+                        <Divider />
+                        <List>
+                          <ListItem style={{ marginBottom: "10px" }}>
+                            <MenuBook />
+                            <ListItemText
+                              style={{ paddingLeft: "10px" }}
+                              primary={`${globalState.user.username}'s Bio`}
+                            />
 
-                <Grid style={{ marginTop: "25px" }}>
-                  <Divider />
-                  <List>
-                    <ListItem style={{ marginBottom: "10px" }}>
-                      <MenuBook />
-                      <ListItemText
-                        style={{ paddingLeft: "10px" }}
-                        primary={`${globalState.user.username}'s Bio`}
-                      />
-
-                      <IconButton
-                        className="editButton"
-                        onClick={() => handleOpen("bio")}
-                        edge="end"
-                        aria-label="edit"
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </ListItem>
-                    <ListItemText
-                      primary={`${
-                        globalState.user.bio ? globalState.user.bio : "Stuff about you!"
-                      }`}
-                    />
-                  </List>
-                  <Divider />
-                </Grid>
+                            <IconButton
+                              className="editButton"
+                              onClick={() => handleOpen("bio")}
+                              edge="end"
+                              aria-label="edit"
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </ListItem>
+                          <ListItemText
+                            primary={`${
+                              globalState.user.bio ? globalState.user.bio : "Stuff about you!"
+                            }`}
+                          />
+                        </List>
+                        <Divider />
+                      </Grid>
+                    );
+                })()}
               </Grid>
 
               <Divider orientation={matches ? "horizontal" : "vertical"} />
