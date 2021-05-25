@@ -1,6 +1,7 @@
 const { Cause } = require("../models");
 const { User } = require("../models");
 const uploadImage = require("../utils/cloudinary");
+const populateBy = require("./utils/populateBy");
 
 module.exports = {
   getAllCause: async (req, res) => {
@@ -8,21 +9,7 @@ module.exports = {
       const Post = await Cause.find({})
         .find({})
         .sort({ date: -1 })
-        .populate([
-          {
-            path: "author",
-            select: "username orgName",
-            model: "User"
-          },
-          {
-            path: "likes",
-            model: "User",
-            populate: {
-              path: "user",
-              model: "User"
-            }
-          }
-        ])
+        .populate(populateBy("causes"))
         .exec();
       res.status(200).json(Post);
     } catch (err) {

@@ -3,6 +3,7 @@ const { User } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
 
 const uploadImage = require("../utils/uploadImg");
+const populateBy = require("./utils/populateBy");
 
 module.exports = {
   getAllUsers: async (req, res) => {
@@ -19,68 +20,7 @@ module.exports = {
         .select(
           "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName"
         )
-        .populate([
-          {
-            path: "following",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "followers",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "posts",
-            model: "Post",
-            options: { sort: { date: -1 } },
-            populate: [
-              {
-                path: "author",
-                select: "firstName username",
-                model: "User"
-              },
-              {
-                path: "likes",
-                select: "username",
-                model: "User"
-              },
-              {
-                path: "hashtags",
-                model: "Hashtag"
-              },
-              {
-                path: "comments",
-                model: "Comment",
-                options: { sort: { date: -1 } },
-                populate: [
-                  {
-                    path: "user",
-                    select: "username",
-                    model: "User"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: "causes",
-            model: "Cause",
-            options: { sort: { date: -1 } },
-            populate: [
-              {
-                path: "author",
-                select: "username orgName",
-                model: "User"
-              },
-              {
-                path: "likes",
-                select: "username",
-                model: "User"
-              }
-            ]
-          }
-        ])
+        .populate(populateBy("user"))
         .exec();
       res.status(200).json(user);
     } catch (err) {

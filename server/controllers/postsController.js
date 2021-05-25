@@ -1,36 +1,13 @@
 const { Post, User } = require("../models");
 const uploadImage = require("../utils/uploadImg");
+const populateBy = require("./utils/populateBy");
 
 module.exports = {
   findUserPosts: async (req, res) => {
     try {
-      const postModel = await Post.findById(req.params.id).populate([
-        {
-          path: "author",
-          select:
-            "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName",
-          model: "User"
-        },
-        {
-          path: "hashtags",
-          model: "Hashtag"
-        },
-        {
-          path: "likes",
-          select: "username",
-          model: "User"
-        },
-        {
-          path: "comments",
-          model: "Comment",
-          options: { sort: { createdAt: -1 } },
-          populate: {
-            path: "user",
-            select: "username",
-            model: "User"
-          }
-        }
-      ]);
+      const postModel = await Post.findById(req.params.id).populate(
+        populateBy("post")
+      );
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
@@ -114,32 +91,7 @@ module.exports = {
     try {
       const allPost = await Post.find({})
         .sort({ date: -1 })
-        .populate([
-          {
-            path: "author",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "hashtags",
-            model: "Hashtag"
-          },
-          {
-            path: "likes",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "comments",
-            model: "Comment",
-            options: { sort: { createdAt: -1 } },
-            populate: {
-              path: "user",
-              select: "username",
-              model: "User"
-            }
-          }
-        ])
+        .populate(populateBy("post"))
         .exec();
       res.status(200).json(allPost);
     } catch (err) {
