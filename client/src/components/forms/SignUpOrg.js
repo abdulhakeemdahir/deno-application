@@ -71,7 +71,7 @@ export default function SignUpOrg() {
 			step: step - 1,
 		});
 	};
-	const { inputs, handleChange, setInputs, clearForm, resetForms } = useForm({
+	const { inputs, handleChange, setInputs, clearForm } = useForm({
 		email: "",
 		emailError: "",
 		password: "",
@@ -195,7 +195,7 @@ export default function SignUpOrg() {
 					<FormOrgConfirm
 						nextStep={nextStep}
 						previousStep={previousStep}
-						values={values}
+						values={inputs}
 						handleSubmit={handleSubmit}
 					/>
 				</Grid>
