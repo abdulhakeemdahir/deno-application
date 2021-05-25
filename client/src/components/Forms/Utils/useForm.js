@@ -2,8 +2,8 @@ import { useState } from "react";
 
 export default function useForm(initial = {}) {
 	const [inputs, setInputs] = useState(initial);
-
-	const handleChange = (e) =>{
+	
+	const handleChange = async (e) =>{
 		let { value, name, type } = e.target;
 
 		if (type === "number") {
@@ -11,14 +11,11 @@ export default function useForm(initial = {}) {
 		}
 
 		if (type === "file") {
-			const file = e.target.files;
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onloadend = () => {
-				[value] = reader.result;
-			};
+			value = e.target.files[0];
+			previewFile(value, name)
+			return
 		}
-		
+
 		setInputs({
 			...inputs,
 			[name]: value
@@ -36,11 +33,23 @@ export default function useForm(initial = {}) {
 		setInputs(blankState);
 	}
 
+	const previewFile = (file, name) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+			setInputs({
+				...inputs,
+				[name]: reader.result
+			});
+		};
+	};
+
 	return {
+		previewFile,
 		inputs,
 		setInputs,
 		handleChange,
 		resetForms,
-		clearForm
+		clearForm,
 	};
 }

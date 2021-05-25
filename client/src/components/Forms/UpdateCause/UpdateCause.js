@@ -14,7 +14,7 @@ const UpdateCause = props => {
   // Call the styles function
   const classes = useUpdateStyles();
   const [globalState, globalDispatch] = useGlobalContext();
-  const { inputs, handleChange, resetForms } = useForm({
+  const { inputs, handleChange } = useForm({
 		title: "",
 		content: "",
 		imageUrl: ""
@@ -25,14 +25,14 @@ const UpdateCause = props => {
     const updateUser = {};
     if (inputs.title !== "") {
 		updateUser.title = inputs.title;
-	}
+	  }
     if (inputs.content !== "") {
 		updateUser.content = inputs.content;
-	}
+	  }
     //*Associated with cloudinary
     if (inputs.imageUrl !== "") {
 		updateUser.imageUrl = inputs.imageUrl;
-	}
+	  }
 
     await updateCause(updateUser);
     props.onClose();
@@ -97,7 +97,7 @@ const UpdateCause = props => {
 							type="file"
 							name="image"
 							onChange={handleChange}
-							value={inputs.imageUrl}
+							value={""}
 							variant="outlined"
 						/>
 					</Grid>
@@ -109,7 +109,7 @@ const UpdateCause = props => {
 					<ChatBubbleOutlineIcon /> Update
 				</Button>
 			</form>
-			{inputs.imageUrl !== "" && (
+			{inputs.imageUrl && (
 				<img
 					src={inputs.imageUrl}
 					alt="chosen"
