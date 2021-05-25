@@ -35,3 +35,49 @@ export const useValidateLength = (event, setInputs, inputs) => {
     }
     return isError;
 };
+
+	// Validate e-mail
+export	const useValidateEmail = (values, setInputs, inputs) => {
+    let isError = false;
+    const errors = {};
+    if (!/.+@.+..+/.test(values.email)) {
+        isError = true;
+        errors.emailError = "Not a correct e-mail";
+    }
+    if (isError) {
+        setInputs({
+            ...inputs,
+            ...errors
+        });
+    }
+    if (/.+@.+..+/.test(values.email)) {
+        errors.emailError = "";
+        setInputs({
+            ...inputs,
+            ...errors
+        });
+    }
+};
+	//Validate password to make sure it has 1 letter 1 name and minimum 8 characters
+export const useValidatePassword = (values, setInputs, inputs) => {
+	let isError = false;
+	const errors = {};
+	if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+		isError = true;
+		errors.passwordError =
+			"Needs 1 letter and 1 number, minimum 8 characters";
+	}
+	if (isError) {
+		setInputs({
+			...inputs,
+			...errors
+		});
+	}
+	if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
+		errors.passwordError = "";
+		setInputs({
+			...inputs,
+			...errors
+		});
+	}
+};
