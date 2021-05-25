@@ -1,56 +1,25 @@
 const { Post, User } = require("../models");
-// const { populate } = require("../models/cause");
-
-const cloudinary = require("../../utils/cloudinary");
+const uploadImage = require("../utils/uploadImg");
+const populateBy = require("./utils/populateBy");
 
 module.exports = {
   findUserPosts: async (req, res) => {
     try {
-      const postModel = await Post.findById(req.params.id).populate([
-        {
-          path: "author",
-          select:
-            "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName",
-          model: "User"
-        },
-        {
-          path: "hashtags",
-          model: "Hashtag"
-        },
-        {
-          path: "likes",
-          select: "username",
-          model: "User"
-        },
-        {
-          path: "comments",
-          model: "Comment",
-          options: { sort: { createdAt: -1 } },
-          populate: {
-            path: "user",
-            select: "username",
-            model: "User"
-          }
-        }
-      ]);
+      const postModel = await Post.findById(req.params.id).populate(
+        populateBy("post")
+      );
       res.json(postModel);
     } catch (err) {
       res.status(422).json(err);
     }
   },
   create: async (req, res) => {
-    console.log("\x1b[31m");
     const { title, content, imageUrl, author, hashtags } = req.body;
     try {
       let img = "";
       if (imageUrl) {
-        const result = await cloudinary.uploader.upload_large(imageUrl, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        img = result.public_id;
+        img = await uploadImage(imageUrl);
       }
-
       const postModel = await Post.create({
         title,
         content,
@@ -68,11 +37,7 @@ module.exports = {
     const upDatePost = req.body;
     try {
       if (imageUrl) {
-        const result = await cloudinary.uploader.upload_large(imageUrl, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        upDatePost.imageUrl = result.public_id;
+        upDatePost.imageUrl = await uploadImage(imageUrl);
       }
 
       const postModel = await Post.findByIdAndUpdate(
@@ -107,7 +72,7 @@ module.exports = {
   remove: async (req, res) => {
     try {
       await Post.findByIdAndDelete({ _id: req.params.id });
-      console.log("hello body", req.params.userId);
+
       await User.findByIdAndUpdate(
         req.params.userId,
         {
@@ -126,32 +91,7 @@ module.exports = {
     try {
       const allPost = await Post.find({})
         .sort({ date: -1 })
-        .populate([
-          {
-            path: "author",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "hashtags",
-            model: "Hashtag"
-          },
-          {
-            path: "likes",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "comments",
-            model: "Comment",
-            options: { sort: { createdAt: -1 } },
-            populate: {
-              path: "user",
-              select: "username",
-              model: "User"
-            }
-          }
-        ])
+        .populate(populateBy("post"))
         .exec();
       res.status(200).json(allPost);
     } catch (err) {
