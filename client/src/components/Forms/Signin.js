@@ -54,7 +54,7 @@ export default function Signin() {
 	// Call the styles function
 	const classes = useStyles();
 	// Create the set and setState from useState
-	const { inputs, handleChange, setInputs, clearForm, resetForms } = useForm({
+	const { inputs, handleChange, setInputs, clearForm } = useForm({
 		email: "",
 		emailError: "",
 		username: "",
@@ -92,6 +92,9 @@ export default function Signin() {
 					loading: false,
 				},
 			});
+
+			clearForm()
+			
 			history.push("/newsfeed");
 		} catch (err) {
 			// Handle error responses from the API

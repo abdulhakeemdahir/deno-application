@@ -109,7 +109,7 @@ export default function SignUpOrg() {
 				response: data
 			});
 			history.go(0);
-
+			clearForm();
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
 			// Handle error responses from the API. This will include

@@ -11,9 +11,14 @@ export default function useForm(initial = {}) {
 		}
 
 		if (type === "file") {
-			[value] = e.target.files;
+			const file = e.target.files;
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+				[value] = reader.result;
+			};
 		}
-
+		
 		setInputs({
 			...inputs,
 			[name]: value
