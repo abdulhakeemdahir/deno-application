@@ -1,7 +1,5 @@
 const { Post, User } = require("../models");
-// const { populate } = require("../models/cause");
-
-const cloudinary = require("../../utils/cloudinary");
+const uploadImage = require("../utils/uploadImg");
 
 module.exports = {
   findUserPosts: async (req, res) => {
@@ -39,18 +37,12 @@ module.exports = {
     }
   },
   create: async (req, res) => {
-    console.log("\x1b[31m");
     const { title, content, imageUrl, author, hashtags } = req.body;
     try {
       let img = "";
       if (imageUrl) {
-        const result = await cloudinary.uploader.upload_large(imageUrl, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        img = result.public_id;
+        img = await uploadImage(imageUrl);
       }
-
       const postModel = await Post.create({
         title,
         content,
@@ -68,11 +60,7 @@ module.exports = {
     const upDatePost = req.body;
     try {
       if (imageUrl) {
-        const result = await cloudinary.uploader.upload_large(imageUrl, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        upDatePost.imageUrl = result.public_id;
+        upDatePost.imageUrl = await uploadImage(imageUrl);
       }
 
       const postModel = await Post.findByIdAndUpdate(
@@ -107,7 +95,7 @@ module.exports = {
   remove: async (req, res) => {
     try {
       await Post.findByIdAndDelete({ _id: req.params.id });
-      console.log("hello body", req.params.userId);
+
       await User.findByIdAndUpdate(
         req.params.userId,
         {

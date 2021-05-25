@@ -1,6 +1,6 @@
 const { Cause } = require("../models");
 const { User } = require("../models");
-const cloudinary = require("../../utils/cloudinary");
+const uploadImage = require("../utils/cloudinary");
 
 module.exports = {
   getAllCause: async (req, res) => {
@@ -59,11 +59,7 @@ module.exports = {
     try {
       let img = "";
       if (imageUrl) {
-        const result = await cloudinary.uploader.upload_large(imageUrl, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        img = result.public_id;
+        img = uploadImage(imageUrl);
       }
       const causeModel = await Cause.create({
         title,
@@ -81,11 +77,7 @@ module.exports = {
     const upDateCause = req.body;
     try {
       if (imageUrl) {
-        const result = await cloudinary.uploader.upload_large(imageUrl, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        upDateCause.imageUrl = result.public_id;
+        upDateCause.imageUrl = uploadImage(imageUrl);
       }
       const causeModel = await Cause.findByIdAndUpdate(
         req.params.id,
