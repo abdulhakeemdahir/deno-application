@@ -65,8 +65,7 @@ export default function SignUpOrg() {
 			step: step - 1,
 		});
 	};
-	// Create the set and setState from useState
-	const [stateSignUp, setStateSignUp] = useState({
+	const { inputs, handleChange, setInputs, clearForm, resetForms } = useForm({
 		email: "",
 		emailError: "",
 		password: "",
@@ -84,6 +83,7 @@ export default function SignUpOrg() {
 		bio: "",
 		thumbnail: "",
 	});
+
 	// Validate e-mail
 	const validateEmail = () => {
 		let isError = false;
@@ -153,14 +153,7 @@ export default function SignUpOrg() {
 		}
 		return isError;
 	};
-	// Create the handleChange function
-	const handleChange = function(event) {
-		const { name, value } = event.target;
-		setStateSignUp({
-			...stateSignUp,
-			[name]: value,
-		});
-	};
+
 	// Call useHistory
 	const history = useHistory();
 	// Create the handleSubmit function
@@ -185,40 +178,8 @@ export default function SignUpOrg() {
 	// Call the styles function
 	const classes = useStyles();
 	const { step } = stateForm;
-	const {
-		firstName,
-		lastname,
-		role,
-		email,
-		username,
-		password,
-		orgName,
-		bio,
-		thumbnail,
-		orgnameError,
-		firstNameError,
-		lastnameError,
-		emailError,
-		usernameError,
-		passwordError,
-	} = stateSignUp;
-	const values = {
-    firstName,
-    lastname,
-    role,
-    email,
-    username,
-    password,
-    orgName,
-    bio,
-    thumbnail,
-    orgnameError,
-    firstNameError,
-    lastnameError,
-    emailError,
-    usernameError,
-    passwordError,
-  };
+
+	const values = { ...inputs };
 	// Create a Switch Case for the different JSX components
 	switch (step) {
 		case 1:
