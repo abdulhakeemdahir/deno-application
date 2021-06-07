@@ -15,6 +15,8 @@ import FormOrgConfirm from "./OrgInfo/FormOrgConfirm.js";
 import { ThumbUp } from "@material-ui/icons";
 import { useHistory } from "react-router";
 import api from "../../utils/api";
+import useForm from "./Utils/useForm.js";
+import { useValidateEmail, useValidateLength, useValidatePassword } from "./Utils/useValidations.js";
 // Create a useStyles Material UI component for styling
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -48,6 +50,10 @@ const useStyles = makeStyles(theme => ({
 // Create the component function and export for use
 export default function SignUpOrg() {
 	// Create the set and setState from useState
+	const validateLength = useValidateLength;
+	const validateEmail = useValidateEmail;
+	const validatePassword = useValidatePassword;
+
 	const [stateForm, setStateForm] = useState({
 		step: 1,
 	});
@@ -65,8 +71,7 @@ export default function SignUpOrg() {
 			step: step - 1,
 		});
 	};
-	// Create the set and setState from useState
-	const [stateSignUp, setStateSignUp] = useState({
+	const { inputs, handleChange, setInputs, clearForm } = useForm({
 		email: "",
 		emailError: "",
 		password: "",
@@ -84,83 +89,12 @@ export default function SignUpOrg() {
 		bio: "",
 		thumbnail: "",
 	});
-	// Validate e-mail
-	const validateEmail = () => {
-		let isError = false;
-		const errors = {};
-		if (!/.+@.+..+/.test(values.email)) {
-			isError = true;
-			errors.emailError = "Not a correct e-mail";
-		}
-		if (isError) {
-			setStateSignUp({
-				...stateSignUp,
-				...errors,
-			});
-		}
-		if (/.+@.+..+/.test(values.email)) {
-			errors.emailError = "";
-			setStateSignUp({
-				...stateSignUp,
-				...errors,
-			});
-		}
-	};
-	//Validate password to make sure it has 1 letter 1 name and minimum 8 characters
-	const validatePassword = () => {
-		let isError = false;
-		const errors = {};
-		if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
-			isError = true;
-			errors.passwordError =
-				"Needs 1 letter and 1 number, minimum 8 characters";
-		}
-		if (isError) {
-			setStateSignUp({
-				...stateSignUp,
-				...errors,
-			});
-		}
-		if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(values.password)) {
-			errors.passwordError = "";
-			setStateSignUp({
-				...stateSignUp,
-				...errors,
-			});
-		}
-	};
+
+
 	// Form validation for inputs to be more than 6 characters
-	const validate = event => {
-		const { name, value } = event.target;
-		let isError = false;
-		const errors = {};
-		if (value.length < 1) {
-			isError = true;
-			errors[`${name}Error`] = "Input cannot be empty";
-		}
-		if (isError) {
-			setStateSignUp({
-				...stateSignUp,
-				...errors,
-			});
-		}
-		if (value.length >= 1) {
-			errors[`${name}Error`] = "";
-			setStateSignUp({
-				...stateSignUp,
-				...errors,
-			});
-		}
-		return isError;
-	};
-	// Create the handleChange function
-	const handleChange = function(event) {
-		const { name, value } = event.target;
-		setStateSignUp({
-			...stateSignUp,
-			[name]: value,
-		});
-	};
+	const validate = (event) => validateLength(event, setInputs, inputs);
+	const valEmail = () => validateEmail(values, setInputs, inputs);
+	const valPass = () => validatePassword(values, setInputs, inputs);
 	// Call useHistory
 	const history = useHistory();
 	// Create the handleSubmit function
@@ -168,14 +102,14 @@ export default function SignUpOrg() {
 		//event.preventDefault();
 		try {
 			// Register the user.
-			const { data } = await api.register(stateSignUp);
+			const { data } = await api.register(inputs);
 
-			setStateSignUp({
-				...stateSignUp,
-				response: data,
+			setInputs({
+				...inputs,
+				response: data
 			});
 			history.go(0);
-
+			clearForm();
 			// User has been successfully registered, logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 		} catch (err) {
 			// Handle error responses from the API. This will include
@@ -185,65 +119,33 @@ export default function SignUpOrg() {
 	// Call the styles function
 	const classes = useStyles();
 	const { step } = stateForm;
-	const {
-		firstName,
-		lastname,
-		role,
-		email,
-		username,
-		password,
-		orgName,
-		bio,
-		thumbnail,
-		orgnameError,
-		firstNameError,
-		lastnameError,
-		emailError,
-		usernameError,
-		passwordError,
-	} = stateSignUp;
-	const values = {
-    firstName,
-    lastname,
-    role,
-    email,
-    username,
-    password,
-    orgName,
-    bio,
-    thumbnail,
-    orgnameError,
-    firstNameError,
-    lastnameError,
-    emailError,
-    usernameError,
-    passwordError,
-  };
+
+	const values = { ...inputs };
+
 	// Create a Switch Case for the different JSX components
 	switch (step) {
 		case 1:
 			return (
 				<Grid
 					container
-					direction='column'
-					justify='center'
-					alignItems='center'
-					className={classes.paper}
-				>
-					<Grid item align='center'>
+					direction="column"
+					justify="center"
+					alignItems="center"
+					className={classes.paper}>
+					<Grid item align="center">
 						<Avatar className={classes.styleIcon}>
 							<CreateIcon />
 						</Avatar>
-						<Typography variation='h6' color='default'>
+						<Typography variation="h6" color="default">
 							Signup Organization
 						</Typography>
 					</Grid>
 					<FormOrgDetails1
 						nextStep={nextStep}
 						handleChange={handleChange}
-						values={values}
+						values={inputs}
 						validate={validate}
-						validateEmail={validateEmail}
+						validateEmail={valEmail}
 					/>
 				</Grid>
 			);
@@ -251,16 +153,15 @@ export default function SignUpOrg() {
 			return (
 				<Grid
 					container
-					direction='column'
-					justify='center'
-					alignItems='center'
-					className={classes.paper}
-				>
-					<Grid item align='center'>
+					direction="column"
+					justify="center"
+					alignItems="center"
+					className={classes.paper}>
+					<Grid item align="center">
 						<Avatar className={classes.styleIcon}>
 							<CreateIcon />
 						</Avatar>
-						<Typography variation='h6' color='default'>
+						<Typography variation="h6" color="default">
 							Signup Organization
 						</Typography>
 					</Grid>
@@ -268,9 +169,9 @@ export default function SignUpOrg() {
 						nextStep={nextStep}
 						previousStep={previousStep}
 						handleChange={handleChange}
-						values={values}
+						values={inputs}
 						validate={validate}
-						validatePassword={validatePassword}
+						validatePassword={valPass}
 					/>
 				</Grid>
 			);
@@ -294,7 +195,7 @@ export default function SignUpOrg() {
 					<FormOrgConfirm
 						nextStep={nextStep}
 						previousStep={previousStep}
-						values={values}
+						values={inputs}
 						handleSubmit={handleSubmit}
 					/>
 				</Grid>

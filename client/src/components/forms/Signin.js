@@ -2,14 +2,13 @@
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { useState } from "react";
 import { useHistory } from "react-router";
 import { useLogin } from "../../utils/auth";
-import { useUserContext } from "../../utils/GlobalStates/UserContext";
 import { ADD, LOADING } from "../../utils/actions/actions";
 import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 import api from "../../utils/api";
-
+import useForm from "./Utils/useForm"
+import { useValidateLogin, useValidateLength } from "./Utils/useValidations";
 // Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
 	paper: {
@@ -55,35 +54,32 @@ export default function Signin() {
 	// Call the styles function
 	const classes = useStyles();
 	// Create the set and setState from useState
-	const [stateSignIn, setStateSignIn] = useState({
+	const { inputs, handleChange, setInputs, clearForm } = useForm({
 		email: "",
 		emailError: "",
 		username: "",
 		usernameError: "",
-		errorLogin: "",
+		errorLogin: ""
 	});
+
 	// Call useHistory
 	const history = useHistory();
 	// Get the helper login function from the `useLogin` hook.
 	const login = useLogin();
-	// Create the handleChange function
-	const handleChange = function(event) {
-		const { name, value } = event.target;
-		setStateSignIn({
-			...stateSignIn,
-			[name]: value,
-		});
-	};
+	const validateLogin = useValidateLogin
+	const validateLength = useValidateLength;
+
 	// Destructure State and Dispatch from Context
 	const [, globalDispatch] = useGlobalContext();
 	// Create the handleSubmit function
 	const handleSubmit = async event => {
 		event.preventDefault();
 		// console.log(event)
+		
 		try {
-			const res = await login(stateSignIn);
+			const res = await login(inputs);
 
-			await validateLogin(res);
+			await validateLogin(res, inputs, setInputs);
 			//User has been successfully logged in and added to state. Perform any additional actions you need here such as redirecting to a new page.
 			const userInfo = await api.getUser(res._id);
 			await globalDispatch({
@@ -96,103 +92,68 @@ export default function Signin() {
 					loading: false,
 				},
 			});
+
+			clearForm()
+			
 			history.push("/newsfeed");
 		} catch (err) {
 			// Handle error responses from the API
 			if (err.response && err.response.data) {
-				validateLogin(err.response.data);
+				validateLogin(err.response.data, inputs, setInputs);
 			}
 		}
 	};
-	// Form validation for inputs to be more than 6 characters
-	const validateLogin = response => {
-		let isError = false;
-		const errors = {};
-		if (!response) {
-			errors[`usernameError`] = "Username or Password is invalid";
-			errors[`passwordError`] = "Username or Password is invalid";
-			setStateSignIn({
-				...stateSignIn,
-				...errors,
-			});
-		}
-		return isError;
-	};
-	// Form validation for inputs to be more than 6 characters
-	const validate = event => {
-		const { name, value } = event.target;
-		let isError = false;
-		const errors = {};
-		if (value.length < 1) {
-			isError = true;
-			errors[`${name}Error`] = "Input cannot be empty";
-		}
-		if (isError) {
-			setStateSignIn({
-				...stateSignIn,
-				...errors,
-			});
-		}
-		if (value.length >= 1) {
-			errors[`${name}Error`] = "";
-			setStateSignIn({
-				...stateSignIn,
-				...errors,
-			});
-		}
-		return isError;
-	};
+
+	const validate = (event) => validateLength(event, setInputs, inputs);
 	// Create the JSX for the component
 	return (
 		<Grid
 			container
-			direction='column'
-			justify='center'
-			alignItems='center'
-			className={classes.paper}
-		>
-			<Grid item align='center'>
+			direction="column"
+			justify="center"
+			alignItems="center"
+			className={classes.paper}>
+			<Grid item align="center">
 				<Avatar className={classes.styleIcon}>
 					<LockOutlinedIcon />
 				</Avatar>
-				<Typography variation='h6' color='default'>
+				<Typography variation="h6" color="default">
 					Log In
 				</Typography>
 			</Grid>
-			<form autoComplete='off' onSubmit={handleSubmit}>
+			<form autoComplete="off" onSubmit={handleSubmit}>
 				<TextField
-					error={stateSignIn.usernameError}
-					helperText={stateSignIn.usernameError}
-					name='username'
-					value={stateSignIn.username}
+					error={inputs.usernameError}
+					helperText={inputs.usernameError}
+					name="username"
+					value={inputs.username}
 					onChange={handleChange}
 					onBlur={validate}
-					variant='outlined'
-					label='Username'
-					placeholder='Enter Username'
+					variant="outlined"
+					label="Username"
+					placeholder="Enter Username"
 					fullWidth
 					className={classes.mgstyle}
 				/>
 				<TextField
-					error={stateSignIn.passwordError}
-					helperText={stateSignIn.passwordError}
-					name='password'
-					value={stateSignIn.password}
+					error={inputs.passwordError}
+					helperText={inputs.passwordError}
+					name="password"
+					value={inputs.password}
 					onChange={handleChange}
 					onBlur={validate}
-					variant='outlined'
-					label='Password'
-					placeholder='Enter Password'
-					type='password'
+					variant="outlined"
+					label="Password"
+					placeholder="Enter Password"
+					type="password"
 					fullWidth
 					className={classes.mgstyle}
 				/>
 				<Button
-					size='large'
+					size="large"
 					className={classes.styleMain}
 					fullWidth
-					onClick={handleSubmit}
-				>
+					onClick={handleSubmit}>
 					Log In
 				</Button>
 			</form>
