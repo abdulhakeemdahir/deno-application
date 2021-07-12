@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import { useState, useEffect } from "react";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
@@ -14,7 +14,6 @@ const UpdatePost = props => {
   // Call the styles function
   const classes = useUpdateStyles();
   // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
   const [globalState, globalDispatch] = useGlobalContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -65,22 +64,20 @@ const UpdatePost = props => {
   };
   //*update post by sending post id and update object
   const updatePost = async update => {
- 
     await api.updatePost(props.id, update);
 
     const { data } = await api.getUser(globalState.user._id);
     dispatch(UPDATE, { user: data, loading: false });
-
   };
 
   useEffect(() => {
     async function fetchUserInfo() {
-      const {data} = await api.findUserPosts(props.id);
+      const { data } = await api.findUserPosts(props.id);
       dispatch(ADD, { singlePosts: data, loading: false });
 
       setStateUpdate({
         title: data.title,
-        content: data.content,
+        content: data.content
       });
     }
     fetchUserInfo();
@@ -91,65 +88,63 @@ const UpdatePost = props => {
     await globalDispatch({
       type: action,
       payload: {
-        ...payload,
-      },
+        ...payload
+      }
     });
     return;
   };
 
   // Create the JSX for the component
   return (
-    <Grid className="cardPost">
+    <Grid className='cardPost'>
       <form
         className={classes.root}
         noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
+        autoComplete='off'
+        onSubmit={handleSubmit}>
         <div>
           <Grid container>
             <TextField
-              id="title"
-              label="Edit Title"
-              name="title"
+              id='title'
+              label='Edit Title'
+              name='title'
               value={stateUpdate.title}
               onChange={handleChange}
               multiline
               rowsMax={4}
               className={classes.inputMargin}
-              size="small"
+              size='small'
             />
             <TextField
-              id="post"
-              label="Edit Message"
-              name="content"
+              id='post'
+              label='Edit Message'
+              name='content'
               value={stateUpdate.content}
               onChange={handleChange}
-              variant="filled"
+              variant='filled'
               multiline
               rows={4}
               fullWidth
-              size="small"
+              size='small'
             />
             <TextField
-              type="file"
-              name="image"
+              type='file'
+              name='image'
               onChange={handleFileInputChange}
               value={fileInputState}
-              variant="outlined"
+              variant='outlined'
             />
           </Grid>
         </div>
         <Button
-          size="small"
+          size='small'
           className={classes.styleMain}
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           <ChatBubbleOutlineIcon /> Update
         </Button>
       </form>
       {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
+        <img src={previewSource} alt='chosen' className={classes.imgStyle} />
       )}
     </Grid>
   );

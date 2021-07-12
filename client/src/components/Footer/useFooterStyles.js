@@ -2,13 +2,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useFooterStyles = makeStyles({
   footerStyle: {
-    // bottom: "20px",
-    position: "relative",
-    // height: "45vh",
     width: "100%",
     zIndex: "1",
     color: "#008394 !important",
-    // padding: "10px",
+    padding: 0,
+    marginBottom: 0,
     textAlign: "center",
     justifyContent: "center"
   },
@@ -24,6 +22,7 @@ const useFooterStyles = makeStyles({
     zIndex: "1",
     color: "#ed4b82 !important",
     textAlign: "center",
+    display: "flex",
     justifyContent: "center",
     flexFlow: "wrap"
   }

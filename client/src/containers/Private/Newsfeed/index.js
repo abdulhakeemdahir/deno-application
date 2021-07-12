@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
@@ -16,92 +17,86 @@ import API from "../../../utils/api";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import {
-	LOADING,
-  UPDATE,
-	ADD
-} from "../../../utils/actions/actions.js";
+import { LOADING, UPDATE, ADD } from "../../../utils/actions/actions.js";
 import { useStoreContext } from "../../../utils/GlobalStates/AuthStore";
 import api from "../../../utils/api";
 // Create TabPanel
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 // Create the component function and export for use
 const Newsfeed = () => {
-	// Destructure causeState and causeDispatch from Context
-	const [globalState, globalDispatch] = useGlobalContext();
+  // Destructure causeState and causeDispatch from Context
+  const [globalState, globalDispatch] = useGlobalContext();
 
-	const socket = useSocket();
-	// Destructure State and Dispatch from Context
-	const [state] = useStoreContext();
+  const socket = useSocket();
+  // Destructure State and Dispatch from Context
+  const [state] = useStoreContext();
 
-	// Get post Data
-	useEffect(() => {
-		async function fetchAllPostsAndCauses() {
-			const userInfo = await api.getUser(globalState.user._id);
-			dispatch(ADD, { user: userInfo.data, loading: false });
+  // Get post Data
+  useEffect(() => {
+    async function fetchAllPostsAndCauses() {
+      const userInfo = await api.getUser(globalState.user._id);
+      dispatch(ADD, { user: userInfo.data, loading: false });
 
-			const causes = await API.getAllCauses();
-			dispatch(UPDATE, { causes: causes.data, loading: false });
+      const causes = await API.getAllCauses();
+      dispatch(UPDATE, { causes: causes.data, loading: false });
 
-			const postInfo = await API.getAllPost();
-			dispatch(UPDATE, { posts: postInfo.data, loading: false });
+      const postInfo = await API.getAllPost();
+      dispatch(UPDATE, { posts: postInfo.data, loading: false });
 
-			const hashInfo = await API.getHashtagAll();
-			dispatch(UPDATE, { hashtag: hashInfo.data, loading: false });
+      const hashInfo = await API.getHashtagAll();
+      dispatch(UPDATE, { hashtag: hashInfo.data, loading: false });
+    }
 
-		}
+    fetchAllPostsAndCauses();
 
-		fetchAllPostsAndCauses();
+    if (!socket) return;
+  }, []);
 
-		if (!socket) return;
-	}, []);
-
-	const dispatch = async (action, payload) => {
+  const dispatch = async (action, payload) => {
     await globalDispatch({ type: LOADING });
     await globalDispatch({
       type: action,
       payload: {
-        ...payload,
-      },
+        ...payload
+      }
     });
     return;
   };
-	// Use Socket IO for real time updates
-	useEffect(() => {
-		if (state.socket.id === globalState.user.socketId) return;
-		socket.emit("join:server", state.userAuth.user.username);
-	}, []);
-	// Create the set and setState from useState
-	const [value, setValue] = React.useState(0);
-	// Create the handleChange function
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-	// Call the Window Width function
-	const { width } = useWindowDimensions();
-	// Create the JSX for the component
-	return (
-    <div className="Main">
+  // Use Socket IO for real time updates
+  useEffect(() => {
+    if (state.socket.id === globalState.user.socketId) return;
+    socket.emit("join:server", state.userAuth.user.username);
+  }, []);
+  // Create the set and setState from useState
+  const [value, setValue] = React.useState(0);
+  // Create the handleChange function
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  // Call the Window Width function
+  const { width } = useWindowDimensions();
+  // Create the JSX for the component
+  return (
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={"container"}
           xs={12}
           lg={10}
-          xl={8}
-        >
+          xl={8}>
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">TRENDING</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>TRENDING</Typography>
                   {globalState.hashtag.map((card, index) => (
                     <Trending
                       hashTag={card.hashtag}
@@ -111,10 +106,10 @@ const Newsfeed = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  <Post className="card" />
-                  {globalState.posts?.map((card) => {
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  <Post className='card' />
+                  {globalState.posts?.map(card => {
                     return (
                       <News
                         key={card._id}
@@ -132,9 +127,9 @@ const Newsfeed = () => {
                     );
                   })}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
-                  {globalState.causes.map((card) => {
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
+                  {globalState.causes.map(card => {
                     return (
                       <Causes
                         key={card._id}
@@ -158,16 +153,15 @@ const Newsfeed = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="simple tabs example"
-              >
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="Trending" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+                aria-label='simple tabs example'>
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='Trending' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  <Post className="card" />
-                  {globalState.posts.map((card) => {
+                  <Post className='card' />
+                  {globalState.posts.map(card => {
                     return (
                       <News
                         key={card._id}
@@ -198,7 +192,7 @@ const Newsfeed = () => {
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {globalState.causes.map((card) => {
+                  {globalState.causes.map(card => {
                     return (
                       <Causes
                         key={card._id}

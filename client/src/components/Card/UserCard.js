@@ -6,11 +6,9 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -46,12 +44,12 @@ export const UserCard = props => {
     <Card className={classes.root} fullWidth>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar aria-label='recipe' className={classes.avatar}>
             {props?.firstName?.charAt(0) + props?.lastname?.charAt(0)}
           </Avatar>
         }
         action={
-          <IconButton aria-label="View Profile">
+          <IconButton aria-label='View Profile'>
             <MoreVertIcon />
           </IconButton>
         }
@@ -62,27 +60,27 @@ export const UserCard = props => {
         <CardMedia
           className={classes.media}
           image={`https://res.cloudinary.com/astralgnome/image/upload/${props.profileImg}`}
-          title="Paella dish"
+          title='Paella dish'
         />
       )}
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant='body2' color='textSecondary' component='p'>
           {props?.bio}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant='body2' color='textSecondary' component='p'>
           Posts: {props?.posts?.length}
         </Typography>
         {props.causes && (
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant='body2' color='textSecondary' component='p'>
             Causes: {props?.causes?.length}
           </Typography>
         )}
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label='add to favorites'>
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label='share'>
           <ShareIcon />
         </IconButton>
         <IconButton
@@ -91,8 +89,7 @@ export const UserCard = props => {
           })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
-          aria-label="show more"
-        >
+          aria-label='show more'>
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>

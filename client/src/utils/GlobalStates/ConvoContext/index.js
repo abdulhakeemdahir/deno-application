@@ -1,13 +1,10 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { useSocket } from "../SocketProvider";
+import React, { createContext, useContext, useReducer } from "react";
 import reducer from "./reducer";
-import { LOADING, UPDATE_CHAT } from "./action";
 
 const ConvoContext = createContext();
 const { Provider } = ConvoContext;
 
 const ConvoProvider = ({ value = [], ...props }) => {
-  // const socket = useSocket();
   const [conversations, convoDispatch] = useReducer(reducer, {
     conversations: [],
     chat: {},

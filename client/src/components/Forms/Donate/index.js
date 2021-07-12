@@ -31,35 +31,34 @@ const Donate = props => {
       alert("numbers only");
       return;
     }
-    const pay = await api.donate(donateState);
+    await api.donate(donateState);
   };
   // Create the JSX for the component
   return (
-    <Grid className="cardPost">
+    <Grid className='cardPost'>
       <form
         className={classes.root}
         noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
+        autoComplete='off'
+        onSubmit={handleSubmit}>
         <div>
           <Grid container>
-            <Typography variant="h6" className={classes.textStyle}>
+            <Typography variant='h6' className={classes.textStyle}>
               Please Support this Cause!
             </Typography>
             <TextField
-              name="amount"
+              name='amount'
               value={donateState.amount}
               onChange={handleChange}
-              id="donate"
-              label="Donation Amount"
-              variant="filled"
+              id='donate'
+              label='Donation Amount'
+              variant='filled'
               fullWidth
-              size="small"
+              size='small'
             />
           </Grid>
         </div>
-        <Button size="small" type="submit" className={classes.styleMain}>
+        <Button size='small' type='submit' className={classes.styleMain}>
           <ChatBubbleOutlineIcon /> Donate
         </Button>
       </form>

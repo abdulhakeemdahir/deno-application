@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
@@ -12,76 +13,68 @@ import Causes from "../../../components/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
-import {
-  LOADING,
-  UPDATE,
-} from "../../../utils/actions/actions";
+import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import API from "../../../utils/api";
 import { useHistory, useParams } from "react-router";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create TabPanel
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 // Create the component function and export for use
 const PublicDash = () => {
-	// Destructure globalState.guessUser and guessDispatch from Context
-	const [globalState, globalDispatch] = useGlobalContext();
-	// Call useSocket function
-	const socket = useSocket();
-	// Get id from useParams
-	const { id } = useParams();
-	// Call useHistory
-	const history = useHistory();
-	// Get all user Data
-	useEffect(() => {
-		async function fetchUserInfo() {
-
-			const userInfo = await API.getUser(id);
-			if (!userInfo) {
-				history.push("/404");
-			}
-			await globalDispatch({ type: LOADING });
+  // Destructure globalState.guessUser and guessDispatch from Context
+  const [globalState, globalDispatch] = useGlobalContext();
+  // Get id from useParams
+  const { id } = useParams();
+  // Call useHistory
+  const history = useHistory();
+  // Get all user Data
+  useEffect(() => {
+    async function fetchUserInfo() {
+      const userInfo = await API.getUser(id);
+      if (!userInfo) {
+        history.push("/404");
+      }
+      await globalDispatch({ type: LOADING });
       await globalDispatch({
         type: UPDATE,
         payload: {
-          guessUser: userInfo.data,
-        },
+          guessUser: userInfo.data
+        }
       });
-		}
-		fetchUserInfo();
-	}, []);
+    }
+    fetchUserInfo();
+  }, []);
 
-	// Create the set and setState from useState
-	const [value, setValue] = React.useState(0);
-	// Create the handleChange function
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-	// Call the Window Width function
-	const { width } = useWindowDimensions();
-	// Create the JSX for the component
-	return (
-    <div className="Main">
+  // Create the set and setState from useState
+  const [value, setValue] = React.useState(0);
+  // Create the handleChange function
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  // Call the Window Width function
+  const { width } = useWindowDimensions();
+  // Create the JSX for the component
+  return (
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={"container"}
           xs={12}
           lg={10}
-          xl={8}
-        >
+          xl={8}>
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">ABOUT</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>ABOUT</Typography>
                   <About
                     key={globalState.guessUser._id}
                     id={globalState.guessUser._id}
@@ -105,9 +98,9 @@ const PublicDash = () => {
                     check={id}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  {globalState.guessUser.posts.map((card) => (
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  {globalState.guessUser.posts.map(card => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -122,9 +115,9 @@ const PublicDash = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
-                  {globalState.guessUser.causes.map((card) => (
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
+                  {globalState.guessUser.causes.map(card => (
                     <Causes
                       key={card._id}
                       id={card._id}
@@ -145,15 +138,14 @@ const PublicDash = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="simple tabs example"
-              >
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="About" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+                aria-label='simple tabs example'>
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='About' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  {globalState.guessUser.posts.map((card) => (
+                  {globalState.guessUser.posts.map(card => (
                     <News
                       key={card._id}
                       id={card._id}
@@ -197,7 +189,7 @@ const PublicDash = () => {
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Grid item xs={12}>
-                  {globalState.guessUser.causes.map((card) => (
+                  {globalState.guessUser.causes.map(card => (
                     <Causes
                       key={card._id}
                       id={card._id}

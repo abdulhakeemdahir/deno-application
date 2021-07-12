@@ -7,7 +7,10 @@ import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Results from "./Results";
 import { TabPanel } from "../../utils";
-import NProgress from "nprogress";
+
+// Need to implement the search progress bar so the user knows
+// that something is happening.
+// import NProgress from "nprogress";
 
 // Create TabPanel
 TabPanel.propTypes = {
@@ -19,18 +22,17 @@ TabPanel.propTypes = {
 const Search = () => {
   // Create the JSX for the component
   return (
-    <main className="Main">
+    <main className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={"container"}
           xs={12}
           lg={10}
-          xl={8}
-        >
+          xl={8}>
           <Results />
         </Grid>
         <Gradient />

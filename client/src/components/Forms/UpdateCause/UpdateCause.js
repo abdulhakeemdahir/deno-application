@@ -2,17 +2,13 @@
 import { Grid, Button, TextField } from "@material-ui/core";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import "./style.css";
-// Create a useStyles Material UI component for styling
-import { useCauseContext } from "../../../utils/GlobalStates/CauseContext";
 import { useState } from "react";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import api from "../../../utils/api";
 import useUpdateStyles from "../useStyles/useUpdateStyles";
 
 const UpdateCause = props => {
   // Call the styles function
   const classes = useUpdateStyles();
-  const [userState, userDispatch] = useUserContext();
 
   //*Associated with cloudinary
   const [fileInputState] = useState("");
@@ -66,60 +62,59 @@ const UpdateCause = props => {
   };
   // Create the JSX for the component
   return (
-    <Grid className="cardPost">
-      <form className={classes.root} noValidate autoComplete="off">
+    <Grid className='cardPost'>
+      <form className={classes.root} noValidate autoComplete='off'>
         <div>
           <Grid container>
             <TextField
-              id="title"
-              label="Edit Title"
-              name="title"
+              id='title'
+              label='Edit Title'
+              name='title'
               value={stateUpdate.title}
               onChange={handleChange}
               multiline
               rowsMax={4}
               className={classes.inputMargin}
-              size="small"
+              size='small'
             />
             <TextField
-              id="imageUrl"
-              label=" Edit Image Url"
+              id='imageUrl'
+              label=' Edit Image Url'
               multiline
               rowsMax={4}
               className={classes.inputMargin}
-              size="small"
+              size='small'
             />
             <TextField
-              id="post"
-              label="Edit Cause"
-              name="content"
+              id='post'
+              label='Edit Cause'
+              name='content'
               value={stateUpdate.content}
               onChange={handleChange}
-              variant="filled"
+              variant='filled'
               multiline
               rows={4}
               fullWidth
-              size="small"
+              size='small'
             />
             <TextField
-              type="file"
-              name="image"
+              type='file'
+              name='image'
               onChange={handleFileInputChange}
               value={fileInputState}
-              variant="outlined"
+              variant='outlined'
             />
           </Grid>
         </div>
         <Button
-          size="small"
+          size='small'
           className={classes.styleMain}
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           <ChatBubbleOutlineIcon /> Update
         </Button>
       </form>
       {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
+        <img src={previewSource} alt='chosen' className={classes.imgStyle} />
       )}
     </Grid>
   );

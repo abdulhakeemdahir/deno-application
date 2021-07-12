@@ -1,6 +1,6 @@
 // Import all relevant packages and components
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Landing from "./containers/Public/Landing";
 import Explore from "./containers/Public/Explore";
 import Newsfeed from "./containers/Private/Newsfeed";
@@ -24,7 +24,7 @@ import PublicDash from "./containers/Public/PublicDash";
 // import { Settings } from "@material-ui/icons";
 import SettingsPage from "./containers/Private/Settings";
 // Create a useStyles Material UI component for styling
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#1dc4e9"
@@ -45,7 +45,7 @@ function App() {
   return (
     <Router>
       <MuiThemeProvider theme={theme}>
-        <div className="App">
+        <div className='App'>
           <GlobalProvider>
             <UserProvider>
               <GuessProvider>
@@ -56,56 +56,56 @@ function App() {
                         <Switch>
                           <PrivateRoute
                             exact
-                            path="/newsfeed"
-                            redirectTo="/"
+                            path='/newsfeed'
+                            redirectTo='/'
                             component={Newsfeed}
                           />
 
                           <PrivateRoute
                             exact
-                            path="/dashboard"
-                            redirectTo="/"
+                            path='/dashboard'
+                            redirectTo='/'
                             component={Dashboard}
                           />
                           <PrivateRoute
                             exact
-                            path="/chatroom"
-                            redirectTo="/"
+                            path='/chatroom'
+                            redirectTo='/'
                             component={Chatroom}
                           />
                           <PrivateRoute
                             exact
-                            path="/dashboard/:id"
-                            redirectTo="/"
+                            path='/dashboard/:id'
+                            redirectTo='/'
                             component={PublicDash}
                           />
                           <PrivateRoute
                             exact
-                            path="/search/:action/:search"
-                            redirectTo="/"
+                            path='/search/:action/:search'
+                            redirectTo='/'
                             component={Search}
                           />
                           <PrivateRoute
                             exact
-                            path="/settings"
-                            redirectTo="/"
-                            component={ SettingsPage }
+                            path='/settings'
+                            redirectTo='/'
+                            component={SettingsPage}
                           />
 
-                          <Route path="/explore" exact component={Explore} />
+                          <Route path='/explore' exact component={Explore} />
                           <Route
-                            path="/post/:id"
+                            path='/post/:id'
                             exact
                             component={SinglePost}
                           />
                           <Route
-                            path="/analytics"
+                            path='/analytics'
                             exact
                             component={Analytics}
                           />
-                          <Route path="/404" exact component={ErrorPage} />
+                          <Route path='/404' exact component={ErrorPage} />
 
-                          <Route path="/" exact component={Landing} />
+                          <Route path='/' exact component={Landing} />
                         </Switch>
                       </ConvoProvider>
                     </PostProvider>
