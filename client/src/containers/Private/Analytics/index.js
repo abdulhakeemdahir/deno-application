@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect } from "react";
+
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
@@ -15,7 +18,6 @@ import ChartFollowAndSupport from "../../../components/Graphs/ChartFollowAndSupp
 import ChartCausesCreated from "../../../components/Graphs/ChartCausesCreated";
 import ChartCausesSupported from "../../../components/Graphs/ChartCausesSupported";
 import About from "../../../components/About";
-import { Image } from "cloudinary-react";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
 import {
   UPDATE_USER,
@@ -23,7 +25,10 @@ import {
   //What about USER_LOADED?
 } from "../../../utils/actions/actions";
 import api from "../../../utils/api";
+
+// import { Image } from "cloudinary-react";
 import { NavLink } from "react-router-dom";
+
 // Create TabPanel
 TabPanel.propTypes = {
   children: PropTypes.node,

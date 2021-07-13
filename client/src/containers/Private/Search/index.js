@@ -2,12 +2,15 @@
 import React from "react";
 import { Grid, CssBaseline } from "@material-ui/core";
 import PropTypes from "prop-types";
+
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Results from "./Results";
+
 import { TabPanel } from "../../utils";
-import NProgress from "nprogress";
+
+// import NProgress from "nprogress";
 
 // Create TabPanel
 TabPanel.propTypes = {

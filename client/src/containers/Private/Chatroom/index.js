@@ -1,15 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useState, useEffect } from "react";
+
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import "./style.css";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
 import PropTypes from "prop-types";
+
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Sidebar from "../../../components/Messaging/Sidebar";
 import ChatContainer from "../../../components/Messaging/ChatContainer";
+
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useUserContext } from "../../../utils/GlobalStates/UserContext";
@@ -20,12 +25,14 @@ import {
   LOADING,
   UPDATE_CHAT
 } from "../../../utils/GlobalStates/ConvoContext/action";
+
 // Create TabPanel
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired
 };
+
 // Create the component function and export for use
 const Chatroom = () => {
   // Destructure State and Dispatch from Context

@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect } from "react";
+
 import {
   Typography,
   Grid,
@@ -9,10 +11,10 @@ import {
   Backdrop,
   Button
 } from "@material-ui/core";
-import "./style.css";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
 import Nav from "../../../components/Navigation";
 import Feed from "../../../components/Feed";
 import SiteInfo from "../../../components/SiteInfo";
@@ -20,21 +22,27 @@ import Gradient from "../../../components/Gradient";
 import Trending from "../../../components/Trending";
 import Causes from "../../../components/Causes";
 import Footer from "../../../components/Footer";
+
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { UPDATE, LOADING } from "../../../utils/actions/actions.js";
 import API from "../../../utils/api";
 import { Close } from "@material-ui/icons";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+
+import "./style.css";
+
 // Create TabPanel
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired
 };
+
 // Create the component function and export for use
 const Explore = () => {
   // Destructure causeState and causeDispatch from Context
   const [globalState, globalDispatch] = useGlobalContext();
+
   // Get all user Data
   useEffect(() => {
     async function fetchAllPostsAndCauses() {
@@ -50,6 +58,7 @@ const Explore = () => {
 
     fetchAllPostsAndCauses();
   }, []);
+
   const dispatch = async (action, payload) => {
     await globalDispatch({ type: LOADING });
     await globalDispatch({

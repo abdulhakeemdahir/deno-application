@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";

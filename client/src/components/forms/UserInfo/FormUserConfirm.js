@@ -1,6 +1,5 @@
 // Import all relevant packages and components
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Button, ButtonGroup, List, ListItem } from "@material-ui/core";
 import updateFormStyles from "../useStyles/formStyles";
 
@@ -29,26 +28,24 @@ const FormUserConfirm = props => {
   return (
     <>
       <List>
-        <ListItem primaryText="First Name" secondaryText={firstName} />
-        <ListItem primaryText="Last Name" secondaryText={lastname} />
-        <ListItem primaryText="E-mail" secondaryText={email} />
-        <ListItem primaryText="Bio" secondaryText={bio} />
-        <ListItem primaryText="Thumbnail Picture" secondaryText={thumbnail} />
-        <ListItem primaryText="Role" secondaryText={role} />
+        <ListItem primaryText='First Name' secondaryText={firstName} />
+        <ListItem primaryText='Last Name' secondaryText={lastname} />
+        <ListItem primaryText='E-mail' secondaryText={email} />
+        <ListItem primaryText='Bio' secondaryText={bio} />
+        <ListItem primaryText='Thumbnail Picture' secondaryText={thumbnail} />
+        <ListItem primaryText='Role' secondaryText={role} />
       </List>
       <ButtonGroup fullWidth>
         <Button
-          size="large"
+          size='large'
           className={classes.styleSecondary}
-          onClick={previousOne}
-        >
+          onClick={previousOne}>
           Go Back
         </Button>
         <Button
-          size="large"
+          size='large'
           className={classes.styleMain}
-          onClick={continueOne}
-        >
+          onClick={continueOne}>
           Submit
         </Button>
       </ButtonGroup>

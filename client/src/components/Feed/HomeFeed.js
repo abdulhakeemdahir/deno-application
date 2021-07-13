@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect, useState } from "react";
 import {
@@ -8,7 +9,6 @@ import {
   CardContent,
   Accordion,
   AccordionSummary,
-  AccordionDetails,
   TextField,
   Button
 } from "@material-ui/core";
@@ -16,7 +16,7 @@ import useNewsStyles from "./styles/useNCStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./styles/style.css";
-import { Delete, Favorite } from "@material-ui/icons";
+import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import api from "../../utils/api";
 import { Link } from "react-router-dom";
@@ -114,15 +114,15 @@ const HomeFeed = props => {
   // Create the JSX for the component
   return (
     <>
-      <Grid item className="card" xs={12}>
-        <Grid container className="headerContainer">
+      <Grid item className='card' xs={12}>
+        <Grid container className='headerContainer'>
           <Grid item xs={9} sm={11}>
-            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={3} sm={1}>
-            <Button className="editButton" onClick={() => handleLike(props.id)}>
+            <Button className='editButton' onClick={() => handleLike(props.id)}>
               <>
                 {props.liked.find(l => l._id === globalState.user._id) ? (
                   <Favorite />
@@ -134,22 +134,21 @@ const HomeFeed = props => {
           </Grid>
         </Grid>
 
-        <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          <span className='authorStyle'> Author:</span>
           <Link
             to={
               props.authorId === globalState.user._id
                 ? "/dashboard"
                 : `/dashboard/${props.authorId}`
-            }
-          >
+            }>
             {props.author}
           </Link>
         </Typography>
 
         <Divider />
 
-        <Grid container direction="row" spacing={1}>
+        <Grid container direction='row' spacing={1}>
           {props.image && (
             <Grid item xs={12} sm={4}>
               <CardMedia
@@ -162,7 +161,7 @@ const HomeFeed = props => {
 
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
             </CardContent>
@@ -173,13 +172,13 @@ const HomeFeed = props => {
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name="content"
+              name='content'
               value={commentState.content}
               onChange={handleChange}
               id={props.id}
-              label="Post a Comment"
-              variant="filled"
-              size="small"
+              label='Post a Comment'
+              variant='filled'
+              size='small'
               multiline
               rowsMax={4}
               fullWidth
@@ -188,12 +187,11 @@ const HomeFeed = props => {
 
           <Grid item xs={12} sm={4} id={props.id}>
             <Button
-              size="small"
+              size='small'
               id={props.id}
               className={classes.styleMain}
               fullWidth
-              onClick={() => handleSubmit(props.id)}
-            >
+              onClick={() => handleSubmit(props.id)}>
               <ChatBubbleOutlineIcon id={props.id} /> Comment
             </Button>
           </Grid>
@@ -202,9 +200,8 @@ const HomeFeed = props => {
             <Accordion className={classes.shadow}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
+                aria-controls='panel1a-content'
+                id='panel1a-header'>
                 <Typography className={classes.heading}>
                   Read {props.comments.length} Comments
                 </Typography>

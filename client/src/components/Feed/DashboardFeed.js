@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect, useState } from "react";
 import {
@@ -8,7 +9,6 @@ import {
   CardContent,
   Accordion,
   AccordionSummary,
-  AccordionDetails,
   TextField,
   Button,
   Dialog
@@ -108,12 +108,12 @@ const DashboardFeed = props => {
     dispatch(UPDATE, { user: userInfo.data, loading: false });
   };
 
-  const handleRemoveComment = async (commentId, postId) => {
-    await api.removeComments(commentId, postId);
+  // const handleRemoveComment = async (commentId, postId) => {
+  //   await api.removeComments(commentId, postId);
 
-    const userInfo = await api.getUser(globalState.user._id);
-    dispatch(UPDATE, { user: userInfo.data, loading: false });
-  };
+  //   const userInfo = await api.getUser(globalState.user._id);
+  //   dispatch(UPDATE, { user: userInfo.data, loading: false });
+  // };
 
   const dispatch = async (action, payload) => {
     await globalDispatch({
@@ -138,38 +138,36 @@ const DashboardFeed = props => {
   // Create the JSX for the component
   return (
     <>
-      <Grid item className="card" xs={12}>
-        <Grid container className="headerContainer">
+      <Grid item className='card' xs={12}>
+        <Grid container className='headerContainer'>
           <Grid item xs={7} sm={8}>
-            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={5} sm={4}>
             {props.check ? null : (
               <>
-                <Button className="editButton" onClick={handleOpen}>
+                <Button className='editButton' onClick={handleOpen}>
                   <Edit /> Edit
                 </Button>
                 <Button
-                  className="editButton"
-                  onClick={() => handleRemove(props.id, props.authorId)}
-                >
+                  className='editButton'
+                  onClick={() => handleRemove(props.id, props.authorId)}>
                   <Delete /> Delete
                 </Button>
               </>
             )}
             <Dialog
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
+              aria-labelledby='transition-modal-title'
+              aria-describedby='transition-modal-description'
               open={open}
               onClose={handleClose}
               closeAfterTransition
               BackdropComponent={Backdrop}
               BackdropProps={{
                 timeout: 500
-              }}
-            >
+              }}>
               <Fade in={open}>
                 <UpdatePost
                   className={"cardPost"}
@@ -180,11 +178,11 @@ const DashboardFeed = props => {
             </Dialog>
           </Grid>
         </Grid>
-        <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span> {props.author}
+        <Typography variant='body2' color='textSecondary' component='p'>
+          <span className='authorStyle'> Author:</span> {props.author}
         </Typography>
         <Divider />
-        <Grid container direction="row" spacing={1}>
+        <Grid container direction='row' spacing={1}>
           {props.image && (
             <Grid item xs={12} sm={4}>
               <CardMedia
@@ -196,7 +194,7 @@ const DashboardFeed = props => {
           )}
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
             </CardContent>
@@ -206,13 +204,13 @@ const DashboardFeed = props => {
         <Grid container xs={12} spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name="content"
+              name='content'
               value={commentState.content}
               onChange={handleChange}
               id={props.id}
-              label="Post a Comment"
-              variant="filled"
-              size="small"
+              label='Post a Comment'
+              variant='filled'
+              size='small'
               multiline
               rowsMax={4}
               fullWidth
@@ -220,21 +218,19 @@ const DashboardFeed = props => {
           </Grid>
           <Grid item xs={12} sm={4}>
             <Button
-              size="small"
+              size='small'
               id={props.id}
               className={classes.styleMain}
               fullWidth
-              onClick={() => handleSubmit(props.id)}
-            >
+              onClick={() => handleSubmit(props.id)}>
               <ChatBubbleOutlineIcon id={props.id} /> Comment
             </Button>
           </Grid>
           <Accordion className={classes.shadow}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
+              aria-controls='panel1a-content'
+              id='panel1a-header'>
               <Typography className={classes.heading}>
                 Read {props.comments?.length} Comments
               </Typography>
