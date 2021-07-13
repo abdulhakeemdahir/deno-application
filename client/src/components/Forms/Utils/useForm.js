@@ -1,55 +1,55 @@
 import { useState } from "react";
 
-export default function useForm(initial = {}) {
-	const [inputs, setInputs] = useState(initial);
-	
-	const handleChange = async (e) =>{
-		let { value, name, type } = e.target;
+export default function useForm(initial) {
+  const [inputs, setInputs] = useState(initial);
 
-		if (type === "number") {
-			value = parseInt(value);
-		}
+  const handleChange = async e => {
+    let { value, name, type } = e.target;
 
-		if (type === "file") {
-			value = e.target.files[0];
-			previewFile(value, name)
-			return
-		}
+    if (type === "number") {
+      value = parseInt(value);
+    }
 
-		setInputs({
-			...inputs,
-			[name]: value
-		});
-	}
+    if (type === "file") {
+      value = e.target.files[0];
+      previewFile(value, name);
+      return;
+    }
 
-	const resetForms= () =>{
-		setInputs(initial);
-	}
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  };
 
-	const clearForm = () =>{
-		const blankState = Object.fromEntries(
-			Object.entries(inputs).map(([key, value]) => [key, ""])
-		);
-		setInputs(blankState);
-	}
+  const resetForms = () => {
+    setInputs(initial);
+  };
 
-	const previewFile = (file, name) => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			setInputs({
-				...inputs,
-				[name]: reader.result
-			});
-		};
-	};
+  const clearForm = () => {
+    const blankState = Object.fromEntries(
+      Object.entries(inputs).map(([key, value]) => [key, ""])
+    );
+    setInputs(blankState);
+  };
 
-	return {
-		previewFile,
-		inputs,
-		setInputs,
-		handleChange,
-		resetForms,
-		clearForm,
-	};
+  const previewFile = (file, name) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setInputs({
+        ...inputs,
+        [name]: reader.result
+      });
+    };
+  };
+
+  return {
+    previewFile,
+    inputs,
+    setInputs,
+    handleChange,
+    resetForms,
+    clearForm
+  };
 }

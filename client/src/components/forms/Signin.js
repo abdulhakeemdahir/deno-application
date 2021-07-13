@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   bgstyle: {
     color: "#3f4d67"
   },
-  mgstyle: {
+  signInTextField: {
     marginTop: "5px",
     marginBottom: "5px"
   },
@@ -67,7 +67,9 @@ export default function Signin() {
     emailError: "",
     username: "",
     usernameError: "",
-    errorLogin: ""
+    errorLogin: "",
+    password: "",
+    passwordError: ""
   });
 
   // Call useHistory
@@ -146,7 +148,7 @@ export default function Signin() {
           label='Username'
           placeholder='Enter Username'
           fullWidth
-          className={classes.mgstyle}
+          className={classes.signInTextField}
         />
         <TextField
           error={errorState.password}
@@ -160,7 +162,7 @@ export default function Signin() {
           placeholder='Enter Password'
           type='password'
           fullWidth
-          className={classes.mgstyle}
+          className={classes.signInTextField}
         />
         <Button
           size='large'
