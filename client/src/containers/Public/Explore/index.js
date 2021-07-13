@@ -115,10 +115,7 @@ const Explore = () => {
           container
           direction='row'
           justifyContent='center'
-          className={"container"}
-          xs={12}
-          lg={10}
-          xl={8}>
+          className={"container"}>
           {width > 600 ? (
             <>
               <Grid container spacing={2}>

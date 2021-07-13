@@ -15,24 +15,24 @@ const UpdateCause = props => {
   const classes = useUpdateStyles();
   const [globalState, globalDispatch] = useGlobalContext();
   const { inputs, handleChange } = useForm({
-		title: "",
-		content: "",
-		imageUrl: ""
+    title: "",
+    content: "",
+    imageUrl: ""
   });
 
   const handleSubmit = async event => {
     event.preventDefault();
     const updateUser = {};
     if (inputs.title !== "") {
-		updateUser.title = inputs.title;
-	  }
+      updateUser.title = inputs.title;
+    }
     if (inputs.content !== "") {
-		updateUser.content = inputs.content;
-	  }
+      updateUser.content = inputs.content;
+    }
     //*Associated with cloudinary
     if (inputs.imageUrl !== "") {
-		updateUser.imageUrl = inputs.imageUrl;
-	  }
+      updateUser.imageUrl = inputs.imageUrl;
+    }
 
     await updateCause(updateUser);
     props.onClose();
@@ -40,83 +40,78 @@ const UpdateCause = props => {
 
   //*update post by sending post id and update object
   const updateCause = async update => {
-   await api.updateCause(props.id, update);
+    await api.updateCause(props.id, update);
 
-   const { data } = await api.getUser(globalState.user._id);
-   await globalDispatch({
-		type: LOADING
-   });
+    const { data } = await api.getUser(globalState.user._id);
+    await globalDispatch({
+      type: LOADING
+    });
 
-   await globalDispatch({
-		type: UPDATE,
-		payload: {
-			user: { ...data },
-			loading: false
-		}
-   });
-
+    await globalDispatch({
+      type: UPDATE,
+      payload: {
+        user: { ...data },
+        loading: false
+      }
+    });
   };
   // Create the JSX for the component
   return (
-		<Grid className="cardPost">
-			<form className={classes.root} noValidate autoComplete="off">
-				<div>
-					<Grid container>
-						<TextField
-							id="title"
-							label="Edit Title"
-							name="title"
-							value={inputs.title}
-							onChange={handleChange}
-							multiline
-							rowsMax={4}
-							className={classes.inputMargin}
-							size="small"
-						/>
-						<TextField
-							id="imageUrl"
-							label=" Edit Image Url"
-							multiline
-							rowsMax={4}
-							className={classes.inputMargin}
-							size="small"
-						/>
-						<TextField
-							id="post"
-							label="Edit Cause"
-							name="content"
-							value={inputs.content}
-							onChange={handleChange}
-							variant="filled"
-							multiline
-							rows={4}
-							fullWidth
-							size="small"
-						/>
-						<TextField
-							type="file"
-							name="image"
-							onChange={handleChange}
-							value={""}
-							variant="outlined"
-						/>
-					</Grid>
-				</div>
-				<Button
-					size="small"
-					className={classes.styleMain}
-					onClick={handleSubmit}>
-					<ChatBubbleOutlineIcon /> Update
-				</Button>
-			</form>
-			{inputs.imageUrl && (
-				<img
-					src={inputs.imageUrl}
-					alt="chosen"
-					className={classes.imgStyle}
-				/>
-			)}
-		</Grid>
+    <Grid className='cardPost'>
+      <form className={classes.root} noValidate autoComplete='off'>
+        <div>
+          <Grid container>
+            <TextField
+              id='title'
+              label='Edit Title'
+              name='title'
+              value={inputs.title}
+              onChange={handleChange}
+              multiline
+              maxRows={4}
+              className={classes.inputMargin}
+              size='small'
+            />
+            <TextField
+              id='imageUrl'
+              label=' Edit Image Url'
+              multiline
+              maxRows={4}
+              className={classes.inputMargin}
+              size='small'
+            />
+            <TextField
+              id='post'
+              label='Edit Cause'
+              name='content'
+              value={inputs.content}
+              onChange={handleChange}
+              variant='filled'
+              multiline
+              rows={4}
+              fullWidth
+              size='small'
+            />
+            <TextField
+              type='file'
+              name='image'
+              onChange={handleChange}
+              value={""}
+              variant='outlined'
+            />
+          </Grid>
+        </div>
+        <Button
+          size='small'
+          className={classes.styleMain}
+          onClick={handleSubmit}>
+          <ChatBubbleOutlineIcon /> Update
+        </Button>
+      </form>
+      {inputs.imageUrl && (
+        <img src={inputs.imageUrl} alt='chosen' className={classes.imgStyle} />
+      )}
+    </Grid>
   );
 };
 

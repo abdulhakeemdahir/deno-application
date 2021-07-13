@@ -115,7 +115,7 @@ const HomeFeed = props => {
   return (
     <>
       <Grid item className='card' xs={12}>
-        <Grid container className='headerContainer'>
+        <Grid container className={`headerContainer`}>
           <Grid item xs={9} sm={11}>
             <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
               {props.title}
@@ -161,7 +161,7 @@ const HomeFeed = props => {
 
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant='body' color='textSecondary' component='p'>
+              <Typography variant='body2' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
             </CardContent>
@@ -169,30 +169,28 @@ const HomeFeed = props => {
           </Grid>
         </Grid>
 
-        <Grid container xs={12} spacing={1}>
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
               name='content'
               value={commentState.content}
               onChange={handleChange}
-              id={props.id}
               label='Post a Comment'
               variant='filled'
               size='small'
               multiline
-              rowsMax={4}
+              maxRows={4}
               fullWidth
             />
           </Grid>
 
-          <Grid item xs={12} sm={4} id={props.id}>
+          <Grid item xs={12} sm={4}>
             <Button
               size='small'
-              id={props.id}
               className={classes.styleMain}
               fullWidth
               onClick={() => handleSubmit(props.id)}>
-              <ChatBubbleOutlineIcon id={props.id} /> Comment
+              <ChatBubbleOutlineIcon /> Comment
             </Button>
           </Grid>
 

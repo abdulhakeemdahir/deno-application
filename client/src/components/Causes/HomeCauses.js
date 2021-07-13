@@ -102,14 +102,14 @@ const HomeCauses = props => {
           </CardContent>
         </Grid>
         {isAuth ? (
-          <ButtonGroup justifyContent='center' fullWidth>
+          <ButtonGroup style={{ justifyContent: "center" }} fullWidth>
             <Button
               size='large'
               className='styleButton'
               onClick={handleOpen}
               fullWidth
               id={props.id}>
-              <i class='fab fa-paypal'></i>
+              <i className='fab fa-paypal'></i>
               Support
             </Button>
             <Button

@@ -44,10 +44,7 @@ const Dashboard = () => {
           container
           direction='row'
           justifyContent='center'
-          className={"container"}
-          xs={12}
-          lg={10}
-          xl={8}>
+          className={"container"}>
           {width > 600 ? (
             <>
               <Breadcrumbs style={{ position: "absolute" }}>

@@ -11,7 +11,7 @@ const FormUserDetails1 = props => {
     props.nextStep();
   };
 
-  const { values, handleChange, validate, validateEmail, errorState } = props;
+  const { values, handleChange, validate, validateEmail } = props;
 
   // Call the styles function
   const classes = updateFormStyles();

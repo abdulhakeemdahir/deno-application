@@ -92,7 +92,7 @@ const UpdatePost = props => {
               value={inputs.title}
               onChange={handleChange}
               multiline
-              rowsMax={4}
+              maxRows={4}
               className={classes.inputMargin}
               size='small'
             />

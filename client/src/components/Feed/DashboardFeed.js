@@ -194,14 +194,14 @@ const DashboardFeed = props => {
           )}
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant='body' color='textSecondary' component='p'>
+              <Typography variant='body2' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
             </CardContent>
             <Divider />
           </Grid>
         </Grid>
-        <Grid container xs={12} spacing={1}>
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
               name='content'
@@ -212,7 +212,7 @@ const DashboardFeed = props => {
               variant='filled'
               size='small'
               multiline
-              rowsMax={4}
+              maxRows={4}
               fullWidth
             />
           </Grid>
