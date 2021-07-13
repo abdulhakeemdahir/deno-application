@@ -14,14 +14,20 @@ import {
   Dialog,
   Backdrop,
   useTheme,
-  useMediaQuery,
+  useMediaQuery
 } from "@material-ui/core";
 import "./style.css";
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import EditIcon from "@material-ui/icons/Edit";
-import { MenuBook, Payment, Person, Security, Settings } from "@material-ui/icons";
+import {
+  MenuBook,
+  Payment,
+  Person,
+  Security,
+  Settings
+} from "@material-ui/icons";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 import updateFormStyles from "../../../components/Forms/useStyles/formStyles";
 import SettingsUpdateForm from "./Forms";
@@ -39,7 +45,7 @@ const SettingsPage = () => {
   const useStyles = makeStyles({
     tab: {
       padding: "10px 0px 10px 7px"
-    },
+    }
   });
 
   const tabClass = useStyles();
@@ -56,43 +62,42 @@ const SettingsPage = () => {
     setOpen(false);
   };
 
-  const handleOpen = (action) => {
+  const handleOpen = action => {
     setOpen(true);
     setAction(action);
   };
 
   const [toggleState, setToggleState] = useState(1);
 
-  const toggleButton = (index) => {
+  const toggleButton = index => {
     setToggleState(index);
   };
 
   return (
-    <div className="Main">
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justifyContent='center'
           className={"container"}
           xs={12}
           lg={10}
           xl={8}
-          style={{ paddingTop: "0px", marginTop: "0px" }}
-        >
+          style={{ paddingTop: "0px", marginTop: "0px" }}>
           <>
             <Grid container spacing={!matches ? 1 : 0}>
               {(() => {
                 if (!matches)
                   return (
-                    <Grid item xs={12} sm={3} className="card-container">
-                      <Typography variant="subtitle2">SETTINGS</Typography>
+                    <Grid item xs={12} sm={3} className='card-container'>
+                      <Typography variant='subtitle2'>SETTINGS</Typography>
                     </Grid>
                   );
               })()}
 
-              <Grid item xs={12} sm={8} className="card-container">
+              <Grid item xs={12} sm={8} className='card-container'>
                 <Typography variant={!matches ? "subtitle2" : ""}>
                   {(() => {
                     if (toggleState === 1 && !matches) {
@@ -107,12 +112,13 @@ const SettingsPage = () => {
               </Grid>
 
               <Grid
-                style={!matches ? { paddingRight: "20px" } : { paddingRight: "0px" }}
+                style={
+                  !matches ? { paddingRight: "20px" } : { paddingRight: "0px" }
+                }
                 item
                 xs={12}
                 sm={3}
-                className="card-container"
-              >
+                className='card-container'>
                 <Grid>
                   <List>
                     <ListItem
@@ -123,12 +129,11 @@ const SettingsPage = () => {
                         toggleState === 1
                           ? { backgroundColor: "#fbe0ff" }
                           : { backgroundColor: "transparent" }
-                      }
-                    >
+                      }>
                       <Settings />
                       <ListItemText
-                        style={{ paddingLeft: "10px"}}
-                        primary="General Account Settings"
+                        style={{ paddingLeft: "10px" }}
+                        primary='General Account Settings'
                       />
                     </ListItem>
                   </List>
@@ -144,10 +149,12 @@ const SettingsPage = () => {
                         toggleState === 2
                           ? { backgroundColor: "#fbe0ff" }
                           : { backgroundColor: "transparent" }
-                      }
-                    >
+                      }>
                       <Security />
-                      <ListItemText style={{ paddingLeft: "10px" }} primary="Security and Login" />
+                      <ListItemText
+                        style={{ paddingLeft: "10px" }}
+                        primary='Security and Login'
+                      />
                     </ListItem>
                   </List>
                 </Grid>
@@ -164,10 +171,12 @@ const SettingsPage = () => {
                         toggleState === 3
                           ? { backgroundColor: "#fbe0ff" }
                           : { backgroundColor: "transparent" }
-                      }
-                    >
+                      }>
                       <Payment />
-                      <ListItemText style={{ paddingLeft: "10px" }} primary="PayPal" />
+                      <ListItemText
+                        style={{ paddingLeft: "10px" }}
+                        primary='PayPal'
+                      />
                     </ListItem>
                   </List>
                 </Grid>
@@ -182,24 +191,24 @@ const SettingsPage = () => {
                         <Divider />
 
                         <List>
-                          <ListItem style={{ marginBottom: "10px", padding: "0px" }}>
+                          <ListItem
+                            style={{ marginBottom: "10px", padding: "0px" }}>
                             <Person />
                             <ListItemText
                               style={{ paddingLeft: "10px" }}
-                              primary="Profile Picture"
+                              primary='Profile Picture'
                             />
                             <IconButton
-                              className="editButton"
+                              className='editButton'
                               onClick={() => handleOpen("profileImg")}
-                              edge="end"
-                              aria-label="edit"
-                            >
+                              edge='end'
+                              aria-label='edit'>
                               <EditIcon />
                             </IconButton>
                           </ListItem>
                           <CardMedia
                             style={{ height: "292px" }}
-                            className="media"
+                            className='media'
                             image={`https://res.cloudinary.com/astralgnome/image/upload/${globalState.user.profileImg}`}
                           />
                         </List>
@@ -215,7 +224,8 @@ const SettingsPage = () => {
                       <Grid style={{ marginTop: "25px" }}>
                         <Divider />
                         <List>
-                          <ListItem style={{ marginBottom: "10px", padding: "0px" }}>
+                          <ListItem
+                            style={{ marginBottom: "10px", padding: "0px" }}>
                             <MenuBook />
                             <ListItemText
                               style={{ paddingLeft: "10px" }}
@@ -223,17 +233,18 @@ const SettingsPage = () => {
                             />
 
                             <IconButton
-                              className="editButton"
+                              className='editButton'
                               onClick={() => handleOpen("bio")}
-                              edge="end"
-                              aria-label="edit"
-                            >
+                              edge='end'
+                              aria-label='edit'>
                               <EditIcon />
                             </IconButton>
                           </ListItem>
                           <ListItemText
                             primary={`${
-                              globalState.user.bio ? globalState.user.bio : "Stuff about you!"
+                              globalState.user.bio
+                                ? globalState.user.bio
+                                : "Stuff about you!"
                             }`}
                           />
                         </List>
@@ -246,12 +257,15 @@ const SettingsPage = () => {
               <Divider orientation={matches ? "horizontal" : "vertical"} />
 
               <Grid
-                style={{ marginTop: "0px", paddingTop: "0px", paddingRight: "0px" }}
+                style={{
+                  marginTop: "0px",
+                  paddingTop: "0px",
+                  paddingRight: "0px"
+                }}
                 item
                 xs={12}
                 sm={8}
-                className="card-container"
-              >
+                className='card-container'>
                 {(() => {
                   if (toggleState === 1) {
                     return <GasComponentData handleOpen={handleOpen} />;
@@ -264,17 +278,16 @@ const SettingsPage = () => {
               </Grid>
 
               <Dialog
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
+                aria-labelledby='transition-modal-title'
+                aria-describedby='transition-modal-description'
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
-                  timeout: 500,
-                }}
-              >
+                  timeout: 500
+                }}>
                 <Fade in={open}>
                   <SettingsUpdateForm onClose={handleClose} action={action} />
                 </Fade>

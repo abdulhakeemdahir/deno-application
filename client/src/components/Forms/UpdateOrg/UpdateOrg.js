@@ -10,7 +10,7 @@ import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState/index.
 // Create the component function and export for use
 const UpdateOrg = props => {
   // Destructure State and Dispatch from Context
-    const [globalState, globalDispatch] = useGlobalContext();
+  const [globalState, globalDispatch] = useGlobalContext();
   // Create the set and setState from useState
   const [stateSignUp, setStateSignUp] = useState({
     firstName: "",
@@ -38,8 +38,8 @@ const UpdateOrg = props => {
     event.preventDefault();
 
     const updateUser = {
-		role: globalState.user.role
-	};
+      role: globalState.user.role
+    };
     if (stateSignUp.orgName !== "") {
       updateUser.orgName = stateSignUp.orgName;
     }
@@ -82,24 +82,22 @@ const UpdateOrg = props => {
     const userInfo = await api.getUser(globalState.user._id);
 
     await globalDispatch({
-		  type: LOADING
-	  });
+      type: LOADING
+    });
 
     await globalDispatch({
       type: UPDATE,
       payload: {
-        user:{...userInfo.data},
+        user: { ...userInfo.data },
         loading: false
       }
-	  });
+    });
 
     props.onClose();
   };
   //*Associated with cloudinary
   const updateOrg = async update => {
-
     await api.updateUser(globalState.user._id, update);
-
   };
   // Call the styles function
   const classes = updateFormStyles();
@@ -123,112 +121,110 @@ const UpdateOrg = props => {
   return (
     <Grid
       container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      className={classes.paper}
-    >
-      <Grid item align="center">
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+      className={classes.paper}>
+      <Grid item align='center'>
         <Avatar className={classes.styleIcon}>
           <CreateIcon />
         </Avatar>
-        <Typography variation="h6" color="default">
+        <Typography variation='h6' color='default'>
           Update Organization
         </Typography>
       </Grid>
-      <form autoComplete="off" onSubmit={handleSubmit}>
+      <form autoComplete='off' onSubmit={handleSubmit}>
         <TextField
-          name="firstName"
+          name='firstName'
           value={stateSignUp.firstName}
           onChange={handleChange}
-          variant="outlined"
-          label="Firstname"
-          placeholder="Enter First Name"
+          variant='outlined'
+          label='Firstname'
+          placeholder='Enter First Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="lastname"
+          name='lastname'
           value={stateSignUp.lastname}
           onChange={handleChange}
-          variant="outlined"
-          label="Lastname"
-          placeholder="Enter Last Name"
+          variant='outlined'
+          label='Lastname'
+          placeholder='Enter Last Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="orgName"
+          name='orgName'
           value={stateSignUp.orgName}
           onChange={handleChange}
-          variant="outlined"
-          label="orgName"
-          placeholder="Enter Organization Name"
+          variant='outlined'
+          label='orgName'
+          placeholder='Enter Organization Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="bio"
+          name='bio'
           value={stateSignUp.bio}
           onChange={handleChange}
-          variant="outlined"
-          label="Bio"
-          placeholder="Enter Bio"
+          variant='outlined'
+          label='Bio'
+          placeholder='Enter Bio'
           fullWidth
-          type="bio"
+          type='bio'
           className={classes.mgstyle}
         />
         <TextField
-          name="phoneNumber"
+          name='phoneNumber'
           value={stateSignUp.phoneNumber}
           onChange={handleChange}
-          variant="outlined"
-          label="phoneNumber"
-          placeholder="Enter Phone"
+          variant='outlined'
+          label='phoneNumber'
+          placeholder='Enter Phone'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="website"
+          name='website'
           value={stateSignUp.website}
           onChange={handleChange}
-          variant="outlined"
-          label="Website"
-          placeholder="Enter Website"
+          variant='outlined'
+          label='Website'
+          placeholder='Enter Website'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="address"
+          name='address'
           value={stateSignUp.address}
           onChange={handleChange}
-          variant="outlined"
-          label="Address"
-          placeholder="Enter Address"
+          variant='outlined'
+          label='Address'
+          placeholder='Enter Address'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField //*Associated with cloudinary
-          type="file"
-          name="imageUrl"
+          type='file'
+          name='imageUrl'
           onChange={handleFileInputChange}
           value={fileInputState}
-          variant="outlined"
+          variant='outlined'
           fullWidth
           className={classes.mgstyle}
         />
         <Button
-          type="submit"
-          size="large"
+          type='submit'
+          size='large'
           className={classes.styleMain}
           fullWidth
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           Update
         </Button>
       </form>
       {previewSource && (
-        <img src={previewSource} alt="chosen" style={{ width: "75%" }} />
+        <img src={previewSource} alt='chosen' style={{ width: "75%" }} />
       )}
     </Grid>
   );

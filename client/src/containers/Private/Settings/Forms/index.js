@@ -20,11 +20,11 @@ const SettingsUpdateForm = ({ action, onClose }) => {
     const { name, value } = event.target;
     setStateUpdate({
       ...stateUpdate,
-      [name]: value,
+      [name]: value
     });
   };
   // Create the handleSubmit function
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     const updateUser = {};
 
@@ -40,32 +40,32 @@ const SettingsUpdateForm = ({ action, onClose }) => {
     const userInfo = await api.getUser(globalState.user._id);
 
     await globalDispatch({
-      type: LOADING,
+      type: LOADING
     });
-    
+
     await globalDispatch({
       type: UPDATE,
       payload: {
         user: { ...userInfo.data },
-        loading: false,
-      },
+        loading: false
+      }
     });
-    
+
     onClose();
   };
 
   //*Associated with cloudinary
-  const upDateUser = async (update) => {
+  const upDateUser = async update => {
     await api.updateUser(globalState.user._id, update);
   };
   // Call the styles function
   const classes = updateFormStyles();
   // Create the handleFileInputChange function
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = e => {
     const file = e.target.files[0];
     previewFile(file);
   };
-  const previewFile = (file) => {
+  const previewFile = file => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -77,16 +77,18 @@ const SettingsUpdateForm = ({ action, onClose }) => {
     <Grid
       style={{ paddingTop: "2px" }}
       container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      className={classes.paper}
-    >
-      <Grid item align="center">
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+      className={classes.paper}>
+      <Grid item align='center'>
         <Avatar className={classes.styleIcon}>
           <CreateIcon />
         </Avatar>
-        <Typography style={{ paddingTop: "10px" }} variation="h6" color="default">
+        <Typography
+          style={{ paddingTop: "10px" }}
+          variation='h6'
+          color='default'>
           {`UPDATE ${
             action === "profileImg"
               ? "PROFILE IMAGE"
@@ -98,33 +100,39 @@ const SettingsUpdateForm = ({ action, onClose }) => {
           }`}
         </Typography>
       </Grid>
-      <form autoComplete="off" onSubmit={handleSubmit}>
+      <form autoComplete='off' onSubmit={handleSubmit}>
         {action !== "profileImg" ? (
           <TextField
             name={action}
             defaultValue={globalState.user[action]}
             onChange={handleChange}
-            variant="outlined"
+            variant='outlined'
             fullWidth
             multiline
             className={classes.mgstyle}
           />
         ) : (
           <TextField //*Associated with cloudinary
-            type="file"
-            name="image"
+            type='file'
+            name='image'
             onChange={handleFileInputChange}
             value={fileInputState}
-            variant="outlined"
+            variant='outlined'
             fullWidth
             className={classes.mgstyle}
           />
         )}
-        <Button type="submit" size="large" className={classes.styleMain} fullWidth>
+        <Button
+          type='submit'
+          size='large'
+          className={classes.styleMain}
+          fullWidth>
           Update
         </Button>
       </form>
-      {previewSource && <img src={previewSource} alt="chosen" className={classes.imgStyle} />}
+      {previewSource && (
+        <img src={previewSource} alt='chosen' className={classes.imgStyle} />
+      )}
     </Grid>
   );
 };

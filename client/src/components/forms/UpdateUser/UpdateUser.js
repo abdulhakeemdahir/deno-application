@@ -50,16 +50,16 @@ const UpdateUser = props => {
     const userInfo = await api.getUser(globalState.user._id);
 
     await globalDispatch({
-		  type: LOADING
-	  });
+      type: LOADING
+    });
 
     await globalDispatch({
-		type: UPDATE,
-		payload: {
-			user: { ...userInfo.data },
-			loading: false
-		}
-	});
+      type: UPDATE,
+      payload: {
+        user: { ...userInfo.data },
+        loading: false
+      }
+    });
 
     props.onClose();
   };
@@ -86,70 +86,68 @@ const UpdateUser = props => {
   return (
     <Grid
       container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      className={classes.paper}
-    >
-      <Grid item align="center">
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+      className={classes.paper}>
+      <Grid item align='center'>
         <Avatar className={classes.styleIcon}>
           <CreateIcon />
         </Avatar>
-        <Typography variation="h6" color="default">
+        <Typography variation='h6' color='default'>
           Update User
         </Typography>
       </Grid>
-      <form autoComplete="off" onSubmit={handleSubmit}>
+      <form autoComplete='off' onSubmit={handleSubmit}>
         <TextField
-          name="firstName"
+          name='firstName'
           value={stateUpdate.firstName}
           onChange={handleChange}
-          variant="outlined"
-          label="First Name"
-          placeholder="Enter First Name"
+          variant='outlined'
+          label='First Name'
+          placeholder='Enter First Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="lastname"
+          name='lastname'
           value={stateUpdate.lastname}
           onChange={handleChange}
-          variant="outlined"
-          label="Last Name"
-          placeholder="Enter Last Name"
+          variant='outlined'
+          label='Last Name'
+          placeholder='Enter Last Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="bio"
+          name='bio'
           value={stateUpdate.bio}
           onChange={handleChange}
-          variant="outlined"
-          label="Bio"
-          placeholder="Enter Bio"
+          variant='outlined'
+          label='Bio'
+          placeholder='Enter Bio'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField //*Associated with cloudinary
-          type="file"
-          name="image"
+          type='file'
+          name='image'
           onChange={handleFileInputChange}
           value={fileInputState}
-          variant="outlined"
+          variant='outlined'
           fullWidth
           className={classes.mgstyle}
         />
         <Button
-          type="submit"
-          size="large"
+          type='submit'
+          size='large'
           className={classes.styleMain}
-          fullWidth
-        >
+          fullWidth>
           Update
         </Button>
       </form>
       {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
+        <img src={previewSource} alt='chosen' className={classes.imgStyle} />
       )}
     </Grid>
   );

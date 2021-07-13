@@ -19,18 +19,17 @@ TabPanel.propTypes = {
 const Search = () => {
   // Create the JSX for the component
   return (
-    <main className="Main">
+    <main className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justifyContent='center'
           className={"container"}
           xs={12}
           lg={10}
-          xl={8}
-        >
+          xl={8}>
           <Results />
         </Grid>
         <Gradient />

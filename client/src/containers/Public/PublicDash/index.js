@@ -61,23 +61,22 @@ const PublicDash = () => {
   const { width } = useWindowDimensions();
   // Create the JSX for the component
   return (
-    <div className="Main">
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justifyContent='center'
           className={"container"}
           xs={12}
           lg={10}
-          xl={8}
-        >
+          xl={8}>
           {width > 600 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">ABOUT</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>ABOUT</Typography>
                   <About
                     key={globalState.guessUser._id}
                     id={globalState.guessUser._id}
@@ -101,8 +100,8 @@ const PublicDash = () => {
                     check={id}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
                   {globalState.guessUser.posts.map(card => (
                     <Feed
                       key={card._id}
@@ -118,8 +117,8 @@ const PublicDash = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
                   {globalState.guessUser.causes.map(card => (
                     <Causes
                       key={card._id}
@@ -141,11 +140,10 @@ const PublicDash = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="simple tabs example"
-              >
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="About" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+                aria-label='simple tabs example'>
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='About' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
