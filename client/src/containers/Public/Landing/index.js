@@ -73,7 +73,7 @@ const Landing = () => {
   return (
     <Grid container className={`${classes.landingContainer}`}>
       <Welcome />
-      <Grid item sm={6} xs={12} className={classes.formGrid}>
+      <Grid item md={6} xs={12} className={classes.formGrid}>
         <div className={classes.userForms}>
           <Tabs
             value={value}

@@ -7,7 +7,7 @@ const Welcome = () => {
   const classes = useWelcomeStyles();
 
   return (
-    <Grid item className={classes.welcomeContainer} sm={6} xs={12}>
+    <Grid item className={classes.welcomeContainer} md={6} xs={12}>
       <figure className={classes.logoContainer}>
         <img src={Logo} alt='dono-logo' className={classes.logo} />
       </figure>
