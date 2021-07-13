@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer>
       <CssBaseline>
-        <Grid justifyContent='center' className={classes.footerGrid}>
+        <Grid container className={classes.footerGrid}>
           <Typography variant='body1' className={classes.footerStyle}>
             Built with <span className={classes.heart}>♥︎</span> by:
           </Typography>

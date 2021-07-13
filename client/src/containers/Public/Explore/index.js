@@ -235,7 +235,6 @@ const Explore = () => {
           )}
         </Grid>
         <Gradient />
-        {/* <Splash /> */}
         <Footer />
       </CssBaseline>
     </div>

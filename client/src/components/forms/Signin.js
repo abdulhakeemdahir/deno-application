@@ -130,7 +130,7 @@ export default function Signin() {
         <Avatar className={classes.styleIcon}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variation='h6' color='default'>
+        <Typography variation='h6' color='initial'>
           Log In
         </Typography>
       </Grid>

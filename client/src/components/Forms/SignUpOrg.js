@@ -139,7 +139,7 @@ export default function SignUpOrg() {
             <Avatar className={classes.styleIcon}>
               <CreateIcon />
             </Avatar>
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Signup Organization
             </Typography>
           </Grid>
@@ -164,7 +164,7 @@ export default function SignUpOrg() {
             <Avatar className={classes.styleIcon}>
               <CreateIcon />
             </Avatar>
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Signup Organization
             </Typography>
           </Grid>

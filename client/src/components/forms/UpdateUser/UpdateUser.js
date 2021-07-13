@@ -94,7 +94,7 @@ const UpdateUser = props => {
         <Avatar className={classes.styleIcon}>
           <CreateIcon />
         </Avatar>
-        <Typography variation='h6' color='default'>
+        <Typography variation='h6' color='initial'>
           Update User
         </Typography>
       </Grid>

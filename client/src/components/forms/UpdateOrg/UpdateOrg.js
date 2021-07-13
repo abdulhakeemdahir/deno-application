@@ -129,7 +129,7 @@ const UpdateOrg = props => {
         <Avatar className={classes.styleIcon}>
           <CreateIcon />
         </Avatar>
-        <Typography variation='h6' color='default'>
+        <Typography variation='h6' color='initial'>
           Update Organization
         </Typography>
       </Grid>

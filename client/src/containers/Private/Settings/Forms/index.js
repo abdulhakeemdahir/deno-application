@@ -88,7 +88,7 @@ const SettingsUpdateForm = ({ action, onClose }) => {
         <Typography
           style={{ paddingTop: "10px" }}
           variation='h6'
-          color='default'>
+          color='initial'>
           {`UPDATE ${
             action === "profileImg"
               ? "PROFILE IMAGE"

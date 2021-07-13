@@ -1,24 +1,29 @@
 // Import all relevant packages and components
+import React from "react";
+
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Welcome from "../../../components/Welcome";
 import SignUpUser from "../../../components/Forms/SignUpUser";
 import SignUpOrg from "../../../components/Forms/SignUpOrg";
 import Signin from "../../../components/Forms/Signin";
-import React from "react";
-import PropTypes from "prop-types";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Splash from "../../../components/Splash";
+
 import { TabPanel, a11yProps } from "../../utils";
+
 // Create TabPanel
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired
 };
+
 // Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
   root: {

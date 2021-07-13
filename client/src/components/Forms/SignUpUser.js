@@ -137,7 +137,7 @@ export default function SignUpUser() {
             <Avatar className={classes.styleIcon}>
               <CreateIcon />
             </Avatar>
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Signup User
             </Typography>
           </Grid>
@@ -162,7 +162,7 @@ export default function SignUpUser() {
             <Avatar className={classes.styleIcon}>
               <CreateIcon />
             </Avatar>
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Signup User
             </Typography>
           </Grid>
@@ -188,7 +188,7 @@ export default function SignUpUser() {
             <Avatar className={classes.styleIcon}>
               <CreateIcon />
             </Avatar>
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Signup User
             </Typography>
           </Grid>
@@ -213,17 +213,17 @@ export default function SignUpUser() {
               <Avatar className={classes.styleIcon}>
                 <ThumbUp />
               </Avatar>
-              <Typography variation='h6' color='default'>
+              <Typography variation='h6' color='initial'>
                 Congratulations
               </Typography>
             </Grid>
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Thank you for Signing Up!
             </Typography>
             <br />
             <Divider />
             <br />
-            <Typography variation='h6' color='default'>
+            <Typography variation='h6' color='initial'>
               Please Login.
             </Typography>
           </Container>
