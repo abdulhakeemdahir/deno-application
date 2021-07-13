@@ -1,4 +1,5 @@
 // Import all relevant packages and components
+import { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -9,6 +10,7 @@ import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 import api from "../../utils/api";
 import useForm from "./Utils/useForm";
 import { useValidateLogin, useValidateLength } from "./Utils/useValidations";
+
 // Create a useStyles Material UI component for styling
 const useStyles = makeStyles({
   paper: {
@@ -53,6 +55,12 @@ const useStyles = makeStyles({
 export default function Signin() {
   // Call the styles function
   const classes = useStyles();
+
+  const [errorState, setErrorState] = useState({
+    username: false,
+    password: false
+  });
+
   // Create the set and setState from useState
   const { inputs, handleChange, setInputs, clearForm } = useForm({
     email: "",
@@ -100,6 +108,11 @@ export default function Signin() {
       // Handle error responses from the API
       if (err.response && err.response.data) {
         validateLogin(err.response.data, inputs, setInputs);
+        setErrorState({
+          ...errorState,
+          username: true,
+          password: true
+        });
       }
     }
   };
@@ -123,7 +136,7 @@ export default function Signin() {
       </Grid>
       <form autoComplete='off' onSubmit={handleSubmit}>
         <TextField
-          error={inputs.usernameError}
+          error={errorState.username}
           helperText={inputs.usernameError}
           name='username'
           value={inputs.username}
@@ -136,7 +149,7 @@ export default function Signin() {
           className={classes.mgstyle}
         />
         <TextField
-          error={inputs.passwordError}
+          error={errorState.password}
           helperText={inputs.passwordError}
           name='password'
           value={inputs.password}
