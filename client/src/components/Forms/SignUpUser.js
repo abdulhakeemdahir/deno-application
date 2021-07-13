@@ -61,6 +61,7 @@ export default function SignUpUser() {
   const [stateForm, setStateForm] = useState({
     step: 1
   });
+
   // Create the nextStep function
   const nextStep = () => {
     const { step } = stateForm;
