@@ -40,14 +40,6 @@ const useStyles = makeStyles({
     alignItems: "center"
   },
   landingContainer: {
-    // position: "absolute",
-    // top: "50%",
-    // left: "50%",
-    // transform: "translate(-50%, -50%)",
-    /*
-    I commented out this position as it was max the page not work properly when rendered in mobile if someone
-    where to go to mobile from desktop. Figured position is out of date anyways
-    */
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

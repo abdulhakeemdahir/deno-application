@@ -1,7 +1,7 @@
 // Import all relevant packages and components
 import React from "react";
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
-import "./style.css";
+import "../../pageStandards.scss";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -16,6 +16,7 @@ import AddContent from "../../../components/Forms/AddContent";
 import { NavLink } from "react-router-dom";
 import Post from "../../../components/Post";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+
 // Create TabPanel
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -44,8 +45,8 @@ const Dashboard = () => {
           container
           direction='row'
           justifyContent='center'
-          className={"container"}>
-          {width > 600 ? (
+          className='container'>
+          {width > 1024 ? (
             <>
               <Breadcrumbs style={{ position: "absolute" }}>
                 <NavLink to='newsfeed'>Home</NavLink>
@@ -126,13 +127,13 @@ const Dashboard = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='simple tabs example'>
+                aria-label='Dashboard Tabs'>
                 <Tab label='News' {...a11yProps(0)} />
                 <Tab label='About' {...a11yProps(1)} />
                 <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   {globalState.user.posts.length === 0 ? (
                     <AddContent text='Please make a Post in the Newsfeed ' />
                   ) : (
@@ -153,7 +154,7 @@ const Dashboard = () => {
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   <About
                     key={globalState.user._id}
                     id={globalState.user._id}
@@ -178,7 +179,7 @@ const Dashboard = () => {
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   {globalState.user.posts.length === 0 ? (
                     <AddContent text='Please make/follow a Cause ' />
                   ) : (

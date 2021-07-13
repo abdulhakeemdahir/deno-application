@@ -29,7 +29,7 @@ import API from "../../../utils/api";
 import { Close } from "@material-ui/icons";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 
-import "./style.css";
+import "../../pageStandards.scss";
 
 // Create TabPanel
 TabPanel.propTypes = {
@@ -116,7 +116,7 @@ const Explore = () => {
           direction='row'
           justifyContent='center'
           className={"container"}>
-          {width > 600 ? (
+          {width > 1024 ? (
             <>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3} className='card-container'>

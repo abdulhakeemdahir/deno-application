@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
-import "./style.css";
+import "../../pageStandards.scss";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
@@ -140,8 +140,8 @@ const Chatroom = () => {
           container
           direction='row'
           justifyContent='center'
-          className={"container"}>
-          {width > 600 ? (
+          className='container'>
+          {width > 1024 ? (
             <>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={3} className='card-container'>

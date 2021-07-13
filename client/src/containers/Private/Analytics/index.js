@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
-import "./style.css";
+import "../../pageStandards.scss";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -85,7 +85,7 @@ const Analytics = () => {
           xs={12}
           lg={10}
           xl={8}>
-          {width > 600 ? (
+          {width > 1024 ? (
             <>
               <Breadcrumbs style={{ position: "absolute" }}>
                 <NavLink to='newsfeed'>Home</NavLink>

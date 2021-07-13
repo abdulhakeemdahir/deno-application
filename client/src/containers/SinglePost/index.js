@@ -2,7 +2,7 @@
 // Import all relevant packages and components
 import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
-import "./style.css";
+import "../pageStandards.scss";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -75,11 +75,8 @@ const SinglePost = () => {
           container
           direction='row'
           justifyContent='center'
-          className={"container"}
-          xs={12}
-          lg={10}
-          xl={8}>
-          {width > 600 ? (
+          className={"container"}>
+          {width > 1024 ? (
             <>
               <Grid container spacing={2}>
                 <Grid
