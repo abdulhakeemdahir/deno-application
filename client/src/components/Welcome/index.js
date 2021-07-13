@@ -17,8 +17,9 @@ const Welcome = () => {
       <Typography variant='h6' className={classes.bgstyle}>
         Where Giving is a Social Experience
       </Typography>
-      <Typography variant='body2' color='initial' style={{ margin: "1em" }}>
-        Please Log In/Sign up to create content! Or check out the good deeds.
+      <Typography variant='body2' color='initial' style={{ margin: ".25em" }}>
+        Log In/Sign Up to create content! Or check out the good deeds by
+        clicking below.
       </Typography>
       <NavLink key='explore' to='/explore'>
         <Button variant='outlined' color='secondary'>
