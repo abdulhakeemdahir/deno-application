@@ -28,27 +28,34 @@ const useStyles = makeStyles({
     marginLeft: "auto",
     marginRight: "auto"
   },
-  centerPosition: {
-    textAlign: "center"
-  },
-  centerContainer: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    flexDirection: "row",
+  formGrid: {
+    textAlign: "center",
+    display: "flex",
     justifyContent: "center",
     alignItems: "center"
   },
-  landing: {
-    padding: "10px"
+  landingContainer: {
+    // position: "absolute",
+    // top: "50%",
+    // left: "50%",
+    // transform: "translate(-50%, -50%)",
+    /*
+    I commented out this position as it was max the page not work properly when rendered in mobile if someone
+    where to go to mobile from desktop. Figured position is out of date anyways
+    */
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%"
   },
   tabStyle: {
     color: `3f4d67`,
     margin: "10px"
   },
-  marginStyle: {
-    margin: "10px"
+  userForms: {
+    margin: "10px",
+    maxWidth: "500px"
   }
 });
 
@@ -64,12 +71,10 @@ const Landing = () => {
   };
   // Create the JSX for the component
   return (
-    <div className='landing'>
-      <Grid container className={`${classes.centerContainer}`}>
-        <Grid item sm={6} xs={12}>
-          <Welcome />
-        </Grid>
-        <Grid item sm={6} xs={12} className={classes.centerPosition}>
+    <Grid container className={`${classes.landingContainer}`}>
+      <Welcome />
+      <Grid item sm={6} xs={12} className={classes.formGrid}>
+        <div className={classes.userForms}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -91,23 +96,21 @@ const Landing = () => {
               className={classes.tabpanel}
             />
           </Tabs>
-          <div className={classes.marginStyle}>
-            <TabPanel value={value} index={0}>
-              <Signin />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <SignUpUser />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <SignUpOrg />
-            </TabPanel>
-          </div>
-        </Grid>
-        <Footer />
+          <TabPanel value={value} index={0}>
+            <Signin />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <SignUpUser />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <SignUpOrg />
+          </TabPanel>
+        </div>
       </Grid>
+      <Footer />
       <Splash />
       <Gradient />
-    </div>
+    </Grid>
   );
 };
 

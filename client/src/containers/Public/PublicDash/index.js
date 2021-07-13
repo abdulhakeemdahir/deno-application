@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
 import "./style.css";
 import PropTypes from "prop-types";
@@ -15,7 +16,6 @@ import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
 import { LOADING, UPDATE } from "../../../utils/actions/actions";
 import API from "../../../utils/api";
 import { useHistory, useParams } from "react-router";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
 // Create TabPanel
 TabPanel.propTypes = {
@@ -27,8 +27,6 @@ TabPanel.propTypes = {
 const PublicDash = () => {
   // Destructure globalState.guessUser and guessDispatch from Context
   const [globalState, globalDispatch] = useGlobalContext();
-  // Call useSocket function
-  const socket = useSocket();
   // Get id from useParams
   const { id } = useParams();
   // Call useHistory

@@ -5,6 +5,7 @@ import { useAuthTokenStore } from "./utils/auth.js";
 import { useSocketConnection } from "./utils/GlobalStates/SocketProvider";
 import Providers from "./components/Providers.js";
 import Routes from "./components/Routes.js";
+import "./App.scss";
 
 // Create a useStyles Material UI component for styling
 const theme = createTheme({
@@ -18,6 +19,7 @@ const theme = createTheme({
     }
   }
 });
+
 // Create the component function and export for use
 const App = () => {
   // Connect Socket
