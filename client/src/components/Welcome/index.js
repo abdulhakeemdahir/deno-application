@@ -7,21 +7,23 @@ const Welcome = () => {
   const classes = useWelcomeStyles();
 
   return (
-    <Grid item align="center">
-      <img src={Logo} alt="logo" style={{ height: "50px", width: "auto" }} />
-      <Typography variant="h3" color="primary" style={{ fontWeight: "100" }}>
+    <Grid item className={classes.welcomeContainer} md={6} xs={12}>
+      <figure className={classes.logoContainer}>
+        <img src={Logo} alt='dono-logo' className={classes.logo} />
+      </figure>
+      <Typography variant='h3' color='primary' style={{ fontWeight: "100" }}>
         Welcome to Dono
       </Typography>
-      <Typography variant="h6" className={classes.bgstyle}>
+      <Typography variant='h6' className={classes.bgstyle}>
         Where Giving is a Social Experience
       </Typography>
-      <Typography variant="body2" color="default">
-        Please Log In, otherwise, please sign up! Otherwise you can go and
-        explore.
+      <Typography variant='body2' color='initial' style={{ margin: ".25em" }}>
+        Log In/Sign Up to create content! Or check out the good deeds by
+        clicking below.
       </Typography>
-      <NavLink key="explore" to="/explore">
-        <Button variant="outlined" color="secondary">
-          <span className="linkStyle">Explore</span>
+      <NavLink key='explore' to='/explore'>
+        <Button variant='outlined' color='secondary'>
+          <span className='linkStyle'>Explore</span>
         </Button>
       </NavLink>
     </Grid>

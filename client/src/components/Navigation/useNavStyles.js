@@ -1,4 +1,4 @@
-import { fade, makeStyles } from "@material-ui/core";
+import { alpha, makeStyles } from "@material-ui/core";
 
 const useNavStyles = makeStyles(theme => ({
   appBar: {
@@ -27,9 +27,9 @@ const useNavStyles = makeStyles(theme => ({
   search: {
     position: "relative",
     display: "grid",
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: alpha(theme.palette.common.white, 0.25)
     },
     marginLeft: 0,
     height: "50px",

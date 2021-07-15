@@ -72,20 +72,20 @@ const HomeCauses = props => {
   };
   //Create the JSX for the component
   return (
-    <Grid item className="card">
-      <Grid container className="headerContainer">
+    <Grid item className='card'>
+      <Grid container className='headerContainer'>
         <Grid item xs={9}>
-          <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+          <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
             {props.title}
           </Typography>
         </Grid>
       </Grid>
       <Divider />
-      <Typography variant="body2" color="textSecondary" component="p">
-        <span className="authorStyle"> Org:</span>
+      <Typography variant='body2' color='textSecondary' component='p'>
+        <span className='authorStyle'> Org:</span>
         <Link to={`/dashboard/${props.causeId}`}>{props.author}</Link>
       </Typography>
-      <Grid container direction="row" spacing={1}>
+      <Grid container direction='row' spacing={1}>
         <Grid item xs={12}>
           <CardMedia
             style={{ height: "275px" }}
@@ -96,29 +96,27 @@ const HomeCauses = props => {
         <Divider />
         <Grid item xs={12}>
           <CardContent>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant='body2' color='textSecondary'>
               {props.post}
             </Typography>
           </CardContent>
         </Grid>
         {isAuth ? (
-          <ButtonGroup justify="center" fullWidth>
+          <ButtonGroup style={{ justifyContent: "center" }} fullWidth>
             <Button
-              size="large"
-              className="styleButton"
+              size='large'
+              className='styleButton'
               onClick={handleOpen}
               fullWidth
-              id={props.id}
-            >
-              <i class="fab fa-paypal"></i>
+              id={props.id}>
+              <i className='fab fa-paypal'></i>
               Support
             </Button>
             <Button
-              size="large"
-              className="followButton"
+              size='large'
+              className='followButton'
               onClick={() => handleFollow(props.id)}
-              fullWidth
-            >
+              fullWidth>
               {globalState.user.causes.find(cause => cause._id === props.id) ? (
                 <ThumbDownAlt />
               ) : (
@@ -131,8 +129,8 @@ const HomeCauses = props => {
           </ButtonGroup>
         ) : null}
         <Dialog
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
+          aria-labelledby='transition-modal-title'
+          aria-describedby='transition-modal-description'
           open={open}
           onClose={handleClose}
           closeAfterTransition
@@ -140,8 +138,7 @@ const HomeCauses = props => {
           BackdropProps={{
             timeout: 500
           }}
-          fullWidth
-        >
+          fullWidth>
           <Fade in={open}>
             <Donate onClose={handleClose} cause={props.id} />
           </Fade>

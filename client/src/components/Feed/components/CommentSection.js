@@ -35,25 +35,24 @@ const CommentSection = ({ comments, author }) => {
   };
 
   return (
-    <Grid className="cardComment">
+    <Grid className='cardComment'>
       {comments.map(card => (
-        <AccordionDetails>
-          <Grid container xs={12} className={classes.gridStyle}>
+        <AccordionDetails key={card._id}>
+          <Grid container className={classes.gridStyle}>
             <Grid item xs={4}>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body2' color='textSecondary' component='p'>
                 <Link
                   to={
                     card.user._id === globalState.user._id
                       ? "/dashboard"
                       : `/dashboard/${card.user._id}`
-                  }
-                >
+                  }>
                   {card.user.username}
                 </Link>
               </Typography>
             </Grid>
             <Grid item xs={7}>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body2' color='textSecondary' component='p'>
                 {card.content}
               </Typography>
             </Grid>
@@ -62,9 +61,8 @@ const CommentSection = ({ comments, author }) => {
             globalState.user.username === author ? (
               <Grid item xs={1}>
                 <Button
-                  className="editButton"
-                  onClick={() => handleRemove(card._id, card.post)}
-                >
+                  className='editButton'
+                  onClick={() => handleRemove(card._id, card.post)}>
                   <Delete />
                 </Button>
               </Grid>

@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect } from "react";
 import { Typography, Grid, CssBaseline } from "@material-ui/core";
-import "./style.css";
+import "../../pageStandards.scss";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -80,23 +81,19 @@ const Newsfeed = () => {
   const { width } = useWindowDimensions();
   // Create the JSX for the component
   return (
-    <div className="Main">
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
-          className={"container"}
-          xs={12}
-          lg={10}
-          xl={8}
-        >
-          {width > 600 ? (
+          direction='row'
+          justifyContent='center'
+          className='container'>
+          {width > 1024 ? (
             <>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">TRENDING</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>TRENDING</Typography>
                   {globalState.hashtag.map((card, index) => (
                     <Trending
                       hashTag={card.hashtag}
@@ -106,9 +103,9 @@ const Newsfeed = () => {
                     />
                   ))}
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  <Post className="card" />
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  <Post className='card' />
                   {globalState.posts?.map(card => {
                     return (
                       <Feed
@@ -127,8 +124,8 @@ const Newsfeed = () => {
                     );
                   })}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
                   {globalState.causes.map(card => {
                     return (
                       <Causes
@@ -153,15 +150,14 @@ const Newsfeed = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="simple tabs example"
-              >
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="Trending" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+                aria-label='simple tabs example'>
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='Trending' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
                 <Grid item xs={12}>
-                  <Post className="card" />
+                  <Post className='card' />
                   {globalState.posts.map(card => {
                     return (
                       <Feed
