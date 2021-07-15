@@ -1,4 +1,5 @@
-import { alpha, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import { alpha } from "@material-ui/core/styles";
 
 const useNavStyles = makeStyles(theme => ({
   appBar: {
