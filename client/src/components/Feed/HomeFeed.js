@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Import all relevant packages and components
 import React, { useEffect, useState } from "react";
 import {
@@ -8,23 +9,24 @@ import {
   CardContent,
   Accordion,
   AccordionSummary,
-  AccordionDetails,
   TextField,
   Button
 } from "@material-ui/core";
-import useNewsStyles from "./useNCStyles";
+import useNewsStyles from "./styles/useNCStyles";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import "./style.css";
-import { Delete, Favorite } from "@material-ui/icons";
+import "./styles/style.css";
+import { Favorite } from "@material-ui/icons";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import api from "../../../utils/api";
+import api from "../../utils/api";
 import { Link } from "react-router-dom";
-import { LOADING, UPDATE } from "../../../utils/actions/actions";
-import { useSocket } from "../../../utils/GlobalStates/SocketProvider";
-import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+import { LOADING, UPDATE } from "../../utils/actions/actions";
+import { useSocket } from "../../utils/GlobalStates/SocketProvider";
+import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+import CommentSection from "./components/CommentSection";
+
 // Create the component function and export for use
-const NewsAndComment = props => {
+const HomeFeed = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Destructure State and Dispatch from Context
@@ -96,13 +98,6 @@ const NewsAndComment = props => {
     return () => socket.off("update-post");
   }, []);
 
-  const handleRemove = async (commentId, postId) => {
-    await api.removeComments(commentId, postId);
-
-    const postInfo = await api.getAllPost();
-    dispatch(UPDATE, { posts: postInfo.data, loading: false });
-  };
-
   const dispatch = async (action, payload) => {
     await globalDispatch({
       type: LOADING
@@ -119,15 +114,15 @@ const NewsAndComment = props => {
   // Create the JSX for the component
   return (
     <>
-      <Grid item className="card" xs={12}>
-        <Grid container className="headerContainer">
+      <Grid item className='card' xs={12}>
+        <Grid container className={`headerContainer`}>
           <Grid item xs={9} sm={11}>
-            <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+            <Typography variant='subtitle1' style={{ fontWeight: "bold" }}>
               {props.title}
             </Typography>
           </Grid>
           <Grid item xs={3} sm={1}>
-            <Button className="editButton" onClick={() => handleLike(props.id)}>
+            <Button className='editButton' onClick={() => handleLike(props.id)}>
               <>
                 {props.liked.find(l => l._id === globalState.user._id) ? (
                   <Favorite />
@@ -139,25 +134,25 @@ const NewsAndComment = props => {
           </Grid>
         </Grid>
 
-        <Typography variant="body2" color="textSecondary" component="p">
-          <span className="authorStyle"> Author:</span>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          <span className='authorStyle'> Author:</span>
           <Link
             to={
               props.authorId === globalState.user._id
                 ? "/dashboard"
                 : `/dashboard/${props.authorId}`
-            }
-          >
+            }>
             {props.author}
           </Link>
         </Typography>
 
         <Divider />
 
-        <Grid container direction="row" spacing={1}>
+        <Grid container direction='row' spacing={1}>
           {props.image && (
             <Grid item xs={12} sm={4}>
               <CardMedia
+                style={{ height: "190px" }}
                 className={"media"}
                 image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
               />
@@ -166,7 +161,7 @@ const NewsAndComment = props => {
 
           <Grid item xs={12} sm={8}>
             <CardContent>
-              <Typography variant="body" color="textSecondary" component="p">
+              <Typography variant='body2' color='textSecondary' component='p'>
                 {props.post}
               </Typography>
             </CardContent>
@@ -174,31 +169,28 @@ const NewsAndComment = props => {
           </Grid>
         </Grid>
 
-        <Grid container xs={12} spacing={1}>
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={8}>
             <TextField
-              name="content"
+              name='content'
               value={commentState.content}
               onChange={handleChange}
-              id={props.id}
-              label="Post a Comment"
-              variant="filled"
-              size="small"
+              label='Post a Comment'
+              variant='filled'
+              size='small'
               multiline
-              rowsMax={4}
+              maxRows={4}
               fullWidth
             />
           </Grid>
 
-          <Grid item xs={12} sm={4} id={props.id}>
+          <Grid item xs={12} sm={4}>
             <Button
-              size="small"
-              id={props.id}
+              size='small'
               className={classes.styleMain}
               fullWidth
-              onClick={() => handleSubmit(props.id)}
-            >
-              <ChatBubbleOutlineIcon id={props.id} /> Comment
+              onClick={() => handleSubmit(props.id)}>
+              <ChatBubbleOutlineIcon /> Comment
             </Button>
           </Grid>
 
@@ -206,60 +198,14 @@ const NewsAndComment = props => {
             <Accordion className={classes.shadow}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className={classes.commentStyle} />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
+                aria-controls='panel1a-content'
+                id='panel1a-header'>
                 <Typography className={classes.heading}>
                   Read {props.comments.length} Comments
                 </Typography>
               </AccordionSummary>
 
-              <Grid className="cardComment">
-                {props.comments.map(card => (
-                  <AccordionDetails>
-                    <Grid container xs={12} className={classes.gridStyle}>
-                      <Grid item xs={4}>
-                        <Typography
-                          variant="body"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          <Link
-                            to={
-                              card.user._id === globalState.user._id
-                                ? "/dashboard"
-                                : `/dashboard/${card.user._id}`
-                            }
-                          >
-                            {card.user.username}
-                          </Link>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography
-                          variant="body"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          {card.content}
-                        </Typography>
-                      </Grid>
-
-                      {card.user._id === globalState.user._id ||
-                      globalState.user.username === props.author ? (
-                        <Grid item xs={1}>
-                          <Button
-                            className="editButton"
-                            onClick={() => handleRemove(card._id, card.post)}
-                          >
-                            <Delete />
-                          </Button>
-                        </Grid>
-                      ) : null}
-                    </Grid>
-                  </AccordionDetails>
-                ))}
-              </Grid>
+              <CommentSection comments={props.comments} author={props.author} />
             </Accordion>
           )}
         </Grid>
@@ -268,4 +214,4 @@ const NewsAndComment = props => {
   );
 };
 
-export default NewsAndComment;
+export default HomeFeed;

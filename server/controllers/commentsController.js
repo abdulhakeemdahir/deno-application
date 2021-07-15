@@ -1,16 +1,12 @@
 const { Comment, Post } = require("../models/");
+const populateBy = require("./utils/populateBy");
 
 module.exports = {
   getComments: async (req, res) => {
     try {
-      const getAllComment = await Comment.find({}).populate({
-        path: "user",
-        path: "likes",
-        populate: {
-          path: "user",
-          model: "User"
-        }
-      });
+      const getAllComment = await Comment.find({}).populate(
+        populateBy("comments")
+      );
       res.status(200).json(getAllComment);
     } catch (err) {
       res.status(422).json(err);

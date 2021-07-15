@@ -2,7 +2,8 @@ const { User } = require("../models");
 //const { Organization } = require("../models");
 const { createPassword } = require("../config/bcrypt.js");
 
-const cloudinary = require("../../utils/cloudinary");
+const uploadImage = require("../utils/uploadImg");
+const populateBy = require("./utils/populateBy");
 
 module.exports = {
   getAllUsers: async (req, res) => {
@@ -19,68 +20,7 @@ module.exports = {
         .select(
           "firstName lastname username email role profileImg bannerImg following followers posts bio causes address website phoneNumber orgName"
         )
-        .populate([
-          {
-            path: "following",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "followers",
-            select: "username",
-            model: "User"
-          },
-          {
-            path: "posts",
-            model: "Post",
-            options: { sort: { date: -1 } },
-            populate: [
-              {
-                path: "author",
-                select: "firstName username",
-                model: "User"
-              },
-              {
-                path: "likes",
-                select: "username",
-                model: "User"
-              },
-              {
-                path: "hashtags",
-                model: "Hashtag"
-              },
-              {
-                path: "comments",
-                model: "Comment",
-                options: { sort: { date: -1 } },
-                populate: [
-                  {
-                    path: "user",
-                    select: "username",
-                    model: "User"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: "causes",
-            model: "Cause",
-            options: { sort: { date: -1 } },
-            populate: [
-              {
-                path: "author",
-                select: "username orgName",
-                model: "User"
-              },
-              {
-                path: "likes",
-                select: "username",
-                model: "User"
-              }
-            ]
-          }
-        ])
+        .populate(populateBy("user"))
         .exec();
       res.status(200).json(user);
     } catch (err) {
@@ -118,11 +58,7 @@ module.exports = {
       }
 
       if (profileImg) {
-        const result = await cloudinary.uploader.upload_large(profileImg, {
-          // eslint-disable-next-line camelcase
-          upload_preset: "dev_setup"
-        });
-        updateUser.profileImg = result.public_id.toString();
+        updateUser.profileImg = await uploadImage(profileImg);
       }
       const id = { _id: req.params.id };
       const set = { $set: updateUser };
@@ -153,7 +89,6 @@ module.exports = {
     }
   },
   removeUserObjectID: async (req, res) => {
-    console.log(req.body);
     try {
       const postModel = await User.findByIdAndUpdate(
         req.params.id,
@@ -163,7 +98,6 @@ module.exports = {
 
         { new: true, runValidators: true }
       );
-      console.log(postModel);
       res.status(200).json(postModel);
     } catch (err) {
       res.status(422).json(err);

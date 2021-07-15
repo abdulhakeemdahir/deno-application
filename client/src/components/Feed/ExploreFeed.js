@@ -7,21 +7,20 @@ import {
   Divider,
   CardContent,
   Accordion,
-  AccordionSummary,
-  AccordionDetails
+  AccordionSummary
 } from "@material-ui/core";
-import useNewsStyles from "./useNewsStyles";
+import useNewsStyles from "./styles/useNewsStyles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import "./style.css";
+import "./styles/style.css";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
+import CommentSection from "./components/CommentSection";
 
 // Create the component function and export for use
-const News = props => {
+const ExploreFeed = props => {
   // Call the styles function
   const classes = useNewsStyles();
   // Destructure State and Dispatch from Context
-  const [globalState] = useGlobalContext();
+
   // Create the JSX for the component
   return (
     <>
@@ -41,6 +40,7 @@ const News = props => {
         <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={4}>
             <CardMedia
+            style={{ height: "190px" }}
               className={"media"}
               image={`https://res.cloudinary.com/astralgnome/image/upload/${props.image}`}
             />
@@ -68,40 +68,7 @@ const News = props => {
                 Read {props.comments.length} Comments
               </Typography>
             </AccordionSummary>
-            <Grid className="cardComment">
-              {props.comments.map((card) => (
-                <AccordionDetails>
-                  <Grid container xs={12} className={classes.gridStyle}>
-                    <Grid item xs={4}>
-                      <Typography
-                        variant="body"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        <Link
-                          to={
-                            card.user._id === globalState.user._id
-                              ? "/dashboard"
-                              : `/dashboard/${card.user._id}`
-                          }
-                        >
-                          {card.user.username}
-                        </Link>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography
-                        variant="body"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {card.content}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </AccordionDetails>
-              ))}
-            </Grid>
+            <CommentSection comments={props.comments} author={props.author} />
           </Accordion>
         </Grid>
       </Grid>
@@ -109,4 +76,4 @@ const News = props => {
   );
 };
 
-export default News;
+export default ExploreFeed;

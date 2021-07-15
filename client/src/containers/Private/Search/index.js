@@ -2,12 +2,15 @@
 import React from "react";
 import { Grid, CssBaseline } from "@material-ui/core";
 import PropTypes from "prop-types";
+
 import Nav from "../../../components/Navigation";
 import Gradient from "../../../components/Gradient";
 import Footer from "../../../components/Footer";
 import Results from "./Results";
+
 import { TabPanel } from "../../utils";
-import NProgress from "nprogress";
+
+// import NProgress from "nprogress";
 
 // Create TabPanel
 TabPanel.propTypes = {
@@ -19,18 +22,17 @@ TabPanel.propTypes = {
 const Search = () => {
   // Create the JSX for the component
   return (
-    <main className="Main">
+    <main className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justifyContent='center'
           className={"container"}
           xs={12}
           lg={10}
-          xl={8}
-        >
+          xl={8}>
           <Results />
         </Grid>
         <Gradient />

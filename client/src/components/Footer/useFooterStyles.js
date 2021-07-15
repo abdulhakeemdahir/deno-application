@@ -1,31 +1,34 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useFooterStyles = makeStyles({
+  footer: {
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
   footerStyle: {
-    // bottom: "20px",
-    position: "relative",
-    // height: "45vh",
     width: "100%",
     zIndex: "1",
     color: "#008394 !important",
-    // padding: "10px",
     textAlign: "center",
     justifyContent: "center"
   },
   heart: {
     color: "#ed4b82"
   },
-  bottomPadding: {
+  footerGrid: {
     marginBottom: "20px"
   },
-  linkedIn: {
-    position: "relative",
+  devList: {
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     zIndex: "1",
     color: "#ed4b82 !important",
-    textAlign: "center",
-    justifyContent: "center",
-    flexFlow: "wrap"
+    textAlign: "center"
   }
 });
 

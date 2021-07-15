@@ -8,18 +8,13 @@ import {
   CssBaseline,
   Input,
   Button,
-  NativeSelect,
-  Grid
+  NativeSelect
 } from "@material-ui/core";
 import useNavStyles from "./useNavStyles";
 import SearchIcon from "@material-ui/icons/Search";
 import NavDrawer from "./NavDrawer";
 import Logo from "../../images/logo@2x.png";
-import {
-  useAuthTokenStore,
-  useIsAuthenticated,
-  useLogout
-} from "../../utils/auth";
+import { useAuthTokenStore } from "../../utils/auth";
 import { useHistory } from "react-router-dom";
 import { useGlobalContext } from "../../utils/GlobalStates/GlobalState";
 import { Link } from "react-router-dom";
@@ -38,13 +33,13 @@ const Nav = () => {
   // Call the styles function
   const classes = useNavStyles();
   // Call the logout function
-  const logout = useLogout();
+  // const logout = useLogout();
   // Call the useHistory function
   const history = useHistory();
   // Call the login function
-  const login = () => {
-    history.push("/");
-  };
+  // const login = () => {
+  //   history.push("/");
+  // };
 
   const [globalState] = useGlobalContext();
 
@@ -57,23 +52,22 @@ const Nav = () => {
 
   // Call the useAuth function
   useAuthTokenStore();
-  const isAuth = useIsAuthenticated();
+  // const isAuth = useIsAuthenticated();
   // Create the JSX for the component
   return (
     <CssBaseline>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position='static' className={classes.appBar}>
         <Toolbar>
-          <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
+          <Container maxWidth='lg' className={classes.navbarDisplayFlex}>
             <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="AccountCircle"
-              to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}
-            >
+              edge='start'
+              color='inherit'
+              aria-label='AccountCircle'
+              to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}>
               <Link to={globalState?.user._id !== 0 ? "/newsfeed" : "/"}>
                 <img
                   src={Logo}
-                  alt="logo"
+                  alt='logo'
                   style={{ height: "40px", width: "auto" }}
                 />{" "}
               </Link>
@@ -82,7 +76,7 @@ const Nav = () => {
               <div className={classes.search}>
                 <form className={classes.searchForm} onSubmit={handleSubmit}>
                   <Input
-                    placeholder="Search…"
+                    placeholder='Search…'
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput
@@ -92,20 +86,18 @@ const Nav = () => {
                     value={search}
                   />
                   <NativeSelect
-                    id="select"
+                    id='select'
                     className={classes.searchSelect}
-                    onChange={e => setAction(e.target.value)}
-                  >
-                    <option value="User">User</option>
-                    <option value="Posts">Posts</option>
-                    <option value="Causes">Causes</option>
-                    <option value="Hashtags">Hashtags</option>
+                    onChange={e => setAction(e.target.value)}>
+                    <option value='User'>User</option>
+                    <option value='Posts'>Posts</option>
+                    <option value='Causes'>Causes</option>
+                    <option value='Hashtags'>Hashtags</option>
                   </NativeSelect>
                   <Button
-                    type="submit"
+                    type='submit'
                     onClick={handleSubmit}
-                    className={classes.searchIcon}
-                  >
+                    className={classes.searchIcon}>
                     <SearchIcon />
                   </Button>
                 </form>

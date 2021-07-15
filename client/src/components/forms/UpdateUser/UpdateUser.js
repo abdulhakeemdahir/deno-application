@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { Typography, Grid, Avatar, TextField, Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import api from "../../../utils/api.js";
-import { useUserContext } from "../../../utils/GlobalStates/UserContext";
-import { UPDATE_USER, USER_LOADING } from "../../../utils/actions/actions.js";
+import { UPDATE, LOADING } from "../../../utils/actions/actions.js";
 import updateFormStyles from "../useStyles/formStyles";
+import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState/index.js";
 
 // Create the component function and export for use
 const UpdateUser = props => {
   // Destructure State and Dispatch from Context
-  const [userState, userDispatch] = useUserContext();
+  const [globalState, globalDispatch] = useGlobalContext();
   //*Associated with cloudinary
   const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
@@ -47,16 +47,16 @@ const UpdateUser = props => {
     }
     await upDateUser(updateUser);
 
-    const userInfo = await api.getUser(userState._id);
+    const userInfo = await api.getUser(globalState.user._id);
 
-    await userDispatch({
-      type: USER_LOADING
+    await globalDispatch({
+      type: LOADING
     });
 
-    await userDispatch({
-      type: UPDATE_USER,
+    await globalDispatch({
+      type: UPDATE,
       payload: {
-        ...userInfo.data,
+        user: { ...userInfo.data },
         loading: false
       }
     });
@@ -66,8 +66,7 @@ const UpdateUser = props => {
 
   //*Associated with cloudinary
   const upDateUser = async update => {
-    const updateUser = await api.updateUser(userState._id, update);
-    console.log(updateUser);
+    await api.updateUser(globalState.user._id, update);
   };
   // Call the styles function
   const classes = updateFormStyles();
@@ -87,70 +86,68 @@ const UpdateUser = props => {
   return (
     <Grid
       container
-      direction="column"
-      justify="center"
-      alignItems="center"
-      className={classes.paper}
-    >
-      <Grid item align="center">
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+      className={classes.paper}>
+      <Grid item align='center'>
         <Avatar className={classes.styleIcon}>
           <CreateIcon />
         </Avatar>
-        <Typography variation="h6" color="default">
+        <Typography variation='h6' color='initial'>
           Update User
         </Typography>
       </Grid>
-      <form autoComplete="off" onSubmit={handleSubmit}>
+      <form autoComplete='off' onSubmit={handleSubmit}>
         <TextField
-          name="firstName"
+          name='firstName'
           value={stateUpdate.firstName}
           onChange={handleChange}
-          variant="outlined"
-          label="Firstname" //*Spelling?
-          placeholder="Enter First Name"
+          variant='outlined'
+          label='First Name'
+          placeholder='Enter First Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="lastname"
+          name='lastname'
           value={stateUpdate.lastname}
           onChange={handleChange}
-          variant="outlined"
-          label="Lastname"
-          placeholder="Enter Last Name"
+          variant='outlined'
+          label='Last Name'
+          placeholder='Enter Last Name'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField
-          name="bio"
+          name='bio'
           value={stateUpdate.bio}
           onChange={handleChange}
-          variant="outlined"
-          label="Bio"
-          placeholder="Enter Bio"
+          variant='outlined'
+          label='Bio'
+          placeholder='Enter Bio'
           fullWidth
           className={classes.mgstyle}
         />
         <TextField //*Associated with cloudinary
-          type="file"
-          name="image"
+          type='file'
+          name='image'
           onChange={handleFileInputChange}
           value={fileInputState}
-          variant="outlined"
+          variant='outlined'
           fullWidth
           className={classes.mgstyle}
         />
         <Button
-          type="submit"
-          size="large"
+          type='submit'
+          size='large'
           className={classes.styleMain}
-          fullWidth
-        >
+          fullWidth>
           Update
         </Button>
       </form>
       {previewSource && (
-        <img src={previewSource} alt="chosen" className={classes.imgStyle} />
+        <img src={previewSource} alt='chosen' className={classes.imgStyle} />
       )}
     </Grid>
   );

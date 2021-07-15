@@ -1,14 +1,14 @@
 // Import all relevant packages and components
 import React from "react";
 import { Typography, Grid, CssBaseline, Breadcrumbs } from "@material-ui/core";
-import "./style.css";
+import "../../pageStandards.scss";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Nav from "../../../components/Navigation";
-import News from "../../../components/Private/News";
+import Feed from "../../../components/Feed";
 import Gradient from "../../../components/Gradient";
-import Causes from "../../../components/Private/Causes";
+import Causes from "../../../components/Causes";
 import About from "../../../components/About";
 import Footer from "../../../components/Footer";
 import { TabPanel, a11yProps, useWindowDimensions } from "../../utils";
@@ -16,48 +16,45 @@ import AddContent from "../../../components/Forms/AddContent";
 import { NavLink } from "react-router-dom";
 import Post from "../../../components/Post";
 import { useGlobalContext } from "../../../utils/GlobalStates/GlobalState";
+
 // Create TabPanel
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 // Create the component function and export for use
 const Dashboard = () => {
-	// Destructure State and Dispatch from Context
-  const [globalState, ] = useGlobalContext();
-	
-	// Create the set and setState from useState
-	const [value, setValue] = React.useState(0);
-	// Create the handleChange function
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-	// Call the Window Width Function
-	const { width } = useWindowDimensions();
-	// Create the JSX for the component
-	return (
-    <div className="Main">
+  // Destructure State and Dispatch from Context
+  const [globalState] = useGlobalContext();
+
+  // Create the set and setState from useState
+  const [value, setValue] = React.useState(0);
+  // Create the handleChange function
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  // Call the Window Width Function
+  const { width } = useWindowDimensions();
+  // Create the JSX for the component
+  return (
+    <div className='Main'>
       <CssBaseline>
         <Nav />
         <Grid
           container
-          direction="row"
-          justify="center"
-          className={"container"}
-          xs={12}
-          lg={10}
-          xl={8}
-        >
-          {width > 600 ? (
+          direction='row'
+          justifyContent='center'
+          className='container'>
+          {width > 1024 ? (
             <>
               <Breadcrumbs style={{ position: "absolute" }}>
-                <NavLink to="newsfeed">Home</NavLink>
-                <Typography color="textSecondary">Dashboard</Typography>
+                <NavLink to='newsfeed'>Home</NavLink>
+                <Typography color='textSecondary'>Dashboard</Typography>
               </Breadcrumbs>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">ABOUT</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>ABOUT</Typography>
                   <About
                     key={globalState.user._id}
                     id={globalState.user._id}
@@ -80,14 +77,14 @@ const Dashboard = () => {
                     phone={globalState.user.phoneNumber}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} className="card-container">
-                  <Typography variant="subtitle2">NEWS FEED</Typography>
-                  <Post className="card" />
+                <Grid item xs={12} sm={6} className='card-container'>
+                  <Typography variant='subtitle2'>NEWS FEED</Typography>
+                  <Post className='card' />
                   {globalState.user.posts.length === 0 ? (
-                    <AddContent text="Please make a Post in the Newsfeed " />
+                    <AddContent text='Please make a Post in the Newsfeed ' />
                   ) : (
-                    globalState.user.posts.map((card) => (
-                      <News
+                    globalState.user.posts.map(card => (
+                      <Feed
                         key={card._id}
                         id={card._id}
                         title={card.title}
@@ -102,12 +99,12 @@ const Dashboard = () => {
                     ))
                   )}
                 </Grid>
-                <Grid item xs={12} sm={3} className="card-container">
-                  <Typography variant="subtitle2">CAUSES</Typography>
+                <Grid item xs={12} sm={3} className='card-container'>
+                  <Typography variant='subtitle2'>CAUSES</Typography>
                   {globalState.user.causes.length === 0 ? (
-                    <AddContent text="Please make/follow a Cause " />
+                    <AddContent text='Please make/follow a Cause ' />
                   ) : (
-                    globalState.user.causes.map((card) => (
+                    globalState.user.causes.map(card => (
                       <Causes
                         key={card._id}
                         id={card._id}
@@ -130,19 +127,18 @@ const Dashboard = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label="simple tabs example"
-              >
-                <Tab label="News" {...a11yProps(0)} />
-                <Tab label="About" {...a11yProps(1)} />
-                <Tab label="Causes" {...a11yProps(2)} />
+                aria-label='Dashboard Tabs'>
+                <Tab label='News' {...a11yProps(0)} />
+                <Tab label='About' {...a11yProps(1)} />
+                <Tab label='Causes' {...a11yProps(2)} />
               </Tabs>
               <TabPanel value={value} index={0}>
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   {globalState.user.posts.length === 0 ? (
-                    <AddContent text="Please make a Post in the Newsfeed " />
+                    <AddContent text='Please make a Post in the Newsfeed ' />
                   ) : (
-                    globalState.user.posts.map((card) => (
-                      <News
+                    globalState.user.posts.map(card => (
+                      <Feed
                         key={card._id}
                         id={card._id}
                         title={card.title}
@@ -158,7 +154,7 @@ const Dashboard = () => {
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   <About
                     key={globalState.user._id}
                     id={globalState.user._id}
@@ -183,11 +179,11 @@ const Dashboard = () => {
                 </Grid>
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <Grid item xs={12}>
+                <Grid item lg={12}>
                   {globalState.user.posts.length === 0 ? (
-                    <AddContent text="Please make/follow a Cause " />
+                    <AddContent text='Please make/follow a Cause ' />
                   ) : (
-                    globalState.user.causes.map((card) => (
+                    globalState.user.causes.map(card => (
                       <Causes
                         key={card._id}
                         id={card._id}

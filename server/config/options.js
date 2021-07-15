@@ -9,7 +9,10 @@ const options = {
   siteUrl: process.env.SITEURL || "http://localhost:3000/",
   clientId: process.env.CLIENT_ID,
   client: process.env.CLIENT_ID_SECRETE,
-  sandbox: process.env.SANDBOX
+  sandbox: process.env.SANDBOX,
+  cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+  apiKey: process.env.CLOUDINARY_API_KEY,
+  apiSecret: process.env.CLOUDINARY_API_SECRET
 };
 
 module.exports = key => options[key];
