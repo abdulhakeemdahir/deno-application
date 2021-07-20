@@ -45,7 +45,8 @@ const Dashboard = () => {
           container
           direction='row'
           justifyContent='center'
-          className='container'>
+          className='container'
+        >
           {width > 1024 ? (
             <>
               <Breadcrumbs style={{ position: "absolute" }}>
@@ -127,7 +128,8 @@ const Dashboard = () => {
               <Tabs
                 value={value}
                 onChange={handleChange}
-                aria-label='Dashboard Tabs'>
+                aria-label='Dashboard Tabs'
+              >
                 <Tab label='News' {...a11yProps(0)} />
                 <Tab label='About' {...a11yProps(1)} />
                 <Tab label='Causes' {...a11yProps(2)} />
@@ -153,7 +155,7 @@ const Dashboard = () => {
                   )}
                 </Grid>
               </TabPanel>
-              <TabPanel value={value} index={1}>
+              <TabPanel value={value} index={1} style={{ width: "80%" }}>
                 <Grid item lg={12}>
                   <About
                     key={globalState.user._id}
