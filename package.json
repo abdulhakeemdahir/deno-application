@@ -4,7 +4,7 @@
   "description": "UW Project 3",
   "main": "./server",
   "scripts": {
-    "test": "npm run lint && mocha",
+    "test": "npm run lint && npm run mocha",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "node server/index.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
@@ -15,7 +15,7 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "mocha": "mocha ./server/test --timeout 12000ms"
+    "mocha": "mocha ./server/test/** --timeout 12000ms"
   },
   "repository": {
     "type": "git",

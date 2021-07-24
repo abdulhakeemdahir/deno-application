@@ -5,7 +5,7 @@ const assert = require("assert");
 
 // const app = require("../server");
 
-const { User } = require("../models");
+const { User } = require("../../models");
 
 const mongoose = require("mongoose");
 
@@ -153,7 +153,3 @@ describe("User model read, update, and delete testing", () => {
     await User.deleteMany();
   });
 });
-
-// Controller Testing
-
-// API Testing
