@@ -141,7 +141,7 @@ describe("User Model Testing", () => {
     before(async () => {
       await User.deleteMany();
 
-      const user = await User.create({
+      await User.create({
         firstName: "Mocha",
         lastname: "test",
         username: "mochatest",
@@ -149,18 +149,72 @@ describe("User Model Testing", () => {
         password: "testTest123$",
         role: "Personal"
       }).catch(err => console.log(err));
-
-      await user.save();
     });
 
     it("Test finding user in db after they've been created.", async () => {
       try {
-        const findUser = await User.findOne({ username: "mochatest" });
+        const user = await User.findOne({ username: "mochatest" });
 
-        chai.assert.isObject(findUser);
+        chai.assert.isObject(user);
       } catch (error) {
         throw new Error(error.message);
       }
+    });
+  });
+
+  describe("User Update Testing", () => {
+    before(async () => {
+      await User.deleteMany();
+
+      await User.create({
+        firstName: "Mocha",
+        lastname: "test",
+        username: "mochatest",
+        email: "testing@test.com",
+        password: "testTest123$",
+        role: "Personal"
+      }).catch(err => {
+        throw new Error(err.message);
+      });
+    });
+
+    it("Test updating firstName", async () => {
+      const updateFirstName = { firstName: "updated" };
+      await User.updateOne({ username: "mochatest" }, updateFirstName);
+
+      const updatedUser = await User.findOne({ username: "mochatest" });
+
+      expect(updatedUser.firstName).to.equal("updated");
+    });
+
+    it("Test failed update with invalid email", async () => {
+      const updateEmail = { email: "updated" };
+      const opts = { runValidators: true };
+      await User.updateOne({ username: "mochatest" }, updateEmail, opts).catch(
+        err => {
+          expect(err.name).to.be.equal("ValidationError");
+        }
+      );
+
+      const updatedUser = await User.findOne({ username: "mochatest" });
+
+      expect(updatedUser.email).to.not.equal(updateEmail.email);
+    });
+
+    it("Test failed update with invalid password", async () => {
+      let error = null;
+      const updatePassword = { password: "updated" };
+      const opts = { runValidators: true };
+      await User.updateOne(
+        { username: "mochatest" },
+        updatePassword,
+        opts
+      ).catch(err => {
+        error = err;
+        expect(err.name).to.be.equal("ValidationError");
+      });
+
+      expect(error).to.not.be.null;
     });
   });
 });
