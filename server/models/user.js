@@ -32,7 +32,8 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true
+      required: true,
+      match: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
     },
     bio: {
       type: String,
