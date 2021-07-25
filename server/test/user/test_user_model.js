@@ -82,7 +82,7 @@ describe("User Model Testing", () => {
         e = error;
       }
 
-      chai.assert.isNotNull(e, "Error should not be null");
+      expect(e).to.not.be.null;
     });
 
     it("Test failed user creation with invalid password", async () => {
@@ -103,7 +103,7 @@ describe("User Model Testing", () => {
         e = error;
       }
 
-      chai.assert.isNotNull(e, "Error should not be null");
+      expect(e).to.not.be.null;
     });
 
     it("Test failed user creation with no first name", () => {
@@ -187,7 +187,21 @@ describe("User Model Testing", () => {
       expect(updatedUser.firstName).to.equal("updated");
     });
 
-    it("Test failed update with invalid email", async () => {
+    it("Test update with valid email", async () => {
+      const updateEmail = { email: "update@test.com" };
+      const opts = { runValidators: true };
+      await User.updateOne({ username: "mochatest" }, updateEmail, opts).catch(
+        err => {
+          expect(err.name).to.be.equal("ValidationError");
+        }
+      );
+
+      const updatedUser = await User.findOne({ username: "mochatest" });
+
+      expect(updatedUser.email).to.equal(updateEmail.email);
+    });
+
+    it("Test update fails with invalid email", async () => {
       const updateEmail = { email: "updated" };
       const opts = { runValidators: true };
       await User.updateOne({ username: "mochatest" }, updateEmail, opts).catch(
@@ -201,7 +215,7 @@ describe("User Model Testing", () => {
       expect(updatedUser.email).to.not.equal(updateEmail.email);
     });
 
-    it("Test failed update with invalid password", async () => {
+    it("Test update fails with invalid password", async () => {
       let error = null;
       const updatePassword = { password: "updated" };
       const opts = { runValidators: true };
@@ -215,6 +229,30 @@ describe("User Model Testing", () => {
       });
 
       expect(error).to.not.be.null;
+    });
+  });
+
+  describe("User Delete Testing", () => {
+    beforeEach(async () => {
+      await User.deleteMany();
+
+      await User.create({
+        firstName: "Mocha",
+        lastname: "test",
+        username: "mochatest",
+        email: "testing@test.com",
+        password: "testTest123$",
+        role: "Personal"
+      }).catch(err => {
+        throw new Error(err.message);
+      });
+    });
+
+    it("Test delete after user has been created.", async () => {
+      await User.deleteOne({ username: "mochatest" });
+      const user = await User.findOne({ username: "mochatest" });
+
+      expect(user).to.be.null;
     });
   });
 });
