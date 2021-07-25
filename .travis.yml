@@ -11,4 +11,5 @@ services:
   - mongoose
 test: 
   adapter: mongoose
-  database: travis_ci_test
+env:
+  TEST_DB: travis_test_dono_db
