@@ -47,7 +47,7 @@ mongoose.connect(mongodb, {
 require("./config/socket.io")(io);
 
 //Start the API server
-server.listen(PORT, () => {
+module.exports = server.listen(PORT, () => {
   console.log(
     "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
     PORT,
