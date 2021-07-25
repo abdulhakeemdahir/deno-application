@@ -12,4 +12,4 @@ services:
 test: 
   adapter: mongoose
 env:
-  TEST_DB: travis_test_dono_db
+  TEST_DB: "travis_test_dono_db"
