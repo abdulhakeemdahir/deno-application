@@ -32,7 +32,7 @@ describe("User Model Testing", () => {
         useCreateIndex: true
       });
     } catch (error) {
-      throw new Error(err.message);
+      throw new Error(error.message);
     }
   });
 

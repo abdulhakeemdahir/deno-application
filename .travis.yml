@@ -9,3 +9,6 @@ cache:
     - node_modules
 services:
   - mongoose
+test: 
+  adapter: mongoose
+  database: travis_ci_test
