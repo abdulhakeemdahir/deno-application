@@ -1,4 +1,4 @@
-# Dono-Application: Where giving is a social experience.
+# Dono-Application: Where giving is a social experience. 👐
 
 ## Overview
 
@@ -24,14 +24,14 @@ SO THAT people can follow our work, and are able to more easily share causes the
 
 ## Tech
 
-- [ReactJS] - The base of this portfolio.
-- [ExpressJS] - For creating server.
-- [node.js] - Evented I/O for the backend.
-- [MongoDB] - Database.
-- [MaterialUI] - Styling.
-- [Cloudinary] - Image DB.
-- [Socket.io] - Real-time data.
-- [Heroku] - For deployment.
+- React - The base of this portfolio.
+- Express - For creating server.
+- node.js - Evented I/O for the backend.
+- MongoDB/Mongoose - Database.
+- MaterialUI - Styling.
+- Cloudinary - Image DB.
+- Socket.io - Real-time data.
+- Heroku - For deployment.
 
 ## Questions
 
@@ -44,7 +44,13 @@ If you have any questions or concerns reach out to us at our Githubs.
 
 ## Development
 
-No Contributions at this time.
+- Unit testing for both backend and frontend.
+- PayPal integration.
+- Newsfeed to show only users and organizations you follow.
+
+## Testing
+
+✅ User Model Testing
 
 ## License
 
